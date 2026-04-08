@@ -4,12 +4,37 @@ import { useState } from 'react'
 import FadeUp from '@/components/animations/FadeUp'
 import GlowButton from '@/components/ui/GlowButton'
 
+type Status = 'idle' | 'submitting' | 'success' | 'error'
+
 export default function ContactPage() {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     message: '',
   })
+  const [status, setStatus] = useState<Status>('idle')
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('submitting')
+
+    try {
+      const res = await fetch('https://formspree.io/f/xkoperoj', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formState),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+        setFormState({ name: '', email: '', message: '' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-eternal-black px-6 pt-32 pb-24">
@@ -84,79 +109,93 @@ export default function ContactPage() {
 
         {/* Contact Form */}
         <FadeUp delay={0.2}>
-          {/*
-            Replace YOUR_ID with your actual Formspree form ID.
-            Create one at https://formspree.io
-          */}
-          <form
-            action="https://formspree.io/f/YOUR_ID"
-            method="POST"
-            className="mt-12 space-y-6"
-          >
-            <div>
-              <label
-                htmlFor="name"
-                className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+          {status === 'success' ? (
+            <div className="mt-12 border border-eternal-accent bg-eternal-surface px-6 py-8 font-mono text-[14px] text-eternal-accent">
+              <p className="text-[11px] uppercase tracking-wider">[ MESSAGE SENT ]</p>
+              <p className="mt-2 text-eternal-text-secondary">
+                Thanks for reaching out — I&apos;ll get back to you soon.
+              </p>
+              <button
+                onClick={() => setStatus('idle')}
+                className="mt-4 text-[11px] uppercase tracking-wider text-eternal-accent underline underline-offset-4 transition-opacity hover:opacity-70"
               >
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                value={formState.name}
-                onChange={(e) =>
-                  setFormState({ ...formState, name: e.target.value })
-                }
-                className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
-                placeholder="Your name"
-              />
+                Send another
+              </button>
             </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={formState.email}
-                onChange={(e) =>
-                  setFormState({ ...formState, email: e.target.value })
-                }
-                className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={5}
-                value={formState.message}
-                onChange={(e) =>
-                  setFormState({ ...formState, message: e.target.value })
-                }
-                className="w-full resize-none border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
-                placeholder="What are you working on?"
-              />
-            </div>
-            <GlowButton variant="filled">
-              Send Message
-            </GlowButton>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="mt-12 space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                >
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  value={formState.name}
+                  onChange={(e) =>
+                    setFormState({ ...formState, name: e.target.value })
+                  }
+                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  placeholder="Your name"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formState.email}
+                  onChange={(e) =>
+                    setFormState({ ...formState, email: e.target.value })
+                  }
+                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  placeholder="you@example.com"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="message"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  value={formState.message}
+                  onChange={(e) =>
+                    setFormState({ ...formState, message: e.target.value })
+                  }
+                  className="w-full resize-none border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  placeholder="What are you working on?"
+                />
+              </div>
+
+              {status === 'error' && (
+                <p className="font-mono text-[11px] uppercase tracking-wider text-red-500">
+                  Something went wrong — please try again.
+                </p>
+              )}
+
+              <GlowButton variant="filled" disabled={status === 'submitting'}>
+                {status === 'submitting' ? 'Sending...' : 'Send Message'}
+              </GlowButton>
+            </form>
+          )}
         </FadeUp>
       </div>
     </div>

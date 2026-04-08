@@ -10,6 +10,7 @@ interface GlowButtonProps {
   onClick?: () => void
   external?: boolean
   className?: string
+  disabled?: boolean
 }
 
 export default function GlowButton({
@@ -20,6 +21,7 @@ export default function GlowButton({
   onClick,
   external = false,
   className = '',
+  disabled = false,
 }: GlowButtonProps) {
   const baseStyles =
     'inline-flex items-center gap-2 rounded-none px-5 py-2.5 font-mono text-[13px] uppercase tracking-[0.1em] transition-all duration-200'
@@ -89,7 +91,7 @@ export default function GlowButton({
   }
 
   return (
-    <button onClick={onClick} {...props}>
+    <button onClick={onClick} disabled={disabled} {...props} className={`${combinedClassName} disabled:opacity-50 disabled:cursor-not-allowed`}>
       {children}
     </button>
   )
