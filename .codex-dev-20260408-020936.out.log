@@ -1,0 +1,14 @@
+
+> eternalreverse@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.21
+  - Local:        http://localhost:3002
+
+ ✓ Starting...
+ ✓ Ready in 1546ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4s (1349 modules)
+ GET / 200 in 4312ms
+ ✓ Compiled in 1031ms (1323 modules)
+ ✓ Compiled (1304 modules)

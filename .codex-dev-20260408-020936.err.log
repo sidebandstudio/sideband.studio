@@ -1,0 +1,4 @@
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from C:\Users\aliyo\OneDrive\Desktop\EternalReverse\.next\cache\webpack\client-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+^C
