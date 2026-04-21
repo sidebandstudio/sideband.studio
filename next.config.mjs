@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const repo = 'EternalReverse-dev'
+
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
+}
 
 export default nextConfig

@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   title: 'Eternal Reverse — Built to last. Shipped to matter.',
   description:
     'Indie software studio shipping technically ambitious products.',
+  metadataBase: new URL('https://whoisaldo.github.io/EternalReverse-dev/'),
   openGraph: {
     title: 'Eternal Reverse — Built to last. Shipped to matter.',
     description:
