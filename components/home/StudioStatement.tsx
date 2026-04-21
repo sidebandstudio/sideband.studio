@@ -1,55 +1,104 @@
 'use client'
 
 import FadeUp from '@/components/animations/FadeUp'
+import SectionLabel from '@/components/ui/SectionLabel'
+import GlowButton from '@/components/ui/GlowButton'
 
-const stats = [
-  { value: '4', label: 'Products in flight' },
-  { value: '2', label: 'Founders' },
-  { value: '∞', label: 'Problems left' },
+const techStack = [
+  {
+    category: 'Systems',
+    color: '#A855F7',
+    items: ['Rust', 'Swift', 'Metal', 'DXGI', 'VideoToolbox', 'H.264', 'FFmpeg', 'UDP', 'mDNS'],
+  },
+  {
+    category: 'Web',
+    color: '#6366F1',
+    items: ['Next.js', 'React', 'TypeScript', 'Node.js', 'Express', 'Tailwind CSS'],
+  },
+  {
+    category: 'Mobile',
+    color: '#D946EF',
+    items: ['SwiftUI', 'HealthKit', 'PyInstaller', 'COM/SMTC'],
+  },
+  {
+    category: 'Data & Infra',
+    color: '#C084FC',
+    items: ['MongoDB', 'DigitalOcean', 'Gemini AI', 'Formspree'],
+  },
 ]
 
 export default function StudioStatement() {
   return (
-    <section className="bg-eternal-surface py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Quote */}
-        <FadeUp>
-          <div className="text-center">
-            <p className="font-display text-4xl italic leading-tight text-eternal-text md:text-5xl lg:text-[64px]">
-              &ldquo;We don&apos;t ship features.&rdquo;
-            </p>
-            <p className="mt-2 font-display text-4xl italic leading-tight text-eternal-text md:text-5xl lg:text-[64px]">
-              &ldquo;We ship convictions.&rdquo;
-            </p>
-          </div>
-        </FadeUp>
+    <>
+      <section className="border-t border-eternal-border bg-eternal-surface py-20">
+        <div className="inner">
+          <FadeUp>
+            <SectionLabel label="TECH STACK" withLine />
+            <h2 className="mt-3 font-display text-[36px] text-eternal-text">
+              The stack behind the studio
+              <span className="text-eternal-accent">.</span>
+            </h2>
+          </FadeUp>
 
-        {/* Stats */}
-        <FadeUp delay={0.15}>
-          <div className="mt-20 grid grid-cols-3 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="font-mono text-5xl font-medium text-eternal-accent md:text-6xl">
-                  {stat.value}
+          <div className="tech-grid mt-10 grid gap-6">
+            {techStack.map((category, index) => (
+              <FadeUp key={category.category} delay={index * 0.07}>
+                <div className="h-full border border-eternal-border bg-eternal-surface-2 p-5">
+                  <div className="mb-3.5 flex items-center gap-2">
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: category.color }}
+                    />
+                    <span
+                      className="text-[10px] uppercase tracking-[0.15em]"
+                      style={{ color: category.color }}
+                    >
+                      {category.category}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-[5px]">
+                    {category.items.map((item) => (
+                      <span
+                        key={item}
+                        className="px-2 py-[3px] text-[10px] tracking-[0.06em] text-eternal-text-secondary"
+                        style={{
+                          border: `1px solid ${category.color}30`,
+                          backgroundColor: `${category.color}08`,
+                        }}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="mt-2 font-mono text-[12px] uppercase tracking-wider text-eternal-muted">
-                  {stat.label}
-                </div>
-              </div>
+              </FadeUp>
             ))}
           </div>
-        </FadeUp>
+        </div>
+      </section>
 
-        {/* Philosophy */}
-        <FadeUp delay={0.3}>
-          <p className="mx-auto mt-16 max-w-2xl text-center font-mono text-[14px] leading-[1.8] text-eternal-text-secondary">
-            Every product we ship reflects a conviction about how software should
-            work. We don&apos;t chase trends or optimize for metrics. We build tools
-            we&apos;d stake our name on — technically ambitious, obsessively refined,
-            and designed to last longer than the hype cycle that spawned them.
-          </p>
-        </FadeUp>
-      </div>
-    </section>
+      <section className="py-24">
+        <div className="inner mx-auto max-w-[800px]">
+          <FadeUp>
+            <SectionLabel label="PHILOSOPHY" />
+            <blockquote className="mt-5 font-display text-[34px] font-normal leading-[1.4] text-eternal-text">
+              &quot;We got tired of mediocre tools. Software that ships
+              half-baked, bloated with features nobody asked for. We decided to
+              stop complaining and start building.&quot;
+            </blockquote>
+            <p className="mt-6 text-[12px] leading-[1.8] text-eternal-text-secondary">
+              Eternal Reverse exists because the best software comes from people
+              obsessed with the craft, not the metrics. We stay indie because
+              independence is what lets us make these choices.
+            </p>
+            <div className="mt-8">
+              <GlowButton variant="ghost" href="/about">
+                Read our story →
+              </GlowButton>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+    </>
   )
 }

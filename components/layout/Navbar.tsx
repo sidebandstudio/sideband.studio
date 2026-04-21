@@ -35,34 +35,37 @@ export default function Navbar() {
         className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-300 ${
           scrolled
             ? 'border-b border-eternal-border bg-eternal-black/85 backdrop-blur-md'
-            : 'bg-transparent'
+            : 'border-b border-transparent bg-transparent'
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <span className="font-mono text-lg font-medium text-eternal-accent">
-              ER
-            </span>
-            <span className="hidden font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-text-secondary sm:inline">
+        <div className="inner flex h-[60px] items-center justify-between">
+          <Link href="/" className="flex items-center gap-[10px]">
+            <img
+              src="/assets/EternalReverse/EternalReverseMiniLogo.png"
+              alt="ER"
+              className="h-6 w-auto"
+            />
+            <span className="hidden text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary sm:inline">
               Eternal Reverse
             </span>
           </Link>
 
-          {/* Desktop Nav */}
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
-                  pathname === link.href
+                  pathname === link.href ||
+                  (link.href === '/products' && pathname.startsWith('/products/'))
                     ? 'text-eternal-accent'
                     : 'text-eternal-text-secondary hover:text-eternal-text'
                 }`}
               >
                 {link.label}
-                {pathname === link.href && (
+                {(pathname === link.href ||
+                  (link.href === '/products' &&
+                    pathname.startsWith('/products/'))) && (
                   <motion.div
                     layoutId="nav-underline"
                     className="absolute -bottom-1 left-0 right-0 h-[2px] bg-eternal-accent"
@@ -81,7 +84,6 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Hamburger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="flex flex-col gap-1.5 md:hidden"
@@ -106,7 +108,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

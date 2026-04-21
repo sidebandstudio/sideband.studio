@@ -1,116 +1,162 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import GlowButton from '@/components/ui/GlowButton'
+import StatusBadge from '@/components/ui/StatusBadge'
 import { products } from '@/lib/products'
 
-const ease = [0.16, 1, 0.3, 1]
+const bootLines = [
+  { text: '$ eternal-reverse --boot', cls: 'cmd' },
+  { text: '', cls: 'dim' },
+  { text: '  studio   : Eternal Reverse', cls: '' },
+  { text: '  location : Boston, MA', cls: '' },
+  { text: '  founded  : 2025', cls: '' },
+  { text: '  products : 4 active', cls: '' },
+  { text: '  stack    : Rust · Swift · React · Next.js', cls: '' },
+  { text: '', cls: '' },
+  { text: '  [OK] system ready.', cls: 'ok' },
+]
 
-function Stagger({
-  children,
-  delay,
-}: {
-  children: React.ReactNode
-  delay: number
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay, ease }}
-    >
-      {children}
-    </motion.div>
-  )
+function useTerminal() {
+  const [output, setOutput] = useState<{ text: string; cls: string }[]>([])
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function run() {
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
+      for (const line of bootLines) {
+        if (cancelled) return
+
+        setOutput((prev) => [...prev, { text: '', cls: line.cls }])
+
+        for (let i = 0; i < line.text.length; i += 1) {
+          if (cancelled) return
+          await new Promise((resolve) =>
+            setTimeout(resolve, line.text[i] === ' ' ? 6 : 10),
+          )
+          setOutput((prev) => {
+            const next = [...prev]
+            next[next.length - 1] = {
+              text: line.text.slice(0, i + 1),
+              cls: line.cls,
+            }
+            return next
+          })
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      }
+
+      if (!cancelled) setDone(true)
+    }
+
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return { output, done }
 }
 
 export default function Hero() {
-  const liveProducts = products.filter(
-    (p) => p.version !== null,
-  )
+  const { output, done } = useTerminal()
 
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-eternal-black">
-      {/* Gradient Orb */}
-      <div className="pointer-events-none absolute right-[10%] top-1/2 h-[600px] w-[600px] -translate-y-1/2 animate-orb-float">
-        <div
-          className="h-full w-full rounded-full opacity-30 blur-[120px]"
-          style={{
-            background:
-              'radial-gradient(circle, #A855F7 0%, #6366F1 60%, transparent 80%)',
-          }}
-        />
+      <div className="pointer-events-none absolute right-[8%] top-1/2 h-[560px] w-[560px] -translate-y-1/2 animate-orb-float">
+        <div className="h-full w-full rounded-full bg-[radial-gradient(circle,#A855F7_0%,#6366F1_55%,transparent_80%)] opacity-30 blur-[110px]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-24 pt-32 lg:px-8">
-        {/* Eyebrow */}
-        <Stagger delay={0}>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
-            [ ETERNAL REVERSE &middot; EST. 2025 ]
-          </span>
-        </Stagger>
+      <div className="inner relative z-10 w-full pt-20 pb-20">
+        <div className="hero-grid grid items-center gap-[60px]">
+          <div>
+            <div className="animate-fade-up [animation-delay:100ms] [animation-fill-mode:both]">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-eternal-accent">
+                [ ETERNAL REVERSE · EST. 2025 ]
+              </span>
+            </div>
 
-        {/* Headline */}
-        <div className="mt-6">
-          <Stagger delay={0.1}>
-            <h1 className="font-display text-5xl leading-[0.95] text-eternal-text-secondary md:text-7xl lg:text-[88px]">
-              Software that
-            </h1>
-          </Stagger>
-          <Stagger delay={0.2}>
-            <h1 className="font-display text-5xl font-bold leading-[0.95] text-eternal-text md:text-7xl lg:text-[88px]">
-              endures
-              <span className="text-eternal-accent">.</span>
-            </h1>
-          </Stagger>
-        </div>
+            <div className="mt-7 animate-fade-up [animation-delay:250ms] [animation-fill-mode:both]">
+              <div className="terminal-box">
+                <div className="terminal-content">
+                  {output.map((line, index) => (
+                    <div key={`${line.cls}-${index}`} className={`terminal-line ${line.cls}`}>
+                      {line.text}
+                      {index === output.length - 1 && !done ? (
+                        <span className="terminal-cursor" />
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
-        {/* Subheadline */}
-        <Stagger delay={0.35}>
-          <p className="mt-8 max-w-lg font-mono text-[15px] leading-relaxed text-eternal-text-secondary">
-            A two-person studio shipping technically ambitious products — for
-            developers, athletes, and people who care about quality.
-          </p>
-        </Stagger>
-
-        {/* CTAs */}
-        <Stagger delay={0.5}>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <GlowButton variant="filled" href="/products">
-              View Products
-            </GlowButton>
-            <GlowButton variant="ghost" href="/about">
-              Our Story &rarr;
-            </GlowButton>
-          </div>
-        </Stagger>
-
-        {/* Status Bar */}
-        <Stagger delay={0.65}>
-          <div className="mt-20 border-t border-eternal-border pt-6">
-            <div className="flex flex-wrap items-center gap-3">
-              {liveProducts.map((product, i) => (
-                <span key={product.id} className="flex items-center gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-eternal-border bg-eternal-surface px-3 py-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-eternal-accent" />
-                    <span className="font-mono text-[11px] text-eternal-text-secondary">
-                      {product.name}
-                    </span>
-                    {product.version && (
-                      <span className="font-mono text-[10px] text-eternal-muted">
-                        {product.version}
-                      </span>
-                    )}
-                  </span>
-                  {i < liveProducts.length - 1 && (
-                    <span className="text-eternal-muted">&middot;</span>
-                  )}
-                </span>
-              ))}
+            <div className="mt-9 animate-fade-up [animation-delay:800ms] [animation-fill-mode:both]">
+              <h1 className="hero-headline font-display text-[72px] leading-[0.95] text-eternal-text-secondary">
+                Software that
+              </h1>
+              <h1 className="hero-headline mt-1 font-display text-[72px] leading-[0.95] text-eternal-text">
+                endures<span className="text-eternal-accent">.</span>
+              </h1>
+              <p className="mt-5 max-w-[400px] text-[13px] leading-[1.8] text-eternal-text-secondary">
+                A two-person studio shipping technically ambitious products for
+                developers, athletes, and people who care about quality.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <GlowButton variant="filled" href="/products">
+                  View Products
+                </GlowButton>
+                <GlowButton variant="ghost" href="/about">
+                  Our Story →
+                </GlowButton>
+              </div>
             </div>
           </div>
-        </Stagger>
+
+          <div className="hero-right flex flex-col gap-3.5">
+            <span className="mb-1 text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary">
+              Active products
+            </span>
+            {products.map((product, index) => (
+              <Link
+                key={product.id}
+                href="/products"
+                className="animate-fade-up border border-eternal-border bg-eternal-surface px-4 py-3 transition-colors duration-200 hover:bg-eternal-surface-2"
+                style={{
+                  animationDelay: `${500 + index * 80}ms`,
+                  animationFillMode: 'both',
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className="h-[7px] w-[7px] shrink-0 rounded-full"
+                    style={{
+                      backgroundColor: product.accentColor,
+                      boxShadow:
+                        product.status === 'LIVE'
+                          ? `0 0 8px ${product.accentColor}`
+                          : 'none',
+                    }}
+                  />
+                  <span className="flex-1 text-[12px] text-eternal-text-secondary">
+                    {product.name}
+                  </span>
+                  <StatusBadge status={product.status} />
+                  {product.version ? (
+                    <span className="text-[10px] text-eternal-muted">
+                      {product.version}
+                    </span>
+                  ) : null}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

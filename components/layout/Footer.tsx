@@ -3,48 +3,45 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <footer className="border-t border-eternal-border bg-eternal-surface">
-      {/* Contributor CTA */}
-      <div className="border-b border-eternal-border py-6 text-center">
+      <div className="border-b border-eternal-border py-3 text-center">
         <Link
           href="/careers"
-          className="font-mono text-xs uppercase tracking-[0.15em] text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+          className="text-[10px] uppercase tracking-[0.15em] text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
         >
           [ OPEN TO CONTRIBUTORS &rarr; /careers ]
         </Link>
       </div>
 
-      {/* Main Footer */}
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          {/* Left: Logo + Tagline */}
+      <div className="inner py-12">
+        <div className="footer-grid grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-lg font-medium text-eternal-accent">
-                ER
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-text-secondary">
+            <div className="flex items-center gap-[10px]">
+              <img
+                src="/assets/EternalReverse/EternalReverseMiniLogo.png"
+                alt="ER"
+                className="h-6 w-auto"
+              />
+              <span className="text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary">
                 Eternal Reverse
               </span>
             </div>
-            <p className="mt-3 font-mono text-[13px] leading-relaxed text-eternal-text-secondary">
-              Built to last. Shipped to matter.
+            <p className="mt-3 text-[12px] leading-relaxed text-eternal-text-secondary">
+              Built to last. Shipped to matter. Two brothers, one standard.
             </p>
           </div>
 
-          {/* Center: Nav Links */}
           <div className="flex flex-wrap justify-start gap-6 md:justify-center">
             {['Products', 'About', 'Careers', 'Contact'].map((item) => (
               <Link
                 key={item}
                 href={`/${item.toLowerCase()}`}
-                className="font-mono text-[12px] uppercase tracking-wider text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
+                className="text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
               >
                 {item}
               </Link>
             ))}
           </div>
 
-          {/* Right: Social Icons */}
           <div className="flex items-start gap-5 md:justify-end">
             <a
               href="https://github.com/whoisaldo"
@@ -99,9 +96,8 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Strip */}
       <div className="border-t border-eternal-border py-4 text-center">
-        <p className="font-mono text-[11px] text-eternal-muted">
+        <p className="text-[11px] text-eternal-muted">
           &copy; 2025 Eternal Reverse &middot; hello@eternalreverse.com
         </p>
       </div>

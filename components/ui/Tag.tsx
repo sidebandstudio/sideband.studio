@@ -1,10 +1,23 @@
 interface TagProps {
   label: string
+  color?: string
 }
 
-export default function Tag({ label }: TagProps) {
+export default function Tag({ label, color }: TagProps) {
   return (
-    <span className="inline-block rounded-full border border-eternal-border bg-eternal-surface-2 px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary">
+    <span
+      style={{
+        display: 'inline-block',
+        padding: '2px 8px',
+        fontFamily: 'inherit',
+        fontSize: 10,
+        textTransform: 'uppercase',
+        letterSpacing: '0.08em',
+        border: `1px solid ${color ?? 'var(--eternal-border)'}`,
+        color: color ?? 'var(--eternal-text-secondary)',
+        opacity: color ? 0.85 : 1,
+      }}
+    >
       {label}
     </span>
   )

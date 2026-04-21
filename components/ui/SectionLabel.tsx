@@ -8,12 +8,22 @@ export default function SectionLabel({
   withLine = false,
 }: SectionLabelProps) {
   return (
-    <div className="flex items-center gap-4">
-      <span className="font-mono text-xs uppercase tracking-[0.2em] text-eternal-accent">
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <span
+        style={{
+          fontFamily: 'inherit',
+          fontSize: 10,
+          textTransform: 'uppercase',
+          letterSpacing: '0.2em',
+          color: 'var(--eternal-accent)',
+        }}
+      >
         [ {label} ]
       </span>
       {withLine && (
-        <div className="h-px flex-1 bg-eternal-accent/30" />
+        <div
+          style={{ flex: 1, height: 1, background: 'var(--eternal-border)' }}
+        />
       )}
     </div>
   )
