@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { products, type Product } from '@/lib/products'
@@ -523,11 +524,15 @@ function RichPresenceSection() {
                     eternalrp — terminal
                   </span>
                 </div>
-                <img
-                  src="/assets/EternalRichPresence/EternalRichPresenceTerminal.png"
-                  alt="EternalRichPresence terminal"
-                  style={{ width: '100%', display: 'block' }}
-                />
+                <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+                  <Image
+                    src="/assets/EternalRichPresence/EternalRichPresenceTerminal.png"
+                    alt="EternalRichPresence terminal"
+                    fill
+                    sizes="(min-width: 1024px) 440px, 100vw"
+                    style={{ objectFit: 'cover', display: 'block' }}
+                  />
+                </div>
               </div>
             </div>
 

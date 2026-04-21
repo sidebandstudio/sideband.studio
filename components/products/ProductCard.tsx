@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Product } from '@/lib/products'
@@ -210,14 +211,12 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             background: 'var(--eternal-surface-2)',
           }}
         >
-          <img
+          <Image
             src={product.images[imgIdx] ?? product.cardHero}
             alt={product.name}
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
             style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
               objectPosition: 'top center',
               transition: 'opacity 0.3s',

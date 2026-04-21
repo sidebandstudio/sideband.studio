@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { CSSProperties } from 'react'
 
 interface FrameProps {
@@ -72,12 +73,12 @@ export function IPhoneFrame({
             zIndex: 10,
           }}
         />
-        <img
+        <Image
           src={src}
           alt={alt}
+          fill
+          sizes={`${width}px`}
           style={{
-            width: '100%',
-            height: '100%',
             objectFit: 'cover',
             display: 'block',
           }}
@@ -126,12 +127,12 @@ export function IPadFrame({ src, alt, width = 340 }: IPadFrameProps) {
             zIndex: 10,
           }}
         />
-        <img
+        <Image
           src={src}
           alt={alt}
+          fill
+          sizes={`${width}px`}
           style={{
-            width: '100%',
-            height: '100%',
             objectFit: 'cover',
             display: 'block',
           }}
@@ -206,7 +207,21 @@ export function BrowserFrame({
           {url}
         </div>
       </div>
-      <img src={src} alt={alt} style={{ width: '100%', display: 'block' }} />
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={
+            typeof width === 'number'
+              ? `${width}px`
+              : width && typeof width === 'string'
+                ? width
+                : '100vw'
+          }
+          style={{ objectFit: 'cover', display: 'block' }}
+        />
+      </div>
     </div>
   )
 }
@@ -255,7 +270,15 @@ export function TerminalFrame({ src, alt, label = 'terminal' }: TerminalFramePro
           {label}
         </span>
       </div>
-      <img src={src} alt={alt} style={{ width: '100%', display: 'block' }} />
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover', display: 'block' }}
+        />
+      </div>
     </div>
   )
 }

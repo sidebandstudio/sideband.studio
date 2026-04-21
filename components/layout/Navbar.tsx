@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
@@ -40,9 +41,11 @@ export default function Navbar() {
       >
         <div className="inner flex h-[60px] items-center justify-between">
           <Link href="/" className="flex items-center gap-[10px]">
-            <img
+            <Image
               src="/assets/EternalReverse/EternalReverseMiniLogo.png"
               alt="ER"
+              width={24}
+              height={24}
               className="h-6 w-auto"
             />
             <span className="hidden text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary sm:inline">

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -16,9 +17,11 @@ export default function Footer() {
         <div className="footer-grid grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-[10px]">
-              <img
+              <Image
                 src="/assets/EternalReverse/EternalReverseMiniLogo.png"
                 alt="ER"
+                width={24}
+                height={24}
                 className="h-6 w-auto"
               />
               <span className="text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary">
