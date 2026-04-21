@@ -16,19 +16,21 @@ export default function Footer() {
       <div className="inner py-12">
         <div className="footer-grid grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-[10px]">
+            <Link
+              href="/"
+              className="inline-flex"
+              aria-label="Eternal Reverse — home"
+            >
               <Image
-                src="/assets/EternalReverse/EternalReverseMiniLogo.png"
-                alt="ER"
-                width={24}
-                height={24}
-                className="h-6 w-auto"
+                src="/assets/EternalReverse/EternalReverse.png"
+                alt="Eternal Reverse"
+                width={1882}
+                height={778}
+                sizes="180px"
+                className="h-8 w-auto"
               />
-              <span className="text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary">
-                Eternal Reverse
-              </span>
-            </div>
-            <p className="mt-3 text-[12px] leading-relaxed text-eternal-text-secondary">
+            </Link>
+            <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
               Built to last. Shipped to matter. Two brothers, one standard.
             </p>
           </div>

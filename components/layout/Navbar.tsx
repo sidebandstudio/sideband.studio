@@ -33,24 +33,23 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-300 ${
+        className={`fixed left-0 right-0 top-0 z-[100] bg-eternal-black transition-[border-color,box-shadow] duration-200 ${
           scrolled
-            ? 'border-b border-eternal-border bg-eternal-black/85 backdrop-blur-md'
-            : 'border-b border-transparent bg-transparent'
+            ? 'border-b border-eternal-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
+            : 'border-b border-transparent'
         }`}
       >
-        <div className="inner flex h-[60px] items-center justify-between">
-          <Link href="/" className="flex items-center gap-[10px]">
+        <div className="inner flex h-[64px] items-center justify-between">
+          <Link href="/" className="flex items-center" aria-label="Eternal Reverse — home">
             <Image
-              src="/assets/EternalReverse/EternalReverseMiniLogo.png"
-              alt="ER"
-              width={24}
-              height={24}
-              className="h-6 w-auto"
+              src="/assets/EternalReverse/EternalReverse.png"
+              alt="Eternal Reverse"
+              width={1882}
+              height={778}
+              priority
+              sizes="140px"
+              className="h-5 w-auto md:h-6"
             />
-            <span className="hidden text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary sm:inline">
-              Eternal Reverse
-            </span>
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">

@@ -29,7 +29,21 @@ export const metadata: Metadata = {
     title: 'Eternal Reverse — Built to last. Shipped to matter.',
     description:
       'Indie software studio shipping technically ambitious products.',
-    images: ['/og.png'],
+    images: [
+      {
+        url: '/assets/EternalReverse/EternalReverse.png',
+        width: 1882,
+        height: 778,
+        alt: 'Eternal Reverse',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Eternal Reverse — Built to last. Shipped to matter.',
+    description:
+      'Indie software studio shipping technically ambitious products.',
+    images: ['/assets/EternalReverse/EternalReverse.png'],
   },
 }
 

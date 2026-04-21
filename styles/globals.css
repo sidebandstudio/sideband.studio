@@ -42,8 +42,10 @@ body {
 
 .inner {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 32px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 ::selection {
@@ -427,7 +429,8 @@ body {
 
 @media (max-width: 600px) {
   .inner {
-    padding: 0 20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .hero-headline {
