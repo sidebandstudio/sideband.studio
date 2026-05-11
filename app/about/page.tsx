@@ -14,6 +14,7 @@ const timeline = [
     event: 'Exerly iOS enters active development (SwiftUI + HealthKit)',
   },
   { year: '2025', event: 'Signature Cuts 413 launches' },
+  { year: '2026', event: 'Ali Tleis joins as Co-Founder' },
   { year: '2026', event: '→  What comes next' },
 ]
 
@@ -27,12 +28,12 @@ const founders = [
     linkedin: 'https://linkedin.com/in/ali-younes-41a2b4296',
   },
   {
-    name: 'Co-Founder',
-    role: 'Co-Founder',
-    initials: '??',
-    bio: 'Details coming soon.',
-    github: null,
-    linkedin: null,
+    name: 'Ali Tleis',
+    role: 'Co-Founder & Frontend / Full-Stack Engineer',
+    initials: 'AT',
+    bio: 'CS @ Northeastern. Full-stack engineer focused on TypeScript, React, and clean systems. Builds tools that respect the user — fast, minimal, and obsessively refined.',
+    github: 'https://github.com/Alitleis123',
+    linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
   },
 ]
 

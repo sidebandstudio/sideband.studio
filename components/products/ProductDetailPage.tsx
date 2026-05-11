@@ -57,7 +57,14 @@ function GalleryItem({
     if (item.device === 'terminal') {
       return <TerminalFrame src={item.src} alt={item.label} />
     }
-    return <BrowserFrame src={item.src} alt={item.label} url={item.sub} />
+    return (
+      <BrowserFrame
+        src={item.src}
+        alt={item.label}
+        url={item.sub}
+        objectPosition={item.objectPosition}
+      />
+    )
   })()
 
   return (

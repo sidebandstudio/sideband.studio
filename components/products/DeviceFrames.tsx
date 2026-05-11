@@ -21,6 +21,7 @@ interface BrowserFrameProps extends FrameProps {
   url?: string
   width?: number | string
   style?: CSSProperties
+  objectPosition?: string
 }
 
 interface TerminalFrameProps extends FrameProps {
@@ -148,6 +149,7 @@ export function BrowserFrame({
   url = '',
   width,
   style,
+  objectPosition,
 }: BrowserFrameProps) {
   return (
     <div
@@ -219,7 +221,7 @@ export function BrowserFrame({
                 ? width
                 : '100vw'
           }
-          style={{ objectFit: 'cover', display: 'block' }}
+          style={{ objectFit: 'cover', objectPosition, display: 'block' }}
         />
       </div>
     </div>

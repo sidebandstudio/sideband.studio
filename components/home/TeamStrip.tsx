@@ -14,12 +14,12 @@ const founders = [
     linkedin: 'https://linkedin.com/in/ali-younes-41a2b4296',
   },
   {
-    name: 'Co-Founder',
-    role: 'Co-Founder',
-    initials: '??',
-    bio: 'Details coming soon.',
-    github: null,
-    linkedin: null,
+    name: 'Ali Tleis',
+    role: 'Co-Founder & Frontend / Full-Stack Engineer',
+    initials: 'AT',
+    bio: 'CS @ Northeastern. Full-stack engineer focused on TypeScript, React, and clean systems. Builds tools that respect the user — fast, minimal, and obsessively refined.',
+    github: 'https://github.com/Alitleis123',
+    linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
   },
 ]
 
@@ -92,7 +92,7 @@ export default function TeamStrip() {
               See what we&apos;ve built.
             </p>
             <p className="mt-2.5 text-[13px] text-eternal-text-secondary">
-              Four products. Technically ambitious. Obsessively refined.
+              Six products. Technically ambitious. Obsessively refined.
             </p>
             <div className="mt-6">
               <GlowButton variant="filled" href="/products">
