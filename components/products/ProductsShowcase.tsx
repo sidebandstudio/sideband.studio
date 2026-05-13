@@ -846,7 +846,7 @@ function Eternal2xSection() {
             dir="left"
           />
 
-          {/* Devices: Eternal2x download / landing in browser frame */}
+          {/* Devices: Eternal2x homepage browser + phone overlay */}
           <div
             className="prod-devices-right"
             style={{
@@ -889,10 +889,31 @@ function Eternal2xSection() {
               }
             >
               <BrowserFrame
-                src="/assets/Eternal2x/Eternal2xDownload.png"
-                alt="Eternal2x download page"
+                src="/assets/Eternal2x/Eternal2xHome.png"
+                alt="Eternal2x homepage"
                 url="Eternal2x.com"
                 objectPosition="top center"
+              />
+            </div>
+
+            {/* Phone floating bottom-right */}
+            <div
+              style={
+                {
+                  position: 'absolute',
+                  bottom: -30,
+                  right: -10,
+                  width: 150,
+                  zIndex: 3,
+                  '--r': '3deg',
+                  animation: 'deviceFloatB 7s ease-in-out 0.8s infinite',
+                } as CSSProperties
+              }
+            >
+              <IPhoneFrame
+                src="/assets/Eternal2x/Eternal2xPhone.png"
+                alt="Eternal2x on mobile"
+                width={150}
               />
             </div>
 
@@ -900,7 +921,7 @@ function Eternal2xSection() {
             <div
               style={{
                 position: 'absolute',
-                bottom: -8,
+                bottom: -52,
                 left: '50%',
                 transform: 'translateX(-50%)',
                 whiteSpace: 'nowrap',
@@ -939,9 +960,9 @@ function EternalSummarySection() {
             style={{
               position: 'relative',
               display: 'flex',
-              flexDirection: 'column',
-              gap: 16,
-              alignItems: 'flex-start',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 480,
               animation: vis
                 ? 'slideRevealL 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s both'
                 : 'none',
@@ -951,108 +972,79 @@ function EternalSummarySection() {
             <div
               style={{
                 position: 'absolute',
-                width: 280,
-                height: 280,
+                width: 320,
+                height: 320,
                 borderRadius: '50%',
                 background: '#E879F9',
                 opacity: 0.1,
-                filter: 'blur(70px)',
-                top: '20%',
-                left: '10%',
+                filter: 'blur(80px)',
                 animation: 'glowPulse 5s ease-in-out infinite',
               }}
             />
 
-            {/* Home page in browser */}
+            {/* Home page in browser (main) */}
             <div
               style={
                 {
+                  position: 'relative',
+                  zIndex: 2,
                   width: '100%',
                   maxWidth: 440,
                   '--r': '0deg',
                   animation: 'deviceFloat 6s ease-in-out infinite',
-                  position: 'relative',
-                  zIndex: 2,
                 } as CSSProperties
               }
             >
               <BrowserFrame
                 src="/assets/EternalSummary/EternalSummaryHomePage.png"
                 alt="Eternal Summary home page"
-                url="eternalsummary"
+                url="alitleis123.github.io/Eternal-Summary"
                 objectPosition="top center"
               />
             </div>
 
-            {/* Icon mark below */}
+            {/* Phone floating bottom-left */}
             <div
               style={
                 {
-                  width: '100%',
-                  maxWidth: 440,
-                  '--r': '0deg',
+                  position: 'absolute',
+                  bottom: -30,
+                  left: -10,
+                  width: 150,
+                  zIndex: 3,
+                  '--r': '-3deg',
                   animation: 'deviceFloatC 7s ease-in-out 1s infinite',
-                  position: 'relative',
-                  zIndex: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 14,
                 } as CSSProperties
               }
             >
-              <div
-                style={{
-                  width: 72,
-                  height: 72,
-                  borderRadius: 14,
-                  border: '1px solid #2a2a2a',
-                  background: '#0d0d0d',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  flexShrink: 0,
-                }}
-              >
-                <Image
-                  src="/assets/EternalSummary/EternalSummaryIcon.png"
-                  alt="Eternal Summary icon"
-                  fill
-                  sizes="72px"
-                  style={{ objectFit: 'cover', display: 'block' }}
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: 'var(--eternal-text)',
-                    letterSpacing: '0.04em',
-                  }}
-                >
-                  Eternal Summary
-                </span>
-                <span
-                  style={{
-                    fontSize: 9,
-                    color: 'var(--eternal-muted)',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Chrome Extension · MV3
-                </span>
-              </div>
+              <IPhoneFrame
+                src="/assets/EternalSummary/EternalSummaryPhone.png"
+                alt="Eternal Summary on mobile"
+                width={150}
+              />
             </div>
 
-            <span
+            {/* Tech label bottom */}
+            <div
               style={{
-                fontSize: 10,
-                color: 'var(--eternal-muted)',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
+                position: 'absolute',
+                bottom: -52,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                whiteSpace: 'nowrap',
               }}
             >
-              MV3 · Node + Express on Fly.io
-            </span>
+              <span
+                style={{
+                  fontSize: 10,
+                  color: 'var(--eternal-muted)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                MV3 · Node + Express on Fly.io
+              </span>
+            </div>
           </div>
 
           {/* Text RIGHT */}

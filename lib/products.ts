@@ -63,10 +63,11 @@ export const products: Product[] = [
     accentColor: '#A855F7',
     highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
     images: [
+      '/assets/EternalMonitor/EternalMonitorCover.png',
       '/assets/EternalMonitor/EternalMonitorIpadView.png',
       '/assets/EternalMonitor/EternalMonitorPCView.png',
     ],
-    cardHero: 'branded',
+    cardHero: '/assets/EternalMonitor/EternalMonitorCover.png',
     detail: {
       accentColor: '#A855F7',
       tagline:
@@ -141,10 +142,11 @@ export const products: Product[] = [
     accentColor: '#6366F1',
     highlight: 'SMTC bridge · custom URI scheme · portable .exe',
     images: [
+      '/assets/EternalRichPresence/EternalRichPresenceCover.png',
       '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
       '/assets/EternalRichPresence/EternalRichPresenceTerminal.png',
     ],
-    cardHero: '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
+    cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.png',
     detail: {
       accentColor: '#6366F1',
       tagline:
@@ -219,10 +221,11 @@ export const products: Product[] = [
     accentColor: '#D946EF',
     highlight: 'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     images: [
+      '/assets/ExerlyFitness/ExerlyFitnessCover.png',
       '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
       '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
     ],
-    cardHero: 'branded',
+    cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.png',
     detail: {
       accentColor: '#D946EF',
       tagline:
@@ -338,10 +341,11 @@ export const products: Product[] = [
     accentColor: '#C084FC',
     highlight: 'SMS deep-link booking · mobile-first · zero backend',
     images: [
+      '/assets/SignatureCuts/SignatureCutsCover.png',
       '/assets/SignatureCuts/SignatureCutsWebView.png',
       '/assets/SignatureCuts/SignatureCutsPhoneView.png',
     ],
-    cardHero: '/assets/SignatureCuts/SignatureCutsWebView.png',
+    cardHero: '/assets/SignatureCuts/SignatureCutsCover.png',
     detail: {
       accentColor: '#C084FC',
       tagline:
@@ -410,8 +414,12 @@ export const products: Product[] = [
     version: 'v0.2.0',
     accentColor: '#8B5CF6',
     highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
-    images: ['/assets/Eternal2x/Eternal2xDownload.png'],
-    cardHero: '/assets/Eternal2x/Eternal2xDownload.png',
+    images: [
+      '/assets/Eternal2x/Eternal2xCover.png',
+      '/assets/Eternal2x/Eternal2xHome.png',
+      '/assets/Eternal2x/Eternal2xPhone.png',
+    ],
+    cardHero: '/assets/Eternal2x/Eternal2xCover.png',
     detail: {
       accentColor: '#8B5CF6',
       tagline:
@@ -424,10 +432,23 @@ export const products: Product[] = [
       ],
       gallery: [
         {
-          src: '/assets/Eternal2x/Eternal2xDownload.png',
+          src: '/assets/Eternal2x/Eternal2xHome.png',
           device: 'browser',
           label: 'Eternal2x',
-          sub: 'Download · Eternal2x.com',
+          sub: 'Home · Eternal2x.com',
+          objectPosition: 'top center',
+        },
+        {
+          src: '/assets/Eternal2x/Eternal2xPhone.png',
+          device: 'phone',
+          label: 'Mobile',
+          sub: 'Eternal2x.com on iPhone',
+        },
+        {
+          src: '/assets/Eternal2x/Eternal2xDownload.png',
+          device: 'browser',
+          label: 'Download',
+          sub: 'Eternal2x v0.2.0 · Win + macOS',
           objectPosition: 'top center',
         },
       ],
@@ -481,10 +502,11 @@ export const products: Product[] = [
     accentColor: '#E879F9',
     highlight: 'MV3 extension · Fly.io broker · streaming summary',
     images: [
+      '/assets/EternalSummary/EternalSummaryCover.png',
       '/assets/EternalSummary/EternalSummaryHomePage.png',
-      '/assets/EternalSummary/EternalSummaryIcon.png',
+      '/assets/EternalSummary/EternalSummaryPhone.png',
     ],
-    cardHero: '/assets/EternalSummary/EternalSummaryHomePage.png',
+    cardHero: '/assets/EternalSummary/EternalSummaryCover.png',
     detail: {
       accentColor: '#E879F9',
       tagline:
@@ -500,14 +522,14 @@ export const products: Product[] = [
           src: '/assets/EternalSummary/EternalSummaryHomePage.png',
           device: 'browser',
           label: 'Eternal Summary',
-          sub: 'Home Page',
+          sub: 'Home · One Click Summary',
           objectPosition: 'top center',
         },
         {
-          src: '/assets/EternalSummary/EternalSummaryIcon.png',
-          device: 'browser',
-          label: 'Extension Icon',
-          sub: 'Chrome Toolbar Mark',
+          src: '/assets/EternalSummary/EternalSummaryPhone.png',
+          device: 'phone',
+          label: 'Mobile',
+          sub: 'Eternal Summary Landing',
         },
       ],
       architecture: [
