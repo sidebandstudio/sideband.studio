@@ -814,6 +814,269 @@ function ExerlySection() {
   )
 }
 
+// ── 05 Eternal2x ─────────────────────────────────────────────────────────
+function Eternal2xSection() {
+  const [ref, vis] = useReveal()
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
+      <span className="prod-num" style={{ right: '3%' }}>
+        05
+      </span>
+      <div className="inner">
+        <div className="prod-grid">
+          <ProductText
+            num="05"
+            productId="eternal2x"
+            name="Eternal2x"
+            version="v0.2.0"
+            status="LIVE"
+            accent="#8B5CF6"
+            problem="Upscaling old footage to 4K in DaVinci Resolve is slow, manual, and lossy. Editors waste hours marking motion ranges, splitting clips, and re-rendering dead frames that didn't need touching in the first place."
+            solution="Eternal2x is a Python + Lua + OpenCV pipeline that auto-detects motion frames, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction inside DaVinci Resolve — then upscales the result to 4K with FFmpeg."
+            tags={[
+              'Python',
+              'Lua',
+              'OpenCV',
+              'FFmpeg',
+              'DaVinci Resolve API',
+            ]}
+            github="https://github.com/Alitleis123/Eternal2x.com"
+            url="https://Eternal2x.com"
+            vis={vis}
+            dir="left"
+          />
+
+          {/* Devices: Eternal2x homepage browser + phone overlay */}
+          <div
+            className="prod-devices-right"
+            style={{
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 480,
+              animation: vis
+                ? 'slideRevealR 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s both'
+                : 'none',
+              opacity: vis ? 1 : 0,
+            }}
+          >
+            {/* Glow behind */}
+            <div
+              style={{
+                position: 'absolute',
+                width: 320,
+                height: 320,
+                borderRadius: '50%',
+                background: '#8B5CF6',
+                opacity: 0.1,
+                filter: 'blur(80px)',
+                animation: 'glowPulse 4.5s ease-in-out infinite',
+              }}
+            />
+
+            {/* Browser (main) */}
+            <div
+              style={
+                {
+                  position: 'relative',
+                  zIndex: 2,
+                  width: '100%',
+                  maxWidth: 440,
+                  '--r': '0deg',
+                  animation: 'deviceFloat 6s ease-in-out infinite',
+                } as CSSProperties
+              }
+            >
+              <BrowserFrame
+                src="/assets/Eternal2x/Eternal2xHome.png"
+                alt="Eternal2x homepage"
+                url="Eternal2x.com"
+                objectPosition="top center"
+              />
+            </div>
+
+            {/* Phone floating bottom-right */}
+            <div
+              style={
+                {
+                  position: 'absolute',
+                  bottom: -30,
+                  right: -10,
+                  width: 150,
+                  zIndex: 3,
+                  '--r': '3deg',
+                  animation: 'deviceFloatB 7s ease-in-out 0.8s infinite',
+                } as CSSProperties
+              }
+            >
+              <IPhoneFrame
+                src="/assets/Eternal2x/Eternal2xPhone.png"
+                alt="Eternal2x on mobile"
+                width={150}
+              />
+            </div>
+
+            {/* Tech label bottom */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: -52,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 10,
+                  color: 'var(--eternal-muted)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                DaVinci Resolve · Python + Lua + OpenCV
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── 06 Eternal Summary ───────────────────────────────────────────────────
+function EternalSummarySection() {
+  const [ref, vis] = useReveal()
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
+      <span className="prod-num" style={{ left: '3%' }}>
+        06
+      </span>
+      <div className="inner">
+        <div className="prod-grid">
+          {/* Devices LEFT */}
+          <div
+            style={{
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 480,
+              animation: vis
+                ? 'slideRevealL 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s both'
+                : 'none',
+              opacity: vis ? 1 : 0,
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                width: 320,
+                height: 320,
+                borderRadius: '50%',
+                background: '#E879F9',
+                opacity: 0.1,
+                filter: 'blur(80px)',
+                animation: 'glowPulse 5s ease-in-out infinite',
+              }}
+            />
+
+            {/* Home page in browser (main) */}
+            <div
+              style={
+                {
+                  position: 'relative',
+                  zIndex: 2,
+                  width: '100%',
+                  maxWidth: 440,
+                  '--r': '0deg',
+                  animation: 'deviceFloat 6s ease-in-out infinite',
+                } as CSSProperties
+              }
+            >
+              <BrowserFrame
+                src="/assets/EternalSummary/EternalSummaryHomePage.png"
+                alt="Eternal Summary home page"
+                url="alitleis123.github.io/Eternal-Summary"
+                objectPosition="top center"
+              />
+            </div>
+
+            {/* Phone floating bottom-left */}
+            <div
+              style={
+                {
+                  position: 'absolute',
+                  bottom: -30,
+                  left: -10,
+                  width: 150,
+                  zIndex: 3,
+                  '--r': '-3deg',
+                  animation: 'deviceFloatC 7s ease-in-out 1s infinite',
+                } as CSSProperties
+              }
+            >
+              <IPhoneFrame
+                src="/assets/EternalSummary/EternalSummaryPhone.png"
+                alt="Eternal Summary on mobile"
+                width={150}
+              />
+            </div>
+
+            {/* Tech label bottom */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: -52,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 10,
+                  color: 'var(--eternal-muted)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                MV3 · Node + Express on Fly.io
+              </span>
+            </div>
+          </div>
+
+          {/* Text RIGHT */}
+          <ProductText
+            num="06"
+            productId="eternal-summary"
+            name="Eternal Summary"
+            version="v1.0.0"
+            status="LIVE"
+            accent="#E879F9"
+            problem="Reading long articles, docs, and research pages is a tax on attention. Existing summarizer extensions are bloated, slow, or send your data through a chain of middlemen."
+            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay — one click, no friction."
+            tags={[
+              'JavaScript',
+              'Chrome Extensions API',
+              'Node.js',
+              'Express',
+              'Docker',
+              'Gemini API',
+              'Fly.io',
+            ]}
+            github="https://github.com/Alitleis123/Eternal-Summary"
+            url="https://alitleis123.github.io/Eternal-Summary/"
+            vis={vis}
+            dir="right"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── 04 Signature Cuts 413 ─────────────────────────────────────────────────
 function SignatureCutsSection() {
   const [ref, vis] = useReveal()
@@ -975,7 +1238,7 @@ export default function ProductsShowcase() {
               lineHeight: 1.8,
             }}
           >
-            Four products. Two live. Two in active development. Each one
+            Six products. Four live. Two in active development. Each one
             technically ambitious, obsessively refined.
           </p>
 
@@ -1029,6 +1292,8 @@ export default function ProductsShowcase() {
       <RichPresenceSection />
       <ExerlySection />
       <SignatureCutsSection />
+      <Eternal2xSection />
+      <EternalSummarySection />
     </div>
   )
 }

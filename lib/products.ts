@@ -12,6 +12,7 @@ export interface ProductGalleryItem {
   device: ProductDevice
   label: string
   sub: string
+  objectPosition?: string
 }
 
 export interface ProductArchitectureStep {
@@ -62,10 +63,11 @@ export const products: Product[] = [
     accentColor: '#A855F7',
     highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
     images: [
+      '/assets/EternalMonitor/EternalMonitorCover.png',
       '/assets/EternalMonitor/EternalMonitorIpadView.png',
       '/assets/EternalMonitor/EternalMonitorPCView.png',
     ],
-    cardHero: 'branded',
+    cardHero: '/assets/EternalMonitor/EternalMonitorCover.png',
     detail: {
       accentColor: '#A855F7',
       tagline:
@@ -140,10 +142,11 @@ export const products: Product[] = [
     accentColor: '#6366F1',
     highlight: 'SMTC bridge · custom URI scheme · portable .exe',
     images: [
+      '/assets/EternalRichPresence/EternalRichPresenceCover.png',
       '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
       '/assets/EternalRichPresence/EternalRichPresenceTerminal.png',
     ],
-    cardHero: '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
+    cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.png',
     detail: {
       accentColor: '#6366F1',
       tagline:
@@ -218,10 +221,11 @@ export const products: Product[] = [
     accentColor: '#D946EF',
     highlight: 'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     images: [
+      '/assets/ExerlyFitness/ExerlyFitnessCover.png',
       '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
       '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
     ],
-    cardHero: 'branded',
+    cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.png',
     detail: {
       accentColor: '#D946EF',
       tagline:
@@ -337,10 +341,11 @@ export const products: Product[] = [
     accentColor: '#C084FC',
     highlight: 'SMS deep-link booking · mobile-first · zero backend',
     images: [
+      '/assets/SignatureCuts/SignatureCutsCover.png',
       '/assets/SignatureCuts/SignatureCutsWebView.png',
       '/assets/SignatureCuts/SignatureCutsPhoneView.png',
     ],
-    cardHero: '/assets/SignatureCuts/SignatureCutsWebView.png',
+    cardHero: '/assets/SignatureCuts/SignatureCutsCover.png',
     detail: {
       accentColor: '#C084FC',
       tagline:
@@ -392,6 +397,173 @@ export const products: Product[] = [
         'SMS and WhatsApp booking flows that cover both customer segments in Chicopee',
         'Fully static export for instant load on any connection',
         'Built free of charge for a local business',
+      ],
+    },
+  },
+  {
+    id: 'eternal2x',
+    name: 'Eternal2x',
+    tagline:
+      'DaVinci Resolve smart upscale. Skip the dead frames. Render only what moved.',
+    description:
+      'Python + Lua + OpenCV pipeline that auto-detects motion frames inside DaVinci Resolve, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction — then upscales the result to 4K with FFmpeg.',
+    status: 'LIVE',
+    tags: ['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API'],
+    url: 'https://Eternal2x.com',
+    github: 'https://github.com/Alitleis123/Eternal2x.com',
+    version: 'v0.2.0',
+    accentColor: '#8B5CF6',
+    highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
+    images: [
+      '/assets/Eternal2x/Eternal2xCover.png',
+      '/assets/Eternal2x/Eternal2xHome.png',
+      '/assets/Eternal2x/Eternal2xPhone.png',
+    ],
+    cardHero: '/assets/Eternal2x/Eternal2xCover.png',
+    detail: {
+      accentColor: '#8B5CF6',
+      tagline:
+        'DaVinci Resolve smart upscale. Motion-aware. Auto-marked. Auto-segmented. Rendered to 4K.',
+      stats: [
+        { label: 'Pipeline', value: 'Python + Lua' },
+        { label: 'CV Stack', value: 'OpenCV' },
+        { label: 'Render', value: 'FFmpeg' },
+        { label: 'Host', value: 'DaVinci Resolve' },
+      ],
+      gallery: [
+        {
+          src: '/assets/Eternal2x/Eternal2xHome.png',
+          device: 'browser',
+          label: 'Eternal2x',
+          sub: 'Home · Eternal2x.com',
+          objectPosition: 'top center',
+        },
+        {
+          src: '/assets/Eternal2x/Eternal2xPhone.png',
+          device: 'phone',
+          label: 'Mobile',
+          sub: 'Eternal2x.com on iPhone',
+        },
+        {
+          src: '/assets/Eternal2x/Eternal2xDownload.png',
+          device: 'browser',
+          label: 'Download',
+          sub: 'Eternal2x v0.2.0 · Win + macOS',
+          objectPosition: 'top center',
+        },
+      ],
+      architecture: [
+        {
+          step: '01',
+          title: 'Motion Frame Detection',
+          body: 'OpenCV runs a threshold-based motion pass across the source footage, classifying each frame as active or dead. Dead frames are flagged to skip interpolation entirely.',
+        },
+        {
+          step: '02',
+          title: 'DaVinci Lua Hooks',
+          body: 'Lua scripts inside DaVinci Resolve auto-place markers at motion segment boundaries and drive clip segmentation, removing the manual marker / split / blade work editors normally do by hand.',
+        },
+        {
+          step: '03',
+          title: 'Dead Frame Skipping',
+          body: 'Dead frames bypass the upscale stage entirely and are passed through untouched. Only active segments hit the render queue, cutting total upscale time substantially on footage with static stretches.',
+        },
+        {
+          step: '04',
+          title: '4K Upscale via FFmpeg',
+          body: 'Active segments are routed through an FFmpeg upscale pipeline tuned for 4K output. The pipeline reassembles the final timeline with upscaled actives and pass-through deads, then exports the finished cut.',
+        },
+        {
+          step: '05',
+          title: 'One-Command Orchestration',
+          body: 'A Python driver coordinates OpenCV detection, DaVinci Resolve Lua hooks, and the FFmpeg render into a single one-command pipeline — point it at a project, get a 4K master out the other side.',
+        },
+      ],
+      highlights: [
+        'Dead-frame skipping cuts upscale render time substantially versus brute-force re-rendering every frame',
+        'Lua + DaVinci Resolve API integration removes manual marker placement and clip segmentation',
+        'OpenCV threshold-based motion detection tuned for 24/30/60fps source footage',
+        'One-command Python orchestration from raw project to finished 4K master',
+      ],
+    },
+  },
+  {
+    id: 'eternal-summary',
+    name: 'Eternal Summary',
+    tagline:
+      'One-click AI summary for any webpage. Minimal Chrome extension. No friction.',
+    description:
+      'Minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay.',
+    status: 'LIVE',
+    tags: ['JavaScript', 'Chrome Extensions API', 'Node.js', 'Express', 'Docker', 'Gemini API', 'Fly.io'],
+    url: 'https://alitleis123.github.io/Eternal-Summary/',
+    github: 'https://github.com/Alitleis123/Eternal-Summary',
+    version: 'v1.0.0',
+    accentColor: '#E879F9',
+    highlight: 'MV3 extension · Fly.io broker · streaming summary',
+    images: [
+      '/assets/EternalSummary/EternalSummaryCover.png',
+      '/assets/EternalSummary/EternalSummaryHomePage.png',
+      '/assets/EternalSummary/EternalSummaryPhone.png',
+    ],
+    cardHero: '/assets/EternalSummary/EternalSummaryCover.png',
+    detail: {
+      accentColor: '#E879F9',
+      tagline:
+        'One-click AI summary for any webpage. MV3 Chrome extension. Streaming, minimal, no friction.',
+      stats: [
+        { label: 'Platform', value: 'Chrome MV3' },
+        { label: 'Backend', value: 'Node + Express' },
+        { label: 'Host', value: 'Fly.io' },
+        { label: 'Model', value: 'Gemini' },
+      ],
+      gallery: [
+        {
+          src: '/assets/EternalSummary/EternalSummaryHomePage.png',
+          device: 'browser',
+          label: 'Eternal Summary',
+          sub: 'Home · One Click Summary',
+          objectPosition: 'top center',
+        },
+        {
+          src: '/assets/EternalSummary/EternalSummaryPhone.png',
+          device: 'phone',
+          label: 'Mobile',
+          sub: 'Eternal Summary Landing',
+        },
+      ],
+      architecture: [
+        {
+          step: '01',
+          title: 'Manifest V3 Extension',
+          body: 'Built on Chrome MV3 with proper service worker, content script, and popup UI separation. No remote code, designed to survive future Chrome extension API changes.',
+        },
+        {
+          step: '02',
+          title: 'Live Page Extraction',
+          body: 'Content scripts extract the active page\'s article content client-side, filtering out chrome and navigation noise before anything leaves the browser.',
+        },
+        {
+          step: '03',
+          title: 'Fly.io Broker Backend',
+          body: 'A Node + Express service running on Fly.io brokers the Gemini API request, keeping API keys off the client and isolating per-user quota and rate limits.',
+        },
+        {
+          step: '04',
+          title: 'Streaming Summary Overlay',
+          body: 'The summary streams back into the popup as it generates, rendering progressively into a clean overlay rather than blocking on full completion.',
+        },
+        {
+          step: '05',
+          title: 'One-Click Workflow',
+          body: 'A single click in the extension popup triggers extract → broker → summarize → render. No paste, no toggles, no setup — open the page, click once.',
+        },
+      ],
+      highlights: [
+        'Manifest V3 compliant with service worker architecture, no remote code, future-proofed against Chrome API updates',
+        'API key brokering through a Fly.io backend keeps secrets out of the extension bundle',
+        'Streaming response renders summaries progressively for perceived sub-second response time',
+        'Content extraction tuned for articles, docs, and research pages — the formats people actually need summarized',
       ],
     },
   },
