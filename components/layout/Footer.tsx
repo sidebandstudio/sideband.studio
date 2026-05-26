@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-wrap justify-start gap-6 md:justify-center">
-            {['Products', 'About', 'Careers', 'Contact'].map((item) => (
+            {['Products', 'About', 'Careers', 'Inquire', 'Contact'].map((item) => (
               <Link
                 key={item}
                 href={`/${item.toLowerCase()}`}
