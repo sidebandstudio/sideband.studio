@@ -11,7 +11,7 @@ const founders = [
     initials: 'AY',
     bio: 'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
     github: 'https://github.com/whoisaldo',
-    linkedin: 'https://linkedin.com/in/ali-younes-41a2b4296',
+    linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
   },
   {
     name: 'Ali Tleis',
