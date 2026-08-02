@@ -30,6 +30,25 @@ const timeline = [
   { year: '2026', event: '→  What comes next' },
 ]
 
+const founders = [
+  {
+    name: 'Ali Younes',
+    role: 'Co-Founder & Lead Engineer',
+    initials: 'AY',
+    bio: 'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
+    github: 'https://github.com/whoisaldo',
+    linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
+  },
+  {
+    name: 'Ali Tleis',
+    role: 'Co-Founder & Frontend / Full-Stack Engineer',
+    initials: 'AT',
+    bio: 'CS @ Northeastern. Full-stack engineer focused on TypeScript, React, and clean systems. Builds tools that respect the user — fast, minimal, and obsessively refined.',
+    github: 'https://github.com/Alitleis123',
+    linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
+  },
+]
+
 export default function AboutPage() {
   const founders = listEngineers()
 

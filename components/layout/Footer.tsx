@@ -65,7 +65,7 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com/in/ali-younes-41a2b4296"
+              href="https://www.linkedin.com/in/alialdoyounes/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"

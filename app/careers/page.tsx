@@ -134,7 +134,7 @@ export default function CareersPage() {
               <p className="font-mono text-[14px] text-eternal-text-secondary">
                 Or connect on{' '}
                 <a
-                  href="https://linkedin.com/in/ali-younes-41a2b4296"
+                  href="https://www.linkedin.com/in/alialdoyounes/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
