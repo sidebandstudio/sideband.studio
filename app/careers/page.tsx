@@ -1,3 +1,11 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Careers — Eternal Reverse',
+  description:
+    'Open to contributors. We are a small studio that values depth, ownership, and shipping software that endures.',
+}
+
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
 

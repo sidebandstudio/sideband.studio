@@ -12,7 +12,7 @@ const bootLines = [
   { text: '  studio   : Eternal Reverse', cls: '' },
   { text: '  location : Boston, MA', cls: '' },
   { text: '  founded  : 2025', cls: '' },
-  { text: '  products : 4 active', cls: '' },
+  { text: '  products : 6 active', cls: '' },
   { text: '  stack    : Rust · Swift · React · Next.js', cls: '' },
   { text: '', cls: '' },
   { text: '  [OK] system ready.', cls: 'ok' },
@@ -104,7 +104,7 @@ export default function Hero() {
                 endures<span className="text-eternal-accent">.</span>
               </h1>
               <p className="mt-5 max-w-[400px] text-[13px] leading-[1.8] text-eternal-text-secondary">
-                A two-person studio shipping technically ambitious products for
+                A two-founder studio shipping technically ambitious products for
                 developers, athletes, and people who care about quality.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">

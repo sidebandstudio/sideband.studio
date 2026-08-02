@@ -8,8 +8,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
   { href: '/products', label: 'Products' },
+  { href: '/engineers', label: 'Engineers' },
   { href: '/about', label: 'About' },
   { href: '/careers', label: 'Careers' },
+  { href: '/inquire', label: 'Inquire' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -59,7 +61,8 @@ export default function Navbar() {
                 href={link.href}
                 className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
                   pathname === link.href ||
-                  (link.href === '/products' && pathname.startsWith('/products/'))
+                  (link.href === '/products' && pathname.startsWith('/products/')) ||
+                  (link.href === '/engineers' && pathname.startsWith('/engineers/'))
                     ? 'text-eternal-accent'
                     : 'text-eternal-text-secondary hover:text-eternal-text'
                 }`}
@@ -67,7 +70,9 @@ export default function Navbar() {
                 {link.label}
                 {(pathname === link.href ||
                   (link.href === '/products' &&
-                    pathname.startsWith('/products/'))) && (
+                    pathname.startsWith('/products/')) ||
+                  (link.href === '/engineers' &&
+                    pathname.startsWith('/engineers/'))) && (
                   <motion.div
                     layoutId="nav-underline"
                     className="absolute -bottom-1 left-0 right-0 h-[2px] bg-eternal-accent"
