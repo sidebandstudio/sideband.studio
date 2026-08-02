@@ -1,4 +1,3 @@
-'use client'
 
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'

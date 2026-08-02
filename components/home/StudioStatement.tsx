@@ -8,7 +8,7 @@ const techStack = [
   {
     category: 'Systems',
     color: '#A855F7',
-    items: ['Rust', 'Swift', 'Metal', 'DXGI', 'VideoToolbox', 'H.264', 'FFmpeg', 'UDP', 'mDNS'],
+    items: ['Rust', 'Swift', 'Metal', 'DXGI', 'VideoToolbox', 'H.264', 'FFmpeg', 'OpenCV', 'Lua', 'UDP', 'mDNS'],
   },
   {
     category: 'Web',
@@ -18,12 +18,17 @@ const techStack = [
   {
     category: 'Mobile',
     color: '#D946EF',
-    items: ['SwiftUI', 'HealthKit', 'PyInstaller', 'COM/SMTC'],
+    items: ['SwiftUI', 'HealthKit'],
+  },
+  {
+    category: 'Desktop',
+    color: '#E879F9',
+    items: ['PyInstaller', 'COM/SMTC', 'Chrome MV3'],
   },
   {
     category: 'Data & Infra',
     color: '#C084FC',
-    items: ['MongoDB', 'DigitalOcean', 'Gemini AI', 'Formspree'],
+    items: ['MongoDB', 'DigitalOcean', 'Fly.io', 'Docker', 'Gemini AI', 'Formspree'],
   },
 ]
 

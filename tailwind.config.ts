@@ -15,6 +15,7 @@ const config: Config = {
           'surface-2': 'var(--eternal-surface-2)',
           border: 'var(--eternal-border)',
           muted: 'var(--eternal-muted)',
+          hairline: 'var(--eternal-hairline)',
           text: 'var(--eternal-text)',
           'text-secondary': 'var(--eternal-text-secondary)',
           accent: 'var(--eternal-accent)',

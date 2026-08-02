@@ -2,7 +2,7 @@
 
 **Co-Founder, Eternal Reverse · Full-Stack Engineer**
 
-> CS @ Northeastern. Co-founder of Eternal Reverse. Incoming Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.
+> CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.
 
 Source-of-truth portfolio: https://alitleis.dev
 
@@ -11,7 +11,7 @@ Source-of-truth portfolio: https://alitleis.dev
 ## TL;DR
 
 - **Co-Founder of Eternal Reverse** — two-person dev studio shipping six products across desktop, browser, and full-stack
-- **Incoming Web Application Developer (AI Integration) at MIT Lincoln Laboratory** — Jul–Dec 2026
+- **Web Application Developer (AI Integration) at MIT Lincoln Laboratory** — Jul–Dec 2026 (current)
 - Past **Frontend Developer Intern at Top Choice Realty** (Summer 2025)
 - B.S. Computer Science at **Northeastern University** via co-op (2023–2028)
 - Based in **Boston, MA**
@@ -20,7 +20,7 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## Experience
 
-### MIT Lincoln Laboratory — Web Application Developer (AI Integration) *(Incoming)*
+### MIT Lincoln Laboratory — Web Application Developer (AI Integration) *(Current)*
 
 **Lexington, MA · Jul – Dec 2026**
 
@@ -76,7 +76,7 @@ Workstation provisioning, automation scripting, and deployment standardization a
 ## Featured Projects
 
 - **[Eternal2x](/products/eternal2x)** — DaVinci Resolve smart upscale. Motion-aware upscaling automation using Python, Lua, OpenCV, and FFmpeg directly on the Resolve timeline.
-- **[Eternal Summary](/products/eternal-summary)** — Chrome MV3 extension for instant webpage summarization. Server-side proxying via Node / Express, OpenAI API on the backend.
+- **[Eternal Summary](/products/eternal-summary)** — Chrome MV3 extension for instant webpage summarization. Server-side proxying via Node / Express on Fly.io, Gemini API on the backend.
 - **Top Choice Realty Platform** — Full-stack real-estate management with JWT auth and role-based access control. React / TypeScript frontend, Node.js / MongoDB backend.
 - **CalorieCalculator** — React-based responsive health calculator with strict, state-driven input validation.
 

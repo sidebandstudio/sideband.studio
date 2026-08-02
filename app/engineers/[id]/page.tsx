@@ -12,6 +12,8 @@ import FeaturedProjects from '@/components/engineers/FeaturedProjects'
 import LifestyleGallery from '@/components/engineers/LifestyleGallery'
 import ContactPanel from '@/components/engineers/ContactPanel'
 import {
+  engineerCountLabel,
+  engineerIndexLabel,
   engineers,
   getEngineerById,
   getOtherEngineer,
@@ -31,6 +33,14 @@ export function generateMetadata({
   return {
     title: `${e.name} — ${e.role} · Eternal Reverse`,
     description: e.shortBio,
+    alternates: { canonical: `/engineers/${e.id}` },
+    openGraph: {
+      title: `${e.name} — ${e.role}`,
+      description: e.shortBio,
+      url: `/engineers/${e.id}`,
+      type: 'profile',
+      ...(e.portrait ? { images: [{ url: e.portrait.src }] } : {}),
+    },
   }
 }
 
@@ -45,7 +55,7 @@ export default function EngineerDetailPage({
   const other = getOtherEngineer(engineer.id)
   const portraitSrc =
     engineer.portrait?.src ?? engineer.portraitPlaceholder
-  const indexLabel = engineer.id === 'ali-younes' ? '01 / 02' : '02 / 02'
+  const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
 
   return (
     <div className="min-h-screen bg-eternal-black pt-32">
@@ -70,12 +80,14 @@ export default function EngineerDetailPage({
               </span>
             </FadeUp>
             <FadeUp delay={0.05}>
-              <h1 className="mt-5 font-display text-[64px] leading-[0.95] text-eternal-text md:text-[88px]">
-                {engineer.name.split(' ')[0]}
-              </h1>
-              <h1 className="font-display text-[64px] leading-[0.95] text-eternal-text-secondary md:text-[88px]">
-                {engineer.name.split(' ').slice(1).join(' ')}
-                <span className="text-eternal-accent">.</span>
+              <h1 className="mt-5 font-display text-[64px] leading-[0.95] md:text-[88px]">
+                <span className="block text-eternal-text">
+                  {engineer.name.split(' ')[0]}
+                </span>
+                <span className="block text-eternal-text-secondary">
+                  {engineer.name.split(' ').slice(1).join(' ')}
+                  <span className="text-eternal-accent">.</span>
+                </span>
               </h1>
             </FadeUp>
             <FadeUp delay={0.1}>

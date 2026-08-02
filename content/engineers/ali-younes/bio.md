@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-- Incoming **SDE Intern at AWS Amazon Dedicated Cloud (ADC)** — Seattle, WA, Summer 2026
+- **SDE Intern at AWS Amazon Dedicated Cloud (ADC)** — Seattle, WA, Summer 2026 (current)
 - Current **Software Engineering Co-op at Philips** — Cambridge, MA
 - CS + Political Science at **Northeastern University** (Class of 2027, GPA 3.5+)
 - Co-founder of Eternal Reverse — independent software studio
@@ -24,7 +24,7 @@ Software Engineer architecting scalable enterprise infrastructure. Goes deep whe
 
 ## Experience
 
-### AWS Amazon Dedicated Cloud (ADC) — SDE Intern *(Incoming · Summer 2026)*
+### AWS Amazon Dedicated Cloud (ADC) — SDE Intern *(Current · Summer 2026)*
 
 **Seattle, WA · Jun 2026 – Sep 2026**
 
@@ -95,7 +95,7 @@ Relevant coursework: Data Structures & Algorithms · Object-Oriented Design · S
 - **[Exerly Fitness](/products/exerly)** — Cross-platform fitness ecosystem. SwiftUI + HealthKit on iOS, React 19 on web, shared Express API, Gemini 2.0 coach.
 - **[EternalRichPresence](/products/eternal-rich-presence)** — Windows tray daemon bridging Apple Music / Spotify to Discord Rich Presence. Live cover art, portable .exe.
 - **[Signature Cuts 413](/products/signature-cuts)** — Static Next.js site with SMS / WhatsApp deep-link booking. Built free for a local barbershop in Chicopee, MA.
-- **Moops Bookstore** — MERN social reading platform (1M+ books via Google Books API, JWT auth, friend system). https://whoisaldo.github.io/MoopBookstore
+- **Moops** — MERN social reading platform (1M+ books via Google Books API, JWT auth, friend system). https://moopsbooks.com
 - **Real-Time Face Analytics** — 100% client-side facial recognition (TensorFlow.js + face-api.js). Multi-face detection, 7-emotion classification, age + gender estimation.
 
 ---

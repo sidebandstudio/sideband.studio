@@ -113,7 +113,7 @@ export default function ContactPage() {
             <div className="mt-12 border border-eternal-accent bg-eternal-surface px-6 py-8 font-mono text-[14px] text-eternal-accent">
               <p className="text-[11px] uppercase tracking-wider">[ MESSAGE SENT ]</p>
               <p className="mt-2 text-eternal-text-secondary">
-                Thanks for reaching out — I&apos;ll get back to you soon.
+                Thanks for reaching out — we&apos;ll get back to you soon.
               </p>
               <button
                 onClick={() => setStatus('idle')}
@@ -140,7 +140,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, name: e.target.value })
                   }
-                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
                   placeholder="Your name"
                 />
               </div>
@@ -160,7 +160,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, email: e.target.value })
                   }
-                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
                   placeholder="you@example.com"
                 />
               </div>
@@ -180,13 +180,16 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, message: e.target.value })
                   }
-                  className="w-full resize-none border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent"
+                  className="w-full resize-none border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
                   placeholder="What are you working on?"
                 />
               </div>
 
               {status === 'error' && (
-                <p className="font-mono text-[11px] uppercase tracking-wider text-red-500">
+                <p
+                  role="alert"
+                  className="font-mono text-[11px] uppercase tracking-wider text-red-500"
+                >
                   Something went wrong — please try again.
                 </p>
               )}

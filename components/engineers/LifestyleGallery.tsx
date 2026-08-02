@@ -35,7 +35,10 @@ export default function LifestyleGallery({ images }: LifestyleGalleryProps) {
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-eternal-black/80 via-transparent to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-70" />
               {img.caption && (
-                <span className="absolute bottom-3 left-3 right-3 font-mono text-[9px] uppercase tracking-[0.22em] text-eternal-text">
+                <span
+                  aria-hidden
+                  className="absolute bottom-3 left-3 right-3 font-mono text-[9px] uppercase tracking-[0.22em] text-eternal-text"
+                >
                   {img.caption}
                 </span>
               )}

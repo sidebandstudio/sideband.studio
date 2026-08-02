@@ -9,17 +9,17 @@ interface FeaturedProjectsProps {
 function ProjectCard({ project }: { project: FeaturedProject }) {
   const inner = (
     <>
-      <span aria-hidden className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <span aria-hidden className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+      <span aria-hidden className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+      <span aria-hidden className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+      <span aria-hidden className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
 
       <div className="flex items-baseline justify-between gap-3">
         <h3 className="font-display text-[22px] leading-tight text-eternal-text">
           {project.name}
         </h3>
         <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-eternal-muted transition-colors duration-200 group-hover:text-eternal-accent">
-          {project.internal ? 'OPEN →' : 'LIVE ↗'}
+          {project.internal ? 'OPEN →' : project.source ? 'SOURCE ↗' : 'LIVE ↗'}
         </span>
       </div>
       <p className="mt-3 font-mono text-[12px] leading-[1.75] text-eternal-text-secondary">

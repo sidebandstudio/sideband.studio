@@ -5,6 +5,8 @@ const marqueeItems = [
   'EternalRichPresence',
   'Exerly Fitness',
   'Signature Cuts 413',
+  'Eternal2x',
+  'Eternal Summary',
   'Rust',
   'Swift',
   'Metal',

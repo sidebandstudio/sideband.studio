@@ -31,7 +31,7 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
-              Built to last. Shipped to matter. Two brothers, one standard.
+              Built to last. Shipped to matter. Two founders, one standard.
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export default function Footer() {
 
       <div className="border-t border-eternal-border py-4 text-center">
         <p className="text-[11px] text-eternal-muted">
-          &copy; 2025 Eternal Reverse &middot; hello@eternalreverse.com
+          &copy; 2026 Eternal Reverse &middot; hello@eternalreverse.com
         </p>
       </div>
     </footer>

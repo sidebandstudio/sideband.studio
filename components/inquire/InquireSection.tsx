@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import FadeUp from '@/components/animations/FadeUp'
 import GlowButton from '@/components/ui/GlowButton'
 import { generateTicketId } from '@/lib/ticket'
@@ -68,7 +68,7 @@ const EMPTY_FORM: FormState = {
 }
 
 const inputClass =
-  'w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text outline-none transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent'
+  'w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent'
 
 const labelClass =
   'mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary'
@@ -77,9 +77,13 @@ const sectionHeaderClass =
   'font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent'
 
 export default function InquireSection() {
-  const [ticketId] = useState(() => generateTicketId())
+  // Generated after mount: the ID is random, so producing it during render
+  // makes the prerendered HTML disagree with the client and breaks hydration.
+  const [ticketId, setTicketId] = useState('ER-XXXX-XXXX')
+  useEffect(() => setTicketId(generateTicketId()), [])
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [status, setStatus] = useState<Status>('idle')
+  const [honeypot, setHoneypot] = useState('')
 
   const ticketStatus: TicketStatus =
     status === 'submitting'
@@ -106,6 +110,13 @@ export default function InquireSection() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+
+    // Formspree honeypot: bots fill every field, humans never see this one.
+    if (honeypot) {
+      setStatus('success')
+      return
+    }
+
     setStatus('submitting')
 
     const payload = {
@@ -277,16 +288,16 @@ export default function InquireSection() {
                 />
               </div>
               <label className="group flex cursor-pointer items-start gap-3">
-                <span className="relative mt-[3px] block h-4 w-4 shrink-0 border border-eternal-border bg-eternal-surface transition-colors duration-200 group-hover:border-eternal-accent">
+                <input
+                  type="checkbox"
+                  checked={form.nda}
+                  onChange={(e) => update('nda', e.target.checked)}
+                  className="peer absolute h-4 w-4 cursor-pointer opacity-0"
+                />
+                <span className="relative mt-[3px] block h-4 w-4 shrink-0 border border-eternal-border bg-eternal-surface transition-colors duration-200 group-hover:border-eternal-accent peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-eternal-accent">
                   {form.nda && (
                     <span className="absolute inset-0.5 bg-eternal-accent" />
                   )}
-                  <input
-                    type="checkbox"
-                    checked={form.nda}
-                    onChange={(e) => update('nda', e.target.checked)}
-                    className="absolute inset-0 cursor-pointer opacity-0"
-                  />
                 </span>
                 <span className="font-mono text-[12px] leading-relaxed text-eternal-text-secondary">
                   Flag this brief as confidential. We treat it as under NDA from
@@ -295,10 +306,27 @@ export default function InquireSection() {
               </label>
             </section>
 
+            {/* Honeypot — hidden from humans, irresistible to bots */}
+            <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
+              <label htmlFor="company-website">Do not fill this in</label>
+              <input
+                id="company-website"
+                name="_gotcha"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
+
             {/* Submit */}
             <div className="flex flex-col items-start gap-4 border-t border-eternal-border pt-8">
               {status === 'error' && (
-                <p className="font-mono text-[11px] uppercase tracking-wider text-red-400">
+                <p
+                  role="alert"
+                  className="font-mono text-[11px] uppercase tracking-wider text-red-400"
+                >
                   Transmission failed —{' '}
                   <a
                     href={`mailto:hello@eternalreverse.com?subject=INQUIRE · ${ticketId}`}

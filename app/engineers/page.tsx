@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
 import EngineerCard from '@/components/engineers/EngineerCard'
-import { listEngineers } from '@/lib/engineers'
+import { engineerCountLabel, listEngineers } from '@/lib/engineers'
 
 export const metadata: Metadata = {
   title: 'Engineers — Eternal Reverse',
@@ -19,13 +19,15 @@ export default function EngineersIndexPage() {
         {/* Hero */}
         <FadeUp>
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
-            [ ENGINEERS · 02 ]
+            [ ENGINEERS · {engineerCountLabel} ]
           </span>
-          <h1 className="mt-4 font-display text-5xl text-eternal-text-secondary md:text-7xl">
-            The people who
-          </h1>
-          <h1 className="font-display text-5xl font-bold text-eternal-text md:text-7xl">
-            actually ship<span className="text-eternal-accent">.</span>
+          <h1 className="mt-4 font-display text-5xl md:text-7xl">
+            <span className="block text-eternal-text-secondary">
+              The people who
+            </span>
+            <span className="block font-bold text-eternal-text">
+              actually ship<span className="text-eternal-accent">.</span>
+            </span>
           </h1>
         </FadeUp>
 

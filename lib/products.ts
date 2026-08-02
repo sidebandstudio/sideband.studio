@@ -63,11 +63,11 @@ export const products: Product[] = [
     accentColor: '#A855F7',
     highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
     images: [
-      '/assets/EternalMonitor/EternalMonitorCover.png',
+      '/assets/EternalMonitor/EternalMonitorCover.jpg',
       '/assets/EternalMonitor/EternalMonitorIpadView.png',
       '/assets/EternalMonitor/EternalMonitorPCView.png',
     ],
-    cardHero: '/assets/EternalMonitor/EternalMonitorCover.png',
+    cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
     detail: {
       accentColor: '#A855F7',
       tagline:
@@ -142,11 +142,11 @@ export const products: Product[] = [
     accentColor: '#6366F1',
     highlight: 'SMTC bridge · custom URI scheme · portable .exe',
     images: [
-      '/assets/EternalRichPresence/EternalRichPresenceCover.png',
+      '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
       '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
       '/assets/EternalRichPresence/EternalRichPresenceTerminal.png',
     ],
-    cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.png',
+    cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
     detail: {
       accentColor: '#6366F1',
       tagline:
@@ -221,11 +221,11 @@ export const products: Product[] = [
     accentColor: '#D946EF',
     highlight: 'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     images: [
-      '/assets/ExerlyFitness/ExerlyFitnessCover.png',
+      '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
       '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
       '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
     ],
-    cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.png',
+    cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
     detail: {
       accentColor: '#D946EF',
       tagline:
@@ -341,11 +341,11 @@ export const products: Product[] = [
     accentColor: '#C084FC',
     highlight: 'SMS deep-link booking · mobile-first · zero backend',
     images: [
-      '/assets/SignatureCuts/SignatureCutsCover.png',
+      '/assets/SignatureCuts/SignatureCutsCover.jpg',
       '/assets/SignatureCuts/SignatureCutsWebView.png',
       '/assets/SignatureCuts/SignatureCutsPhoneView.png',
     ],
-    cardHero: '/assets/SignatureCuts/SignatureCutsCover.png',
+    cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
     detail: {
       accentColor: '#C084FC',
       tagline:
@@ -409,17 +409,17 @@ export const products: Product[] = [
       'Python + Lua + OpenCV pipeline that auto-detects motion frames inside DaVinci Resolve, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction — then upscales the result to 4K with FFmpeg.',
     status: 'LIVE',
     tags: ['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API'],
-    url: 'https://Eternal2x.com',
+    url: 'https://eternal2x.com',
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
     accentColor: '#8B5CF6',
     highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
     images: [
-      '/assets/Eternal2x/Eternal2xCover.png',
+      '/assets/Eternal2x/Eternal2xCover.jpg',
       '/assets/Eternal2x/Eternal2xHome.png',
       '/assets/Eternal2x/Eternal2xPhone.png',
     ],
-    cardHero: '/assets/Eternal2x/Eternal2xCover.png',
+    cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
     detail: {
       accentColor: '#8B5CF6',
       tagline:
@@ -502,11 +502,11 @@ export const products: Product[] = [
     accentColor: '#E879F9',
     highlight: 'MV3 extension · Fly.io broker · streaming summary',
     images: [
-      '/assets/EternalSummary/EternalSummaryCover.png',
+      '/assets/EternalSummary/EternalSummaryCover.jpg',
       '/assets/EternalSummary/EternalSummaryHomePage.png',
       '/assets/EternalSummary/EternalSummaryPhone.png',
     ],
-    cardHero: '/assets/EternalSummary/EternalSummaryCover.png',
+    cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
     detail: {
       accentColor: '#E879F9',
       tagline:
