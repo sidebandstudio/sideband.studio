@@ -303,7 +303,7 @@ export const engineers: Engineer[] = [
     contact: {
       email: 'younes.al@northeastern.edu',
       github: 'https://github.com/whoisaldo',
-      linkedin: 'https://linkedin.com/in/ali-younes-41a2b4296',
+      linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
       website: 'https://aliyounes.dev',
       resume: '/assets/engineers/ali-younes/resume.pdf',
       location: 'Seattle, WA (AWS) · Boston, MA',
@@ -428,7 +428,7 @@ export const engineers: Engineer[] = [
         name: 'Top Choice Realty Platform',
         blurb:
           'Full-stack real-estate management with JWT auth and role-based access control. React / TypeScript frontend, Node.js / MongoDB backend.',
-        href: 'https://github.com/Alitleis123',
+        href: 'https://topchoicerealtyny.com',
         tech: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'JWT'],
       },
       {
