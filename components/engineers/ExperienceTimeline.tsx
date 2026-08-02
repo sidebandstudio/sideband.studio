@@ -1,6 +1,48 @@
+import Image from 'next/image'
 import FadeUp from '@/components/animations/FadeUp'
 import type { ExperienceEntry } from '@/lib/engineers'
 
+/** Leading letters, up to three — "Amazon Web Services" -> "AWS". */
+function monogram(company: string): string {
+  return company
+    .split(/\s+/)
+    .slice(0, 3)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+}
+
+function CompanyMark({ entry }: { entry: ExperienceEntry }) {
+  if (entry.logo) {
+    return (
+      <span className="relative block h-10 w-[132px]">
+        {/* Brand marks are drawn for light backgrounds; render them as a
+            single tone so they stay legible on the dark surface. */}
+        <Image
+          src={entry.logo}
+          alt={`${entry.company} logo`}
+          fill
+          sizes="132px"
+          className={`object-contain object-left ${
+            entry.logoOnDark ? 'opacity-95' : 'brightness-0 invert opacity-90'
+          }`}
+        />
+      </span>
+    )
+  }
+  return (
+    <span
+      aria-hidden
+      className={`inline-flex h-10 items-center border px-3 ${
+        entry.emphasis ? 'border-eternal-accent/40' : 'border-eternal-border'
+      }`}
+    >
+      <span className="font-mono text-[11px] tracking-[0.12em] text-eternal-muted">
+        {monogram(entry.company)}
+      </span>
+    </span>
+  )
+}
 interface ExperienceTimelineProps {
   entries: ExperienceEntry[]
 }
@@ -48,16 +90,21 @@ export default function ExperienceTimeline({ entries }: ExperienceTimelineProps)
             </div>
 
             {/* Headline */}
-            <h3
-              className={`mt-3 font-display text-[26px] leading-tight ${
-                entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'
-              }`}
-            >
-              {entry.company}
-            </h3>
-            <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
-              {entry.role}
-            </p>
+            <div className="mt-4">
+              <CompanyMark entry={entry} />
+              <div className="mt-2.5 min-w-0">
+                <h3
+                  className={`font-display text-[26px] leading-tight ${
+                    entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'
+                  }`}
+                >
+                  {entry.company}
+                </h3>
+                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
+                  {entry.role}
+                </p>
+              </div>
+            </div>
 
             {/* Summary */}
             <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">

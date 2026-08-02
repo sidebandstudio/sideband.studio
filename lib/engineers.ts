@@ -1,5 +1,9 @@
 export interface ExperienceEntry {
   company: string
+  /** Optional company mark. Falls back to a monogram when absent. */
+  logo?: string
+  /** Mark is already drawn for dark UI — render it as-is, don't recolor. */
+  logoOnDark?: boolean
   role: string
   location: string
   startDate: string
@@ -86,7 +90,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
-      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS Amazon Dedicated Cloud (ADC) in Seattle.',
+      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS CloudFormation in Seattle.',
       'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. He stays indie because independence is what lets him build software the way it should be built — fast, honest, and obsessively refined.',
     ],
     portrait: {
@@ -96,25 +100,41 @@ export const engineers: Engineer[] = [
     },
     accentColor: '#A855F7',
     prev: [
-      { label: 'AMAZON', sublabel: 'AWS ADC · SDE INTERN · CURRENT' },
+      { label: 'AMAZON', sublabel: 'AWS CLOUDFORMATION · SDE INTERN · CURRENT' },
       { label: 'PHILIPS', sublabel: 'SWE CO-OP · CAMBRIDGE, MA' },
       { label: 'NORTHEASTERN', sublabel: 'CS + POLI-SCI · CLASS OF 27' },
     ],
     experience: [
       {
         company: 'Amazon Web Services',
-        role: 'SDE Intern · Amazon Dedicated Cloud (ADC)',
+        logo: '/assets/logos/aws.png',
+        role: 'SDE Intern · CloudFormation (IaC)',
         location: 'Seattle, WA',
         startDate: 'Jun 2026',
         endDate: 'Sep 2026',
         current: true,
         emphasis: true,
         summary:
-          'Distributed systems work for U.S. Intelligence Community and DoD air-gapped partitions (ITAR / IL5 / IL6). Full service-ownership project scope under Principal/Senior SDE mentorship.',
-        skills: ['AWS', 'Python', 'Java', 'Go', 'Linux', 'IaC', 'Security Engineering'],
+          'Infrastructure-as-code work on AWS CloudFormation. Full service-ownership project scope under Principal/Senior SDE mentorship.',
+        skills: ['AWS', 'CloudFormation', 'IaC', 'Python', 'Java', 'Go', 'Linux'],
+      },
+      {
+        company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
+        role: 'Co-Founder & Lead Engineer',
+        location: 'Boston, MA',
+        startDate: '2025',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Founded the studio and ships its products end-to-end — Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
+        skills: ['Rust', 'Swift', 'TypeScript', 'Next.js', 'Node.js', 'Studio Ops'],
       },
       {
         company: 'Philips',
+        logo: '/assets/logos/philips.png',
         role: 'Software Engineering Co-op',
         location: 'Cambridge, MA',
         startDate: 'Jul 2025',
@@ -142,6 +162,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'New York, NY',
         startDate: 'Apr 2024',
@@ -152,6 +174,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'New York, NY',
         startDate: 'Jun 2023',
@@ -317,7 +341,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2023–2028).',
+      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -334,6 +358,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'MIT Lincoln Laboratory',
+        logo: '/assets/logos/mit-lincoln-laboratory.png',
         role: 'Web Application Developer (AI Integration)',
         location: 'Lexington, MA',
         startDate: 'Jul 2026',
@@ -346,6 +371,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
         role: 'Co-Founder',
         location: 'Boston, MA',
         startDate: '2025',
@@ -358,6 +385,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2025',
@@ -368,6 +397,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2023',
@@ -381,7 +412,7 @@ export const engineers: Engineer[] = [
       {
         school: 'Northeastern University',
         degree: 'B.S. Computer Science',
-        dates: '2023 – 2028 · Boston, MA',
+        dates: '2024 – 2028 · Boston, MA',
         honors: 'Co-op Program',
       },
     ],
