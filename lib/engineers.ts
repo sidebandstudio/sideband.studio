@@ -1,5 +1,7 @@
 export interface ExperienceEntry {
   company: string
+  /** Optional company mark. Falls back to a monogram when absent. */
+  logo?: string
   role: string
   location: string
   startDate: string
@@ -86,7 +88,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
-      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS Amazon Dedicated Cloud (ADC) in Seattle.',
+      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS CloudFormation in Seattle.',
       'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. He stays indie because independence is what lets him build software the way it should be built — fast, honest, and obsessively refined.',
     ],
     portrait: {
@@ -96,22 +98,34 @@ export const engineers: Engineer[] = [
     },
     accentColor: '#A855F7',
     prev: [
-      { label: 'AMAZON', sublabel: 'AWS ADC · SDE INTERN · CURRENT' },
+      { label: 'AMAZON', sublabel: 'AWS CLOUDFORMATION · SDE INTERN · CURRENT' },
       { label: 'PHILIPS', sublabel: 'SWE CO-OP · CAMBRIDGE, MA' },
       { label: 'NORTHEASTERN', sublabel: 'CS + POLI-SCI · CLASS OF 27' },
     ],
     experience: [
       {
         company: 'Amazon Web Services',
-        role: 'SDE Intern · Amazon Dedicated Cloud (ADC)',
+        role: 'SDE Intern · CloudFormation (IaC)',
         location: 'Seattle, WA',
         startDate: 'Jun 2026',
         endDate: 'Sep 2026',
         current: true,
         emphasis: true,
         summary:
-          'Distributed systems work for U.S. Intelligence Community and DoD air-gapped partitions (ITAR / IL5 / IL6). Full service-ownership project scope under Principal/Senior SDE mentorship.',
-        skills: ['AWS', 'Python', 'Java', 'Go', 'Linux', 'IaC', 'Security Engineering'],
+          'Infrastructure-as-code work on AWS CloudFormation. Full service-ownership project scope under Principal/Senior SDE mentorship.',
+        skills: ['AWS', 'CloudFormation', 'IaC', 'Python', 'Java', 'Go', 'Linux'],
+      },
+      {
+        company: 'Eternal Reverse',
+        role: 'Co-Founder & Lead Engineer',
+        location: 'Boston, MA',
+        startDate: '2025',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Founded the studio and ships its products end-to-end — Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
+        skills: ['Rust', 'Swift', 'TypeScript', 'Next.js', 'Node.js', 'Studio Ops'],
       },
       {
         company: 'Philips',

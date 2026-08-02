@@ -1,5 +1,35 @@
+import Image from 'next/image'
 import FadeUp from '@/components/animations/FadeUp'
 import type { ExperienceEntry } from '@/lib/engineers'
+
+/** Leading letters, up to three — "Amazon Web Services" -> "AWS". */
+function monogram(company: string): string {
+  return company
+    .split(/\s+/)
+    .slice(0, 3)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+}
+
+function CompanyMark({ entry }: { entry: ExperienceEntry }) {
+  return (
+    <span
+      aria-hidden
+      className={`relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden border bg-eternal-surface-2 ${
+        entry.emphasis ? 'border-eternal-accent/40' : 'border-eternal-border'
+      }`}
+    >
+      {entry.logo ? (
+        <Image src={entry.logo} alt="" fill sizes="40px" className="object-contain p-1.5" />
+      ) : (
+        <span className="font-mono text-[11px] tracking-[0.06em] text-eternal-muted">
+          {monogram(entry.company)}
+        </span>
+      )}
+    </span>
+  )
+}
 
 interface ExperienceTimelineProps {
   entries: ExperienceEntry[]
@@ -48,16 +78,21 @@ export default function ExperienceTimeline({ entries }: ExperienceTimelineProps)
             </div>
 
             {/* Headline */}
-            <h3
-              className={`mt-3 font-display text-[26px] leading-tight ${
-                entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'
-              }`}
-            >
-              {entry.company}
-            </h3>
-            <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
-              {entry.role}
-            </p>
+            <div className="mt-3 flex items-center gap-3">
+              <CompanyMark entry={entry} />
+              <div className="min-w-0">
+                <h3
+                  className={`font-display text-[26px] leading-tight ${
+                    entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'
+                  }`}
+                >
+                  {entry.company}
+                </h3>
+                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
+                  {entry.role}
+                </p>
+              </div>
+            </div>
 
             {/* Summary */}
             <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">

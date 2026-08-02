@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-- **SDE Intern at AWS Amazon Dedicated Cloud (ADC)** — Seattle, WA, Summer 2026 (current)
+- **SDE Intern at AWS CloudFormation (IaC)** — Seattle, WA, Summer 2026 (current)
 - Current **Software Engineering Co-op at Philips** — Cambridge, MA
 - CS + Political Science at **Northeastern University** (Class of 2027, GPA 3.5+)
 - Co-founder of Eternal Reverse — independent software studio
@@ -24,13 +24,13 @@ Software Engineer architecting scalable enterprise infrastructure. Goes deep whe
 
 ## Experience
 
-### AWS Amazon Dedicated Cloud (ADC) — SDE Intern *(Current · Summer 2026)*
+### AWS CloudFormation (IaC) — SDE Intern *(Current · Summer 2026)*
 
 **Seattle, WA · Jun 2026 – Sep 2026**
 
-Distributed systems work for U.S. Intelligence Community and DoD air-gapped partitions (ITAR / IL5 / IL6). Full service-ownership project scope under Principal/Senior SDE mentorship.
+Infrastructure-as-code work on AWS CloudFormation. Full service-ownership project scope under Principal/Senior SDE mentorship.
 
-*Stack:* AWS · Python · Java · Go · Linux · IaC (CDK/CloudFormation) · Security Engineering
+*Stack:* AWS · CloudFormation · IaC · Python · Java · Go · Linux
 
 ---
 
