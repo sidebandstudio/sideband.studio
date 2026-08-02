@@ -1,26 +1,8 @@
-
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
 import GlowButton from '@/components/ui/GlowButton'
-
-const founders = [
-  {
-    name: 'Ali Younes',
-    role: 'Co-Founder & Lead Engineer',
-    initials: 'AY',
-    bio: 'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
-    github: 'https://github.com/whoisaldo',
-    linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
-  },
-  {
-    name: 'Ali Tleis',
-    role: 'Co-Founder & Frontend / Full-Stack Engineer',
-    initials: 'AT',
-    bio: 'CS @ Northeastern. Full-stack engineer focused on TypeScript, React, and clean systems. Builds tools that respect the user — fast, minimal, and obsessively refined.',
-    github: 'https://github.com/Alitleis123',
-    linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
-  },
-]
+import EngineerCard from '@/components/engineers/EngineerCard'
+import { listEngineers } from '@/lib/engineers'
 
 export default function TeamStrip() {
   const founders = listEngineers()
