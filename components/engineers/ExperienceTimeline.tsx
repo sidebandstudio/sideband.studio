@@ -13,24 +13,36 @@ function monogram(company: string): string {
 }
 
 function CompanyMark({ entry }: { entry: ExperienceEntry }) {
+  if (entry.logo) {
+    return (
+      <span className="relative block h-7 w-[104px]">
+        {/* Brand marks are drawn for light backgrounds; render them as a
+            single tone so they stay legible on the dark surface. */}
+        <Image
+          src={entry.logo}
+          alt={`${entry.company} logo`}
+          fill
+          sizes="104px"
+          className={`object-contain object-left ${
+            entry.logoOnDark ? 'opacity-95' : 'brightness-0 invert opacity-90'
+          }`}
+        />
+      </span>
+    )
+  }
   return (
     <span
       aria-hidden
-      className={`relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden border bg-eternal-surface-2 ${
+      className={`inline-flex h-7 items-center border px-2 ${
         entry.emphasis ? 'border-eternal-accent/40' : 'border-eternal-border'
       }`}
     >
-      {entry.logo ? (
-        <Image src={entry.logo} alt="" fill sizes="40px" className="object-contain p-1.5" />
-      ) : (
-        <span className="font-mono text-[11px] tracking-[0.06em] text-eternal-muted">
-          {monogram(entry.company)}
-        </span>
-      )}
+      <span className="font-mono text-[11px] tracking-[0.12em] text-eternal-muted">
+        {monogram(entry.company)}
+      </span>
     </span>
   )
 }
-
 interface ExperienceTimelineProps {
   entries: ExperienceEntry[]
 }
@@ -78,9 +90,9 @@ export default function ExperienceTimeline({ entries }: ExperienceTimelineProps)
             </div>
 
             {/* Headline */}
-            <div className="mt-3 flex items-center gap-3">
+            <div className="mt-4">
               <CompanyMark entry={entry} />
-              <div className="min-w-0">
+              <div className="mt-2.5 min-w-0">
                 <h3
                   className={`font-display text-[26px] leading-tight ${
                     entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'

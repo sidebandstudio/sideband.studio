@@ -2,6 +2,8 @@ export interface ExperienceEntry {
   company: string
   /** Optional company mark. Falls back to a monogram when absent. */
   logo?: string
+  /** Mark is already drawn for dark UI — render it as-is, don't recolor. */
+  logoOnDark?: boolean
   role: string
   location: string
   startDate: string
@@ -105,6 +107,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'Amazon Web Services',
+        logo: '/assets/logos/aws.png',
         role: 'SDE Intern · CloudFormation (IaC)',
         location: 'Seattle, WA',
         startDate: 'Jun 2026',
@@ -117,6 +120,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
         role: 'Co-Founder & Lead Engineer',
         location: 'Boston, MA',
         startDate: '2025',
@@ -129,6 +134,7 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Philips',
+        logo: '/assets/logos/philips.png',
         role: 'Software Engineering Co-op',
         location: 'Cambridge, MA',
         startDate: 'Jul 2025',
@@ -331,7 +337,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2023–2028).',
+      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -348,6 +354,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'MIT Lincoln Laboratory',
+        logo: '/assets/logos/mit-lincoln-laboratory.png',
         role: 'Web Application Developer (AI Integration)',
         location: 'Lexington, MA',
         startDate: 'Jul 2026',
@@ -360,6 +367,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
         role: 'Co-Founder',
         location: 'Boston, MA',
         startDate: '2025',
@@ -395,7 +404,7 @@ export const engineers: Engineer[] = [
       {
         school: 'Northeastern University',
         degree: 'B.S. Computer Science',
-        dates: '2023 – 2028 · Boston, MA',
+        dates: '2024 – 2028 · Boston, MA',
         honors: 'Co-op Program',
       },
     ],
