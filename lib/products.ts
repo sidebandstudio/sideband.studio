@@ -136,7 +136,7 @@ export const products: Product[] = [
       'Bridges Windows SMTC to Discord Rich Presence. Live cover art upload, Listen Along deep-link via custom eternalrp:// URI scheme, system tray host, portable .exe via PyInstaller. Provider priority: Apple Music → Spotify fallback.',
     status: 'LIVE',
     tags: ['Python', 'pywin32', 'pypresence', 'COM/SMTC', 'PyInstaller'],
-    url: null,
+    url: 'https://eternalrichpresence.dev',
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
     accentColor: '#6366F1',
