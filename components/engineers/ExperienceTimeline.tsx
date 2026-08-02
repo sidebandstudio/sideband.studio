@@ -15,14 +15,14 @@ function monogram(company: string): string {
 function CompanyMark({ entry }: { entry: ExperienceEntry }) {
   if (entry.logo) {
     return (
-      <span className="relative block h-7 w-[104px]">
+      <span className="relative block h-10 w-[132px]">
         {/* Brand marks are drawn for light backgrounds; render them as a
             single tone so they stay legible on the dark surface. */}
         <Image
           src={entry.logo}
           alt={`${entry.company} logo`}
           fill
-          sizes="104px"
+          sizes="132px"
           className={`object-contain object-left ${
             entry.logoOnDark ? 'opacity-95' : 'brightness-0 invert opacity-90'
           }`}
@@ -33,7 +33,7 @@ function CompanyMark({ entry }: { entry: ExperienceEntry }) {
   return (
     <span
       aria-hidden
-      className={`inline-flex h-7 items-center border px-2 ${
+      className={`inline-flex h-10 items-center border px-3 ${
         entry.emphasis ? 'border-eternal-accent/40' : 'border-eternal-border'
       }`}
     >

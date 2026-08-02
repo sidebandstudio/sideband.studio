@@ -162,6 +162,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'New York, NY',
         startDate: 'Apr 2024',
@@ -172,6 +174,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'New York, NY',
         startDate: 'Jun 2023',
@@ -381,6 +385,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2025',
@@ -391,6 +397,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2023',
