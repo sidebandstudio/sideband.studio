@@ -27,7 +27,7 @@ Avoid:
 
 One logical change per commit. If the description needs "and" twice, split the commit.
 
-No AI or tool attribution anywhere: no bot `Co-Authored-By` trailers, no session links, no "Generated with" lines. This applies to commit messages and PR descriptions both.
+Using Claude or other AI tools to write code is fine. Listing them as contributors is not. Never include `Co-authored-by: Claude <noreply@anthropic.com>` (or any AI co-author trailer), "Generated with" lines, or session links in commit messages or PR descriptions. Git history credits people only. If a tool adds a trailer on its own, amend the commit before pushing.
 
 ## PR Description
 

@@ -17,4 +17,4 @@
 - [ ] New pages or entries covered in `tests/smoke.spec.ts`
 - [ ] Images web-sized and EXIF-stripped; dimensions in `lib/` data match the files
 - [ ] Rebased on latest `dev`
-- [ ] No AI attribution or session links in commits or this description
+- [ ] No AI co-author trailers ("Co-authored-by: Claude"), "Generated with" lines, or session links in commits or this description
