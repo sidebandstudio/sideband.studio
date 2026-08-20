@@ -104,7 +104,7 @@ export default function Hero() {
                 endures<span className="text-eternal-accent">.</span>
               </h1>
               <p className="mt-5 max-w-[400px] text-[13px] leading-[1.8] text-eternal-text-secondary">
-                A two-founder studio shipping technically ambitious products for
+                A three-founder studio shipping technically ambitious products for
                 developers, athletes, and people who care about quality.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">

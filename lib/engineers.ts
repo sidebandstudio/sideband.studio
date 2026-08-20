@@ -341,7 +341,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
+      'Ali Tleis is a co-founder of Eternal Reverse — the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -380,7 +380,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Co-founded the two-person dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.',
+          'Co-founded the dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.',
         skills: ['Next.js', 'Node.js', 'Python', 'Lua', 'FFmpeg', 'Studio Ops'],
       },
       {
@@ -478,6 +478,35 @@ export const engineers: Engineer[] = [
       website: 'https://alitleis.dev',
       resume: '/assets/engineers/ali-tleis/resume.pdf',
       location: 'Boston, MA',
+    },
+  },
+  {
+    id: 'karan-anand',
+    name: 'Karan Anand',
+    initials: 'KA',
+    role: 'Co-Founder & Systems Design Engineer',
+    shortBio:
+      'Systems design engineer who ships quality solutions without compromising on time.',
+    longBio: [
+      'Karan joined Eternal Reverse as a systems design engineer, focused on architecture that holds up under real constraints — not just on paper.',
+      'He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other.',
+    ],
+    portrait: {
+      src: '/assets/engineers/karan-anand/portrait.jpg',
+      width: 2316,
+      height: 3088,
+    },
+    accentColor: '#10B981',
+    education: [
+      {
+        school: 'University of Manitoba',
+        degree: 'B.S. Computer Science',
+        dates: 'In Progress',
+      },
+    ],
+    contact: {
+      email: 'karan.a4248@gmail.com',
+      location: 'Winnipeg, MB',
     },
   },
 ]

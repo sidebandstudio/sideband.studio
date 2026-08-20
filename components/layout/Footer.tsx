@@ -31,7 +31,7 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
-              Built to last. Shipped to matter. Two founders, one standard.
+              Built to last. Shipped to matter. Three founders, one standard.
             </p>
           </div>
 
