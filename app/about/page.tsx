@@ -20,6 +20,7 @@ const timeline = [
   { year: '2025', event: 'Signature Cuts 413 launches' },
   { year: '2026', event: 'Eternal2x ships — DaVinci Resolve smart upscale' },
   { year: '2026', event: 'Eternal Summary ships — MV3 Chrome extension' },
+  { year: '2026', event: 'Karan Anand joins as Co-Founder' },
   { year: '2026', event: '→  What comes next' },
 ]
 
@@ -35,7 +36,7 @@ export default function AboutPage() {
             [ ABOUT ]
           </span>
           <h1 className="mt-4 font-display text-5xl text-eternal-text-secondary md:text-7xl">
-            Two founders.
+            Three founders.
           </h1>
           <h1 className="font-display text-5xl font-bold text-eternal-text md:text-7xl">
             One standard<span className="text-eternal-accent">.</span>
@@ -147,5 +148,5 @@ export default function AboutPage() {
 export const metadata: Metadata = {
   title: 'About — Eternal Reverse',
   description:
-    'A two-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
+    'A three-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
 }
