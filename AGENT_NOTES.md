@@ -80,6 +80,10 @@ Examples:
 
 `.gitignore` was updated to keep these out.
 
+## Pull Requests
+
+Follow `PR.md` for branch naming, commit format, the pre-review checklist, and merge style. Open PRs against `dev`.
+
 ## If Something Looks Broken On Vercel
 
 Check these first:
