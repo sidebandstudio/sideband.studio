@@ -49,6 +49,8 @@ npm run lint
 npx playwright test  # smoke tests in tests/
 ```
 
+CI runs these same checks (plus `npx tsc --noEmit` and `prettier --check`) on every PR and must be green before merge.
+
 Then sweep for what your change makes stale:
 
 - Site copy states facts in more than one place: founder count, product count, roles, locations. Facts live in `app/` pages, `components/`, `lib/` data, and `content/` docs. If your change alters a fact, grep for the old value and update every hit. Example: adding a third founder means searching for `two-person`, `two founders`, and `both founders`, not just editing the pages you already had open.
