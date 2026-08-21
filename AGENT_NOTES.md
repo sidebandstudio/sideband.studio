@@ -80,6 +80,18 @@ Examples:
 
 `.gitignore` was updated to keep these out.
 
+## Single Source of Truth
+
+When you add, remove, or change something that the site states as a fact, update it **everywhere** — not just the file you happened to open. Facts are written in prose across `app/`, `components/`, and `content/`, but they derive from data in `lib/`.
+
+Known duplications to keep in sync:
+
+- **Founder count** — `lib/engineers.ts` is the source. Adding an engineer means updating the prose that names the number: About page headline and metadata, Hero, Footer. (The `[ · 03 ]` labels already derive from `engineers.length`; the prose does not.)
+- **Product count and the live / in-development split** — `lib/products.ts` is the source (`status: 'LIVE'` vs `'IN DEVELOPMENT'`). Adding a product means updating "Six products", "Four live, two in active development", and the same phrasing on the products page, home strip, and product showcase.
+- **Stack, roles, locations, dates** — stated in more than one place; grep for the old value before assuming one edit is enough.
+
+This is enforced. `scripts/check-consistency.mjs` re-derives the founder and product counts from `lib/` and fails if any prose disagrees (it also catches stale head-count phrasings like "two-person studio" once the count moves on). It runs in CI on every PR (`npm run check:consistency`) and is a required check, so drift blocks merge. Run it locally before pushing. To cover a new derived fact, add an entry to the `FACTS` array in that script.
+
 ## Pull Requests
 
 Follow `PR.md` for branch naming, commit format, the pre-review checklist, and merge style. Open PRs against `dev`.
