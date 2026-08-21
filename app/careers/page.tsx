@@ -9,8 +9,7 @@ const roles = [
       "Help ship Exerly's SwiftUI iOS client. HealthKit integration, progress photo compare mode, barcode scanning.",
     build: 'Real SwiftUI features in a production monorepo',
     learn: 'iOS architecture, HealthKit, shared API design',
-    walkAway:
-      'Shipped iOS features, GitHub contributions, studio credit',
+    walkAway: 'Shipped iOS features, GitHub contributions, studio credit',
   },
   {
     title: 'Systems Engineer',
@@ -18,15 +17,15 @@ const roles = [
       'Contribute to EternalMonitor — Rust host + Swift iPad client, H.264 hardware encoding, Metal rendering.',
     build: 'Performance-critical systems code in Rust and/or Swift',
     learn: 'DXGI, VideoToolbox, UDP streaming, Metal GPU rendering',
-    walkAway:
-      'One of the most technically impressive projects on any resume',
+    walkAway: 'One of the most technically impressive projects on any resume',
   },
   {
     title: 'Design Engineer',
     description:
       'Shape the visual identity across all Eternal products — web, iOS, marketing.',
     build: 'UI components, design systems, marketing sites',
-    learn: 'Production design engineering, component architecture, brand systems',
+    learn:
+      'Production design engineering, component architecture, brand systems',
     walkAway: 'Shipped design work across multiple live products',
   },
 ]
@@ -44,8 +43,8 @@ export default function CareersPage() {
             Build something real<span className="text-eternal-accent">.</span>
           </h1>
           <p className="mt-6 max-w-xl font-mono text-[15px] leading-relaxed text-eternal-text-secondary">
-            We&apos;re not hiring. We&apos;re collaborating. Ship with us and walk away
-            with something on your resume that actually matters.
+            We&apos;re not hiring. We&apos;re collaborating. Ship with us and
+            walk away with something on your resume that actually matters.
           </p>
         </FadeUp>
 
@@ -53,7 +52,8 @@ export default function CareersPage() {
         <div className="mt-16 space-y-6">
           {roles.map((role, i) => (
             <FadeUp key={role.title} delay={i * 0.1}>
-              <div className="rounded-lg border border-eternal-border bg-eternal-surface p-8 transition-all duration-200 hover:border-eternal-accent/30"
+              <div
+                className="rounded-lg border border-eternal-border bg-eternal-surface p-8 transition-all duration-200 hover:border-eternal-accent/30"
                 style={{ borderLeftWidth: '3px', borderLeftColor: '#A855F7' }}
               >
                 <h3 className="font-display text-2xl text-eternal-text">

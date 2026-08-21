@@ -1,13 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { engineerCountLabel, engineerIndexLabel, type Engineer } from '@/lib/engineers'
+import {
+  engineerCountLabel,
+  engineerIndexLabel,
+  type Engineer,
+} from '@/lib/engineers'
 
 interface EngineerCardProps {
   engineer: Engineer
   compact?: boolean
 }
 
-export default function EngineerCard({ engineer, compact = false }: EngineerCardProps) {
+export default function EngineerCard({
+  engineer,
+  compact = false,
+}: EngineerCardProps) {
   const portraitSrc = engineer.portrait?.src ?? engineer.portraitPlaceholder
 
   return (
@@ -16,12 +23,26 @@ export default function EngineerCard({ engineer, compact = false }: EngineerCard
       className="group relative block border border-eternal-border bg-eternal-surface transition-all duration-300 hover:border-eternal-accent/50 hover:shadow-[0_0_32px_rgba(168,85,247,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
     >
       {/* Corner ticks */}
-      <span aria-hidden className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
 
-      <div className={`relative ${compact ? 'aspect-[4/3]' : 'aspect-[5/6]'} overflow-hidden bg-eternal-surface-2`}>
+      <div
+        className={`relative ${compact ? 'aspect-[4/3]' : 'aspect-[5/6]'} overflow-hidden bg-eternal-surface-2`}
+      >
         {portraitSrc ? (
           <Image
             src={portraitSrc}

@@ -8,8 +8,7 @@ import TicketCard, { type TicketStatus } from './TicketCard'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
-const FORMSPREE_ID =
-  process.env.NEXT_PUBLIC_FORMSPREE_INQUIRE_ID || 'xkoperoj'
+const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_INQUIRE_ID || 'xkoperoj'
 
 const PROJECT_TYPES = [
   'Mobile App',
@@ -307,7 +306,10 @@ export default function InquireSection() {
             </section>
 
             {/* Honeypot — hidden from humans, irresistible to bots */}
-            <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
+            <div
+              aria-hidden
+              className="absolute left-[-9999px] h-px w-px overflow-hidden"
+            >
               <label htmlFor="company-website">Do not fill this in</label>
               <input
                 id="company-website"
@@ -337,9 +339,7 @@ export default function InquireSection() {
                 </p>
               )}
               <GlowButton variant="filled" disabled={status === 'submitting'}>
-                {status === 'submitting'
-                  ? 'Transmitting…'
-                  : 'Transmit Brief →'}
+                {status === 'submitting' ? 'Transmitting…' : 'Transmit Brief →'}
               </GlowButton>
               <p className="font-mono text-[11px] text-eternal-muted">
                 By transmitting, you agree we may contact you about this brief
@@ -401,9 +401,7 @@ export default function InquireSection() {
 function SectionHeader({ num, label }: { num: string; label: string }) {
   return (
     <div className="flex items-center gap-4 border-b border-eternal-border pb-3">
-      <span className={sectionHeaderClass}>
-        {`[ ${num} // ${label} ]`}
-      </span>
+      <span className={sectionHeaderClass}>{`[ ${num} // ${label} ]`}</span>
       <div className="h-px flex-1 bg-eternal-border" />
     </div>
   )
@@ -462,13 +460,7 @@ function SelectField({
   )
 }
 
-function SuccessPanel({
-  ticketId,
-  name,
-}: {
-  ticketId: string
-  name: string
-}) {
+function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
   return (
     <div className="border border-eternal-accent bg-eternal-surface">
       <div className="flex items-center justify-between border-b border-eternal-accent/40 bg-eternal-surface-2 px-6 py-3">

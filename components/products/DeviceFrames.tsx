@@ -209,7 +209,9 @@ export function BrowserFrame({
           {url}
         </div>
       </div>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+      <div
+        style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}
+      >
         <Image
           src={src}
           alt={alt}
@@ -228,7 +230,11 @@ export function BrowserFrame({
   )
 }
 
-export function TerminalFrame({ src, alt, label = 'terminal' }: TerminalFrameProps) {
+export function TerminalFrame({
+  src,
+  alt,
+  label = 'terminal',
+}: TerminalFrameProps) {
   return (
     <div
       style={{
@@ -272,7 +278,9 @@ export function TerminalFrame({ src, alt, label = 'terminal' }: TerminalFramePro
           {label}
         </span>
       </div>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+      <div
+        style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}
+      >
         <Image
           src={src}
           alt={alt}

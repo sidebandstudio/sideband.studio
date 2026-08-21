@@ -20,10 +20,22 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   const cover = coverFor(project)
   const inner = (
     <>
-      <span aria-hidden className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-      <span aria-hidden className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
 
       {cover && (
         <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-eternal-border bg-eternal-surface-2">

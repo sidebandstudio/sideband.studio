@@ -8,12 +8,31 @@ const techStack = [
   {
     category: 'Systems',
     color: '#A855F7',
-    items: ['Rust', 'Swift', 'Metal', 'DXGI', 'VideoToolbox', 'H.264', 'FFmpeg', 'OpenCV', 'Lua', 'UDP', 'mDNS'],
+    items: [
+      'Rust',
+      'Swift',
+      'Metal',
+      'DXGI',
+      'VideoToolbox',
+      'H.264',
+      'FFmpeg',
+      'OpenCV',
+      'Lua',
+      'UDP',
+      'mDNS',
+    ],
   },
   {
     category: 'Web',
     color: '#6366F1',
-    items: ['Next.js', 'React', 'TypeScript', 'Node.js', 'Express', 'Tailwind CSS'],
+    items: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Express',
+      'Tailwind CSS',
+    ],
   },
   {
     category: 'Mobile',
@@ -28,7 +47,14 @@ const techStack = [
   {
     category: 'Data & Infra',
     color: '#C084FC',
-    items: ['MongoDB', 'DigitalOcean', 'Fly.io', 'Docker', 'Gemini AI', 'Formspree'],
+    items: [
+      'MongoDB',
+      'DigitalOcean',
+      'Fly.io',
+      'Docker',
+      'Gemini AI',
+      'Formspree',
+    ],
   },
 ]
 

@@ -23,12 +23,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       style={{
         border: `1px solid ${hovered ? product.accentColor + '50' : 'var(--eternal-border)'}`,
         background: 'var(--eternal-surface)',
-        transition:
-          'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
+        transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
         transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
-        boxShadow: hovered
-          ? `0 8px 40px ${product.accentColor}18`
-          : 'none',
+        boxShadow: hovered ? `0 8px 40px ${product.accentColor}18` : 'none',
         display: 'flex',
         flexDirection: 'column',
         animation: `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${index * 0.08}s both`,
@@ -150,10 +147,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                       transform: 'translateX(-50%)',
                       width: 26,
                       height: 32,
-                      background:
-                        'linear-gradient(to top, #6D28D9, #8B5CF6)',
-                      borderRadius:
-                        '50% 50% 45% 45% / 55% 55% 45% 45%',
+                      background: 'linear-gradient(to top, #6D28D9, #8B5CF6)',
+                      borderRadius: '50% 50% 45% 45% / 55% 55% 45% 45%',
                     }}
                   />
                   <div
@@ -164,10 +159,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                       transform: 'translateX(-50%)',
                       width: 14,
                       height: 20,
-                      background:
-                        'linear-gradient(to top, #7C3AED, #A78BFA)',
-                      borderRadius:
-                        '50% 50% 40% 40% / 60% 60% 35% 35%',
+                      background: 'linear-gradient(to top, #7C3AED, #A78BFA)',
+                      borderRadius: '50% 50% 40% 40% / 60% 60% 35% 35%',
                     }}
                   />
                 </div>

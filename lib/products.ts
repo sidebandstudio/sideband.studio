@@ -56,7 +56,16 @@ export const products: Product[] = [
     description:
       'Windows host captures via DXGI Desktop Duplication, transcodes BGRA→YUV420P, encodes H.264 via hardware (per-vendor auto-detect: NVENC, AMF, QuickSync), and streams over fragmented UDP. iPad client reassembles, decodes via VideoToolbox, renders with Metal. Zero-config discovery via mDNS/DNS-SD.',
     status: 'IN DEVELOPMENT',
-    tags: ['Rust', 'Swift', 'DXGI', 'VideoToolbox', 'Metal', 'UDP', 'mDNS', 'H.264'],
+    tags: [
+      'Rust',
+      'Swift',
+      'DXGI',
+      'VideoToolbox',
+      'Metal',
+      'UDP',
+      'mDNS',
+      'H.264',
+    ],
     url: 'https://eternalmonitor.dev',
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
@@ -214,12 +223,21 @@ export const products: Product[] = [
     description:
       'Barcode scanning via FatSecret API, 12-step onboarding wizard computing BMI/TDEE/macro targets, AI coaching via Gemini 2.0 Flash. Monorepo with shared Express API serving both web and iOS. SwiftUI + HealthKit on mobile.',
     status: 'IN DEVELOPMENT',
-    tags: ['SwiftUI', 'HealthKit', 'React', 'TypeScript', 'Node.js', 'MongoDB', 'Gemini AI'],
+    tags: [
+      'SwiftUI',
+      'HealthKit',
+      'React',
+      'TypeScript',
+      'Node.js',
+      'MongoDB',
+      'Gemini AI',
+    ],
     url: 'https://whoisaldo.github.io/Exerly-Fitness/',
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
     accentColor: '#D946EF',
-    highlight: 'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
+    highlight:
+      'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     images: [
       '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
       '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
@@ -495,7 +513,15 @@ export const products: Product[] = [
     description:
       'Minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay.',
     status: 'LIVE',
-    tags: ['JavaScript', 'Chrome Extensions API', 'Node.js', 'Express', 'Docker', 'Gemini API', 'Fly.io'],
+    tags: [
+      'JavaScript',
+      'Chrome Extensions API',
+      'Node.js',
+      'Express',
+      'Docker',
+      'Gemini API',
+      'Fly.io',
+    ],
     url: 'https://alitleis123.github.io/Eternal-Summary/',
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
@@ -541,7 +567,7 @@ export const products: Product[] = [
         {
           step: '02',
           title: 'Live Page Extraction',
-          body: 'Content scripts extract the active page\'s article content client-side, filtering out chrome and navigation noise before anything leaves the browser.',
+          body: "Content scripts extract the active page's article content client-side, filtering out chrome and navigation noise before anything leaves the browser.",
         },
         {
           step: '03',
