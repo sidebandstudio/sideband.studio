@@ -65,7 +65,9 @@ function StatusPill({ entry }: { entry: ExperienceEntry }) {
   return null
 }
 
-export default function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
+export default function ExperienceTimeline({
+  entries,
+}: ExperienceTimelineProps) {
   return (
     <div className="relative ml-4 border-l border-eternal-border pl-8">
       {entries.map((entry, i) => (
@@ -74,7 +76,9 @@ export default function ExperienceTimeline({ entries }: ExperienceTimelineProps)
             {/* Dot */}
             <div
               className={`absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 bg-eternal-black ${
-                entry.emphasis ? 'border-eternal-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]' : 'border-eternal-border'
+                entry.emphasis
+                  ? 'border-eternal-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]'
+                  : 'border-eternal-border'
               }`}
             />
 
@@ -95,7 +99,9 @@ export default function ExperienceTimeline({ entries }: ExperienceTimelineProps)
               <div className="mt-2.5 min-w-0">
                 <h3
                   className={`font-display text-[26px] leading-tight ${
-                    entry.emphasis ? 'text-eternal-text' : 'text-eternal-text-secondary'
+                    entry.emphasis
+                      ? 'text-eternal-text'
+                      : 'text-eternal-text-secondary'
                   }`}
                 >
                   {entry.company}

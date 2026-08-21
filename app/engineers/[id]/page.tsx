@@ -53,8 +53,7 @@ export default function EngineerDetailPage({
   if (!engineer) notFound()
 
   const other = getOtherEngineer(engineer.id)
-  const portraitSrc =
-    engineer.portrait?.src ?? engineer.portraitPlaceholder
+  const portraitSrc = engineer.portrait?.src ?? engineer.portraitPlaceholder
   const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
 
   return (
@@ -63,7 +62,10 @@ export default function EngineerDetailPage({
         {/* Breadcrumb */}
         <FadeUp>
           <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-muted">
-            <Link href="/engineers" className="transition-colors hover:text-eternal-accent">
+            <Link
+              href="/engineers"
+              className="transition-colors hover:text-eternal-accent"
+            >
               ← ENGINEERS
             </Link>
             <span className="text-eternal-border">/</span>
@@ -120,7 +122,10 @@ export default function EngineerDetailPage({
                     Download Resume ↓
                   </GlowButton>
                 )}
-                <GlowButton variant="ghost" href={`mailto:${engineer.contact.email}`}>
+                <GlowButton
+                  variant="ghost"
+                  href={`mailto:${engineer.contact.email}`}
+                >
                   Contact →
                 </GlowButton>
               </div>
@@ -130,10 +135,22 @@ export default function EngineerDetailPage({
           {/* Portrait */}
           <FadeUp delay={0.1}>
             <div className="relative">
-              <span aria-hidden className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-eternal-accent" />
-              <span aria-hidden className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-eternal-accent" />
-              <span aria-hidden className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-eternal-accent" />
-              <span aria-hidden className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-eternal-accent" />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-eternal-accent"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-eternal-accent"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-eternal-accent"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-eternal-accent"
+              />
 
               <div className="relative aspect-[4/5] w-full overflow-hidden border border-eternal-border bg-eternal-surface-2">
                 {portraitSrc ? (

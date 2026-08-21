@@ -5,7 +5,9 @@ test('homepage renders and primary navigation reaches products', async ({
 }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('heading', { name: /Software that/i })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: /Software that/i }),
+  ).toBeVisible()
 
   await page.getByRole('link', { name: /View Products/i }).click()
   await expect(page).toHaveURL(/\/products$/)
@@ -73,7 +75,9 @@ test('inquire form transmits and shows the success panel', async ({ page }) => {
   await expect(page.getByText(/TRANSMITTED/i).first()).toBeVisible()
 })
 
-test('inquire form surfaces an announced error on failure', async ({ page }) => {
+test('inquire form surfaces an announced error on failure', async ({
+  page,
+}) => {
   await page.route('https://formspree.io/f/xkoperoj', async (route) => {
     await route.fulfill({
       status: 500,

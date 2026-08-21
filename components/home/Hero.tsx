@@ -85,7 +85,10 @@ export default function Hero() {
               <div className="terminal-box">
                 <div className="terminal-content">
                   {output.map((line, index) => (
-                    <div key={`${line.cls}-${index}`} className={`terminal-line ${line.cls}`}>
+                    <div
+                      key={`${line.cls}-${index}`}
+                      className={`terminal-line ${line.cls}`}
+                    >
                       {line.text}
                       {index === output.length - 1 && !done ? (
                         <span className="terminal-cursor" />
@@ -104,8 +107,8 @@ export default function Hero() {
                 endures<span className="text-eternal-accent">.</span>
               </h1>
               <p className="mt-5 max-w-[400px] text-[13px] leading-[1.8] text-eternal-text-secondary">
-                A three-founder studio shipping technically ambitious products for
-                developers, athletes, and people who care about quality.
+                A three-founder studio shipping technically ambitious products
+                for developers, athletes, and people who care about quality.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <GlowButton variant="filled" href="/products">

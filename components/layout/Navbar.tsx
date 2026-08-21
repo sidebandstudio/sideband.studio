@@ -42,7 +42,11 @@ export default function Navbar() {
         }`}
       >
         <div className="inner flex h-[64px] items-center justify-between">
-          <Link href="/" className="flex items-center" aria-label="Eternal Reverse — home">
+          <Link
+            href="/"
+            className="flex items-center"
+            aria-label="Eternal Reverse — home"
+          >
             <Image
               src="/assets/EternalReverse/EternalReverse.png"
               alt="Eternal Reverse"
@@ -61,8 +65,10 @@ export default function Navbar() {
                 href={link.href}
                 className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
                   pathname === link.href ||
-                  (link.href === '/products' && pathname.startsWith('/products/')) ||
-                  (link.href === '/engineers' && pathname.startsWith('/engineers/'))
+                  (link.href === '/products' &&
+                    pathname.startsWith('/products/')) ||
+                  (link.href === '/engineers' &&
+                    pathname.startsWith('/engineers/'))
                     ? 'text-eternal-accent'
                     : 'text-eternal-text-secondary hover:text-eternal-text'
                 }`}

@@ -100,7 +100,10 @@ export const engineers: Engineer[] = [
     },
     accentColor: '#A855F7',
     prev: [
-      { label: 'AMAZON', sublabel: 'AWS CLOUDFORMATION · SDE INTERN · CURRENT' },
+      {
+        label: 'AMAZON',
+        sublabel: 'AWS CLOUDFORMATION · SDE INTERN · CURRENT',
+      },
       { label: 'PHILIPS', sublabel: 'SWE CO-OP · CAMBRIDGE, MA' },
       { label: 'NORTHEASTERN', sublabel: 'CS + POLI-SCI · CLASS OF 27' },
     ],
@@ -116,7 +119,15 @@ export const engineers: Engineer[] = [
         emphasis: true,
         summary:
           'Infrastructure-as-code work on AWS CloudFormation. Full service-ownership project scope under Principal/Senior SDE mentorship.',
-        skills: ['AWS', 'CloudFormation', 'IaC', 'Python', 'Java', 'Go', 'Linux'],
+        skills: [
+          'AWS',
+          'CloudFormation',
+          'IaC',
+          'Python',
+          'Java',
+          'Go',
+          'Linux',
+        ],
       },
       {
         company: 'Eternal Reverse',
@@ -130,7 +141,14 @@ export const engineers: Engineer[] = [
         emphasis: true,
         summary:
           'Founded the studio and ships its products end-to-end — Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
-        skills: ['Rust', 'Swift', 'TypeScript', 'Next.js', 'Node.js', 'Studio Ops'],
+        skills: [
+          'Rust',
+          'Swift',
+          'TypeScript',
+          'Next.js',
+          'Node.js',
+          'Studio Ops',
+        ],
       },
       {
         company: 'Philips',
@@ -170,7 +188,13 @@ export const engineers: Engineer[] = [
         endDate: 'Aug 2024',
         summary:
           'Full-stack client-management app serving 20+ agents and 800+ records. Cut record lookup from 5+ minutes to 45 seconds (85% faster), 3× query speed, 90% fewer IT tickets.',
-        skills: ['React', 'Python', 'SQL', 'Full-Stack', 'Database Optimization'],
+        skills: [
+          'React',
+          'Python',
+          'SQL',
+          'Full-Stack',
+          'Database Optimization',
+        ],
       },
       {
         company: 'Robert DeFalco Realty',
@@ -212,7 +236,14 @@ export const engineers: Engineer[] = [
       },
       {
         category: 'Backend & Systems',
-        items: ['Node.js', 'Express', 'MongoDB', 'SQLite', 'Linux', 'PowerShell'],
+        items: [
+          'Node.js',
+          'Express',
+          'MongoDB',
+          'SQLite',
+          'Linux',
+          'PowerShell',
+        ],
       },
       {
         category: 'Cloud & Infrastructure',
@@ -393,7 +424,14 @@ export const engineers: Engineer[] = [
         endDate: 'Sep 2025',
         summary:
           'Full-stack work across UI patterns, schema integrity, and automation pipelines. Engineered JWT auth flows and role-based access control for the firm’s primary real-estate platform.',
-        skills: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'JWT Auth', 'RBAC'],
+        skills: [
+          'React',
+          'TypeScript',
+          'Node.js',
+          'MongoDB',
+          'JWT Auth',
+          'RBAC',
+        ],
       },
       {
         company: 'Robert DeFalco Realty',
@@ -419,11 +457,28 @@ export const engineers: Engineer[] = [
     skills: [
       {
         category: 'Core Stack',
-        items: ['React', 'Next.js', 'Node.js', 'TypeScript', 'MongoDB', 'Tailwind CSS', 'Git'],
+        items: [
+          'React',
+          'Next.js',
+          'Node.js',
+          'TypeScript',
+          'MongoDB',
+          'Tailwind CSS',
+          'Git',
+        ],
       },
       {
         category: 'Languages',
-        items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'C++', 'C#', 'Lua', 'Kotlin'],
+        items: [
+          'TypeScript',
+          'JavaScript',
+          'Python',
+          'Java',
+          'C++',
+          'C#',
+          'Lua',
+          'Kotlin',
+        ],
       },
       {
         category: 'Backend',
@@ -435,7 +490,13 @@ export const engineers: Engineer[] = [
       },
       {
         category: 'Other',
-        items: ['Azure DevOps', 'Heroku', 'Arduino', 'Gemini API', 'LLM Integration'],
+        items: [
+          'Azure DevOps',
+          'Heroku',
+          'Arduino',
+          'Gemini API',
+          'LLM Integration',
+        ],
       },
     ],
     projects: [

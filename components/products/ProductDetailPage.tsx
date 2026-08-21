@@ -269,9 +269,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             </span>
             <StatusBadge status={product.status} />
             {product.version && (
-              <span
-                style={{ fontSize: 10, color: 'var(--eternal-muted)' }}
-              >
+              <span style={{ fontSize: 10, color: 'var(--eternal-muted)' }}>
                 {product.version}
               </span>
             )}
@@ -630,7 +628,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = 'var(--eternal-text-secondary)'
+                    e.currentTarget.style.color =
+                      'var(--eternal-text-secondary)'
                   }}
                 >
                   ← All Products
