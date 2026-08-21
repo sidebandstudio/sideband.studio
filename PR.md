@@ -44,16 +44,17 @@ If you knowingly left something out of scope, say so in the description instead 
 Run and pass locally:
 
 ```bash
-npm run build        # must pass (see AGENT_NOTES.md)
+npm run build              # must pass (see AGENT_NOTES.md)
 npm run lint
-npx playwright test  # smoke tests in tests/
+npm run check:consistency  # counts in prose match lib/ data
+npx playwright test        # smoke tests in tests/
 ```
 
 CI runs these same checks (plus `npx tsc --noEmit` and `prettier --check`) on every PR and must be green before merge.
 
 Then sweep for what your change makes stale:
 
-- Site copy states facts in more than one place: founder count, product count, roles, locations. Facts live in `app/` pages, `components/`, `lib/` data, and `content/` docs. If your change alters a fact, grep for the old value and update every hit. Example: adding a third founder means searching for `two-person`, `two founders`, and `both founders`, not just editing the pages you already had open.
+- Site copy states facts in more than one place: founder count, product count, roles, locations. Facts live in `app/` pages, `components/`, `lib/` data, and `content/` docs. If your change alters a fact, grep for the old value and update every hit. Example: adding a third founder means searching for `two-person`, `two founders`, and `both founders`, not just editing the pages you already had open. Founder and product counts are enforced by `npm run check:consistency` (see AGENT_NOTES.md → Single Source of Truth); it will fail CI if the prose drifts from the data.
 - New pages, products, or engineer entries get coverage in `tests/smoke.spec.ts`.
 - Images: sized for the web, EXIF stripped, and any dimensions recorded in `lib/` data match the actual file.
 
