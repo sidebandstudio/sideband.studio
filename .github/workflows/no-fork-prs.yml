@@ -19,6 +19,7 @@ jobs:
       - name: Close fork PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          gh pr comment "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --body "This repo does not accept pull requests from forks. Push your branch to this repository (you have write access) and open the PR from there: \`git push origin ${{ github.event.pull_request.head.ref }}\`. Closing."
+          gh pr comment "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --body "This repo does not accept pull requests from forks. Push your branch to this repository (you have write access) and open the PR from there: \`git push origin $HEAD_REF\`. Closing."
           gh pr close "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}"
