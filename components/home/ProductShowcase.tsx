@@ -31,7 +31,7 @@ export default function ProductShowcase() {
                 <span className="font-semibold tabular-nums text-eternal-text">
                   {products.length}
                 </span>{' '}
-                products across desktop, browser, mobile, and full-stack —{' '}
+                products across desktop, browser, mobile, and full-stack:{' '}
                 <span className="font-semibold tabular-nums text-eternal-text">
                   {LIVE}
                 </span>{' '}

@@ -34,7 +34,7 @@ export default function Hero() {
 
       <div className="inner relative z-[2] text-center">
         <span className="inline-flex h-8 items-center rounded-full border border-eternal-border bg-white/[0.03] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-eternal-text-secondary">
-          Independent software studio — Boston, MA
+          Independent software studio · Boston, MA
         </span>
 
         <h1 className="display mx-auto mb-[22px] mt-6 max-w-[18ch] text-balance text-[clamp(40px,6vw,80px)]">

@@ -33,7 +33,7 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
         const name = link
           ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${esc(p.name)}</a>`
           : esc(p.name)
-        return `  ${STATUS_HTML[p.status] ?? ''}  ${name} <span class="term-d">— ${esc(p.highlight)}</span>`
+        return `  ${STATUS_HTML[p.status] ?? ''}  ${name} <span class="term-d">· ${esc(p.highlight)}</span>`
       })
     case 'stack':
       return [
@@ -45,7 +45,7 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
     case 'team':
       return listEngineers().map(
         (e) =>
-          `  ${esc(e.name.padEnd(12))}<span class="term-d">— ${esc(e.role.toLowerCase())}</span>`,
+          `  ${esc(e.name.padEnd(12))}<span class="term-d">· ${esc(e.role.toLowerCase())}</span>`,
       )
     case 'contact':
       return [
@@ -63,7 +63,7 @@ const LIVE_COUNT = products.filter((p) => p.status === 'LIVE').length
 const DEV_COUNT = products.filter((p) => p.status === 'IN DEVELOPMENT').length
 
 const BOOT_INFO = [
-  '  Eternal Reverse — independent software studio',
+  '  Eternal Reverse · independent software studio',
   `  Boston, MA · est. 2025 · ${listEngineers().length} founders`,
   `  ${products.length} products: ${LIVE_COUNT} live, ${DEV_COUNT} in development`,
 ]
@@ -127,7 +127,7 @@ export default function Terminal() {
         ...prev,
         echo,
         {
-          html: `  <span class="term-d">command not found: ${esc(cmd)} — try</span> help`,
+          html: `  <span class="term-d">command not found: ${esc(cmd)}. try</span> help`,
         },
       ])
     }
@@ -142,10 +142,10 @@ export default function Terminal() {
           <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
           <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
           <span className="ml-2 font-mono text-[11px] text-eternal-muted">
-            eternal-reverse — zsh
+            eternal-reverse · zsh
           </span>
           <span className="ml-auto font-mono text-[11px] text-eternal-muted">
-            interactive — try{' '}
+            interactive · try{' '}
             <b className="font-medium text-eternal-text-secondary">help</b>
           </span>
         </div>
