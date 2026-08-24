@@ -96,6 +96,8 @@ This is enforced. `scripts/check-consistency.mjs` re-derives the founder and pro
 
 Follow `PR.md` for branch naming, commit format, the pre-review checklist, and merge style. Open PRs against `dev`.
 
+Never fork this repository or open a PR from a fork. Push branches straight to `origin` (this repo) and open the PR from there. Fork PRs are auto-closed by `.github/workflows/no-fork-prs.yml`, get no CI or Claude review, and cannot merge.
+
 ## If Something Looks Broken On Vercel
 
 Check these first:
