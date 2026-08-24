@@ -14,11 +14,7 @@ export default function MediaPlaceholder({
         fill="none"
         className="text-eternal-muted"
       >
-        <path
-          d="M8 5.14v14l11-7-11-7z"
-          fill="currentColor"
-          fillOpacity="0.5"
-        />
+        <path d="M8 5.14v14l11-7-11-7z" fill="currentColor" fillOpacity="0.5" />
       </svg>
       <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-eternal-muted">
         [ {label} ]

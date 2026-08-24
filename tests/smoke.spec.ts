@@ -5,7 +5,9 @@ test('homepage renders and primary navigation reaches products', async ({
 }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('heading', { name: /Software that/i })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: /Software that/i }),
+  ).toBeVisible()
 
   await page.getByRole('link', { name: /View Products/i }).click()
   await expect(page).toHaveURL(/\/products$/)
@@ -24,13 +26,14 @@ test('product detail navigation works', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('engineers index lists both founders and links to a dossier', async ({
+test('engineers index lists all founders and links to a dossier', async ({
   page,
 }) => {
   await page.goto('/engineers')
 
   await expect(page.getByRole('link', { name: /Ali Younes/i })).toBeVisible()
   await expect(page.getByRole('link', { name: /Ali Tleis/i })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Karan Anand/i })).toBeVisible()
 
   await page.getByRole('link', { name: /Ali Younes/i }).click()
   await expect(page).toHaveURL(/\/engineers\/ali-younes$/)
@@ -72,7 +75,9 @@ test('inquire form transmits and shows the success panel', async ({ page }) => {
   await expect(page.getByText(/TRANSMITTED/i).first()).toBeVisible()
 })
 
-test('inquire form surfaces an announced error on failure', async ({ page }) => {
+test('inquire form surfaces an announced error on failure', async ({
+  page,
+}) => {
   await page.route('https://formspree.io/f/xkoperoj', async (route) => {
     await route.fulfill({
       status: 500,

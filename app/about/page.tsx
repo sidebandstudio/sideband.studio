@@ -1,11 +1,4 @@
 import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'About — Eternal Reverse',
-  description:
-    'A two-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
-}
-
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
 import GlowButton from '@/components/ui/GlowButton'
@@ -27,26 +20,8 @@ const timeline = [
   { year: '2025', event: 'Signature Cuts 413 launches' },
   { year: '2026', event: 'Eternal2x ships — DaVinci Resolve smart upscale' },
   { year: '2026', event: 'Eternal Summary ships — MV3 Chrome extension' },
+  { year: '2026', event: 'Karan Anand joins as Co-Founder' },
   { year: '2026', event: '→  What comes next' },
-]
-
-const founders = [
-  {
-    name: 'Ali Younes',
-    role: 'Co-Founder & Lead Engineer',
-    initials: 'AY',
-    bio: 'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
-    github: 'https://github.com/whoisaldo',
-    linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
-  },
-  {
-    name: 'Ali Tleis',
-    role: 'Co-Founder & Frontend / Full-Stack Engineer',
-    initials: 'AT',
-    bio: 'CS @ Northeastern. Full-stack engineer focused on TypeScript, React, and clean systems. Builds tools that respect the user — fast, minimal, and obsessively refined.',
-    github: 'https://github.com/Alitleis123',
-    linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
-  },
 ]
 
 export default function AboutPage() {
@@ -61,7 +36,7 @@ export default function AboutPage() {
             [ ABOUT ]
           </span>
           <h1 className="mt-4 font-display text-5xl text-eternal-text-secondary md:text-7xl">
-            Two founders.
+            Three founders.
           </h1>
           <h1 className="font-display text-5xl font-bold text-eternal-text md:text-7xl">
             One standard<span className="text-eternal-accent">.</span>
@@ -85,25 +60,25 @@ export default function AboutPage() {
           <FadeUp>
             <SectionLabel label="HOW WE WORK" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
-              We ship real things. Every project goes through the same filter: Is
-              this technically honest? Would we use this ourselves? Does it
+              We ship real things. Every project goes through the same filter:
+              Is this technically honest? Would we use this ourselves? Does it
               respect the person on the other end? We care about technical depth
               — DXGI pipelines, VideoToolbox decoding, Metal rendering — not
               because complexity is the goal, but because doing it right demands
-              going deep. We stay indie because independence is what lets us make
-              these choices.
+              going deep. We stay indie because independence is what lets us
+              make these choices.
             </p>
           </FadeUp>
 
           <FadeUp>
-            <SectionLabel label="WHERE WE&apos;RE GOING" />
+            <SectionLabel label="WHERE WE'RE GOING" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
-              We&apos;re growing the contributor network — bringing in engineers,
-              designers, and builders who share the standard. Quality is
-              non-negotiable. Every contributor ships real features, gets real
-              credit, and walks away with real experience. The goal is to build
-              this studio into something lasting. Not a startup. Not a side
-              project. A studio.
+              We&apos;re growing the contributor network — bringing in
+              engineers, designers, and builders who share the standard. Quality
+              is non-negotiable. Every contributor ships real features, gets
+              real credit, and walks away with real experience. The goal is to
+              build this studio into something lasting. Not a startup. Not a
+              side project. A studio.
             </p>
           </FadeUp>
         </div>
@@ -168,4 +143,10 @@ export default function AboutPage() {
       </div>
     </div>
   )
+}
+
+export const metadata: Metadata = {
+  title: 'About — Eternal Reverse',
+  description:
+    'A three-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
 }

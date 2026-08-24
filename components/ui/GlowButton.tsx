@@ -31,8 +31,7 @@ export default function GlowButton({
       ? 'hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]'
       : 'hover:text-black'
 
-  const combinedClassName =
-    `${baseStyles} ${variantStyles} ${className}`.trim()
+  const combinedClassName = `${baseStyles} ${variantStyles} ${className}`.trim()
 
   const style: Record<string, string> =
     variant === 'filled'
@@ -73,12 +72,7 @@ export default function GlowButton({
   if (href) {
     if (external) {
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          {...props}
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
           {children}
         </a>
       )
@@ -91,7 +85,12 @@ export default function GlowButton({
   }
 
   return (
-    <button onClick={onClick} disabled={disabled} {...props} className={`${combinedClassName} disabled:opacity-50 disabled:cursor-not-allowed`}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+      className={`${combinedClassName} disabled:opacity-50 disabled:cursor-not-allowed`}
+    >
       {children}
     </button>
   )

@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --eternal-black: #06050E;
-  --eternal-surface: #0D0B1A;
+  --eternal-black: #06050e;
+  --eternal-surface: #0d0b1a;
   --eternal-surface-2: #131127;
   --eternal-border: rgba(255, 255, 255, 0.07);
   --eternal-border-strong: rgba(255, 255, 255, 0.13);
   /* Text-safe dim tone: >=4.5:1 (WCAG AA) on black, surface and surface-2.
      Use --eternal-hairline for decorative lines, not this. */
-  --eternal-muted: #837AA4;
-  --eternal-hairline: #382F5C;
-  --eternal-text: #EDEAF5;
-  --eternal-text-secondary: #8B82AA;
-  --eternal-accent: #A855F7;
-  --eternal-accent-cyan: #6366F1;
-  --eternal-accent-pink: #D946EF;
-  --eternal-accent-yellow: #C084FC;
-  --eternal-gradient: linear-gradient(135deg, #A855F7 0%, #6366F1 100%);
+  --eternal-muted: #837aa4;
+  --eternal-hairline: #382f5c;
+  --eternal-text: #edeaf5;
+  --eternal-text-secondary: #8b82aa;
+  --eternal-accent: #a855f7;
+  --eternal-accent-cyan: #6366f1;
+  --eternal-accent-pink: #d946ef;
+  --eternal-accent-yellow: #c084fc;
+  --eternal-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
 }
 
 * {
@@ -53,7 +53,7 @@ body {
 }
 
 ::selection {
-  background-color: #A855F730;
+  background-color: #a855f730;
   color: var(--eternal-text);
 }
 

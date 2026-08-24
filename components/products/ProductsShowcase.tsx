@@ -70,7 +70,9 @@ function ProductText({
   return (
     <div
       style={{
-        animation: vis ? `${anim} 0.8s cubic-bezier(0.16,1,0.3,1) both` : 'none',
+        animation: vis
+          ? `${anim} 0.8s cubic-bezier(0.16,1,0.3,1) both`
+          : 'none',
         opacity: vis ? 1 : 0,
       }}
     >
@@ -524,7 +526,13 @@ function RichPresenceSection() {
                     eternalrp — terminal
                   </span>
                 </div>
-                <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 10' }}>
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '16 / 10',
+                  }}
+                >
                   <Image
                     src="/assets/EternalRichPresence/EternalRichPresenceTerminal.png"
                     alt="EternalRichPresence terminal"
@@ -668,11 +676,7 @@ function ExerlyPhoneFan() {
               position: 'relative',
             }}
           >
-            <IPhoneFrame
-              src={p.src}
-              alt={`Exerly ${p.label}`}
-              width={p.w}
-            />
+            <IPhoneFrame src={p.src} alt={`Exerly ${p.label}`} width={p.w} />
             {isHov && (
               <>
                 <div
@@ -833,13 +837,7 @@ function Eternal2xSection() {
             accent="#8B5CF6"
             problem="Upscaling old footage to 4K in DaVinci Resolve is slow, manual, and lossy. Editors waste hours marking motion ranges, splitting clips, and re-rendering dead frames that didn't need touching in the first place."
             solution="Eternal2x is a Python + Lua + OpenCV pipeline that auto-detects motion frames, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction inside DaVinci Resolve — then upscales the result to 4K with FFmpeg."
-            tags={[
-              'Python',
-              'Lua',
-              'OpenCV',
-              'FFmpeg',
-              'DaVinci Resolve API',
-            ]}
+            tags={['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API']}
             github="https://github.com/Alitleis123/Eternal2x.com"
             url="https://Eternal2x.com"
             vis={vis}
@@ -1206,7 +1204,11 @@ export default function ProductsShowcase() {
           borderBottom: '1px solid var(--eternal-border)',
         }}
       >
-        <div style={{ animation: 'slideRevealU 0.6s cubic-bezier(0.16,1,0.3,1) both' }}>
+        <div
+          style={{
+            animation: 'slideRevealU 0.6s cubic-bezier(0.16,1,0.3,1) both',
+          }}
+        >
           <span
             style={{
               fontSize: 10,
@@ -1272,9 +1274,7 @@ export default function ProductsShowcase() {
                     borderRadius: '50%',
                     background: p.accentColor,
                     boxShadow:
-                      p.status === 'LIVE'
-                        ? `0 0 6px ${p.accentColor}`
-                        : 'none',
+                      p.status === 'LIVE' ? `0 0 6px ${p.accentColor}` : 'none',
                   }}
                 />
                 <span style={{ fontSize: 10, color: 'var(--eternal-muted)' }}>

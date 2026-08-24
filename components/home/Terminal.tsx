@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { products } from '@/lib/products'
+import { listEngineers } from '@/lib/engineers'
 
 type Line = { html: string }
 
@@ -42,10 +43,10 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
         '  <span class="term-d">data    :</span> MongoDB · DigitalOcean · Gemini AI',
       ]
     case 'team':
-      return [
-        '  Ali Younes <span class="term-d">— co-founder &amp; lead engineer · SDE intern, AWS ADC (current)</span>',
-        '  Ali Tleis  <span class="term-d">— co-founder · full-stack · web app dev, MIT Lincoln Lab (current)</span>',
-      ]
+      return listEngineers().map(
+        (e) =>
+          `  ${esc(e.name.padEnd(12))}<span class="term-d">— ${esc(e.role.toLowerCase())}</span>`,
+      )
     case 'contact':
       return [
         '  <a href="mailto:hello@eternalreverse.com">hello@eternalreverse.com</a>',
@@ -58,10 +59,13 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
   }
 }
 
+const LIVE_COUNT = products.filter((p) => p.status === 'LIVE').length
+const DEV_COUNT = products.filter((p) => p.status === 'IN DEVELOPMENT').length
+
 const BOOT_INFO = [
   '  Eternal Reverse — independent software studio',
-  '  Boston, MA · est. 2025 · 2 engineers',
-  '  6 products: 4 live, 2 in development',
+  `  Boston, MA · est. 2025 · ${listEngineers().length} founders`,
+  `  ${products.length} products: ${LIVE_COUNT} live, ${DEV_COUNT} in development`,
 ]
 
 export default function Terminal() {

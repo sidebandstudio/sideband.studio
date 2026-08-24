@@ -31,20 +31,22 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
-              Built to last. Shipped to matter. Two founders, one standard.
+              Built to last. Shipped to matter. Three founders, one standard.
             </p>
           </div>
 
           <div className="flex flex-wrap justify-start gap-6 md:justify-center">
-            {['Products', 'About', 'Careers', 'Inquire', 'Contact'].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}
-                className="text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
-              >
-                {item}
-              </Link>
-            ))}
+            {['Products', 'About', 'Careers', 'Inquire', 'Contact'].map(
+              (item) => (
+                <Link
+                  key={item}
+                  href={`/${item.toLowerCase()}`}
+                  className="text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
+                >
+                  {item}
+                </Link>
+              ),
+            )}
           </div>
 
           <div className="flex items-start gap-5 md:justify-end">

@@ -10,10 +10,10 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## TL;DR
 
-- **Co-Founder of Eternal Reverse** — two-person dev studio shipping six products across desktop, browser, and full-stack
+- **Co-Founder of Eternal Reverse** — dev studio shipping six products across desktop, browser, and full-stack
 - **Web Application Developer (AI Integration) at MIT Lincoln Laboratory** — Jul–Dec 2026 (current)
 - Past **Frontend Developer Intern at Top Choice Realty** (Summer 2025)
-- B.S. Computer Science at **Northeastern University** via co-op (2023–2028)
+- B.S. Computer Science at **Northeastern University** via co-op (2024–2028)
 - Based in **Boston, MA**
 
 ---
@@ -32,7 +32,7 @@ Building AI-integrated internal web applications inside MIT’s federally funded
 
 **Boston, MA · 2025 – Present**
 
-Co-founded the two-person dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.
+Co-founded the dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.
 
 ---
 
@@ -55,7 +55,7 @@ Workstation provisioning, automation scripting, and deployment standardization a
 ## Education
 
 **Northeastern University** — B.S. Computer Science
-*2023 – 2028 · Boston, MA · Co-op Program*
+*2024 – 2028 · Boston, MA · Co-op Program*
 
 ---
 

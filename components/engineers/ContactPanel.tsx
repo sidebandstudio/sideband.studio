@@ -18,20 +18,43 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
   ]
   if (contact.website) {
     const stripped = contact.website.replace(/^https?:\/\//, '')
-    rows.push({ label: 'WEB', value: stripped, href: contact.website, external: true })
+    rows.push({
+      label: 'WEB',
+      value: stripped,
+      href: contact.website,
+      external: true,
+    })
   }
   if (contact.github) {
-    const handle = contact.github.replace(/^https?:\/\/(www\.)?github\.com\//, '')
-    rows.push({ label: 'GITHUB', value: `@${handle}`, href: contact.github, external: true })
+    const handle = contact.github.replace(
+      /^https?:\/\/(www\.)?github\.com\//,
+      '',
+    )
+    rows.push({
+      label: 'GITHUB',
+      value: `@${handle}`,
+      href: contact.github,
+      external: true,
+    })
   }
   if (contact.linkedin) {
     const handle = contact.linkedin
       .replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '')
       .replace(/\/$/, '')
-    rows.push({ label: 'LINKEDIN', value: `in/${handle}`, href: contact.linkedin, external: true })
+    rows.push({
+      label: 'LINKEDIN',
+      value: `in/${handle}`,
+      href: contact.linkedin,
+      external: true,
+    })
   }
   if (contact.resume) {
-    rows.push({ label: 'RESUME', value: 'resume.pdf', href: contact.resume, external: true })
+    rows.push({
+      label: 'RESUME',
+      value: 'resume.pdf',
+      href: contact.resume,
+      external: true,
+    })
   }
 
   return (
@@ -49,7 +72,9 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
           <a
             key={r.label}
             href={r.href}
-            {...(r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            {...(r.external
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
             className="group flex items-center justify-between gap-6 px-5 py-3 transition-colors duration-200 hover:bg-eternal-surface-2"
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">

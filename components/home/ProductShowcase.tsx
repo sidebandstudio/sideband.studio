@@ -11,6 +11,9 @@ const STATUS: Record<ProductStatus, { label: string; className: string }> = {
   'COMING SOON': { label: 'Coming soon', className: 'text-eternal-muted' },
 }
 
+const LIVE = products.filter((p) => p.status === 'LIVE').length
+const DEV = products.filter((p) => p.status === 'IN DEVELOPMENT').length
+
 export default function ProductShowcase() {
   return (
     <section id="products" className="border-t border-eternal-border py-24">
@@ -25,11 +28,17 @@ export default function ProductShowcase() {
                 What we build
               </h2>
               <p className="mt-3.5 max-w-[560px] text-pretty text-[17px] tracking-[-0.005em] text-eternal-text-secondary">
-                <span className="font-semibold tabular-nums text-eternal-text">6</span>{' '}
+                <span className="font-semibold tabular-nums text-eternal-text">
+                  {products.length}
+                </span>{' '}
                 products across desktop, browser, mobile, and full-stack —{' '}
-                <span className="font-semibold tabular-nums text-eternal-text">4</span>{' '}
+                <span className="font-semibold tabular-nums text-eternal-text">
+                  {LIVE}
+                </span>{' '}
                 live,{' '}
-                <span className="font-semibold tabular-nums text-eternal-text">2</span>{' '}
+                <span className="font-semibold tabular-nums text-eternal-text">
+                  {DEV}
+                </span>{' '}
                 in active development.
               </p>
             </div>

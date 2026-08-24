@@ -47,16 +47,8 @@ export default function CustomCursor() {
       start + (end - start) * factor
 
     const animate = () => {
-      cursorPos.current.x = lerp(
-        cursorPos.current.x,
-        mousePos.current.x,
-        0.15,
-      )
-      cursorPos.current.y = lerp(
-        cursorPos.current.y,
-        mousePos.current.y,
-        0.15,
-      )
+      cursorPos.current.x = lerp(cursorPos.current.x, mousePos.current.x, 0.15)
+      cursorPos.current.y = lerp(cursorPos.current.y, mousePos.current.y, 0.15)
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${cursorPos.current.x}px, ${cursorPos.current.y}px)`
@@ -99,9 +91,7 @@ export default function CustomCursor() {
         style={{
           width: isHovering ? 24 : 8,
           height: isHovering ? 24 : 8,
-          backgroundColor: isHovering
-            ? 'rgba(168, 85, 247, 0.3)'
-            : '#A855F7',
+          backgroundColor: isHovering ? 'rgba(168, 85, 247, 0.3)' : '#A855F7',
           mixBlendMode: isHovering ? 'difference' : 'normal',
           transform: `translate(-50%, -50%)`,
         }}

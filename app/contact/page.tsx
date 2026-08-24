@@ -21,7 +21,10 @@ export default function ContactPage() {
     try {
       const res = await fetch('https://formspree.io/f/xkoperoj', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify(formState),
       })
 
@@ -111,7 +114,9 @@ export default function ContactPage() {
         <FadeUp delay={0.2}>
           {status === 'success' ? (
             <div className="mt-12 border border-eternal-accent bg-eternal-surface px-6 py-8 font-mono text-[14px] text-eternal-accent">
-              <p className="text-[11px] uppercase tracking-wider">[ MESSAGE SENT ]</p>
+              <p className="text-[11px] uppercase tracking-wider">
+                [ MESSAGE SENT ]
+              </p>
               <p className="mt-2 text-eternal-text-secondary">
                 Thanks for reaching out — we&apos;ll get back to you soon.
               </p>

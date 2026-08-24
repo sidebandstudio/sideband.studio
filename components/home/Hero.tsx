@@ -43,7 +43,7 @@ export default function Hero() {
         </h1>
 
         <p className="mx-auto mb-9 max-w-[600px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-eternal-text-secondary">
-          A two-person studio shipping technically ambitious products for
+          A three-founder studio shipping technically ambitious products for
           developers, athletes, and people who care about quality.
         </p>
 

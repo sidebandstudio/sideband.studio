@@ -1,5 +1,9 @@
 export interface ExperienceEntry {
   company: string
+  /** Optional company mark. Falls back to a monogram when absent. */
+  logo?: string
+  /** Mark is already drawn for dark UI — render it as-is, don't recolor. */
+  logoOnDark?: boolean
   role: string
   location: string
   startDate: string
@@ -86,7 +90,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
-      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS Amazon Dedicated Cloud (ADC) in Seattle.',
+      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS CloudFormation in Seattle.',
       'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. He stays indie because independence is what lets him build software the way it should be built — fast, honest, and obsessively refined.',
     ],
     portrait: {
@@ -96,25 +100,59 @@ export const engineers: Engineer[] = [
     },
     accentColor: '#A855F7',
     prev: [
-      { label: 'AMAZON', sublabel: 'AWS ADC · SDE INTERN · CURRENT' },
+      {
+        label: 'AMAZON',
+        sublabel: 'AWS CLOUDFORMATION · SDE INTERN · CURRENT',
+      },
       { label: 'PHILIPS', sublabel: 'SWE CO-OP · CAMBRIDGE, MA' },
       { label: 'NORTHEASTERN', sublabel: 'CS + POLI-SCI · CLASS OF 27' },
     ],
     experience: [
       {
         company: 'Amazon Web Services',
-        role: 'SDE Intern · Amazon Dedicated Cloud (ADC)',
+        logo: '/assets/logos/aws.png',
+        role: 'SDE Intern · CloudFormation (IaC)',
         location: 'Seattle, WA',
         startDate: 'Jun 2026',
         endDate: 'Sep 2026',
         current: true,
         emphasis: true,
         summary:
-          'Distributed systems work for U.S. Intelligence Community and DoD air-gapped partitions (ITAR / IL5 / IL6). Full service-ownership project scope under Principal/Senior SDE mentorship.',
-        skills: ['AWS', 'Python', 'Java', 'Go', 'Linux', 'IaC', 'Security Engineering'],
+          'Infrastructure-as-code work on AWS CloudFormation. Full service-ownership project scope under Principal/Senior SDE mentorship.',
+        skills: [
+          'AWS',
+          'CloudFormation',
+          'IaC',
+          'Python',
+          'Java',
+          'Go',
+          'Linux',
+        ],
+      },
+      {
+        company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
+        role: 'Co-Founder & Lead Engineer',
+        location: 'Boston, MA',
+        startDate: '2025',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Founded the studio and ships its products end-to-end — Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
+        skills: [
+          'Rust',
+          'Swift',
+          'TypeScript',
+          'Next.js',
+          'Node.js',
+          'Studio Ops',
+        ],
       },
       {
         company: 'Philips',
+        logo: '/assets/logos/philips.png',
         role: 'Software Engineering Co-op',
         location: 'Cambridge, MA',
         startDate: 'Jul 2025',
@@ -142,16 +180,26 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'New York, NY',
         startDate: 'Apr 2024',
         endDate: 'Aug 2024',
         summary:
           'Full-stack client-management app serving 20+ agents and 800+ records. Cut record lookup from 5+ minutes to 45 seconds (85% faster), 3× query speed, 90% fewer IT tickets.',
-        skills: ['React', 'Python', 'SQL', 'Full-Stack', 'Database Optimization'],
+        skills: [
+          'React',
+          'Python',
+          'SQL',
+          'Full-Stack',
+          'Database Optimization',
+        ],
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'New York, NY',
         startDate: 'Jun 2023',
@@ -188,7 +236,14 @@ export const engineers: Engineer[] = [
       },
       {
         category: 'Backend & Systems',
-        items: ['Node.js', 'Express', 'MongoDB', 'SQLite', 'Linux', 'PowerShell'],
+        items: [
+          'Node.js',
+          'Express',
+          'MongoDB',
+          'SQLite',
+          'Linux',
+          'PowerShell',
+        ],
       },
       {
         category: 'Cloud & Infrastructure',
@@ -303,7 +358,7 @@ export const engineers: Engineer[] = [
     contact: {
       email: 'younes.al@northeastern.edu',
       github: 'https://github.com/whoisaldo',
-      linkedin: 'https://linkedin.com/in/ali-younes-41a2b4296',
+      linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
       website: 'https://aliyounes.dev',
       resume: '/assets/engineers/ali-younes/resume.pdf',
       location: 'Seattle, WA (AWS) · Boston, MA',
@@ -317,7 +372,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse — the two-person studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2023–2028).',
+      'Ali Tleis is a co-founder of Eternal Reverse — the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -334,6 +389,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'MIT Lincoln Laboratory',
+        logo: '/assets/logos/mit-lincoln-laboratory.png',
         role: 'Web Application Developer (AI Integration)',
         location: 'Lexington, MA',
         startDate: 'Jul 2026',
@@ -346,6 +402,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
         role: 'Co-Founder',
         location: 'Boston, MA',
         startDate: '2025',
@@ -353,21 +411,32 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Co-founded the two-person dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.',
+          'Co-founded the dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.',
         skills: ['Next.js', 'Node.js', 'Python', 'Lua', 'FFmpeg', 'Studio Ops'],
       },
       {
         company: 'Top Choice Realty',
+        logo: '/assets/logos/top-choice-realty.png',
+        logoOnDark: true,
         role: 'Frontend Developer Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2025',
         endDate: 'Sep 2025',
         summary:
           'Full-stack work across UI patterns, schema integrity, and automation pipelines. Engineered JWT auth flows and role-based access control for the firm’s primary real-estate platform.',
-        skills: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'JWT Auth', 'RBAC'],
+        skills: [
+          'React',
+          'TypeScript',
+          'Node.js',
+          'MongoDB',
+          'JWT Auth',
+          'RBAC',
+        ],
       },
       {
         company: 'Robert DeFalco Realty',
+        logo: '/assets/logos/robert-defalco-realty.png',
+        logoOnDark: true,
         role: 'Computer Technician Intern',
         location: 'Staten Island, NY',
         startDate: 'Jun 2023',
@@ -381,18 +450,35 @@ export const engineers: Engineer[] = [
       {
         school: 'Northeastern University',
         degree: 'B.S. Computer Science',
-        dates: '2023 – 2028 · Boston, MA',
+        dates: '2024 – 2028 · Boston, MA',
         honors: 'Co-op Program',
       },
     ],
     skills: [
       {
         category: 'Core Stack',
-        items: ['React', 'Next.js', 'Node.js', 'TypeScript', 'MongoDB', 'Tailwind CSS', 'Git'],
+        items: [
+          'React',
+          'Next.js',
+          'Node.js',
+          'TypeScript',
+          'MongoDB',
+          'Tailwind CSS',
+          'Git',
+        ],
       },
       {
         category: 'Languages',
-        items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'C++', 'C#', 'Lua', 'Kotlin'],
+        items: [
+          'TypeScript',
+          'JavaScript',
+          'Python',
+          'Java',
+          'C++',
+          'C#',
+          'Lua',
+          'Kotlin',
+        ],
       },
       {
         category: 'Backend',
@@ -404,7 +490,13 @@ export const engineers: Engineer[] = [
       },
       {
         category: 'Other',
-        items: ['Azure DevOps', 'Heroku', 'Arduino', 'Gemini API', 'LLM Integration'],
+        items: [
+          'Azure DevOps',
+          'Heroku',
+          'Arduino',
+          'Gemini API',
+          'LLM Integration',
+        ],
       },
     ],
     projects: [
@@ -428,7 +520,7 @@ export const engineers: Engineer[] = [
         name: 'Top Choice Realty Platform',
         blurb:
           'Full-stack real-estate management with JWT auth and role-based access control. React / TypeScript frontend, Node.js / MongoDB backend.',
-        href: 'https://github.com/Alitleis123',
+        href: 'https://topchoicerealtyny.com',
         tech: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'JWT'],
       },
       {
@@ -447,6 +539,35 @@ export const engineers: Engineer[] = [
       website: 'https://alitleis.dev',
       resume: '/assets/engineers/ali-tleis/resume.pdf',
       location: 'Boston, MA',
+    },
+  },
+  {
+    id: 'karan-anand',
+    name: 'Karan Anand',
+    initials: 'KA',
+    role: 'Co-Founder & Systems Design Engineer',
+    shortBio:
+      'Systems design engineer who ships quality solutions without compromising on time.',
+    longBio: [
+      'Karan joined Eternal Reverse as a systems design engineer, focused on architecture that holds up under real constraints — not just on paper.',
+      'He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other.',
+    ],
+    portrait: {
+      src: '/assets/engineers/karan-anand/portrait.jpg',
+      width: 2316,
+      height: 3088,
+    },
+    accentColor: '#10B981',
+    education: [
+      {
+        school: 'University of Manitoba',
+        degree: 'B.S. Computer Science',
+        dates: 'In Progress',
+      },
+    ],
+    contact: {
+      email: 'karan.a4248@gmail.com',
+      location: 'Winnipeg, MB',
     },
   },
 ]

@@ -7,12 +7,14 @@ const STEPS = [
   {
     num: '02',
     label: 'TICKET',
-    detail: 'A ticket ID is logged the moment you transmit. You keep the reference.',
+    detail:
+      'A ticket ID is logged the moment you transmit. You keep the reference.',
   },
   {
     num: '03',
     label: 'REVIEW',
-    detail: 'Reviewed by the founders. Personal response within three business days.',
+    detail:
+      'Reviewed by the founders. Personal response within three business days.',
   },
 ]
 
