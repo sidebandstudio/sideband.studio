@@ -46,7 +46,7 @@ export default function EngineerCard({
         {portraitSrc ? (
           <Image
             src={portraitSrc}
-            alt={`${engineer.name} — ${engineer.role}`}
+            alt={`${engineer.name}, ${engineer.role}`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.02]"

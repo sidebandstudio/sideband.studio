@@ -10,8 +10,8 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## TL;DR
 
-- **Co-Founder of Eternal Reverse** — dev studio shipping six products across desktop, browser, and full-stack
-- **Web Application Developer (AI Integration) at MIT Lincoln Laboratory** — Jul–Dec 2026 (current)
+- **Co-Founder of Eternal Reverse** · dev studio shipping six products across desktop, browser, and full-stack
+- **Web Application Developer (AI Integration) at MIT Lincoln Laboratory** · Jul–Dec 2026 (current)
 - Past **Frontend Developer Intern at Top Choice Realty** (Summer 2025)
 - B.S. Computer Science at **Northeastern University** via co-op (2024–2028)
 - Based in **Boston, MA**
@@ -20,7 +20,7 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## Experience
 
-### MIT Lincoln Laboratory — Web Application Developer (AI Integration) *(Current)*
+### MIT Lincoln Laboratory · Web Application Developer (AI Integration) *(Current)*
 
 **Lexington, MA · Jul – Dec 2026**
 
@@ -28,7 +28,7 @@ Building AI-integrated internal web applications inside MIT’s federally funded
 
 ---
 
-### Eternal Reverse — Co-Founder *(Current)*
+### Eternal Reverse · Co-Founder *(Current)*
 
 **Boston, MA · 2025 – Present**
 
@@ -36,7 +36,7 @@ Co-founded the dev studio shipping six products across desktop, browser, and ful
 
 ---
 
-### Top Choice Realty — Frontend Developer Intern
+### Top Choice Realty · Frontend Developer Intern
 
 **Staten Island, NY · Jun – Sep 2025**
 
@@ -44,7 +44,7 @@ Full-stack work across UI patterns, schema integrity, and automation pipelines. 
 
 ---
 
-### Robert DeFalco Realty — Computer Technician Intern
+### Robert DeFalco Realty · Computer Technician Intern
 
 **Staten Island, NY · Jun – Sep 2023**
 
@@ -54,7 +54,7 @@ Workstation provisioning, automation scripting, and deployment standardization a
 
 ## Education
 
-**Northeastern University** — B.S. Computer Science
+**Northeastern University** · B.S. Computer Science
 *2024 – 2028 · Boston, MA · Co-op Program*
 
 ---
@@ -75,10 +75,10 @@ Workstation provisioning, automation scripting, and deployment standardization a
 
 ## Featured Projects
 
-- **[Eternal2x](/products/eternal2x)** — DaVinci Resolve smart upscale. Motion-aware upscaling automation using Python, Lua, OpenCV, and FFmpeg directly on the Resolve timeline.
-- **[Eternal Summary](/products/eternal-summary)** — Chrome MV3 extension for instant webpage summarization. Server-side proxying via Node / Express on Fly.io, Gemini API on the backend.
-- **Top Choice Realty Platform** — Full-stack real-estate management with JWT auth and role-based access control. React / TypeScript frontend, Node.js / MongoDB backend.
-- **CalorieCalculator** — React-based responsive health calculator with strict, state-driven input validation.
+- **[Eternal2x](/products/eternal2x)** · DaVinci Resolve smart upscale. Motion-aware upscaling automation using Python, Lua, OpenCV, and FFmpeg directly on the Resolve timeline.
+- **[Eternal Summary](/products/eternal-summary)** · Chrome MV3 extension for instant webpage summarization. Server-side proxying via Node / Express on Fly.io, Gemini API on the backend.
+- **Top Choice Realty Platform** · Full-stack real-estate management with JWT auth and role-based access control. React / TypeScript frontend, Node.js / MongoDB backend.
+- **CalorieCalculator** · React-based responsive health calculator with strict, state-driven input validation.
 
 ---
 

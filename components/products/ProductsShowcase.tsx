@@ -306,8 +306,8 @@ function EternalMonitorSection() {
             version="v0.1.1-mirror"
             status="IN DEVELOPMENT"
             accent="#A855F7"
-            problem="Your second monitor costs $300. Your iPad Pro costs $1000+. Neither talks to Windows natively — you either buy a dongle, pay a subscription, or accept the latency."
-            solution="EternalMonitor captures your desktop via DXGI Desktop Duplication, transcodes BGRA→YUV420P, and encodes H.264 in hardware — NVENC, AMF, or QuickSync auto-selected. Streams over fragmented UDP to an iPad client that decodes via VideoToolbox and renders with Metal. Zero-config discovery via mDNS."
+            problem="Your second monitor costs $300. Your iPad Pro costs $1000+. Neither talks to Windows natively: you either buy a dongle, pay a subscription, or accept the latency."
+            solution="EternalMonitor captures your desktop via DXGI Desktop Duplication, transcodes BGRA→YUV420P, and encodes H.264 in hardware (NVENC, AMF, or QuickSync auto-selected). Streams over fragmented UDP to an iPad client that decodes via VideoToolbox and renders with Metal. Zero-config discovery via mDNS."
             tags={[
               'Rust',
               'Swift',
@@ -523,7 +523,7 @@ function RichPresenceSection() {
                       letterSpacing: '0.06em',
                     }}
                   >
-                    eternalrp — terminal
+                    eternalrp · terminal
                   </span>
                 </div>
                 <div
@@ -564,8 +564,8 @@ function RichPresenceSection() {
             version="v1.0.0-beta"
             status="LIVE"
             accent="#6366F1"
-            problem="Apple Music runs on Windows. Spotify too. But Discord sees nothing — your Rich Presence is blank, your listening activity invisible, and there's no official bridge."
-            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe — no install, no friction."
+            problem="Apple Music runs on Windows. Spotify too. But Discord sees nothing: your Rich Presence is blank, your listening activity invisible, and there's no official bridge."
+            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install, no friction."
             tags={[
               'Python',
               'pywin32',
@@ -836,7 +836,7 @@ function Eternal2xSection() {
             status="LIVE"
             accent="#8B5CF6"
             problem="Upscaling old footage to 4K in DaVinci Resolve is slow, manual, and lossy. Editors waste hours marking motion ranges, splitting clips, and re-rendering dead frames that didn't need touching in the first place."
-            solution="Eternal2x is a Python + Lua + OpenCV pipeline that auto-detects motion frames, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction inside DaVinci Resolve — then upscales the result to 4K with FFmpeg."
+            solution="Eternal2x is a Python + Lua + OpenCV pipeline that auto-detects motion frames, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction inside DaVinci Resolve, then upscales the result to 4K with FFmpeg."
             tags={['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API']}
             github="https://github.com/Alitleis123/Eternal2x.com"
             url="https://Eternal2x.com"
@@ -1054,7 +1054,7 @@ function EternalSummarySection() {
             status="LIVE"
             accent="#E879F9"
             problem="Reading long articles, docs, and research pages is a tax on attention. Existing summarizer extensions are bloated, slow, or send your data through a chain of middlemen."
-            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay — one click, no friction."
+            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click, no friction."
             tags={[
               'JavaScript',
               'Chrome Extensions API',
@@ -1172,8 +1172,8 @@ function SignatureCutsSection() {
             version={null}
             status="LIVE"
             accent="#C084FC"
-            problem="Booking a haircut requires downloading an app, creating an account, or making a phone call. For a local barbershop in Chicopee, MA — this friction costs appointments."
-            solution="A static Next.js site, mobile-first by design, with SMS and WhatsApp deep-link booking flows. Tap to open a pre-filled booking message — no app, no account, no backend. Custom domain, fast, dead simple."
+            problem="Booking a haircut requires downloading an app, creating an account, or making a phone call. For a local barbershop in Chicopee, MA, this friction costs appointments."
+            solution="A static Next.js site, mobile-first by design, with SMS and WhatsApp deep-link booking flows. Tap to open a pre-filled booking message. No app, no account, no backend. Custom domain, fast, dead simple."
             tags={[
               'Next.js',
               'Tailwind CSS',

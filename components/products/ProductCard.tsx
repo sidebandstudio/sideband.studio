@@ -31,7 +31,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         animation: `fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) ${index * 0.08}s both`,
       }}
     >
-      {/* Hero — branded visual or image */}
+      {/* Hero: branded visual or image */}
       {product.cardHero === 'branded' ? (
         <div
           style={{

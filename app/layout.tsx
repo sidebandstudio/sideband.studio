@@ -21,11 +21,11 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Eternal Reverse — Built to last. Shipped to matter.',
+  title: 'Eternal Reverse · Built to last. Shipped to matter.',
   description: 'Indie software studio shipping technically ambitious products.',
   metadataBase: new URL('https://eternalreverse.com'),
   openGraph: {
-    title: 'Eternal Reverse — Built to last. Shipped to matter.',
+    title: 'Eternal Reverse · Built to last. Shipped to matter.',
     description:
       'Indie software studio shipping technically ambitious products.',
     images: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Eternal Reverse — Built to last. Shipped to matter.',
+    title: 'Eternal Reverse · Built to last. Shipped to matter.',
     description:
       'Indie software studio shipping technically ambitious products.',
     images: ['/assets/EternalReverse/EternalReverse.png'],

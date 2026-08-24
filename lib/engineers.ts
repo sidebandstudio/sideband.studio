@@ -90,8 +90,8 @@ export const engineers: Engineer[] = [
     shortBio:
       'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
-      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA — and currently an SDE Intern on AWS CloudFormation in Seattle.',
-      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. He stays indie because independence is what lets him build software the way it should be built — fast, honest, and obsessively refined.',
+      'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SWE Co-op at Philips in Cambridge, MA, and currently an SDE Intern on AWS CloudFormation in Seattle.',
+      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. He stays indie because independence is what lets him build software the way it should be built: fast, honest, and obsessively refined.',
     ],
     portrait: {
       src: '/assets/engineers/ali-younes/portrait.jpg',
@@ -140,7 +140,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Founded the studio and ships its products end-to-end — Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
+          'Founded the studio and ships its products end-to-end: Rust/Swift streaming, SwiftUI on iOS, and the Next.js surfaces around them.',
         skills: [
           'Rust',
           'Swift',
@@ -162,7 +162,7 @@ export const engineers: Engineer[] = [
           'Shipped zero-touch PXE deployment for ~1,000 medical-device Windows machines under FDA-regulated UEFI Secure Boot. Solo project ownership; presented architecture to 50+ engineers.',
         highlights: [
           'Replaced ~1,000 technician-touches per refresh cycle with a fully automated deployment workflow',
-          'Contributed to the VM Deployment Manager — post-provisioning automation + metrics pipeline',
+          'Contributed to the VM Deployment Manager: post-provisioning automation + metrics pipeline',
           'Authored UEFI Secure Boot / WinPE / BCD pipeline that survives FDA validation',
         ],
         skills: [
@@ -302,7 +302,7 @@ export const engineers: Engineer[] = [
       {
         name: 'Moops',
         blurb:
-          'MERN social reading platform — 1M+ books via Google Books API, JWT auth, friend system. Live.',
+          'MERN social reading platform: 1M+ books via Google Books API, JWT auth, friend system. Live.',
         href: 'https://moopsbooks.com',
         tech: ['MongoDB', 'Express', 'React', 'Node'],
       },
@@ -372,7 +372,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse — the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
+      'Ali Tleis is a co-founder of Eternal Reverse, the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -549,7 +549,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'Systems design engineer who ships quality solutions without compromising on time.',
     longBio: [
-      'Karan joined Eternal Reverse as a systems design engineer, focused on architecture that holds up under real constraints — not just on paper.',
+      'Karan joined Eternal Reverse as a systems design engineer, focused on architecture that holds up under real constraints, not just on paper.',
       'He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other.',
     ],
     portrait: {

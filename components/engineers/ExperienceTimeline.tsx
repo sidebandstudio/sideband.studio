@@ -85,7 +85,7 @@ export default function ExperienceTimeline({
             {/* Date / status row */}
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-accent">
-                {entry.startDate} — {entry.endDate}
+                {entry.startDate} – {entry.endDate}
               </span>
               <StatusPill entry={entry} />
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-eternal-muted">

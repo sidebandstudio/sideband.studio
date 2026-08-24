@@ -45,7 +45,7 @@ export default function Navbar() {
           <Link
             href="/"
             className="flex items-center"
-            aria-label="Eternal Reverse — home"
+            aria-label="Eternal Reverse home"
           >
             <Image
               src="/assets/EternalReverse/EternalReverse.png"

@@ -424,7 +424,7 @@ export const products: Product[] = [
     tagline:
       'DaVinci Resolve smart upscale. Skip the dead frames. Render only what moved.',
     description:
-      'Python + Lua + OpenCV pipeline that auto-detects motion frames inside DaVinci Resolve, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction — then upscales the result to 4K with FFmpeg.',
+      'Python + Lua + OpenCV pipeline that auto-detects motion frames inside DaVinci Resolve, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction, then upscales the result to 4K with FFmpeg.',
     status: 'LIVE',
     tags: ['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API'],
     url: 'https://eternal2x.com',
@@ -494,7 +494,7 @@ export const products: Product[] = [
         {
           step: '05',
           title: 'One-Command Orchestration',
-          body: 'A Python driver coordinates OpenCV detection, DaVinci Resolve Lua hooks, and the FFmpeg render into a single one-command pipeline — point it at a project, get a 4K master out the other side.',
+          body: 'A Python driver coordinates OpenCV detection, DaVinci Resolve Lua hooks, and the FFmpeg render into a single one-command pipeline: point it at a project, get a 4K master out the other side.',
         },
       ],
       highlights: [
@@ -582,14 +582,14 @@ export const products: Product[] = [
         {
           step: '05',
           title: 'One-Click Workflow',
-          body: 'A single click in the extension popup triggers extract → broker → summarize → render. No paste, no toggles, no setup — open the page, click once.',
+          body: 'A single click in the extension popup triggers extract → broker → summarize → render. No paste, no toggles, no setup. Open the page, click once.',
         },
       ],
       highlights: [
         'Manifest V3 compliant with service worker architecture, no remote code, future-proofed against Chrome API updates',
         'API key brokering through a Fly.io backend keeps secrets out of the extension bundle',
         'Streaming response renders summaries progressively for perceived sub-second response time',
-        'Content extraction tuned for articles, docs, and research pages — the formats people actually need summarized',
+        'Content extraction tuned for articles, docs, and research pages: the formats people actually need summarized',
       ],
     },
   },

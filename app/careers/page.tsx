@@ -14,7 +14,7 @@ const roles = [
   {
     title: 'Systems Engineer',
     description:
-      'Contribute to EternalMonitor — Rust host + Swift iPad client, H.264 hardware encoding, Metal rendering.',
+      'Contribute to EternalMonitor: Rust host + Swift iPad client, H.264 hardware encoding, Metal rendering.',
     build: 'Performance-critical systems code in Rust and/or Swift',
     learn: 'DXGI, VideoToolbox, UDP streaming, Metal GPU rendering',
     walkAway: 'One of the most technically impressive projects on any resume',
@@ -22,7 +22,7 @@ const roles = [
   {
     title: 'Design Engineer',
     description:
-      'Shape the visual identity across all Eternal products — web, iOS, marketing.',
+      'Shape the visual identity across all Eternal products: web, iOS, marketing.',
     build: 'UI components, design systems, marketing sites',
     learn:
       'Production design engineering, component architecture, brand systems',
@@ -99,7 +99,7 @@ export default function CareersPage() {
           <div className="mt-16 rounded-lg border border-eternal-border bg-eternal-surface-2 p-8">
             <SectionLabel label="ELIGIBILITY" />
             <p className="mt-4 font-mono text-[14px] leading-relaxed text-eternal-text-secondary">
-              Students, bootcamp grads, self-taught — all welcome.
+              Students, bootcamp grads, self-taught: all welcome.
               <span className="text-eternal-accent">
                 {' '}
                 Drive over credentials.
@@ -144,7 +144,7 @@ export default function CareersPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Careers — Eternal Reverse',
+  title: 'Careers · Eternal Reverse',
   description:
     'Open to contributors. We are a small studio that values depth, ownership, and shipping software that endures.',
 }

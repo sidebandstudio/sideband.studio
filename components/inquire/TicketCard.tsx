@@ -56,7 +56,7 @@ export default function TicketCard({
         </div>
       </div>
 
-      {/* Ticket ID — display */}
+      {/* Ticket ID, display */}
       <div className="border-b border-eternal-border px-5 py-6">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
           Reference
@@ -90,7 +90,7 @@ export default function TicketCard({
                     : 'text-eternal-muted italic'
                 }`}
               >
-                {field.value || '—'}
+                {field.value || ', '}
               </dd>
             </div>
           ))}
