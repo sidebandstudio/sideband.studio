@@ -59,6 +59,16 @@ Then sweep for what your change makes stale:
 - New pages, products, or engineer entries get coverage in `tests/smoke.spec.ts`.
 - Images: sized for the web, EXIF stripped, and any dimensions recorded in `lib/` data match the actual file.
 
+## Screenshots For Visual Changes
+
+If a visitor could see the difference, the PR description shows it. Run `npm run dev`, open the affected page, and attach a screenshot of the result under "Proof It Works" in the template. For edits to existing UI, include before and after. Examples that need one: a new portrait or logo, a layout or spacing change, new copy in a component, a new page or section, a color or typography tweak.
+
+The point is that the reviewer can judge the change without checking out the branch. Text like "verified locally" does not do that; a picture does. If a screenshot really is impractical (an animation, a hover state), a short recording or a clear description of what to look at and where is the fallback.
+
+Not needed for changes with no visual effect: CI, docs, tests, scripts, data-only edits that do not change rendered output.
+
+A bot leaves a reminder on PRs that touch UI files without an image attached. It is a nudge, not a gate; the reviewer decides whether the PR is reviewable without one.
+
 ## Review And Merge
 
 - CODEOWNERS requires @whoisaldo approval on every PR.

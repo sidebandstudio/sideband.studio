@@ -96,6 +96,8 @@ This is enforced. `scripts/check-consistency.mjs` re-derives the founder and pro
 
 Follow `PR.md` for branch naming, commit format, the pre-review checklist, and merge style. Open PRs against `dev`.
 
+For any change a visitor could see (pages, components, styles, images, copy in components), run `npm run dev`, open the affected page, take a screenshot of the result, and attach it to the PR under "Proof It Works". Before/after for edits to existing UI. This is the normal way to open a UI PR here, not an extra; the reviewer should be able to judge the change from the description alone. Skip it only for changes with no rendered effect (CI, docs, tests, scripts, data-only edits). See `PR.md` -> Screenshots For Visual Changes.
+
 Never fork this repository or open a PR from a fork. Push branches straight to `origin` (this repo) and open the PR from there. Fork PRs are auto-closed by `.github/workflows/no-fork-prs.yml`, get no CI or Claude review, and cannot merge.
 
 ## If Something Looks Broken On Vercel
