@@ -1,0 +1,26 @@
+name: Auto Merge
+
+# Once a PR into dev is approved, arm GitHub auto-merge so it lands as soon as
+# the required "checks" job is green. Merging into dev is a production deploy
+# on Vercel, so approval is the gate - CI still has to pass before it merges.
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  arm:
+    if: >-
+      github.event.review.state == 'approved' &&
+      github.event.pull_request.base.ref == 'dev' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge (merge commit, delete branch)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --auto --merge --delete-branch
