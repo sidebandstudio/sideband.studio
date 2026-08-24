@@ -1,22 +1,22 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, DM_Mono } from 'next/font/google'
+import { DM_Sans, JetBrains_Mono } from 'next/font/google'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import CustomCursor from '@/components/layout/CustomCursor'
 import NoiseOverlay from '@/components/ui/NoiseOverlay'
 
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-instrument-serif',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
   display: 'swap',
 })
 
-const dmMono = DM_Mono({
-  weight: ['300', '400', '500'],
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-dm-mono',
+  weight: ['400', '500'],
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 })
 
@@ -55,9 +55,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${dmMono.variable}`}
+      className={`${dmSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-eternal-black font-mono text-eternal-text antialiased">
+      <body className="min-h-screen bg-eternal-black font-sans text-eternal-text antialiased">
         <NoiseOverlay />
         <CustomCursor />
         <Navbar />

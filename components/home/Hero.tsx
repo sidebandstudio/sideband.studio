@@ -1,162 +1,85 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import GlowButton from '@/components/ui/GlowButton'
-import StatusBadge from '@/components/ui/StatusBadge'
-import { products } from '@/lib/products'
+import Terminal from '@/components/home/Terminal'
 
-const bootLines = [
-  { text: '$ eternal-reverse --boot', cls: 'cmd' },
-  { text: '', cls: 'dim' },
-  { text: '  studio   : Eternal Reverse', cls: '' },
-  { text: '  location : Boston, MA', cls: '' },
-  { text: '  founded  : 2025', cls: '' },
-  { text: '  products : 6 active', cls: '' },
-  { text: '  stack    : Rust · Swift · React · Next.js', cls: '' },
-  { text: '', cls: '' },
-  { text: '  [OK] system ready.', cls: 'ok' },
+const marks = [
+  { src: '/assets/ProductIcons/em.png', alt: 'EternalMonitor', cls: 'left-[6%] top-[9%] -rotate-[8deg]' },
+  { src: '/assets/ProductIcons/rp.png', alt: 'EternalRichPresence', cls: 'right-[6%] top-[7%] rotate-[6deg]' },
+  { src: '/assets/ProductIcons/ex.png', alt: 'Exerly Fitness', cls: 'left-[4%] top-[36%] rotate-[4deg]' },
+  { src: '/assets/ProductIcons/e2x.png', alt: 'Eternal2x', cls: 'right-[4%] top-[36%] -rotate-[5deg]' },
+  { src: '/assets/ProductIcons/es.png', alt: 'Eternal Summary', cls: 'left-[7%] top-[63%] rotate-[3deg]' },
+  { src: '/assets/ProductIcons/sc.png', alt: 'Signature Cuts 413', cls: 'right-[7%] top-[63%] -rotate-[3deg]' },
 ]
 
-function useTerminal() {
-  const [output, setOutput] = useState<{ text: string; cls: string }[]>([])
-  const [done, setDone] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function run() {
-      await new Promise((resolve) => setTimeout(resolve, 300))
-
-      for (const line of bootLines) {
-        if (cancelled) return
-
-        setOutput((prev) => [...prev, { text: '', cls: line.cls }])
-
-        for (let i = 0; i < line.text.length; i += 1) {
-          if (cancelled) return
-          await new Promise((resolve) =>
-            setTimeout(resolve, line.text[i] === ' ' ? 6 : 10),
-          )
-          setOutput((prev) => {
-            const next = [...prev]
-            next[next.length - 1] = {
-              text: line.text.slice(0, i + 1),
-              cls: line.cls,
-            }
-            return next
-          })
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 50))
-      }
-
-      if (!cancelled) setDone(true)
-    }
-
-    run()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  return { output, done }
-}
-
 export default function Hero() {
-  const { output, done } = useTerminal()
-
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-eternal-black">
-      <div className="pointer-events-none absolute right-[8%] top-1/2 h-[560px] w-[560px] -translate-y-1/2 animate-orb-float">
-        <div className="h-full w-full rounded-full bg-[radial-gradient(circle,#A855F7_0%,#6366F1_55%,transparent_80%)] opacity-30 blur-[110px]" />
+    <section className="relative overflow-hidden bg-eternal-black pb-20 pt-[88px]">
+      <div
+        aria-hidden="true"
+        className="hero-grid-bg pointer-events-none absolute inset-0"
+      />
+
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] hidden min-[900px]:block">
+        {marks.map((m) => (
+          <div
+            key={m.src}
+            className={`absolute grid h-[92px] w-[92px] place-items-center overflow-hidden rounded-[22px] border border-eternal-border bg-[#0b0a14] shadow-[0_20px_48px_-16px_rgba(0,0,0,0.65),inset_0_2px_rgba(255,255,255,0.04)] ${m.cls}`}
+          >
+            <Image src={m.src} alt="" width={256} height={256} className="h-full w-full object-cover" />
+          </div>
+        ))}
       </div>
 
-      <div className="inner relative z-10 w-full pt-20 pb-20">
-        <div className="hero-grid grid items-center gap-[60px]">
-          <div>
-            <div className="animate-fade-up [animation-delay:100ms] [animation-fill-mode:both]">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-eternal-accent">
-                [ ETERNAL REVERSE · EST. 2025 ]
-              </span>
-            </div>
+      <div className="inner relative z-[2] text-center">
+        <span className="inline-flex h-8 items-center rounded-full border border-eternal-border bg-white/[0.03] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-eternal-text-secondary">
+          Independent software studio — Boston, MA
+        </span>
 
-            <div className="mt-7 animate-fade-up [animation-delay:250ms] [animation-fill-mode:both]">
-              <div className="terminal-box">
-                <div className="terminal-content">
-                  {output.map((line, index) => (
-                    <div key={`${line.cls}-${index}`} className={`terminal-line ${line.cls}`}>
-                      {line.text}
-                      {index === output.length - 1 && !done ? (
-                        <span className="terminal-cursor" />
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <h1 className="display mx-auto mb-[22px] mt-6 max-w-[18ch] text-balance text-[clamp(40px,6vw,80px)]">
+          Software that endures
+          <span className="text-eternal-accent">.</span>
+        </h1>
 
-            <div className="mt-9 animate-fade-up [animation-delay:800ms] [animation-fill-mode:both]">
-              <h1 className="hero-headline font-display text-[72px] leading-[0.95] text-eternal-text-secondary">
-                Software that
-              </h1>
-              <h1 className="hero-headline mt-1 font-display text-[72px] leading-[0.95] text-eternal-text">
-                endures<span className="text-eternal-accent">.</span>
-              </h1>
-              <p className="mt-5 max-w-[400px] text-[13px] leading-[1.8] text-eternal-text-secondary">
-                A two-founder studio shipping technically ambitious products for
-                developers, athletes, and people who care about quality.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <GlowButton variant="filled" href="/products">
-                  View Products
-                </GlowButton>
-                <GlowButton variant="ghost" href="/about">
-                  Our Story →
-                </GlowButton>
-              </div>
-            </div>
+        <p className="mx-auto mb-9 max-w-[600px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-eternal-text-secondary">
+          A two-person studio shipping technically ambitious products for
+          developers, athletes, and people who care about quality.
+        </p>
+
+        <div className="mb-16 flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center gap-2.5">
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center rounded-[10px] bg-eternal-text px-[22px] py-3.5 text-[15px] font-semibold text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-white"
+            >
+              View Products
+            </Link>
+            <Link
+              href="/engineers"
+              className="inline-flex items-center justify-center rounded-[10px] border border-eternal-border px-[22px] py-3.5 text-[15px] font-medium text-eternal-text-secondary transition-colors duration-200 hover:border-eternal-border-strong hover:bg-white/[0.03] hover:text-eternal-text"
+            >
+              Meet the Engineers
+            </Link>
           </div>
 
-          <div className="hero-right flex flex-col gap-3.5">
-            <span className="mb-1 text-[10px] uppercase tracking-[0.15em] text-eternal-text-secondary">
-              Active products
+          <a
+            href="https://github.com/whoisaldo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-[-0.01em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.8-.26.8-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.2.7.8.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            Everything we ship is on GitHub
+            <span className="opacity-60 transition-transform duration-200 group-hover:translate-x-0.5">
+              &rarr;
             </span>
-            {products.map((product, index) => (
-              <Link
-                key={product.id}
-                href="/products"
-                className="animate-fade-up border border-eternal-border bg-eternal-surface px-4 py-3 transition-colors duration-200 hover:bg-eternal-surface-2"
-                style={{
-                  animationDelay: `${500 + index * 80}ms`,
-                  animationFillMode: 'both',
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className="h-[7px] w-[7px] shrink-0 rounded-full"
-                    style={{
-                      backgroundColor: product.accentColor,
-                      boxShadow:
-                        product.status === 'LIVE'
-                          ? `0 0 8px ${product.accentColor}`
-                          : 'none',
-                    }}
-                  />
-                  <span className="flex-1 text-[12px] text-eternal-text-secondary">
-                    {product.name}
-                  </span>
-                  <StatusBadge status={product.status} />
-                  {product.version ? (
-                    <span className="text-[10px] text-eternal-muted">
-                      {product.version}
-                    </span>
-                  ) : null}
-                </div>
-              </Link>
-            ))}
-          </div>
+          </a>
         </div>
+
+        <Terminal />
       </div>
     </section>
   )
