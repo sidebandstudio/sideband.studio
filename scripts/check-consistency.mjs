@@ -63,6 +63,11 @@ const FACTS = [
   { label: 'in-development product count', expected: devCount, re: /\b([a-z]+) in (?:active )?development\b/gi },
 ]
 
+// Historical references ("started from two founders", "began as a two-person
+// team") describe the past, not the current count, and are exempt.
+const HISTORICAL = /\b(?:started|began|grew|founded)\b[^.!?]{0,40}$/i
+const isHistorical = (text, index) => HISTORICAL.test(text.slice(Math.max(0, index - 60), index))
+
 // --- Files to scan: everything user-facing, never the source-of-truth data. ---
 const SCAN_DIRS = ['app', 'components', 'content']
 const SCAN_FILES = ['README.md']
@@ -90,6 +95,7 @@ for (const file of files) {
       while ((m = fact.re.exec(line))) {
         const word = m[1].toLowerCase()
         if (!wordToNum.has(word)) continue // "the founders", "our products" → not a claim
+        if (isHistorical(line, m.index)) continue // past-tense origin copy, not a current count
         if (wordToNum.get(word) !== fact.expected) {
           errors.push({
             file,

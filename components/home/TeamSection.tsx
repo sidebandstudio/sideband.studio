@@ -29,10 +29,11 @@ export default function TeamSection() {
                 {founderWord} founders. One standard.
               </h2>
               <p className="mt-3.5 max-w-[560px] text-pretty text-[17px] tracking-[-0.005em] text-eternal-text-secondary">
-                We got tired of mediocre tools. Software that ships half-baked,
-                bloated with features nobody asked for. We decided to stop
-                complaining and start building. We stay indie because
-                independence is what lets us make these choices.
+                Eternal Reverse started from two founders who got tired of
+                mediocre tools — software that ships half-baked, bloated with
+                features nobody asked for. We decided to stop complaining and
+                start building. We stay indie because independence is what lets
+                us make these choices.
               </p>
             </div>
             <Link
