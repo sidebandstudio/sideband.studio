@@ -54,6 +54,7 @@ Run and pass locally:
 npm run build              # must pass (see AGENT_NOTES.md)
 npm run lint
 npm run check:consistency  # counts in prose match lib/ data
+npm run check:copy         # no em dashes or semicolons in user-facing copy
 npx playwright test        # smoke tests in tests/
 ```
 
@@ -67,13 +68,19 @@ Then sweep for what your change makes stale:
 
 ## Screenshots For Visual Changes
 
-If a visitor could see the difference, the PR description shows it. Run `npm run dev`, open the affected page, and attach a screenshot of the result under "Proof It Works" in the template. For edits to existing UI, include before and after. Examples that need one: a new portrait or logo, a layout or spacing change, new copy in a component, a new page or section, a color or typography tweak.
+If a visitor could see the difference, the PR shows it. The `pr-screenshots` workflow covers the standard landing set automatically (see Screenshots above). For pages that set does not cover, capture the affected page yourself: run the site locally, take the screenshot, publish it with `scripts/pr-screenshot.sh <image> <pr-number>`, and paste the markdown it prints into "Proof It Works". For edits to existing UI, include before and after.
 
-The point is that the reviewer can judge the change without checking out the branch. Text like "verified locally" does not do that; a picture does. If a screenshot really is impractical (an animation, a hover state), a short recording or a clear description of what to look at and where is the fallback.
+Screenshots must render inline in the PR body or comment, never sit behind a bare link. In this private repo that means same-origin URLs of the form `https://github.com/<owner>/<repo>/raw/<ref>/<path>` (drag-and-drop in the browser also works). A preview link or "verified locally" does not count. The reviewer judges the change from the description without checking out the branch.
 
 Not needed for changes with no visual effect: CI, docs, tests, scripts, data-only edits that do not change rendered output.
 
-A bot leaves a reminder on PRs that touch UI files without an image attached. It is a nudge, not a gate; the reviewer decides whether the PR is reviewable without one.
+A bot leaves a reminder on PRs that touch UI files without an image attached. It is a nudge, not a gate. The reviewer decides whether the PR is reviewable without one.
+
+## Copy Style
+
+User-facing copy never uses em dashes or semicolons. Rephrase with a comma, a colon, a period, or a new sentence. Date ranges keep the en dash. HTML entities (`&middot;`, `&rarr;`) and the acronym TL;DR are fine.
+
+`npm run check:copy` enforces this in CI. It scans string literals, template text, and JSX text in `app/`, `components/`, `lib/`, and `tests/`, plus prose in `content/`. Code and code comments are exempt, so an em dash in a JSDoc comment is fine.
 
 ## Review And Merge
 

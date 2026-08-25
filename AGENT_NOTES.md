@@ -92,11 +92,17 @@ Known duplications to keep in sync:
 
 This is enforced. `scripts/check-consistency.mjs` re-derives the founder and product counts from `lib/` and fails if any prose disagrees (it also catches stale head-count phrasings like "two-person studio" once the count moves on). It runs in CI on every PR (`npm run check:consistency`) and is a required check, so drift blocks merge. Run it locally before pushing. To cover a new derived fact, add an entry to the `FACTS` array in that script.
 
+## Copy Style
+
+User-facing copy never uses em dashes or semicolons. Rephrase instead. En dashes in date ranges stay. Enforced in CI by `npm run check:copy` (string literals, template text, JSX text, and `content/` prose). Code and code comments are exempt. See PR.md -> Copy Style.
+
 ## Pull Requests
 
 Follow `PR.md` for branch naming, commit format, the pre-review checklist, and merge style. Open PRs against `dev`.
 
 For any change a visitor could see (pages, components, styles, images, copy in components), run `npm run dev`, open the affected page, take a screenshot of the result, and attach it to the PR under "Proof It Works". Before/after for edits to existing UI. This is the normal way to open a UI PR here, not an extra; the reviewer should be able to judge the change from the description alone. Skip it only for changes with no rendered effect (CI, docs, tests, scripts, data-only edits). See `PR.md` -> Screenshots For Visual Changes.
+
+The `pr-screenshots` workflow auto-captures the standard landing set on every PR and posts a sticky comment, so the landing page is always covered. For any other page, publish the image with `scripts/pr-screenshot.sh <image> <pr-number>` and embed the same-origin markdown it prints. `raw.githubusercontent.com` links do not render in this private repo. Use `https://github.com/<owner>/<repo>/raw/<ref>/<path>` instead.
 
 Never fork this repository or open a PR from a fork. Push branches straight to `origin` (this repo) and open the PR from there. Fork PRs are auto-closed by `.github/workflows/no-fork-prs.yml`, get no CI or Claude review, and cannot merge.
 
