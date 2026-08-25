@@ -7,3 +7,5 @@ Project instructions for Claude Code sessions in this repo.
 - All work branches off `dev` and lands via PR into `dev`.
 - UI change means screenshot: if the change is visible on the site, take a screenshot of the result from the local dev server and attach it in the PR body under "Proof It Works" (before/after for existing UI). Standard practice, not optional, unless the change has no rendered effect. See `PR.md`.
 - Never fork this repo or open a PR from a fork. Push branches to `origin` (this repository) and open the PR from there. Fork PRs are closed automatically.
+- No em dashes and no semicolons in user-facing copy. Rephrase instead. `npm run check:copy` enforces this in CI.
+- Screenshots must render inline in the PR body or comment. Publish with `scripts/pr-screenshot.sh` and paste the markdown it prints, or drag the image in. Bare links do not count. The `pr-screenshots` workflow auto-covers the landing set.

@@ -38,7 +38,7 @@ Infrastructure-as-code work on AWS CloudFormation. Full service-ownership projec
 
 **Cambridge, MA · Jul 2025 – Present**
 
-Shipped **zero-touch PXE deployment for ~1,000 medical-device Windows machines** under FDA-regulated UEFI Secure Boot. Solo project ownership; presented architecture to 50+ engineers.
+Shipped **zero-touch PXE deployment for ~1,000 medical-device Windows machines** under FDA-regulated UEFI Secure Boot. Solo project ownership. Presented architecture to 50+ engineers.
 
 - Replaced ~1,000 technician-touches per refresh cycle with a fully automated deployment workflow
 - Contributed to the VM Deployment Manager: post-provisioning automation + metrics pipeline
