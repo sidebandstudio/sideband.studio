@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "check:consistency": "node scripts/check-consistency.mjs",
-    "shots": "node scripts/capture-screenshots.mjs"
+    "shots": "node scripts/capture-screenshots.mjs",
+    "check:copy": "node scripts/check-copy.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",

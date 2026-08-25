@@ -26,6 +26,9 @@ jobs:
       - name: Content consistency
         run: npm run check:consistency
 
+      - name: Copy style
+        run: npm run check:copy
+
       - name: Prettier
         run: npx prettier --check app components lib styles tests
 
