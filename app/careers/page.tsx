@@ -4,26 +4,52 @@ import SectionLabel from '@/components/ui/SectionLabel'
 
 const roles = [
   {
-    title: 'Mobile Engineer',
+    title: 'Product Manager',
+    area: 'Product',
     description:
-      "Help ship Exerly's SwiftUI iOS client. HealthKit integration, progress photo compare mode, barcode scanning.",
-    build: 'Real SwiftUI features in a production monorepo',
-    learn: 'iOS architecture, HealthKit, shared API design',
-    walkAway: 'Shipped iOS features, GitHub contributions, studio credit',
+      'Own the roadmap across Exerly and EternalMonitor. Turn user feedback and founder intent into scoped, shippable work, and keep the team pointed at what matters.',
+    build: 'Roadmaps, specs, release plans, and the feedback loop behind them',
+    learn:
+      'Prioritization under real constraints, shipping cadence, working directly with engineers',
+    walkAway:
+      'Products you steered from idea to release, with the metrics to prove it',
   },
   {
-    title: 'Systems Engineer',
+    title: 'Marketing',
+    area: 'Growth',
     description:
-      'Contribute to EternalMonitor — Rust host + Swift iPad client, H.264 hardware encoding, Metal rendering.',
-    build: 'Performance-critical systems code in Rust and/or Swift',
-    learn: 'DXGI, VideoToolbox, UDP streaming, Metal GPU rendering',
-    walkAway: 'One of the most technically impressive projects on any resume',
+      'Get Eternal products in front of the right people. Launch posts, landing copy, social, community, and the story of how a small studio ships.',
+    build:
+      'Launch campaigns, content, and the growth channels that actually convert',
+    learn:
+      'Positioning, copywriting, analytics, and building an audience from zero',
+    walkAway: 'Real launches with real numbers attached to your name',
   },
   {
-    title: 'Design Engineer',
+    title: 'Full Stack Engineer',
+    area: 'Engineering',
     description:
-      'Shape the visual identity across all Eternal products — web, iOS, marketing.',
-    build: 'UI components, design systems, marketing sites',
+      'Ship across the stack on Next.js, Swift, and Rust products. Pick a focus (web, mobile, backend, or infra) and go deep while staying fluent end to end.',
+    build: 'Features from database to UI in a production monorepo',
+    learn: 'API design, auth, deployments, and how the pieces fit together',
+    walkAway:
+      'Shipped full stack features, GitHub contributions, studio credit',
+  },
+  {
+    title: 'Individual Contributor',
+    area: 'Open',
+    description:
+      'Not a fit for a single box? Bring a skill we need and carve out your own lane. Writers, testers, researchers, video, ops. If it makes the product better, there is room.',
+    build: 'Whatever gap you can fill best, scoped with the founders',
+    learn: 'How a small studio operates, and where your work lands in it',
+    walkAway: 'A defined contribution with your name on it',
+  },
+  {
+    title: 'Design Engineer (UX/UI)',
+    area: 'Design',
+    description:
+      'UX and UI is our biggest gap right now. Own how Eternal products look and feel: flows, components, motion, and the design system across web, iOS, and marketing.',
+    build: 'User flows, UI components, design systems, and the marketing site',
     learn:
       'Production design engineering, component architecture, brand systems',
     walkAway: 'Shipped design work across multiple live products',
@@ -46,6 +72,13 @@ export default function CareersPage() {
             We&apos;re not hiring. We&apos;re collaborating. Ship with us and
             walk away with something on your resume that actually matters.
           </p>
+          <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-text-secondary">
+            {roles.length} open roles
+            <span className="text-eternal-accent"> / </span>
+            remote
+            <span className="text-eternal-accent"> / </span>
+            part time friendly
+          </p>
         </FadeUp>
 
         {/* Role Cards */}
@@ -56,9 +89,17 @@ export default function CareersPage() {
                 className="rounded-lg border border-eternal-border bg-eternal-surface p-8 transition-all duration-200 hover:border-eternal-accent/30"
                 style={{ borderLeftWidth: '3px', borderLeftColor: '#A855F7' }}
               >
-                <h3 className="font-display text-2xl text-eternal-text">
-                  {role.title}
-                </h3>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="font-display text-2xl text-eternal-text">
+                    {role.title}
+                  </h3>
+                  <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
+                    <span className="rounded border border-eternal-border px-2 py-1 text-eternal-text-secondary">
+                      {role.area}
+                    </span>
+                    <span className="text-eternal-accent">Open</span>
+                  </div>
+                </div>
                 <p className="mt-3 font-mono text-[13px] leading-relaxed text-eternal-text-secondary">
                   {role.description}
                 </p>
@@ -89,6 +130,13 @@ export default function CareersPage() {
                     </p>
                   </div>
                 </div>
+
+                <a
+                  href={`mailto:hello@eternalreverse.com?subject=${encodeURIComponent(`${role.title} at Eternal Reverse`)}`}
+                  className="mt-6 inline-block font-mono text-[12px] uppercase tracking-wider text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+                >
+                  Apply for this role &rarr;
+                </a>
               </div>
             </FadeUp>
           ))}
@@ -99,7 +147,7 @@ export default function CareersPage() {
           <div className="mt-16 rounded-lg border border-eternal-border bg-eternal-surface-2 p-8">
             <SectionLabel label="ELIGIBILITY" />
             <p className="mt-4 font-mono text-[14px] leading-relaxed text-eternal-text-secondary">
-              Students, bootcamp grads, self-taught — all welcome.
+              Students, bootcamp grads, self-taught: all welcome.
               <span className="text-eternal-accent">
                 {' '}
                 Drive over credentials.
@@ -144,7 +192,7 @@ export default function CareersPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Careers — Eternal Reverse',
+  title: 'Careers · Eternal Reverse',
   description:
     'Open to contributors. We are a small studio that values depth, ownership, and shipping software that endures.',
 }
