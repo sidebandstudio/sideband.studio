@@ -4,7 +4,15 @@
 
 ## Proof It Works
 
-<!-- Screenshot or short recording for anything visual. Before/after for UI changes. -->
+<!--
+Anything a visitor can see (pages, components, styles, images, copy layout) gets a
+screenshot of the result from your local dev server (`npm run dev`), taken after the
+change. Before/after for edits to existing UI. Drag the image into this box.
+This is the standard for UI PRs; the reviewer should not have to run the branch to see it.
+Not needed for CI, docs, tests, or pure data/config changes.
+-->
+
+**Screenshot:**
 
 ## Tested
 

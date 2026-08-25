@@ -1,0 +1,47 @@
+name: Screenshot Reminder
+
+# Soft nudge, never a gate: if a PR touches files that change what visitors see
+# and the description has no image attached, leave one reminder comment.
+# See PR.md -> Screenshots For Visual Changes.
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  remind:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for UI files without a screenshot
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          ui_files=$(gh pr diff "$PR" --repo "$REPO" --name-only | grep -E '^(app|components|styles|public)/' || true)
+          if [ -z "$ui_files" ]; then
+            echo "No UI files changed."; exit 0
+          fi
+          if printf '%s' "$BODY" | grep -qiE '!\[[^]]*\]\(|<img |github\.com/user-attachments/assets|\.(png|jpe?g|gif|webp|mp4|mov)'; then
+            echo "Screenshot found in description."; exit 0
+          fi
+          gh pr comment "$PR" --repo "$REPO" --body "$(cat <<MSG
+          This PR changes files that affect what visitors see, but the description has no screenshot.
+
+          Run \`npm run dev\`, open the affected page, and drag a screenshot of the result into the **Proof It Works** section (before/after for edits to existing UI). It lets the review happen from the description without checking out the branch.
+
+          Not a blocker. If nothing rendered actually changed, say so in the description and ignore this.
+
+          <details><summary>Files that triggered this</summary>
+
+          \`\`\`
+          $ui_files
+          \`\`\`
+          </details>
+          MSG
+          )"

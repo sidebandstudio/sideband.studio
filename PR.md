@@ -5,8 +5,9 @@ How changes land in this repo. Applies to founders, contributors, and coding age
 ## Branches
 
 - Branch off `dev` and open the PR against `dev`. It is the default and only working branch.
+- Push the branch to this repository, never to a fork. Everyone who contributes has write access, and PRs opened from forks are closed automatically (`.github/workflows/no-fork-prs.yml`). Fork PRs also get no CI, no Claude review, and cannot merge.
 - Name branches `type/short-slug`, matching existing history: `feat/engineer-dossiers`, `fix/merge-regressions`, `docs/pr-guidelines`.
-- Types in use: `feat`, `fix`, `content`, `chore`, `docs`.
+- Types in use: `feat`, `fix`, `content`, `chore`, `docs`, `ci` (workflows and repo automation).
 - Rebase on the latest `dev` before opening the PR, and again before merge if `dev` has moved.
 
 ## Commits
@@ -58,8 +59,19 @@ Then sweep for what your change makes stale:
 - New pages, products, or engineer entries get coverage in `tests/smoke.spec.ts`.
 - Images: sized for the web, EXIF stripped, and any dimensions recorded in `lib/` data match the actual file.
 
+## Screenshots For Visual Changes
+
+If a visitor could see the difference, the PR description shows it. Run `npm run dev`, open the affected page, and attach a screenshot of the result under "Proof It Works" in the template. For edits to existing UI, include before and after. Examples that need one: a new portrait or logo, a layout or spacing change, new copy in a component, a new page or section, a color or typography tweak.
+
+The point is that the reviewer can judge the change without checking out the branch. Text like "verified locally" does not do that; a picture does. If a screenshot really is impractical (an animation, a hover state), a short recording or a clear description of what to look at and where is the fallback.
+
+Not needed for changes with no visual effect: CI, docs, tests, scripts, data-only edits that do not change rendered output.
+
+A bot leaves a reminder on PRs that touch UI files without an image attached. It is a nudge, not a gate; the reviewer decides whether the PR is reviewable without one.
+
 ## Review And Merge
 
 - CODEOWNERS requires @whoisaldo approval on every PR.
 - Address every review comment before merge: push the fix or reply with why not. Never resolve a thread silently.
 - Merge with a merge commit (the repo's existing style). Delete the branch after merge.
+- Approval arms auto-merge (`.github/workflows/auto-merge.yml`): the PR lands on `dev` as soon as CI is green. `dev` deploys to production, so do not approve anything you would not ship.

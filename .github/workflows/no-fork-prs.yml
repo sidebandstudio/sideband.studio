@@ -1,0 +1,25 @@
+name: No Fork PRs
+
+# Pull requests must come from branches in this repository, not from forks.
+# Every contributor has write access, so push the branch here instead.
+# Fork PRs are closed automatically with an explanation.
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close fork PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --body "This repo does not accept pull requests from forks. Push your branch to this repository (you have write access) and open the PR from there: \`git push origin $HEAD_REF\`. Closing."
+          gh pr close "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}"
