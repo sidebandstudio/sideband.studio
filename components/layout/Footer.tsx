@@ -19,7 +19,7 @@ export default function Footer() {
             <Link
               href="/"
               className="inline-flex"
-              aria-label="Eternal Reverse — home"
+              aria-label="Eternal Reverse home"
             >
               <Image
                 src="/assets/EternalReverse/EternalReverse.png"

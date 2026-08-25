@@ -29,13 +29,13 @@ export function generateMetadata({
   params: { id: string }
 }): Metadata {
   const e = getEngineerById(params.id)
-  if (!e) return { title: 'Engineer not found — Eternal Reverse' }
+  if (!e) return { title: 'Engineer not found · Eternal Reverse' }
   return {
-    title: `${e.name} — ${e.role} · Eternal Reverse`,
+    title: `${e.name} · ${e.role} · Eternal Reverse`,
     description: e.shortBio,
     alternates: { canonical: `/engineers/${e.id}` },
     openGraph: {
-      title: `${e.name} — ${e.role}`,
+      title: `${e.name} · ${e.role}`,
       description: e.shortBio,
       url: `/engineers/${e.id}`,
       type: 'profile',
@@ -156,7 +156,7 @@ export default function EngineerDetailPage({
                 {portraitSrc ? (
                   <Image
                     src={portraitSrc}
-                    alt={`${engineer.name} — portrait`}
+                    alt={`${engineer.name}, portrait`}
                     fill
                     sizes="(min-width: 1024px) 480px, 100vw"
                     priority
@@ -269,7 +269,7 @@ export default function EngineerDetailPage({
             <FadeUp delay={0.05}>
               <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
                 The same obsession that ships software shows up everywhere else.
-                Tuned cars, sumo bots, powerlifting platforms — context for the
+                Tuned cars, sumo bots, powerlifting platforms: context for the
                 code.
               </p>
             </FadeUp>
@@ -292,7 +292,7 @@ export default function EngineerDetailPage({
                 </p>
                 <p className="mt-4 font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
                   Reach out directly. Resume, GitHub, and live channels below.
-                  Eternal Reverse is independent and selective — every
+                  Eternal Reverse is independent and selective. Every
                   conversation matters.
                 </p>
               </div>

@@ -6,7 +6,7 @@ import InquireSection from '@/components/inquire/InquireSection'
 import ProcessStrip from '@/components/inquire/ProcessStrip'
 
 export const metadata: Metadata = {
-  title: 'Inquire — Eternal Reverse',
+  title: 'Inquire · Eternal Reverse',
   description:
     'Submit a project brief. Each inquiry is logged against a ticket and reviewed personally by the founders within three business days.',
 }
@@ -27,7 +27,7 @@ export default function InquirePage() {
         <FadeUp delay={0.1}>
           <p className="mt-6 max-w-2xl font-mono text-[14px] leading-[1.85] text-eternal-text-secondary">
             Tell us what you want built. Each submission generates a ticket the
-            moment you transmit — you keep the reference, we keep the brief.
+            moment you transmit. You keep the reference, we keep the brief.
             Founders review every inquiry personally.
           </p>
         </FadeUp>
@@ -44,7 +44,7 @@ export default function InquirePage() {
           <InquireSection />
         </div>
 
-        {/* Bottom CTA — fallback for non-inquiry visitors */}
+        {/* Bottom CTA: fallback for non-inquiry visitors */}
         <FadeUp>
           <div className="mt-32 border-t border-eternal-border pt-12 text-center">
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-text-secondary">

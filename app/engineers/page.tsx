@@ -5,7 +5,7 @@ import EngineerCard from '@/components/engineers/EngineerCard'
 import { engineerCountLabel, listEngineers } from '@/lib/engineers'
 
 export const metadata: Metadata = {
-  title: 'Engineers — Eternal Reverse',
+  title: 'Engineers · Eternal Reverse',
   description:
     'The engineers behind Eternal Reverse. Dossiers, work history, and the projects we ship.',
 }
@@ -59,7 +59,7 @@ export default function EngineersIndexPage() {
               [ NETWORK EXPANDING ]
             </p>
             <p className="mt-3 max-w-xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
-              We&apos;re growing the contributor network — engineers, designers,
+              We&apos;re growing the contributor network: engineers, designers,
               and builders who share the standard. See open roles on the careers
               page.
             </p>

@@ -6,7 +6,7 @@ import EngineerCard from '@/components/engineers/EngineerCard'
 import { listEngineers } from '@/lib/engineers'
 
 const timeline = [
-  { year: '2024', event: 'EternalRichPresence — first shipped product' },
+  { year: '2024', event: 'EternalRichPresence: first shipped product' },
   { year: '2025', event: 'Eternal Reverse founded' },
   {
     year: '2025',
@@ -18,8 +18,8 @@ const timeline = [
   },
   { year: '2025', event: 'Ali Tleis joins as Co-Founder' },
   { year: '2025', event: 'Signature Cuts 413 launches' },
-  { year: '2026', event: 'Eternal2x ships — DaVinci Resolve smart upscale' },
-  { year: '2026', event: 'Eternal Summary ships — MV3 Chrome extension' },
+  { year: '2026', event: 'Eternal2x ships: DaVinci Resolve smart upscale' },
+  { year: '2026', event: 'Eternal Summary ships: MV3 Chrome extension' },
   { year: '2026', event: 'Karan Anand joins as Co-Founder' },
   { year: '2026', event: '→  What comes next' },
 ]
@@ -52,7 +52,7 @@ export default function AboutPage() {
               bloated with features nobody asked for, and abandoned the moment
               the next trend arrives. We decided to stop complaining and start
               building. Eternal Reverse exists because we believe the best
-              software comes from people who are obsessed with the craft — not
+              software comes from people who are obsessed with the craft, not
               the metrics.
             </p>
           </FadeUp>
@@ -62,8 +62,8 @@ export default function AboutPage() {
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
               We ship real things. Every project goes through the same filter:
               Is this technically honest? Would we use this ourselves? Does it
-              respect the person on the other end? We care about technical depth
-              — DXGI pipelines, VideoToolbox decoding, Metal rendering — not
+              respect the person on the other end? We care about technical
+              depth: DXGI pipelines, VideoToolbox decoding, Metal rendering. Not
               because complexity is the goal, but because doing it right demands
               going deep. We stay indie because independence is what lets us
               make these choices.
@@ -73,12 +73,12 @@ export default function AboutPage() {
           <FadeUp>
             <SectionLabel label="WHERE WE'RE GOING" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
-              We&apos;re growing the contributor network — bringing in
-              engineers, designers, and builders who share the standard. Quality
-              is non-negotiable. Every contributor ships real features, gets
-              real credit, and walks away with real experience. The goal is to
-              build this studio into something lasting. Not a startup. Not a
-              side project. A studio.
+              We&apos;re growing the contributor network, bringing in engineers,
+              designers, and builders who share the standard. Quality is
+              non-negotiable. Every contributor ships real features, gets real
+              credit, and walks away with real experience. The goal is to build
+              this studio into something lasting. Not a startup. Not a side
+              project. A studio.
             </p>
           </FadeUp>
         </div>
@@ -146,7 +146,7 @@ export default function AboutPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'About — Eternal Reverse',
+  title: 'About · Eternal Reverse',
   description:
     'A three-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
 }

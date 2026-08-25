@@ -8,23 +8,23 @@
 
 ## TL;DR
 
-- **SDE Intern at AWS CloudFormation (IaC)** — Seattle, WA, Summer 2026 (current)
-- Current **Software Engineering Co-op at Philips** — Cambridge, MA
+- **SDE Intern at AWS CloudFormation (IaC)** · Seattle, WA, Summer 2026 (current)
+- Current **Software Engineering Co-op at Philips**, Cambridge, MA
 - CS + Political Science at **Northeastern University** (Class of 2027, GPA 3.5+)
-- Co-founder of Eternal Reverse — independent software studio
+- Co-founder of Eternal Reverse, independent software studio
 - Based in **Boston, MA** → relocating to **Seattle, WA** for Summer '26
 
 ---
 
 ## Tagline
 
-Software Engineer architecting scalable enterprise infrastructure. Goes deep where it counts — DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. Stays indie because independence is what lets him build software the way it should be built.
+Software Engineer architecting scalable enterprise infrastructure. Goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, distributed systems. Stays indie because independence is what lets him build software the way it should be built.
 
 ---
 
 ## Experience
 
-### AWS CloudFormation (IaC) — SDE Intern *(Current · Summer 2026)*
+### AWS CloudFormation (IaC) · SDE Intern *(Current · Summer 2026)*
 
 **Seattle, WA · Jun 2026 – Sep 2026**
 
@@ -34,21 +34,21 @@ Infrastructure-as-code work on AWS CloudFormation. Full service-ownership projec
 
 ---
 
-### Philips — Software Engineering Co-op *(Current)*
+### Philips · Software Engineering Co-op *(Current)*
 
 **Cambridge, MA · Jul 2025 – Present**
 
 Shipped **zero-touch PXE deployment for ~1,000 medical-device Windows machines** under FDA-regulated UEFI Secure Boot. Solo project ownership; presented architecture to 50+ engineers.
 
 - Replaced ~1,000 technician-touches per refresh cycle with a fully automated deployment workflow
-- Contributed to the VM Deployment Manager — post-provisioning automation + metrics pipeline
+- Contributed to the VM Deployment Manager: post-provisioning automation + metrics pipeline
 - Authored UEFI Secure Boot / WinPE / BCD pipeline that survives FDA validation
 
 *Stack:* PowerShell · C#/.NET · Python · FastAPI · Ubuntu · PXE/TFTP · UEFI Secure Boot · WinPE · Nutanix · VMware
 
 ---
 
-### Top Choice Realty — Frontend Developer Intern
+### Top Choice Realty · Frontend Developer Intern
 
 **New York, NY · Apr 2024 – Aug 2024**
 
@@ -58,7 +58,7 @@ Full-stack client-management app serving 20+ agents and 800+ records. Cut record
 
 ---
 
-### Robert DeFalco Realty — Computer Technician Intern
+### Robert DeFalco Realty · Computer Technician Intern
 
 **New York, NY · Jun 2023 – Sep 2023**
 
@@ -68,7 +68,7 @@ Multi-location IT support across 3+ offices. Configured 15+ systems, resolved 25
 
 ## Education
 
-**Northeastern University** — B.S. Computer Science & Political Science
+**Northeastern University** · B.S. Computer Science & Political Science
 *Expected 2027 · GPA 3.5+ · Active in Co-op Program*
 
 Relevant coursework: Data Structures & Algorithms · Object-Oriented Design · Systems Programming · Database Management · Computer Networks.
@@ -91,12 +91,12 @@ Relevant coursework: Data Structures & Algorithms · Object-Oriented Design · S
 
 ## Featured Projects
 
-- **[EternalMonitor](/products/eternal-monitor)** — Rust host + SwiftUI iPad client for low-latency wireless desktop streaming (<30ms over UDP). Hardware H.264, Metal render, mDNS zero-config.
-- **[Exerly Fitness](/products/exerly)** — Cross-platform fitness ecosystem. SwiftUI + HealthKit on iOS, React 19 on web, shared Express API, Gemini 2.0 coach.
-- **[EternalRichPresence](/products/eternal-rich-presence)** — Windows tray daemon bridging Apple Music / Spotify to Discord Rich Presence. Live cover art, portable .exe.
-- **[Signature Cuts 413](/products/signature-cuts)** — Static Next.js site with SMS / WhatsApp deep-link booking. Built free for a local barbershop in Chicopee, MA.
-- **Moops** — MERN social reading platform (1M+ books via Google Books API, JWT auth, friend system). https://moopsbooks.com
-- **Real-Time Face Analytics** — 100% client-side facial recognition (TensorFlow.js + face-api.js). Multi-face detection, 7-emotion classification, age + gender estimation.
+- **[EternalMonitor](/products/eternal-monitor)** · Rust host + SwiftUI iPad client for low-latency wireless desktop streaming (<30ms over UDP). Hardware H.264, Metal render, mDNS zero-config.
+- **[Exerly Fitness](/products/exerly)** · Cross-platform fitness ecosystem. SwiftUI + HealthKit on iOS, React 19 on web, shared Express API, Gemini 2.0 coach.
+- **[EternalRichPresence](/products/eternal-rich-presence)** · Windows tray daemon bridging Apple Music / Spotify to Discord Rich Presence. Live cover art, portable .exe.
+- **[Signature Cuts 413](/products/signature-cuts)** · Static Next.js site with SMS / WhatsApp deep-link booking. Built free for a local barbershop in Chicopee, MA.
+- **Moops** · MERN social reading platform (1M+ books via Google Books API, JWT auth, friend system). https://moopsbooks.com
+- **Real-Time Face Analytics** · 100% client-side facial recognition (TensorFlow.js + face-api.js). Multi-face detection, 7-emotion classification, age + gender estimation.
 
 ---
 

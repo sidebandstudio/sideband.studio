@@ -118,7 +118,7 @@ export default function ContactPage() {
                 [ MESSAGE SENT ]
               </p>
               <p className="mt-2 text-eternal-text-secondary">
-                Thanks for reaching out — we&apos;ll get back to you soon.
+                Thanks for reaching out, we&apos;ll get back to you soon.
               </p>
               <button
                 onClick={() => setStatus('idle')}
@@ -195,7 +195,7 @@ export default function ContactPage() {
                   role="alert"
                   className="font-mono text-[11px] uppercase tracking-wider text-red-500"
                 >
-                  Something went wrong — please try again.
+                  Something went wrong. Please try again.
                 </p>
               )}
 

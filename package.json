@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check:consistency": "node scripts/check-consistency.mjs"
+    "check:consistency": "node scripts/check-consistency.mjs",
+    "shots": "node scripts/capture-screenshots.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",

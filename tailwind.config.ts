@@ -14,6 +14,7 @@ const config: Config = {
           surface: 'var(--eternal-surface)',
           'surface-2': 'var(--eternal-surface-2)',
           border: 'var(--eternal-border)',
+          'border-strong': 'var(--eternal-border-strong)',
           muted: 'var(--eternal-muted)',
           hairline: 'var(--eternal-hairline)',
           text: 'var(--eternal-text)',
@@ -25,8 +26,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['var(--font-instrument-serif)', 'Georgia', 'serif'],
-        mono: ['var(--font-dm-mono)', 'monospace'],
+        sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'ui-monospace', 'monospace'],
       },
       animation: {
         'marquee': 'marquee 40s linear infinite',

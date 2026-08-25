@@ -15,16 +15,16 @@ export function generateMetadata({
   params: { id: string }
 }): Metadata {
   const product = getProductById(params.id)
-  if (!product) return { title: 'Product not found — Eternal Reverse' }
+  if (!product) return { title: 'Product not found · Eternal Reverse' }
 
   const cover = product.cardHero !== 'branded' ? product.cardHero : undefined
 
   return {
-    title: `${product.name} — ${product.tagline} · Eternal Reverse`,
+    title: `${product.name} · ${product.tagline} · Eternal Reverse`,
     description: product.description,
     alternates: { canonical: `/products/${product.id}` },
     openGraph: {
-      title: `${product.name} — Eternal Reverse`,
+      title: `${product.name} · Eternal Reverse`,
       description: product.description,
       url: `/products/${product.id}`,
       ...(cover ? { images: [{ url: cover }] } : {}),

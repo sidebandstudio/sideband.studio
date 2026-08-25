@@ -25,7 +25,7 @@ const BUDGETS = [
   '$25k – $100k',
   '$100k+',
   'Equity / Partnership',
-  'Curiosity brief — no budget',
+  'Curiosity brief (no budget)',
 ]
 
 const TIMELINES = [
@@ -123,12 +123,12 @@ export default function InquireSection() {
       _subject: `INQUIRE · ${ticketId} · ${form.name || 'unnamed'}`,
       name: form.name,
       email: form.email,
-      company: form.company || '—',
-      project_type: form.projectType || '—',
-      budget: form.budget || '—',
-      timeline: form.timeline || '—',
-      reference_links: form.links || '—',
-      nda: form.nda ? 'YES — flagged confidential' : 'no',
+      company: form.company || 'n/a',
+      project_type: form.projectType || 'n/a',
+      budget: form.budget || 'n/a',
+      timeline: form.timeline || 'n/a',
+      reference_links: form.links || 'n/a',
+      nda: form.nda ? 'YES: flagged confidential' : 'no',
       brief: form.brief,
     }
 
@@ -160,7 +160,7 @@ export default function InquireSection() {
           <SuccessPanel ticketId={ticketId} name={form.name} />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-14">
-            {/* 01 — About You */}
+            {/* 01 · About You */}
             <section className="space-y-6">
               <SectionHeader {...SECTION_HEADERS[0]} />
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -208,7 +208,7 @@ export default function InquireSection() {
               </div>
             </section>
 
-            {/* 02 — The Project */}
+            {/* 02 · The Project */}
             <section className="space-y-6">
               <SectionHeader {...SECTION_HEADERS[1]} />
               <div>
@@ -238,7 +238,7 @@ export default function InquireSection() {
               </div>
             </section>
 
-            {/* 03 — Scope */}
+            {/* 03 · Scope */}
             <section className="space-y-6">
               <SectionHeader {...SECTION_HEADERS[2]} />
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -269,7 +269,7 @@ export default function InquireSection() {
               </div>
             </section>
 
-            {/* 04 — Brief */}
+            {/* 04 · Brief */}
             <section className="space-y-6">
               <SectionHeader {...SECTION_HEADERS[3]} />
               <div>
@@ -305,7 +305,7 @@ export default function InquireSection() {
               </label>
             </section>
 
-            {/* Honeypot — hidden from humans, irresistible to bots */}
+            {/* Honeypot: hidden from humans, irresistible to bots */}
             <div
               aria-hidden
               className="absolute left-[-9999px] h-px w-px overflow-hidden"
@@ -329,7 +329,7 @@ export default function InquireSection() {
                   role="alert"
                   className="font-mono text-[11px] uppercase tracking-wider text-red-400"
                 >
-                  Transmission failed —{' '}
+                  Transmission failed.{' '}
                   <a
                     href={`mailto:hello@eternalreverse.com?subject=INQUIRE · ${ticketId}`}
                     className="underline underline-offset-4"
@@ -369,7 +369,7 @@ export default function InquireSection() {
                 &ldquo;Curiosity brief&rdquo;
               </span>
               . If the idea genuinely grips us, we&apos;ll consider building it
-              pro bono — selection is rare and entirely at our discretion.
+              pro bono. Selection is rare and entirely at our discretion.
             </p>
           </div>
 
@@ -499,8 +499,8 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
             className="text-eternal-text-secondary underline underline-offset-4 transition-colors hover:text-eternal-accent"
           >
             hello@eternalreverse.com
-          </a>{' '}
-          — replies to that thread will route back to the same ticket.
+          </a>
+          . Replies to that thread will route back to the same ticket.
         </p>
       </div>
     </div>

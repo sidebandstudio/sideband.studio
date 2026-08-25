@@ -47,7 +47,7 @@ test('engineer dossier renders exactly one h1 and the portrait', async ({
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Ali')
 
-  const portrait = page.getByRole('img', { name: /Ali Younes — portrait/i })
+  const portrait = page.getByRole('img', { name: /Ali Younes, portrait/i })
   await expect(portrait).toBeVisible()
 })
 
@@ -140,6 +140,6 @@ test('contact form error state is shown on failed submit', async ({ page }) => {
   await page.getByRole('button', { name: /Send Message/i }).click()
 
   await expect(
-    page.getByText(/Something went wrong — please try again./i),
+    page.getByText(/Something went wrong. Please try again./i),
   ).toBeVisible()
 })

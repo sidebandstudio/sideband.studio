@@ -1,17 +1,17 @@
 import Hero from '@/components/home/Hero'
-import MarqueeBar from '@/components/home/MarqueeBar'
-import ProductGrid from '@/components/home/ProductGrid'
-import StudioStatement from '@/components/home/StudioStatement'
-import TeamStrip from '@/components/home/TeamStrip'
+import ProductShowcase from '@/components/home/ProductShowcase'
+import EngineeringNotes from '@/components/home/EngineeringNotes'
+import TeamSection from '@/components/home/TeamSection'
+import FinalCta from '@/components/home/FinalCta'
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <MarqueeBar />
-      <ProductGrid />
-      <StudioStatement />
-      <TeamStrip />
+      <ProductShowcase />
+      <EngineeringNotes />
+      <TeamSection />
+      <FinalCta />
     </>
   )
 }
