@@ -1,0 +1,119 @@
+name: pr-screenshots
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pr-screenshots-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    # Same-repo PRs only: forks get a read-only token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm run build
+
+      - name: Start production server
+        run: |
+          npm run start &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:3000/ >/dev/null && break
+            sleep 1
+          done
+          curl -sf http://localhost:3000/ >/dev/null
+
+      - name: Capture screenshots
+        run: node scripts/capture-screenshots.mjs
+        env:
+          BASE_URL: http://localhost:3000
+          OUT_DIR: screenshots
+
+      - name: Publish to pr-assets branch
+        id: publish
+        env:
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3; do
+            git fetch origin pr-assets:refs/remotes/origin/pr-assets 2>/dev/null || true
+            export GIT_INDEX_FILE=/tmp/assets-index
+            rm -f "$GIT_INDEX_FILE"
+            PARENT=""
+            if git rev-parse -q --verify refs/remotes/origin/pr-assets >/dev/null; then
+              PARENT=$(git rev-parse refs/remotes/origin/pr-assets)
+              git read-tree "$PARENT"
+              git rm -r --cached --ignore-unmatch "pr/${PR}" >/dev/null
+            else
+              git read-tree --empty
+            fi
+            for f in screenshots/*.jpg; do
+              git update-index --add --cacheinfo "100644,$(git hash-object -w "$f"),pr/${PR}/$(basename "$f")"
+            done
+            TREE=$(git write-tree)
+            COMMIT=$(git commit-tree "$TREE" ${PARENT:+-p "$PARENT"} -m "ci: screenshots for PR #${PR} (${GITHUB_SHA})")
+            if git push origin "$COMMIT:refs/heads/pr-assets"; then
+              echo "sha=$COMMIT" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "failed to push pr-assets after retries" >&2
+          exit 1
+
+      - name: Upsert sticky PR comment
+        uses: actions/github-script@v7
+        env:
+          PR: ${{ github.event.pull_request.number }}
+          ASSETS_SHA: ${{ steps.publish.outputs.sha }}
+        with:
+          script: |
+            const pr = Number(process.env.PR)
+            const sha = process.env.ASSETS_SHA
+            const { owner, repo } = context.repo
+            const base = `https://github.com/${owner}/${repo}/raw/${sha}/pr/${pr}`
+            const marker = '<!-- pr-screenshots -->'
+            const body = [
+              marker,
+              '## Screenshots',
+              '',
+              `_Auto-captured from this PR's production build (commit ${context.payload.pull_request.head.sha.slice(0, 7)})._`,
+              '',
+              '| Hero | Terminal |',
+              '|---|---|',
+              `| ![Hero](${base}/01-hero.jpg) | ![Terminal](${base}/02-terminal.jpg) |`,
+              '',
+              '| Products | Under the hood |',
+              '|---|---|',
+              `| ![Products](${base}/03-products.jpg) | ![Under the hood](${base}/04-under-the-hood.jpg) |`,
+              '',
+              `![Studio and CTA](${base}/05-studio-cta.jpg)`,
+            ].join('\n')
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner, repo, issue_number: pr, per_page: 100,
+            })
+            const existing = comments.find((c) => c.body?.startsWith(marker))
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr, body })
+            }

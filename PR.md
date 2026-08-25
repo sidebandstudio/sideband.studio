@@ -10,6 +10,12 @@ How changes land in this repo. Applies to founders, contributors, and coding age
 - Types in use: `feat`, `fix`, `content`, `chore`, `docs`, `ci` (workflows and repo automation).
 - Rebase on the latest `dev` before opening the PR, and again before merge if `dev` has moved.
 
+## Screenshots
+
+Visual changes need screenshots on the PR. The `pr-screenshots` workflow handles this automatically: on every push to a PR it builds the site, captures the standard landing set, commits the images to the `pr-assets` branch, and posts (or updates) a sticky comment on the PR. No manual steps.
+
+For ad-hoc captures, run the site locally and use `npm run shots` (`BASE_URL` and `OUT_DIR` env vars override the defaults). Note: `raw.githubusercontent.com` links do not render in this private repo; embed images with `https://github.com/<owner>/<repo>/raw/<ref>/<path>` instead.
+
 ## Commits
 
 Format: `type: plain description of the change`.
