@@ -554,8 +554,8 @@ export const engineers: Engineer[] = [
     ],
     portrait: {
       src: '/assets/engineers/karan-anand/portrait.jpg',
-      width: 2316,
-      height: 3088,
+      width: 1086,
+      height: 1448,
     },
     accentColor: '#10B981',
     education: [
