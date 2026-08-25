@@ -5,9 +5,22 @@ import FadeUp from '@/components/animations/FadeUp'
 import { listEngineers } from '@/lib/engineers'
 
 const techStack = [
-  'Rust', 'Swift', 'Metal', 'DXGI', 'VideoToolbox', 'H.264', 'FFmpeg',
-  'Next.js', 'React', 'TypeScript', 'Node.js', 'SwiftUI', 'HealthKit',
-  'MongoDB', 'Gemini AI', 'DigitalOcean',
+  'Rust',
+  'Swift',
+  'Metal',
+  'DXGI',
+  'VideoToolbox',
+  'H.264',
+  'FFmpeg',
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Node.js',
+  'SwiftUI',
+  'HealthKit',
+  'MongoDB',
+  'Gemini AI',
+  'DigitalOcean',
 ]
 
 const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six']

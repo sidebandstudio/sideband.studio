@@ -83,7 +83,9 @@ export default function ProductShowcase() {
                     {product.tagline}
                   </p>
                   <div className="mt-auto flex justify-between gap-3 pt-2 font-mono text-[11px] text-eternal-muted">
-                    <span className="truncate">{product.tags.slice(0, 5).join(' · ')}</span>
+                    <span className="truncate">
+                      {product.tags.slice(0, 5).join(' · ')}
+                    </span>
                     {product.version ? <span>{product.version}</span> : null}
                   </div>
                 </div>

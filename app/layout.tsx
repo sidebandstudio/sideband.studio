@@ -52,10 +52,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen bg-eternal-black font-sans text-eternal-text antialiased">
         <NoiseOverlay />
         <CustomCursor />

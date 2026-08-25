@@ -77,7 +77,9 @@ export default function Terminal() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
     let cancelled = false
 
     async function boot() {

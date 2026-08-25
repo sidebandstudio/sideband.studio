@@ -62,8 +62,8 @@ export default function AboutPage() {
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
               We ship real things. Every project goes through the same filter:
               Is this technically honest? Would we use this ourselves? Does it
-              respect the person on the other end? We care about technical depth:
-              DXGI pipelines, VideoToolbox decoding, Metal rendering. Not
+              respect the person on the other end? We care about technical
+              depth: DXGI pipelines, VideoToolbox decoding, Metal rendering. Not
               because complexity is the goal, but because doing it right demands
               going deep. We stay indie because independence is what lets us
               make these choices.
@@ -73,12 +73,12 @@ export default function AboutPage() {
           <FadeUp>
             <SectionLabel label="WHERE WE'RE GOING" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
-              We&apos;re growing the contributor network, bringing in
-              engineers, designers, and builders who share the standard. Quality
-              is non-negotiable. Every contributor ships real features, gets
-              real credit, and walks away with real experience. The goal is to
-              build this studio into something lasting. Not a startup. Not a
-              side project. A studio.
+              We&apos;re growing the contributor network, bringing in engineers,
+              designers, and builders who share the standard. Quality is
+              non-negotiable. Every contributor ships real features, gets real
+              credit, and walks away with real experience. The goal is to build
+              this studio into something lasting. Not a startup. Not a side
+              project. A studio.
             </p>
           </FadeUp>
         </div>
