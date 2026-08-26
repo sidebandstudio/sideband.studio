@@ -629,6 +629,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Staged',
+        logo: '/assets/logos/staged.png',
+        logoOnDark: true,
         role: 'Co-Founder & Developer',
         location: 'Winnipeg, MB',
         startDate: 'Apr 2026',
@@ -640,6 +642,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'University of Manitoba',
+        logo: '/assets/logos/university-of-manitoba.png',
+        logoOnDark: true,
         role: 'B.S. Computer Science',
         location: 'Winnipeg, MB',
         startDate: '2022',
