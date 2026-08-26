@@ -624,7 +624,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Joined as the studio’s third co-founder, bringing a systems design discipline to the product lineup — architecture and technical planning that holds up under real constraints.',
+          'Joined as the studio’s third co-founder, bringing a systems design discipline to the product lineup: architecture and technical planning that holds up under real constraints.',
         skills: ['Systems Design', 'Architecture', 'TypeScript', 'Studio Ops'],
       },
       {
@@ -664,7 +664,7 @@ export const engineers: Engineer[] = [
       {
         name: 'Staged',
         blurb:
-          'AI-powered resume builder — co-founded and built. Live preview, PDF export, Claude-powered bullet polish, summary generation, job-description optimization, and Stripe subscription billing.',
+          'AI-powered resume builder, co-founded and built. Live preview, PDF export, Claude-powered bullet polish, summary generation, job-description optimization, and Stripe subscription billing.',
         href: 'https://resume-builder-drab-sigma.vercel.app',
         tech: ['TypeScript', 'Supabase', 'Stripe', 'Claude API'],
       },
@@ -679,7 +679,7 @@ export const engineers: Engineer[] = [
       {
         name: 'Food Ordering System',
         blurb:
-          'Group-built food ordering platform — contributed the domain model and shopping cart logic.',
+          'Group-built food ordering platform, contributed the domain model and shopping cart logic.',
         href: 'https://github.com/minhkhoily29/Food-Ordering-System',
         source: true,
         tech: ['Java', 'JavaScript'],
