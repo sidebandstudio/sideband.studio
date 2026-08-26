@@ -638,12 +638,15 @@ export const engineers: Engineer[] = [
           'Co-founded and built an AI-powered resume builder with live preview, PDF export, and Claude-powered content generation. Owned full-stack development and Stripe subscription billing, and ran an Instagram page for user acquisition.',
         skills: ['TypeScript', 'React', 'Supabase', 'Stripe', 'Claude API'],
       },
-    ],
-    education: [
       {
-        school: 'University of Manitoba',
-        degree: 'B.S. Computer Science',
-        dates: 'In Progress',
+        company: 'University of Manitoba',
+        role: 'B.S. Computer Science',
+        location: 'Winnipeg, MB',
+        startDate: '2022',
+        endDate: 'Expected 2029',
+        current: true,
+        summary:
+          'Studying Computer Science while co-founding and shipping production software at Eternal Reverse and Staged.',
       },
     ],
     skills: [
