@@ -593,10 +593,10 @@ export const engineers: Engineer[] = [
     initials: 'KA',
     role: 'Co-Founder & Systems Design Engineer',
     shortBio:
-      'Systems design engineer who ships quality solutions without compromising on time.',
+      'Systems design engineer and co-founder of Staged, an AI-powered resume builder. Ships quality solutions without compromising on time.',
     longBio: [
-      'Karan joined Eternal Reverse as a systems design engineer, focused on architecture that holds up under real constraints, not just on paper.',
-      'He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other.',
+      'Karan is a Computer Science student at the University of Manitoba and joined Eternal Reverse as its third co-founder, focused on systems design: architecture that holds up under real constraints, not just on paper.',
+      'He previously co-founded and built Staged, an AI-powered resume builder with live preview, PDF export, and Claude-powered content generation, owning full-stack development, Stripe subscription billing, and Instagram-led user acquisition. He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other. Off the clock he is usually locked into Valorant, grinding a Monster Hunter boss, or watching basketball.',
     ],
     portrait: {
       src: '/assets/engineers/karan-anand/portrait.jpg',
@@ -604,15 +604,106 @@ export const engineers: Engineer[] = [
       height: 1448,
     },
     accentColor: '#10B981',
-    education: [
+    prev: [
       {
-        school: 'University of Manitoba',
-        degree: 'B.S. Computer Science',
-        dates: 'In Progress',
+        label: 'ETERNAL REVERSE',
+        sublabel: 'CO-FOUNDER · SYSTEMS DESIGN · CURRENT',
+      },
+      { label: 'STAGED', sublabel: 'CO-FOUNDER & DEVELOPER' },
+      { label: 'UNIVERSITY OF MANITOBA', sublabel: 'CS · IN PROGRESS' },
+    ],
+    experience: [
+      {
+        company: 'Eternal Reverse',
+        logo: '/assets/EternalReverse/EternalReverse.png',
+        logoOnDark: true,
+        role: 'Co-Founder & Systems Design Engineer',
+        location: 'Winnipeg, MB (Remote)',
+        startDate: '2026',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Joined as the studio’s third co-founder, bringing a systems design discipline to the product lineup: architecture and technical planning that holds up under real constraints.',
+        skills: ['Systems Design', 'Architecture', 'TypeScript', 'Studio Ops'],
+      },
+      {
+        company: 'Staged',
+        logo: '/assets/logos/staged.png',
+        logoOnDark: true,
+        role: 'Co-Founder & Developer',
+        location: 'Winnipeg, MB',
+        startDate: 'Apr 2026',
+        endDate: 'Jun 2026',
+        emphasis: true,
+        summary:
+          'Co-founded and built an AI-powered resume builder with live preview, PDF export, and Claude-powered content generation. Owned full-stack development and Stripe subscription billing, and ran an Instagram page for user acquisition.',
+        skills: ['TypeScript', 'React', 'Supabase', 'Stripe', 'Claude API'],
+      },
+      {
+        company: 'University of Manitoba',
+        logo: '/assets/logos/university-of-manitoba.png',
+        logoOnDark: true,
+        role: 'B.S. Computer Science',
+        location: 'Winnipeg, MB',
+        startDate: '2022',
+        endDate: 'Expected 2029',
+        current: true,
+        summary:
+          'Studying Computer Science while co-founding and shipping production software at Eternal Reverse and Staged.',
+      },
+    ],
+    skills: [
+      {
+        category: 'Languages',
+        items: ['Java', 'JavaScript', 'TypeScript', 'HTML', 'CSS'],
+      },
+      {
+        category: 'Frameworks & Libraries',
+        items: ['React', 'Spring Boot', 'FastAPI'],
+      },
+      {
+        category: 'Tools & Platforms',
+        items: ['Maven', 'JUnit', 'Supabase', 'Stripe', 'Claude API'],
+      },
+    ],
+    projects: [
+      {
+        name: 'Staged',
+        blurb:
+          'AI-powered resume builder, co-founded and built. Live preview, PDF export, Claude-powered bullet polish, summary generation, job-description optimization, and Stripe subscription billing.',
+        href: 'https://resume-builder-drab-sigma.vercel.app',
+        tech: ['TypeScript', 'Supabase', 'Stripe', 'Claude API'],
+      },
+      {
+        name: 'Exercise Tracker',
+        blurb:
+          'Fitness tracking app with user profiles, an activity feed, and route logging, persisted to JSON.',
+        href: 'https://github.com/Karan4248/Exercise-Tracker',
+        source: true,
+        tech: ['Java', 'Maven', 'JUnit', 'JSON'],
+      },
+      {
+        name: 'Food Ordering System',
+        blurb:
+          'Group-built food ordering platform, contributed the domain model and shopping cart logic.',
+        href: 'https://github.com/minhkhoily29/Food-Ordering-System',
+        source: true,
+        tech: ['Java', 'JavaScript'],
+      },
+      {
+        name: 'Personal Portfolio',
+        blurb:
+          'Personal site and project archive, built from scratch with React.',
+        href: 'https://karan4248.github.io/Portfolio/',
+        tech: ['React', 'JavaScript', 'CSS'],
       },
     ],
     contact: {
       email: 'karan.a4248@gmail.com',
+      github: 'https://github.com/Karan4248',
+      linkedin: 'https://www.linkedin.com/in/karan-anand-19bbb81b3/',
+      website: 'https://karan4248.github.io/Portfolio/',
       location: 'Winnipeg, MB',
     },
   },
