@@ -58,25 +58,25 @@ const roles = [
 
 export default function CareersPage() {
   return (
-    <div className="min-h-screen bg-eternal-black pt-32">
+    <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ CAREERS ]
           </span>
-          <h1 className="mt-4 font-display text-5xl text-eternal-text md:text-7xl">
-            Build something real<span className="text-eternal-accent">.</span>
+          <h1 className="mt-4 font-display text-5xl text-sideband-text md:text-7xl">
+            Build something real<span className="text-sideband-accent">.</span>
           </h1>
-          <p className="mt-6 max-w-xl font-mono text-[15px] leading-relaxed text-eternal-text-secondary">
+          <p className="mt-6 max-w-xl font-mono text-[15px] leading-relaxed text-sideband-text-secondary">
             We&apos;re not hiring. We&apos;re collaborating. Ship with us and
             walk away with something on your resume that actually matters.
           </p>
-          <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-text-secondary">
+          <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-text-secondary">
             {roles.length} open roles
-            <span className="text-eternal-accent"> / </span>
+            <span className="text-sideband-accent"> / </span>
             remote
-            <span className="text-eternal-accent"> / </span>
+            <span className="text-sideband-accent"> / </span>
             part time friendly
           </p>
         </FadeUp>
@@ -86,54 +86,54 @@ export default function CareersPage() {
           {roles.map((role, i) => (
             <FadeUp key={role.title} delay={i * 0.1}>
               <div
-                className="rounded-lg border border-eternal-border bg-eternal-surface p-8 transition-all duration-200 hover:border-eternal-accent/30"
+                className="rounded-lg border border-sideband-border bg-sideband-surface p-8 transition-all duration-200 hover:border-sideband-accent/30"
                 style={{ borderLeftWidth: '3px', borderLeftColor: '#A855F7' }}
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="font-display text-2xl text-eternal-text">
+                  <h3 className="font-display text-2xl text-sideband-text">
                     {role.title}
                   </h3>
                   <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
-                    <span className="rounded border border-eternal-border px-2 py-1 text-eternal-text-secondary">
+                    <span className="rounded border border-sideband-border px-2 py-1 text-sideband-text-secondary">
                       {role.area}
                     </span>
-                    <span className="text-eternal-accent">Open</span>
+                    <span className="text-sideband-accent">Open</span>
                   </div>
                 </div>
-                <p className="mt-3 font-mono text-[13px] leading-relaxed text-eternal-text-secondary">
+                <p className="mt-3 font-mono text-[13px] leading-relaxed text-sideband-text-secondary">
                   {role.description}
                 </p>
 
                 <div className="mt-6 space-y-3">
                   <div>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-eternal-accent">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-sideband-accent">
                       You&apos;ll build:
                     </span>
-                    <p className="mt-1 font-mono text-[13px] text-eternal-text-secondary">
+                    <p className="mt-1 font-mono text-[13px] text-sideband-text-secondary">
                       {role.build}
                     </p>
                   </div>
                   <div>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-eternal-accent">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-sideband-accent">
                       You&apos;ll learn:
                     </span>
-                    <p className="mt-1 font-mono text-[13px] text-eternal-text-secondary">
+                    <p className="mt-1 font-mono text-[13px] text-sideband-text-secondary">
                       {role.learn}
                     </p>
                   </div>
                   <div>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-eternal-accent">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-sideband-accent">
                       You&apos;ll walk away with:
                     </span>
-                    <p className="mt-1 font-mono text-[13px] text-eternal-text-secondary">
+                    <p className="mt-1 font-mono text-[13px] text-sideband-text-secondary">
                       {role.walkAway}
                     </p>
                   </div>
                 </div>
 
                 <a
-                  href={`mailto:hello@eternalreverse.com?subject=${encodeURIComponent(`${role.title} at Eternal Reverse`)}`}
-                  className="mt-6 inline-block font-mono text-[12px] uppercase tracking-wider text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+                  href={`mailto:hello@sideband.studio?subject=${encodeURIComponent(`${role.title} at Sideband`)}`}
+                  className="mt-6 inline-block font-mono text-[12px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
                 >
                   Apply for this role &rarr;
                 </a>
@@ -144,11 +144,11 @@ export default function CareersPage() {
 
         {/* Eligibility */}
         <FadeUp>
-          <div className="mt-16 rounded-lg border border-eternal-border bg-eternal-surface-2 p-8">
+          <div className="mt-16 rounded-lg border border-sideband-border bg-sideband-surface-2 p-8">
             <SectionLabel label="ELIGIBILITY" />
-            <p className="mt-4 font-mono text-[14px] leading-relaxed text-eternal-text-secondary">
+            <p className="mt-4 font-mono text-[14px] leading-relaxed text-sideband-text-secondary">
               Students, bootcamp grads, self-taught: all welcome.
-              <span className="text-eternal-accent">
+              <span className="text-sideband-accent">
                 {' '}
                 Drive over credentials.
               </span>
@@ -158,27 +158,27 @@ export default function CareersPage() {
 
         {/* CTA */}
         <FadeUp>
-          <div className="mt-16 border-t border-eternal-border pb-24 pt-12">
-            <p className="font-display text-2xl text-eternal-text">
+          <div className="mt-16 border-t border-sideband-border pb-24 pt-12">
+            <p className="font-display text-2xl text-sideband-text">
               Ready to contribute?
             </p>
             <div className="mt-4 space-y-2">
-              <p className="font-mono text-[14px] text-eternal-text-secondary">
+              <p className="font-mono text-[14px] text-sideband-text-secondary">
                 Email us at{' '}
                 <a
-                  href="mailto:hello@eternalreverse.com"
-                  className="text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+                  href="mailto:hello@sideband.studio"
+                  className="text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
                 >
-                  hello@eternalreverse.com
+                  hello@sideband.studio
                 </a>
               </p>
-              <p className="font-mono text-[14px] text-eternal-text-secondary">
+              <p className="font-mono text-[14px] text-sideband-text-secondary">
                 Or connect on{' '}
                 <a
                   href="https://www.linkedin.com/in/alialdoyounes/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+                  className="text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
                 >
                   LinkedIn
                 </a>
@@ -192,7 +192,7 @@ export default function CareersPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Careers · Eternal Reverse',
+  title: 'Careers · Sideband',
   description:
     'Open to contributors. We are a small studio that values depth, ownership, and shipping software that endures.',
 }

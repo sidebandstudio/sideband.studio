@@ -11,7 +11,7 @@ const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 const STATUS_HTML: Record<string, string> = {
   LIVE: '<span class="text-[#4ade80]">live</span>  ',
   'IN DEVELOPMENT': '<span class="text-[#fbbf24]">in dev</span>',
-  'COMING SOON': '<span class="text-eternal-muted">soon</span>  ',
+  'COMING SOON': '<span class="text-sideband-muted">soon</span>  ',
 }
 
 const COMMANDS = ['help', 'products', 'stack', 'team', 'contact', 'clear']
@@ -49,7 +49,7 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
       )
     case 'contact':
       return [
-        '  <a href="mailto:hello@eternalreverse.com">hello@eternalreverse.com</a>',
+        '  <a href="mailto:hello@sideband.studio">hello@sideband.studio</a>',
         '  <a href="https://github.com/whoisaldo" target="_blank" rel="noopener noreferrer">github.com/whoisaldo</a>',
       ]
     case 'clear':
@@ -63,7 +63,7 @@ const LIVE_COUNT = products.filter((p) => p.status === 'LIVE').length
 const DEV_COUNT = products.filter((p) => p.status === 'IN DEVELOPMENT').length
 
 const BOOT_INFO = [
-  '  Eternal Reverse · independent software studio',
+  '  Sideband · independent software studio',
   `  Boston, MA · est. 2025 · ${listEngineers().length} founders`,
   `  ${products.length} products: ${LIVE_COUNT} live, ${DEV_COUNT} in development`,
 ]
@@ -83,7 +83,7 @@ export default function Terminal() {
     let cancelled = false
 
     async function boot() {
-      const cmd = 'er --studio'
+      const cmd = 'sb --studio'
       if (reduced) {
         setTyped(cmd)
       } else {
@@ -138,24 +138,24 @@ export default function Terminal() {
 
   return (
     <div className="mx-auto max-w-[760px] text-left">
-      <div className="overflow-hidden rounded-xl border border-eternal-border bg-[#0a0913] shadow-[0_28px_64px_-28px_rgba(0,0,0,0.75)]">
-        <div className="flex items-center gap-1.5 border-b border-eternal-border bg-white/[0.03] px-3.5 py-2.5">
+      <div className="overflow-hidden rounded-xl border border-sideband-border bg-[#0a0913] shadow-[0_28px_64px_-28px_rgba(0,0,0,0.75)]">
+        <div className="flex items-center gap-1.5 border-b border-sideband-border bg-white/[0.03] px-3.5 py-2.5">
           <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
           <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
           <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
-          <span className="ml-2 font-mono text-[11px] text-eternal-muted">
-            eternal-reverse · zsh
+          <span className="ml-2 font-mono text-[11px] text-sideband-muted">
+            sideband · zsh
           </span>
-          <span className="ml-auto font-mono text-[11px] text-eternal-muted">
+          <span className="ml-auto font-mono text-[11px] text-sideband-muted">
             interactive · try{' '}
-            <b className="font-medium text-eternal-text-secondary">help</b>
+            <b className="font-medium text-sideband-text-secondary">help</b>
           </span>
         </div>
 
         <div
           ref={bodyRef}
           onClick={() => inputRef.current?.focus()}
-          className="term-scroll h-[284px] overflow-y-auto px-[18px] py-4 font-mono text-[13px] leading-[1.75] text-eternal-text-secondary"
+          className="term-scroll h-[284px] overflow-y-auto px-[18px] py-4 font-mono text-[13px] leading-[1.75] text-sideband-text-secondary"
         >
           <div className="whitespace-pre-wrap break-words">
             <span className="term-p">$</span> {typed ?? ''}
@@ -180,7 +180,7 @@ export default function Terminal() {
                 aria-label="Terminal command input"
                 autoComplete="off"
                 spellCheck={false}
-                className="flex-1 border-none bg-transparent p-0 font-mono text-[13px] text-eternal-text caret-eternal-accent outline-none"
+                className="flex-1 border-none bg-transparent p-0 font-mono text-[13px] text-sideband-text caret-sideband-accent outline-none"
               />
             </div>
           ) : null}
@@ -189,14 +189,14 @@ export default function Terminal() {
         <div
           role="group"
           aria-label="Terminal commands"
-          className="flex flex-wrap gap-2 border-t border-eternal-border bg-white/[0.02] px-3.5 py-2.5"
+          className="flex flex-wrap gap-2 border-t border-sideband-border bg-white/[0.02] px-3.5 py-2.5"
         >
           {COMMANDS.filter((c) => c !== 'clear').map((c) => (
             <button
               key={c}
               type="button"
               onClick={() => run(c)}
-              className="rounded-md border border-eternal-border px-2.5 py-1 font-mono text-[12px] text-eternal-text-secondary transition-colors duration-200 hover:border-eternal-border-strong hover:bg-white/5 hover:text-eternal-text"
+              className="rounded-md border border-sideband-border px-2.5 py-1 font-mono text-[12px] text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/5 hover:text-sideband-text"
             >
               {c}
             </button>

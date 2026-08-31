@@ -72,8 +72,8 @@ function GalleryItem({
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        border: `1px solid ${hov ? accent + '50' : 'var(--eternal-border)'}`,
-        background: 'var(--eternal-surface)',
+        border: `1px solid ${hov ? accent + '50' : 'var(--sideband-border)'}`,
+        background: 'var(--sideband-surface)',
         padding: 16,
         transition: 'all 0.25s',
         transform: hov ? 'translateY(-4px)' : 'none',
@@ -85,7 +85,7 @@ function GalleryItem({
         <p
           style={{
             fontSize: 12,
-            color: 'var(--eternal-text)',
+            color: 'var(--sideband-text)',
             letterSpacing: '0.04em',
           }}
         >
@@ -94,7 +94,7 @@ function GalleryItem({
         <p
           style={{
             fontSize: 10,
-            color: 'var(--eternal-text-secondary)',
+            color: 'var(--sideband-text-secondary)',
             marginTop: 3,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
@@ -128,9 +128,9 @@ function ArchitectureRow({
         gridTemplateColumns: '80px 1fr',
         gap: 24,
         padding: '28px 0',
-        borderTop: '1px solid var(--eternal-border)',
+        borderTop: '1px solid var(--sideband-border)',
         transition: 'background 0.2s',
-        background: hov ? 'var(--eternal-surface)' : 'transparent',
+        background: hov ? 'var(--sideband-surface)' : 'transparent',
       }}
     >
       <div style={{ paddingTop: 3 }}>
@@ -151,7 +151,7 @@ function ArchitectureRow({
         <h3
           style={{
             fontSize: 15,
-            color: 'var(--eternal-text)',
+            color: 'var(--sideband-text)',
             marginBottom: 8,
             letterSpacing: '0.02em',
           }}
@@ -161,7 +161,7 @@ function ArchitectureRow({
         <p
           style={{
             fontSize: 13,
-            color: 'var(--eternal-text-secondary)',
+            color: 'var(--sideband-text-secondary)',
             lineHeight: 1.85,
           }}
         >
@@ -185,8 +185,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          borderBottom: '1px solid var(--eternal-border)',
-          background: 'var(--eternal-black)',
+          borderBottom: '1px solid var(--sideband-border)',
+          background: 'var(--sideband-black)',
         }}
       >
         {/* Orb */}
@@ -221,14 +221,14 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             href="/products"
             style={{
               background: 'none',
-              border: '1px solid var(--eternal-border)',
+              border: '1px solid var(--sideband-border)',
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
               padding: '7px 14px',
               fontSize: 11,
-              color: 'var(--eternal-text-secondary)',
+              color: 'var(--sideband-text-secondary)',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
               marginBottom: 40,
@@ -240,8 +240,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               e.currentTarget.style.color = acc
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--eternal-border)'
-              e.currentTarget.style.color = 'var(--eternal-text-secondary)'
+              e.currentTarget.style.borderColor = 'var(--sideband-border)'
+              e.currentTarget.style.color = 'var(--sideband-text-secondary)'
             }}
           >
             ← Back to Products
@@ -269,7 +269,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             </span>
             <StatusBadge status={product.status} />
             {product.version && (
-              <span style={{ fontSize: 10, color: 'var(--eternal-muted)' }}>
+              <span style={{ fontSize: 10, color: 'var(--sideband-muted)' }}>
                 {product.version}
               </span>
             )}
@@ -279,7 +279,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             className="font-display"
             style={{
               fontSize: 'clamp(52px, 7vw, 88px)',
-              color: 'var(--eternal-text)',
+              color: 'var(--sideband-text)',
               lineHeight: 0.95,
               marginBottom: 20,
               animation: 'fadeUp 0.5s 0.05s both',
@@ -290,7 +290,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
           <p
             style={{
               fontSize: 15,
-              color: 'var(--eternal-text-secondary)',
+              color: 'var(--sideband-text-secondary)',
               maxWidth: 600,
               lineHeight: 1.7,
               marginBottom: 40,
@@ -306,7 +306,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               display: 'flex',
               flexWrap: 'wrap',
               gap: 0,
-              borderTop: '1px solid var(--eternal-border)',
+              borderTop: '1px solid var(--sideband-border)',
               animation: 'fadeUp 0.5s 0.15s both',
             }}
           >
@@ -315,7 +315,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                 key={s.label}
                 style={{
                   padding: '16px 28px',
-                  borderRight: '1px solid var(--eternal-border)',
+                  borderRight: '1px solid var(--sideband-border)',
                   borderBottom: '1px solid transparent',
                 }}
               >
@@ -324,7 +324,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                     fontSize: 9,
                     textTransform: 'uppercase',
                     letterSpacing: '0.18em',
-                    color: 'var(--eternal-text-secondary)',
+                    color: 'var(--sideband-text-secondary)',
                     marginBottom: 6,
                   }}
                 >
@@ -334,7 +334,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                   className="font-display"
                   style={{
                     fontSize: 22,
-                    color: 'var(--eternal-text)',
+                    color: 'var(--sideband-text)',
                     fontWeight: 700,
                   }}
                 >
@@ -349,8 +349,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       {/* Gallery */}
       <div
         style={{
-          background: 'var(--eternal-surface)',
-          borderBottom: '1px solid var(--eternal-border)',
+          background: 'var(--sideband-surface)',
+          borderBottom: '1px solid var(--sideband-border)',
           padding: '72px 0',
         }}
       >
@@ -360,7 +360,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             <p
               style={{
                 fontSize: 13,
-                color: 'var(--eternal-text-secondary)',
+                color: 'var(--sideband-text-secondary)',
                 marginTop: 8,
               }}
             >
@@ -390,7 +390,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       <div
         style={{
           padding: '72px 0',
-          borderBottom: '1px solid var(--eternal-border)',
+          borderBottom: '1px solid var(--sideband-border)',
         }}
       >
         <div className="inner">
@@ -401,7 +401,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               style={{
                 fontSize: 36,
                 marginTop: 10,
-                color: 'var(--eternal-text)',
+                color: 'var(--sideband-text)',
               }}
             >
               Under the hood<span style={{ color: acc }}>.</span>
@@ -432,9 +432,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       {/* Highlights */}
       <div
         style={{
-          background: 'var(--eternal-surface)',
+          background: 'var(--sideband-surface)',
           padding: '72px 0',
-          borderBottom: '1px solid var(--eternal-border)',
+          borderBottom: '1px solid var(--sideband-border)',
         }}
       >
         <div className="inner">
@@ -455,8 +455,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                 <div
                   style={{
                     padding: '20px 22px',
-                    border: '1px solid var(--eternal-border)',
-                    background: 'var(--eternal-surface-2)',
+                    border: '1px solid var(--sideband-border)',
+                    background: 'var(--sideband-surface-2)',
                     display: 'flex',
                     gap: 14,
                   }}
@@ -474,7 +474,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                   <p
                     style={{
                       fontSize: 13,
-                      color: 'var(--eternal-text-secondary)',
+                      color: 'var(--sideband-text-secondary)',
                       lineHeight: 1.8,
                     }}
                   >
@@ -491,7 +491,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       <div
         style={{
           padding: '72px 0',
-          borderBottom: '1px solid var(--eternal-border)',
+          borderBottom: '1px solid var(--sideband-border)',
         }}
       >
         <div className="inner">
@@ -529,14 +529,14 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               <div>
                 <p
                   className="font-display"
-                  style={{ fontSize: 28, color: 'var(--eternal-text)' }}
+                  style={{ fontSize: 28, color: 'var(--sideband-text)' }}
                 >
                   {product.name}
                 </p>
                 <p
                   style={{
                     fontSize: 12,
-                    color: 'var(--eternal-text-secondary)',
+                    color: 'var(--sideband-text-secondary)',
                     marginTop: 4,
                   }}
                 >
@@ -616,20 +616,20 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                     textTransform: 'uppercase',
                     letterSpacing: '0.12em',
                     textDecoration: 'none',
-                    border: '1px solid var(--eternal-text-secondary)',
-                    color: 'var(--eternal-text-secondary)',
+                    border: '1px solid var(--sideband-text-secondary)',
+                    color: 'var(--sideband-text-secondary)',
                     background: 'transparent',
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background =
-                      'var(--eternal-text-secondary)'
+                      'var(--sideband-text-secondary)'
                     e.currentTarget.style.color = '#000'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent'
                     e.currentTarget.style.color =
-                      'var(--eternal-text-secondary)'
+                      'var(--sideband-text-secondary)'
                   }}
                 >
                   ← All Products

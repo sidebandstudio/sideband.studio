@@ -39,7 +39,7 @@ const marks = [
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-eternal-black pb-20 pt-[88px]">
+    <section className="relative overflow-hidden bg-sideband-black pb-20 pt-[88px]">
       <div
         aria-hidden="true"
         className="hero-grid-bg pointer-events-none absolute inset-0"
@@ -52,7 +52,7 @@ export default function Hero() {
         {marks.map((m) => (
           <div
             key={m.src}
-            className={`absolute grid h-[92px] w-[92px] place-items-center overflow-hidden rounded-[22px] border border-eternal-border bg-[#0b0a14] shadow-[0_20px_48px_-16px_rgba(0,0,0,0.65),inset_0_2px_rgba(255,255,255,0.04)] ${m.cls}`}
+            className={`absolute grid h-[92px] w-[92px] place-items-center overflow-hidden rounded-[22px] border border-sideband-border bg-[#0b0a14] shadow-[0_20px_48px_-16px_rgba(0,0,0,0.65),inset_0_2px_rgba(255,255,255,0.04)] ${m.cls}`}
           >
             <Image
               src={m.src}
@@ -66,16 +66,16 @@ export default function Hero() {
       </div>
 
       <div className="inner relative z-[2] text-center">
-        <span className="inline-flex h-8 items-center rounded-full border border-eternal-border bg-white/[0.03] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-eternal-text-secondary">
+        <span className="inline-flex h-8 items-center rounded-full border border-sideband-border bg-white/[0.03] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-sideband-text-secondary">
           Independent software studio · Boston, MA
         </span>
 
         <h1 className="display mx-auto mb-[22px] mt-6 max-w-[18ch] text-balance text-[clamp(40px,6vw,80px)]">
           Software that endures
-          <span className="text-eternal-accent">.</span>
+          <span className="text-sideband-accent">.</span>
         </h1>
 
-        <p className="mx-auto mb-9 max-w-[600px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-eternal-text-secondary">
+        <p className="mx-auto mb-9 max-w-[600px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
           A three-founder studio shipping technically ambitious products for
           developers, athletes, and people who care about quality.
         </p>
@@ -84,13 +84,13 @@ export default function Hero() {
           <div className="flex flex-wrap justify-center gap-2.5">
             <Link
               href="/products"
-              className="inline-flex items-center justify-center rounded-[10px] bg-eternal-text px-[22px] py-3.5 text-[15px] font-semibold text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-white"
+              className="inline-flex items-center justify-center rounded-[10px] bg-sideband-text px-[22px] py-3.5 text-[15px] font-semibold text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-white"
             >
               View Products
             </Link>
             <Link
               href="/engineers"
-              className="inline-flex items-center justify-center rounded-[10px] border border-eternal-border px-[22px] py-3.5 text-[15px] font-medium text-eternal-text-secondary transition-colors duration-200 hover:border-eternal-border-strong hover:bg-white/[0.03] hover:text-eternal-text"
+              className="inline-flex items-center justify-center rounded-[10px] border border-sideband-border px-[22px] py-3.5 text-[15px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
             >
               Meet the Engineers
             </Link>
@@ -100,7 +100,7 @@ export default function Hero() {
             href="https://github.com/whoisaldo"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-[-0.01em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
+            className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-[-0.01em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
           >
             <svg
               width="16"

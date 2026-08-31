@@ -34,10 +34,10 @@ function CompanyMark({ entry }: { entry: ExperienceEntry }) {
     <span
       aria-hidden
       className={`inline-flex h-10 items-center border px-3 ${
-        entry.emphasis ? 'border-eternal-accent/40' : 'border-eternal-border'
+        entry.emphasis ? 'border-sideband-accent/40' : 'border-sideband-border'
       }`}
     >
-      <span className="font-mono text-[11px] tracking-[0.12em] text-eternal-muted">
+      <span className="font-mono text-[11px] tracking-[0.12em] text-sideband-muted">
         {monogram(entry.company)}
       </span>
     </span>
@@ -50,14 +50,14 @@ interface ExperienceTimelineProps {
 function StatusPill({ entry }: { entry: ExperienceEntry }) {
   if (entry.upcoming) {
     return (
-      <span className="border border-eternal-accent/60 bg-eternal-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-eternal-accent">
+      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
         INCOMING
       </span>
     )
   }
   if (entry.current) {
     return (
-      <span className="border border-eternal-accent/60 bg-eternal-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-eternal-accent">
+      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
         ● CURRENT
       </span>
     )
@@ -69,26 +69,26 @@ export default function ExperienceTimeline({
   entries,
 }: ExperienceTimelineProps) {
   return (
-    <div className="relative ml-4 border-l border-eternal-border pl-8">
+    <div className="relative ml-4 border-l border-sideband-border pl-8">
       {entries.map((entry, i) => (
         <FadeUp key={`${entry.company}-${i}`} delay={i * 0.06}>
           <div className="relative mb-12 last:mb-0">
             {/* Dot */}
             <div
-              className={`absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 bg-eternal-black ${
+              className={`absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 bg-sideband-black ${
                 entry.emphasis
-                  ? 'border-eternal-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]'
-                  : 'border-eternal-border'
+                  ? 'border-sideband-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]'
+                  : 'border-sideband-border'
               }`}
             />
 
             {/* Date / status row */}
             <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-accent">
+              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-accent">
                 {entry.startDate} – {entry.endDate}
               </span>
               <StatusPill entry={entry} />
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-eternal-muted">
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted">
                 {entry.location}
               </span>
             </div>
@@ -100,20 +100,20 @@ export default function ExperienceTimeline({
                 <h3
                   className={`font-display text-[26px] leading-tight ${
                     entry.emphasis
-                      ? 'text-eternal-text'
-                      : 'text-eternal-text-secondary'
+                      ? 'text-sideband-text'
+                      : 'text-sideband-text-secondary'
                   }`}
                 >
                   {entry.company}
                 </h3>
-                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
+                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
                   {entry.role}
                 </p>
               </div>
             </div>
 
             {/* Summary */}
-            <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
+            <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
               {entry.summary}
             </p>
 
@@ -123,9 +123,9 @@ export default function ExperienceTimeline({
                 {entry.highlights.map((h, hi) => (
                   <li
                     key={hi}
-                    className="flex gap-3 font-mono text-[12px] leading-[1.7] text-eternal-text-secondary"
+                    className="flex gap-3 font-mono text-[12px] leading-[1.7] text-sideband-text-secondary"
                   >
-                    <span className="mt-1 inline-block h-1 w-2 flex-shrink-0 bg-eternal-accent/70" />
+                    <span className="mt-1 inline-block h-1 w-2 flex-shrink-0 bg-sideband-accent/70" />
                     <span>{h}</span>
                   </li>
                 ))}
@@ -138,7 +138,7 @@ export default function ExperienceTimeline({
                 {entry.skills.map((s) => (
                   <span
                     key={s}
-                    className="border border-eternal-border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-eternal-muted"
+                    className="border border-sideband-border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-sideband-muted"
                   >
                     {s}
                   </span>

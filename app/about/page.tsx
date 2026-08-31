@@ -7,7 +7,7 @@ import { listEngineers } from '@/lib/engineers'
 
 const timeline = [
   { year: '2024', event: 'EternalRichPresence: first shipped product' },
-  { year: '2025', event: 'Eternal Reverse founded' },
+  { year: '2025', event: 'Sideband founded' },
   {
     year: '2025',
     event: 'EternalMonitor enters development (Rust + Swift)',
@@ -28,18 +28,18 @@ export default function AboutPage() {
   const founders = listEngineers()
 
   return (
-    <div className="min-h-screen bg-eternal-black pt-32">
+    <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ ABOUT ]
           </span>
-          <h1 className="mt-4 font-display text-5xl text-eternal-text-secondary md:text-7xl">
+          <h1 className="mt-4 font-display text-5xl text-sideband-text-secondary md:text-7xl">
             Three founders.
           </h1>
-          <h1 className="font-display text-5xl font-bold text-eternal-text md:text-7xl">
-            One standard<span className="text-eternal-accent">.</span>
+          <h1 className="font-display text-5xl font-bold text-sideband-text md:text-7xl">
+            One standard<span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
 
@@ -47,11 +47,11 @@ export default function AboutPage() {
         <div className="mt-20 max-w-3xl space-y-16">
           <FadeUp>
             <SectionLabel label="WHY WE EXIST" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
+            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               We got tired of mediocre tools. Software that ships half-baked,
               bloated with features nobody asked for, and abandoned the moment
               the next trend arrives. We decided to stop complaining and start
-              building. Eternal Reverse exists because we believe the best
+              building. Sideband exists because we believe the best
               software comes from people who are obsessed with the craft, not
               the metrics.
             </p>
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
           <FadeUp>
             <SectionLabel label="HOW WE WORK" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
+            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               We ship real things. Every project goes through the same filter:
               Is this technically honest? Would we use this ourselves? Does it
               respect the person on the other end? We care about technical
@@ -72,7 +72,7 @@ export default function AboutPage() {
 
           <FadeUp>
             <SectionLabel label="WHERE WE'RE GOING" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
+            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               We&apos;re growing the contributor network, bringing in engineers,
               designers, and builders who share the standard. Quality is
               non-negotiable. Every contributor ships real features, gets real
@@ -89,7 +89,7 @@ export default function AboutPage() {
             <SectionLabel label="THE TEAM" withLine />
           </FadeUp>
           <FadeUp delay={0.05}>
-            <p className="mt-6 max-w-2xl font-mono text-[12px] uppercase tracking-[0.15em] text-eternal-muted">
+            <p className="mt-6 max-w-2xl font-mono text-[12px] uppercase tracking-[0.15em] text-sideband-muted">
               Open a dossier for the full picture →
             </p>
           </FadeUp>
@@ -107,17 +107,17 @@ export default function AboutPage() {
           <FadeUp>
             <SectionLabel label="TIMELINE" withLine />
           </FadeUp>
-          <div className="relative mt-10 ml-4 border-l border-eternal-border pl-8">
+          <div className="relative mt-10 ml-4 border-l border-sideband-border pl-8">
             {timeline.map((entry, i) => (
               <FadeUp key={i} delay={i * 0.05}>
                 <div className="relative mb-8 last:mb-0">
                   {/* Dot */}
-                  <div className="absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-eternal-accent bg-eternal-black" />
+                  <div className="absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-sideband-accent bg-sideband-black" />
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-                    <span className="font-mono text-[13px] font-medium text-eternal-accent">
+                    <span className="font-mono text-[13px] font-medium text-sideband-accent">
                       {entry.year}
                     </span>
-                    <span className="font-mono text-[13px] text-eternal-text-secondary">
+                    <span className="font-mono text-[13px] text-sideband-text-secondary">
                       {entry.event}
                     </span>
                   </div>
@@ -129,8 +129,8 @@ export default function AboutPage() {
 
         {/* CTA */}
         <FadeUp>
-          <div className="mt-24 border-t border-eternal-border pb-24 pt-16 text-center">
-            <p className="font-display text-3xl text-eternal-text">
+          <div className="mt-24 border-t border-sideband-border pb-24 pt-16 text-center">
+            <p className="font-display text-3xl text-sideband-text">
               Want to build with us?
             </p>
             <div className="mt-6">
@@ -146,7 +146,7 @@ export default function AboutPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'About · Eternal Reverse',
+  title: 'About · Sideband',
   description:
     'A three-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
 }

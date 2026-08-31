@@ -9,20 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        eternal: {
-          black: 'var(--eternal-black)',
-          surface: 'var(--eternal-surface)',
-          'surface-2': 'var(--eternal-surface-2)',
-          border: 'var(--eternal-border)',
-          'border-strong': 'var(--eternal-border-strong)',
-          muted: 'var(--eternal-muted)',
-          hairline: 'var(--eternal-hairline)',
-          text: 'var(--eternal-text)',
-          'text-secondary': 'var(--eternal-text-secondary)',
-          accent: 'var(--eternal-accent)',
-          'accent-cyan': 'var(--eternal-accent-cyan)',
-          'accent-pink': 'var(--eternal-accent-pink)',
-          'accent-yellow': 'var(--eternal-accent-yellow)',
+        sideband: {
+          black: 'var(--sideband-black)',
+          surface: 'var(--sideband-surface)',
+          'surface-2': 'var(--sideband-surface-2)',
+          border: 'var(--sideband-border)',
+          'border-strong': 'var(--sideband-border-strong)',
+          muted: 'var(--sideband-muted)',
+          hairline: 'var(--sideband-hairline)',
+          text: 'var(--sideband-text)',
+          'text-secondary': 'var(--sideband-text-secondary)',
+          accent: 'var(--sideband-accent)',
+          'accent-cyan': 'var(--sideband-accent-cyan)',
+          'accent-pink': 'var(--sideband-accent-pink)',
+          'accent-yellow': 'var(--sideband-accent-yellow)',
         },
       },
       fontFamily: {

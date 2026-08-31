@@ -22,23 +22,23 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
     <>
       <span
         aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-eternal-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
 
       {cover && (
-        <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-eternal-border bg-eternal-surface-2">
+        <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
           <Image
             src={cover}
             alt=""
@@ -47,19 +47,19 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
             sizes="(min-width: 768px) 33vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-eternal-surface/70 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sideband-surface/70 to-transparent" />
         </div>
       )}
 
       <div className="flex items-baseline justify-between gap-3">
-        <h3 className="font-display text-[22px] leading-tight text-eternal-text">
+        <h3 className="font-display text-[22px] leading-tight text-sideband-text">
           {project.name}
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-eternal-muted transition-colors duration-200 group-hover:text-eternal-accent">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
           {project.internal ? 'OPEN →' : project.source ? 'SOURCE ↗' : 'LIVE ↗'}
         </span>
       </div>
-      <p className="mt-3 font-mono text-[12px] leading-[1.75] text-eternal-text-secondary">
+      <p className="mt-3 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
         {project.blurb}
       </p>
       {project.tech && project.tech.length > 0 && (
@@ -67,7 +67,7 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
           {project.tech.map((t) => (
             <span
               key={t}
-              className="border border-eternal-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-eternal-muted"
+              className="border border-sideband-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-sideband-muted"
             >
               {t}
             </span>
@@ -78,7 +78,7 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   )
 
   const className =
-    'group relative block border border-eternal-border bg-eternal-surface p-6 transition-all duration-300 hover:border-eternal-accent/60 hover:bg-eternal-surface-2'
+    'group relative block border border-sideband-border bg-sideband-surface p-6 transition-all duration-300 hover:border-sideband-accent/60 hover:bg-sideband-surface-2'
 
   if (project.internal) {
     return (

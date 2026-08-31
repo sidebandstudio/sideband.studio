@@ -14,5 +14,5 @@ export function generateTicketId(now: Date = new Date()): string {
     .join('')
     .toUpperCase()
 
-  return `ER-${year}-${hex}`
+  return `SB-${year}-${hex}`
 }

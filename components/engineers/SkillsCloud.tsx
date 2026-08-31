@@ -12,19 +12,19 @@ export default function SkillsCloud({ groups }: SkillsCloudProps) {
         <FadeUp key={group.category} delay={i * 0.05}>
           <div>
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent">
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
                 / {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-text-secondary">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-text-secondary">
                 {group.category}
               </span>
-              <div className="h-px flex-1 bg-eternal-border" />
+              <div className="h-px flex-1 bg-sideband-border" />
             </div>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {group.items.map((item) => (
                 <span
                   key={item}
-                  className="border border-eternal-border bg-eternal-surface px-2.5 py-1 font-mono text-[11px] text-eternal-text-secondary transition-colors duration-200 hover:border-eternal-accent/60 hover:text-eternal-text"
+                  className="border border-sideband-border bg-sideband-surface px-2.5 py-1 font-mono text-[11px] text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-accent/60 hover:text-sideband-text"
                 >
                   {item}
                 </span>

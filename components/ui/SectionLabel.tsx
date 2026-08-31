@@ -15,14 +15,14 @@ export default function SectionLabel({
           fontSize: 10,
           textTransform: 'uppercase',
           letterSpacing: '0.2em',
-          color: 'var(--eternal-accent)',
+          color: 'var(--sideband-accent)',
         }}
       >
         [ {label} ]
       </span>
       {withLine && (
         <div
-          style={{ flex: 1, height: 1, background: 'var(--eternal-border)' }}
+          style={{ flex: 1, height: 1, background: 'var(--sideband-border)' }}
         />
       )}
     </div>

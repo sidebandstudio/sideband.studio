@@ -1,8 +1,6 @@
-# Eternal Reverse
+# Sideband
 
-**Built to last. Shipped to matter.**
-
-Eternal Reverse is an indie software studio founded in Boston, MA. We ship technically ambitious products for developers, athletes, musicians, and people who demand quality software.
+Sideband is an independent software studio founded in Boston, MA. Three founders building display streaming, media pipelines, fitness software, and web products. This repo is the studio site, [sideband.studio](https://sideband.studio).
 
 ## Getting Started
 
@@ -19,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Language:** TypeScript (strict)
 - **Styling:** Tailwind CSS
 - **Animation:** Framer Motion
-- **Typography:** Instrument Serif + DM Mono (next/font)
+- **Typography:** DM Sans + JetBrains Mono (next/font)
 
 ## Project Structure
 
@@ -41,14 +39,18 @@ public/           → Static assets
 - **EternalMonitor** — iPad as a low-latency Windows display (Rust + Swift)
 - **EternalRichPresence** — Discord Rich Presence for Apple Music & Spotify
 - **Exerly Fitness** — Cross-platform fitness companion (SwiftUI + React)
-- **Signature Cuts 413** — Modern barbershop booking
+- **Signature Cuts 413** — Barbershop booking site (static Next.js)
+- **Eternal2x** — DaVinci Resolve motion-aware 4K upscale
+- **Eternal Summary** — One-click AI page summaries (Chrome MV3)
+
+Products shipped before the rebrand keep their Eternal-prefixed names. They are separate product brands with their own domains.
 
 ## Contributing
 
-We're always looking for contributors. Check out [/careers](https://eternalreverse.com/careers) for current roles.
+We take part-time contributors. Check out [/careers](https://sideband.studio/careers) for current roles.
 
-Reach us at hello@eternalreverse.com.
+Reach us at hello@sideband.studio.
 
 ## License
 
-All rights reserved. &copy; 2025 Eternal Reverse.
+All rights reserved. &copy; 2026 Sideband.

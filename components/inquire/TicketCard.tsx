@@ -14,8 +14,8 @@ interface TicketCardProps {
 }
 
 const STATUS_COLOR: Record<TicketStatus, string> = {
-  DRAFT: 'var(--eternal-text-secondary)',
-  TRANSMITTING: 'var(--eternal-accent-yellow)',
+  DRAFT: 'var(--sideband-text-secondary)',
+  TRANSMITTING: 'var(--sideband-accent-yellow)',
   TRANSMITTED: '#4ade80',
   ERROR: '#f87171',
 }
@@ -28,10 +28,10 @@ export default function TicketCard({
   const accent = STATUS_COLOR[status]
 
   return (
-    <div className="relative border border-eternal-border bg-eternal-surface">
+    <div className="relative border border-sideband-border bg-sideband-surface">
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-eternal-border bg-eternal-surface-2 px-5 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-text-secondary">
+      <div className="flex items-center justify-between border-b border-sideband-border bg-sideband-surface-2 px-5 py-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-text-secondary">
           [ TICKET ]
         </span>
         <div className="flex items-center gap-2">
@@ -57,21 +57,21 @@ export default function TicketCard({
       </div>
 
       {/* Ticket ID, display */}
-      <div className="border-b border-eternal-border px-5 py-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
+      <div className="border-b border-sideband-border px-5 py-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
           Reference
         </p>
-        <p className="mt-2 break-all font-display text-3xl leading-none text-eternal-text md:text-4xl">
+        <p className="mt-2 break-all font-display text-3xl leading-none text-sideband-text md:text-4xl">
           {ticketId}
         </p>
-        <p className="mt-3 font-mono text-[11px] text-eternal-text-secondary">
+        <p className="mt-3 font-mono text-[11px] text-sideband-text-secondary">
           Save this. Quote it in any follow-up.
         </p>
       </div>
 
       {/* Live field summary */}
       <div className="px-5 py-5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
           {'// payload'}
         </p>
         <dl className="mt-4 space-y-2.5">
@@ -80,14 +80,14 @@ export default function TicketCard({
               key={field.label}
               className="grid grid-cols-[88px_1fr] gap-3 font-mono text-[12px]"
             >
-              <dt className="text-eternal-muted uppercase tracking-wider">
+              <dt className="text-sideband-muted uppercase tracking-wider">
                 {field.label}
               </dt>
               <dd
                 className={`truncate ${
                   field.value
-                    ? 'text-eternal-text-secondary'
-                    : 'text-eternal-muted italic'
+                    ? 'text-sideband-text-secondary'
+                    : 'text-sideband-muted italic'
                 }`}
               >
                 {field.value || ', '}

@@ -40,15 +40,15 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-eternal-black px-6 pt-32 pb-24">
+    <div className="flex min-h-screen items-center justify-center bg-sideband-black px-6 pt-32 pb-24">
       <div className="w-full max-w-xl">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ CONTACT ]
           </span>
-          <h1 className="mt-4 font-display text-5xl text-eternal-text md:text-7xl">
-            Let&apos;s build<span className="text-eternal-accent">.</span>
+          <h1 className="mt-4 font-display text-5xl text-sideband-text md:text-7xl">
+            Let&apos;s build<span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
 
@@ -56,8 +56,8 @@ export default function ContactPage() {
         <FadeUp delay={0.1}>
           <div className="mt-10 space-y-3">
             <a
-              href="mailto:hello@eternalreverse.com"
-              className="flex items-center gap-3 font-mono text-[14px] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              href="mailto:hello@sideband.studio"
+              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
             >
               <svg
                 width="16"
@@ -71,13 +71,13 @@ export default function ContactPage() {
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="M22 7l-10 7L2 7" />
               </svg>
-              hello@eternalreverse.com
+              hello@sideband.studio
             </a>
             <a
               href="https://github.com/whoisaldo"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 font-mono text-[14px] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
             >
               <svg
                 width="16"
@@ -94,7 +94,7 @@ export default function ContactPage() {
               href="https://www.linkedin.com/in/alialdoyounes/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 font-mono text-[14px] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
             >
               <svg
                 width="16"
@@ -113,16 +113,16 @@ export default function ContactPage() {
         {/* Contact Form */}
         <FadeUp delay={0.2}>
           {status === 'success' ? (
-            <div className="mt-12 border border-eternal-accent bg-eternal-surface px-6 py-8 font-mono text-[14px] text-eternal-accent">
+            <div className="mt-12 border border-sideband-accent bg-sideband-surface px-6 py-8 font-mono text-[14px] text-sideband-accent">
               <p className="text-[11px] uppercase tracking-wider">
                 [ MESSAGE SENT ]
               </p>
-              <p className="mt-2 text-eternal-text-secondary">
+              <p className="mt-2 text-sideband-text-secondary">
                 Thanks for reaching out, we&apos;ll get back to you soon.
               </p>
               <button
                 onClick={() => setStatus('idle')}
-                className="mt-4 text-[11px] uppercase tracking-wider text-eternal-accent underline underline-offset-4 transition-opacity hover:opacity-70"
+                className="mt-4 text-[11px] uppercase tracking-wider text-sideband-accent underline underline-offset-4 transition-opacity hover:opacity-70"
               >
                 Send another
               </button>
@@ -132,7 +132,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="name"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
                 >
                   Name
                 </label>
@@ -145,14 +145,14 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, name: e.target.value })
                   }
-                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
+                  className="w-full border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="Your name"
                 />
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
                 >
                   Email
                 </label>
@@ -165,14 +165,14 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, email: e.target.value })
                   }
-                  className="w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
+                  className="w-full border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="you@example.com"
                 />
               </div>
               <div>
                 <label
                   htmlFor="message"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary"
+                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
                 >
                   Message
                 </label>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, message: e.target.value })
                   }
-                  className="w-full resize-none border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent"
+                  className="w-full resize-none border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="What are you working on?"
                 />
               </div>

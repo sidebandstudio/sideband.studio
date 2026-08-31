@@ -1,6 +1,6 @@
 # Ali Younes
 
-**Co-Founder & Lead Engineer · Eternal Reverse**
+**Co-Founder & Lead Engineer · Sideband**
 
 > Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.
 
@@ -11,7 +11,7 @@
 - **SDE Intern at AWS CloudFormation** · Seattle, WA · Jun 2026 – Sep 2026 (current)
 - Previously **SDE Co-op at Philips** (System Integration) · Cambridge, MA · Jan 2026 – Jun 2026
 - CS + Political Science at **Northeastern University** (Class of 2027, GPA 3.5+)
-- Co-founder of Eternal Reverse, independent software studio
+- Co-founder of Sideband, independent software studio
 - Based in **Boston, MA**. In **Seattle, WA** for the AWS internship through Sep 2026
 
 ---
@@ -113,7 +113,7 @@ Activities: Northeastern Wrestling · Powerlifting Club · Arab Student Associat
 
 - **Primary email:** younes.al@northeastern.edu
 - **Personal email:** whois.younes@gmail.com
-- **Business email:** Aliyounes@eternalreverse.com
+- **Business email:** hello@sideband.studio
 - **GitHub:** https://github.com/whoisaldo
 - **LinkedIn:** https://www.linkedin.com/in/alialdoyounes/
 - **Website:** https://aliyounes.dev

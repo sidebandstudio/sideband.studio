@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { engineers } from '@/lib/engineers'
 import { products } from '@/lib/products'
 
-const BASE = 'https://eternalreverse.com'
+const BASE = 'https://sideband.studio'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

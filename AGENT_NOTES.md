@@ -2,6 +2,14 @@
 
 This file tracks project-specific decisions that future agents should preserve.
 
+## Brand
+
+- The studio is **Sideband** (sideband.studio, hello@sideband.studio), rebranded from Eternal Reverse in 2026.
+- Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Eternal2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
+- The design token namespace is `sideband-*` (Tailwind color scale and CSS variables in `styles/globals.css`).
+- The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` were removed.
+- Inquiry ticket references are prefixed `SB-` (`lib/ticket.ts`).
+
 ## Current Deployment State
 
 - Hosting target: Vercel

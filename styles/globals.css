@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --eternal-black: #06050e;
-  --eternal-surface: #0d0b1a;
-  --eternal-surface-2: #131127;
-  --eternal-border: rgba(255, 255, 255, 0.07);
-  --eternal-border-strong: rgba(255, 255, 255, 0.13);
+  --sideband-black: #06050e;
+  --sideband-surface: #0d0b1a;
+  --sideband-surface-2: #131127;
+  --sideband-border: rgba(255, 255, 255, 0.07);
+  --sideband-border-strong: rgba(255, 255, 255, 0.13);
   /* Text-safe dim tone: >=4.5:1 (WCAG AA) on black, surface and surface-2.
-     Use --eternal-hairline for decorative lines, not this. */
-  --eternal-muted: #837aa4;
-  --eternal-hairline: #382f5c;
-  --eternal-text: #edeaf5;
-  --eternal-text-secondary: #8b82aa;
-  --eternal-accent: #a855f7;
-  --eternal-accent-cyan: #6366f1;
-  --eternal-accent-pink: #d946ef;
-  --eternal-accent-yellow: #c084fc;
-  --eternal-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+     Use --sideband-hairline for decorative lines, not this. */
+  --sideband-muted: #837aa4;
+  --sideband-hairline: #382f5c;
+  --sideband-text: #edeaf5;
+  --sideband-text-secondary: #8b82aa;
+  --sideband-accent: #a855f7;
+  --sideband-accent-cyan: #6366f1;
+  --sideband-accent-pink: #d946ef;
+  --sideband-accent-yellow: #c084fc;
+  --sideband-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
 }
 
 * {
@@ -36,8 +36,8 @@ html {
 }
 
 body {
-  background-color: var(--eternal-black);
-  color: var(--eternal-text);
+  background-color: var(--sideband-black);
+  color: var(--sideband-text);
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -54,7 +54,7 @@ body {
 
 ::selection {
   background-color: #a855f730;
-  color: var(--eternal-text);
+  color: var(--sideband-text);
 }
 
 /* Scrollbar */
@@ -63,16 +63,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--eternal-black);
+  background: var(--sideband-black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--eternal-hairline);
+  background: var(--sideband-hairline);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--eternal-text-secondary);
+  background: var(--sideband-text-secondary);
 }
 
 /* Marquee pause on hover */
@@ -82,8 +82,8 @@ body {
 
 .marquee-outer {
   overflow: hidden;
-  border-top: 1px solid var(--eternal-border);
-  border-bottom: 1px solid var(--eternal-border);
+  border-top: 1px solid var(--sideband-border);
+  border-bottom: 1px solid var(--sideband-border);
   padding: 12px 0;
 }
 
@@ -101,12 +101,12 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-right: 1px solid var(--eternal-border);
+  border-right: 1px solid var(--sideband-border);
   padding: 0 28px;
   font-size: 10px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--eternal-text-secondary);
+  color: var(--sideband-text-secondary);
 }
 
 .marquee-dot {
@@ -114,14 +114,14 @@ body {
   height: 4px;
   flex-shrink: 0;
   border-radius: 9999px;
-  background: var(--eternal-accent);
+  background: var(--sideband-accent);
 }
 
 .terminal-box {
   position: relative;
   max-width: 480px;
-  border: 1px solid var(--eternal-border);
-  background: var(--eternal-surface);
+  border: 1px solid var(--sideband-border);
+  background: var(--sideband-surface);
   padding: 20px 24px;
   font-size: 12px;
   line-height: 1.9;
@@ -134,8 +134,8 @@ body {
   left: 0;
   right: 0;
   height: 28px;
-  border-bottom: 1px solid var(--eternal-border);
-  background: var(--eternal-surface-2);
+  border-bottom: 1px solid var(--sideband-border);
+  background: var(--sideband-surface-2);
 }
 
 .terminal-box::after {
@@ -143,7 +143,7 @@ body {
   position: absolute;
   top: 6px;
   left: 12px;
-  color: var(--eternal-hairline);
+  color: var(--sideband-hairline);
   font-size: 9px;
   letter-spacing: 3px;
 }
@@ -154,11 +154,11 @@ body {
 
 .terminal-line {
   white-space: pre;
-  color: var(--eternal-text-secondary);
+  color: var(--sideband-text-secondary);
 }
 
 .terminal-line.cmd {
-  color: var(--eternal-accent);
+  color: var(--sideband-accent);
 }
 
 .terminal-line.ok {
@@ -166,7 +166,7 @@ body {
 }
 
 .terminal-line.dim {
-  color: var(--eternal-muted);
+  color: var(--sideband-muted);
 }
 
 .terminal-cursor {
@@ -175,7 +175,7 @@ body {
   height: 13px;
   margin-left: 1px;
   vertical-align: middle;
-  background: var(--eternal-accent);
+  background: var(--sideband-accent);
   animation: blink 1s step-end infinite;
 }
 
@@ -329,11 +329,11 @@ body {
 }
 
 .prod-section:nth-child(odd) {
-  background: var(--eternal-black);
+  background: var(--sideband-black);
 }
 
 .prod-section:nth-child(even) {
-  background: var(--eternal-surface);
+  background: var(--sideband-surface);
 }
 
 .prod-num {
@@ -345,17 +345,17 @@ body {
   font-size: clamp(160px, 22vw, 280px);
   font-weight: 700;
   line-height: 1;
-  color: var(--eternal-text);
+  color: var(--sideband-text);
   opacity: 0.035;
 }
 
 .prod-problem {
   padding-left: 16px;
-  border-left: 2px solid var(--eternal-border);
+  border-left: 2px solid var(--sideband-border);
   font-size: 14px;
   font-style: italic;
   line-height: 1.85;
-  color: var(--eternal-text-secondary);
+  color: var(--sideband-text-secondary);
 }
 
 .prod-grid {
@@ -460,7 +460,7 @@ body {
   font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 1.05;
-  color: var(--eternal-text);
+  color: var(--sideband-text);
 }
 
 .hero-grid-bg {
@@ -477,7 +477,7 @@ body {
 }
 
 .term-p {
-  color: var(--eternal-accent);
+  color: var(--sideband-accent);
 }
 
 .term-d {
@@ -485,14 +485,14 @@ body {
 }
 
 .term-scroll a {
-  color: var(--eternal-text);
+  color: var(--sideband-text);
   text-decoration: underline;
   text-decoration-color: rgba(255, 255, 255, 0.2);
   text-underline-offset: 3px;
 }
 
 .term-scroll a:hover {
-  text-decoration-color: var(--eternal-text);
+  text-decoration-color: var(--sideband-text);
 }
 
 .term-scroll {

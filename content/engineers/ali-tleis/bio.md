@@ -1,8 +1,8 @@
 # Ali Tleis
 
-**Co-Founder, Eternal Reverse · Full-Stack Engineer**
+**Co-Founder, Sideband · Full-Stack Engineer**
 
-> CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.
+> CS @ Northeastern. Co-founder of Sideband. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.
 
 Source-of-truth portfolio: https://alitleis.dev
 
@@ -10,7 +10,7 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## TL;DR
 
-- **Co-Founder of Eternal Reverse** · dev studio shipping six products across desktop, browser, and full-stack
+- **Co-Founder of Sideband** · dev studio shipping six products across desktop, browser, and full-stack
 - **Web Application Developer (AI Integration) at MIT Lincoln Laboratory** · Jul–Dec 2026 (current)
 - Past **Frontend Developer Intern at Top Choice Realty** (Summer 2025)
 - B.S. Computer Science at **Northeastern University** via co-op (2024–2028)
@@ -28,7 +28,7 @@ Building AI-integrated internal web applications inside MIT’s federally funded
 
 ---
 
-### Eternal Reverse · Co-Founder *(Current)*
+### Sideband · Co-Founder *(Current)*
 
 **Boston, MA · 2025 – Present**
 

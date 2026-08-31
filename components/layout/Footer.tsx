@@ -1,13 +1,12 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-eternal-border bg-eternal-surface">
-      <div className="border-b border-eternal-border py-3 text-center">
+    <footer className="border-t border-sideband-border bg-sideband-surface">
+      <div className="border-b border-sideband-border py-3 text-center">
         <Link
           href="/careers"
-          className="text-[10px] uppercase tracking-[0.15em] text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+          className="text-[10px] uppercase tracking-[0.15em] text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
         >
           [ OPEN TO CONTRIBUTORS &rarr; /careers ]
         </Link>
@@ -19,18 +18,14 @@ export default function Footer() {
             <Link
               href="/"
               className="inline-flex"
-              aria-label="Eternal Reverse home"
+              aria-label="Sideband home"
             >
-              <Image
-                src="/assets/EternalReverse/EternalReverse.png"
-                alt="Eternal Reverse"
-                width={1882}
-                height={778}
-                sizes="180px"
-                className="h-8 w-auto"
-              />
+              <span className="font-mono text-[16px] font-medium tracking-[-0.01em] text-sideband-text">
+                sideband
+                <span className="text-sideband-muted">.studio</span>
+              </span>
             </Link>
-            <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
+            <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-sideband-text-secondary">
               Built to last. Shipped to matter. Three founders, one standard.
             </p>
           </div>
@@ -41,7 +36,7 @@ export default function Footer() {
                 <Link
                   key={item}
                   href={`/${item.toLowerCase()}`}
-                  className="text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
+                  className="text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
                 >
                   {item}
                 </Link>
@@ -54,7 +49,7 @@ export default function Footer() {
               href="https://github.com/whoisaldo"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
               aria-label="GitHub"
             >
               <svg
@@ -70,7 +65,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/alialdoyounes/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
               aria-label="LinkedIn"
             >
               <svg
@@ -83,8 +78,8 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="mailto:hello@eternalreverse.com"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              href="mailto:hello@sideband.studio"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
               aria-label="Email"
             >
               <svg
@@ -103,9 +98,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-eternal-border py-4 text-center">
-        <p className="text-[11px] text-eternal-muted">
-          &copy; 2026 Eternal Reverse &middot; hello@eternalreverse.com
+      <div className="border-t border-sideband-border py-4 text-center">
+        <p className="text-[11px] text-sideband-muted">
+          &copy; 2026 Sideband &middot; hello@sideband.studio
         </p>
       </div>
     </footer>
