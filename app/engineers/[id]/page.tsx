@@ -268,9 +268,7 @@ export default function EngineerDetailPage({
             </FadeUp>
             <FadeUp delay={0.05}>
               <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-                The same obsession that ships software shows up everywhere else.
-                Tuned cars, sumo bots, powerlifting platforms: context for the
-                code.
+                What the building looks like outside the repos.
               </p>
             </FadeUp>
             <div className="mt-10">
@@ -291,9 +289,7 @@ export default function EngineerDetailPage({
                   Want to build with {engineer.name.split(' ')[0]}?
                 </p>
                 <p className="mt-4 font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-                  Reach out directly. Resume, GitHub, and live channels below.
-                  Sideband is independent and selective. Every
-                  conversation matters.
+                  Email is fastest. Resume, GitHub, and the rest are below.
                 </p>
               </div>
             </FadeUp>

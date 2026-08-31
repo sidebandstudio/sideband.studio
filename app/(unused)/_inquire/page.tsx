@@ -8,7 +8,7 @@ import ProcessStrip from '@/components/inquire/ProcessStrip'
 export const metadata: Metadata = {
   title: 'Inquire · Sideband',
   description:
-    'Submit a project brief. Each inquiry is logged against a ticket and reviewed personally by the founders within three business days.',
+    'Send a project brief. You get a reference ID and a reply within three business days.',
 }
 
 export default function InquirePage() {
@@ -21,14 +21,13 @@ export default function InquirePage() {
         </FadeUp>
         <FadeUp delay={0.05}>
           <h1 className="mt-5 font-display text-5xl leading-[1.05] text-sideband-text md:text-7xl">
-            File a brief<span className="text-sideband-accent">.</span>
+            Send a brief<span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
         <FadeUp delay={0.1}>
           <p className="mt-6 max-w-2xl font-mono text-[14px] leading-[1.85] text-sideband-text-secondary">
-            Tell us what you want built. Each submission generates a ticket the
-            moment you transmit. You keep the reference, we keep the brief.
-            Founders review every inquiry personally.
+            Tell us what you want built. Every submission gets a reference ID,
+            and one of us reads it within three business days.
           </p>
         </FadeUp>
 

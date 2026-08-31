@@ -1,6 +1,6 @@
 'use client'
 
-export type TicketStatus = 'DRAFT' | 'TRANSMITTING' | 'TRANSMITTED' | 'ERROR'
+export type TicketStatus = 'DRAFT' | 'SENDING' | 'SENT' | 'ERROR'
 
 interface TicketField {
   label: string
@@ -15,8 +15,8 @@ interface TicketCardProps {
 
 const STATUS_COLOR: Record<TicketStatus, string> = {
   DRAFT: 'var(--sideband-text-secondary)',
-  TRANSMITTING: 'var(--sideband-accent-yellow)',
-  TRANSMITTED: '#4ade80',
+  SENDING: 'var(--sideband-accent-yellow)',
+  SENT: '#4ade80',
   ERROR: '#f87171',
 }
 
@@ -40,9 +40,9 @@ export default function TicketCard({
             style={{
               background: accent,
               boxShadow:
-                status === 'TRANSMITTING'
+                status === 'SENDING'
                   ? `0 0 8px ${accent}`
-                  : status === 'TRANSMITTED'
+                  : status === 'SENT'
                     ? `0 0 10px ${accent}`
                     : 'none',
             }}
@@ -72,7 +72,7 @@ export default function TicketCard({
       {/* Live field summary */}
       <div className="px-5 py-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
-          {'// payload'}
+          {'// summary'}
         </p>
         <dl className="mt-4 space-y-2.5">
           {fields.map((field) => (
@@ -90,7 +90,7 @@ export default function TicketCard({
                     : 'text-sideband-muted italic'
                 }`}
               >
-                {field.value || ', '}
+                {field.value || '·'}
               </dd>
             </div>
           ))}

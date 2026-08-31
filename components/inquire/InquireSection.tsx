@@ -86,9 +86,9 @@ export default function InquireSection() {
 
   const ticketStatus: TicketStatus =
     status === 'submitting'
-      ? 'TRANSMITTING'
+      ? 'SENDING'
       : status === 'success'
-        ? 'TRANSMITTED'
+        ? 'SENT'
         : status === 'error'
           ? 'ERROR'
           : 'DRAFT'
@@ -299,8 +299,8 @@ export default function InquireSection() {
                   )}
                 </span>
                 <span className="font-mono text-[12px] leading-relaxed text-sideband-text-secondary">
-                  Flag this brief as confidential. We treat it as under NDA from
-                  the moment you transmit.
+                  Mark this brief as confidential. We will not share its
+                  contents.
                 </span>
               </label>
             </section>
@@ -329,7 +329,7 @@ export default function InquireSection() {
                   role="alert"
                   className="font-mono text-[11px] uppercase tracking-wider text-red-400"
                 >
-                  Transmission failed.{' '}
+                  That did not send.{' '}
                   <a
                     href={`mailto:hello@sideband.studio?subject=INQUIRE · ${ticketId}`}
                     className="underline underline-offset-4"
@@ -339,11 +339,11 @@ export default function InquireSection() {
                 </p>
               )}
               <GlowButton variant="filled" disabled={status === 'submitting'}>
-                {status === 'submitting' ? 'Transmitting…' : 'Transmit Brief →'}
+                {status === 'submitting' ? 'Sending…' : 'Send Brief →'}
               </GlowButton>
               <p className="font-mono text-[11px] text-sideband-muted">
-                By transmitting, you agree we may contact you about this brief
-                at the email above.
+                By sending, you agree we may contact you about this brief at
+                the email above.
               </p>
             </div>
           </form>
@@ -368,29 +368,8 @@ export default function InquireSection() {
               <span className="text-sideband-text">
                 &ldquo;Curiosity brief&rdquo;
               </span>
-              . If the idea genuinely grips us, we&apos;ll consider building it
-              pro bono. Selection is rare and entirely at our discretion.
+              . If it is something we wish existed, we might build it anyway.
             </p>
-          </div>
-
-          <div className="border border-sideband-border bg-sideband-black px-5 py-5 font-mono text-[12px] leading-relaxed text-sideband-text-secondary">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
-              {'// what happens next'}
-            </p>
-            <ul className="mt-3 space-y-2">
-              <li>
-                <span className="text-sideband-accent">→</span> Ticket logged
-                instantly.
-              </li>
-              <li>
-                <span className="text-sideband-accent">→</span> Founders review
-                personally.
-              </li>
-              <li>
-                <span className="text-sideband-accent">→</span> Response within 3
-                business days.
-              </li>
-            </ul>
           </div>
         </aside>
       </FadeUp>
@@ -465,7 +444,7 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
     <div className="border border-sideband-accent bg-sideband-surface">
       <div className="flex items-center justify-between border-b border-sideband-accent/40 bg-sideband-surface-2 px-6 py-3">
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
-          [ TRANSMISSION COMPLETE ]
+          [ BRIEF SENT ]
         </span>
         <div className="flex items-center gap-2">
           <span
@@ -476,7 +455,7 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
             }}
           />
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#4ade80]">
-            ACK
+            SENT
           </span>
         </div>
       </div>
@@ -488,19 +467,18 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
           {ticketId}
         </p>
         <p className="mt-6 max-w-md font-mono text-[14px] leading-relaxed text-sideband-text-secondary">
-          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in.
-          We&apos;ve logged it against this ticket and a founder will review it
-          personally within 3 business days.
+          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in. One of
+          us will reply within three business days.
         </p>
         <p className="mt-4 max-w-md font-mono text-[12px] leading-relaxed text-sideband-muted">
-          A copy is also queued to{' '}
+          Following up? Email{' '}
           <a
             href={`mailto:hello@sideband.studio?subject=Re: ${ticketId}`}
             className="text-sideband-text-secondary underline underline-offset-4 transition-colors hover:text-sideband-accent"
           >
             hello@sideband.studio
-          </a>
-          . Replies to that thread will route back to the same ticket.
+          </a>{' '}
+          and quote your reference.
         </p>
       </div>
     </div>

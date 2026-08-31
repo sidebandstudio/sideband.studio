@@ -71,13 +71,13 @@ export default function Hero() {
         </span>
 
         <h1 className="display mx-auto mb-[22px] mt-6 max-w-[18ch] text-balance text-[clamp(40px,6vw,80px)]">
-          Software that endures
+          We build the things we wished existed
           <span className="text-sideband-accent">.</span>
         </h1>
 
         <p className="mx-auto mb-9 max-w-[600px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
-          A three-founder studio shipping technically ambitious products for
-          developers, athletes, and people who care about quality.
+          Four friends building an iPad display for Windows, a music bridge for
+          Discord, a smarter video upscaler, and more in progress.
         </p>
 
         <div className="mb-16 flex flex-col items-center gap-4">

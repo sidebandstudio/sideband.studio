@@ -6,7 +6,7 @@ test('homepage renders and primary navigation reaches products', async ({
   await page.goto('/')
 
   await expect(
-    page.getByRole('heading', { name: /Software that/i }),
+    page.getByRole('heading', { name: /We build the things/i }),
   ).toBeVisible()
 
   await page.getByRole('link', { name: /View Products/i }).click()
@@ -34,6 +34,7 @@ test('engineers index lists all founders and links to a dossier', async ({
   await expect(page.getByRole('link', { name: /Ali Younes/i })).toBeVisible()
   await expect(page.getByRole('link', { name: /Ali Tleis/i })).toBeVisible()
   await expect(page.getByRole('link', { name: /Karan Anand/i })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Naman Rusia/i })).toBeVisible()
 
   await page.getByRole('link', { name: /Ali Younes/i }).click()
   await expect(page).toHaveURL(/\/engineers\/ali-younes$/)
@@ -70,9 +71,9 @@ test('inquire form transmits and shows the success panel', async ({ page }) => {
   await page.getByLabel('Name *').fill('Ali')
   await page.getByLabel('Email *').fill('ali@example.com')
   await page.getByLabel('Project Brief *').fill('A low-latency streaming tool.')
-  await page.getByRole('button', { name: /Transmit Brief/i }).click()
+  await page.getByRole('button', { name: /Send Brief/i }).click()
 
-  await expect(page.getByText(/TRANSMITTED/i).first()).toBeVisible()
+  await expect(page.getByText(/BRIEF SENT/i).first()).toBeVisible()
 })
 
 test('inquire form surfaces an announced error on failure', async ({
@@ -91,10 +92,10 @@ test('inquire form surfaces an announced error on failure', async ({
   await page.getByLabel('Name *').fill('Ali')
   await page.getByLabel('Email *').fill('ali@example.com')
   await page.getByLabel('Project Brief *').fill('This should fail.')
-  await page.getByRole('button', { name: /Transmit Brief/i }).click()
+  await page.getByRole('button', { name: /Send Brief/i }).click()
 
   await expect(page.locator('form p[role="alert"]')).toContainText(
-    /Transmission failed/i,
+    /did not send/i,
   )
 })
 

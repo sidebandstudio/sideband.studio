@@ -23,18 +23,18 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Sideband · Independent software studio',
   description:
-    'Independent software studio in Boston building display streaming, media pipelines, and web products.',
+    'Sideband is an independent software studio. We build the things we wished existed.',
   metadataBase: new URL('https://sideband.studio'),
   openGraph: {
     title: 'Sideband · Independent software studio',
     description:
-      'Independent software studio in Boston building display streaming, media pipelines, and web products.',
+      'Sideband is an independent software studio. We build the things we wished existed.',
   },
   twitter: {
     card: 'summary',
     title: 'Sideband · Independent software studio',
     description:
-      'Independent software studio in Boston building display streaming, media pipelines, and web products.',
+      'Sideband is an independent software studio. We build the things we wished existed.',
   },
 }
 

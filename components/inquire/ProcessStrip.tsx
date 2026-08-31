@@ -1,20 +1,18 @@
 const STEPS = [
   {
     num: '01',
-    label: 'FILE',
-    detail: 'Submit a structured brief. Two minutes, no follow-up loop.',
+    label: 'WRITE',
+    detail: 'Fill in the brief. Takes about two minutes.',
   },
   {
     num: '02',
-    label: 'TICKET',
-    detail:
-      'A ticket ID is logged the moment you transmit. You keep the reference.',
+    label: 'REFERENCE',
+    detail: 'Your submission gets a reference ID. Quote it in any follow-up.',
   },
   {
     num: '03',
-    label: 'REVIEW',
-    detail:
-      'Reviewed by the founders. Personal response within three business days.',
+    label: 'REPLY',
+    detail: 'One of us reads it and replies within three business days.',
   },
 ]
 

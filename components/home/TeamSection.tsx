@@ -39,14 +39,13 @@ export default function TeamSection() {
                 The studio
               </span>
               <h2 className="display mt-3.5 text-balance text-[clamp(32px,4vw,48px)]">
-                {founderWord} founders. One standard.
+                {founderWord} founders. One studio.
               </h2>
               <p className="mt-3.5 max-w-[560px] text-pretty text-[17px] tracking-[-0.005em] text-sideband-text-secondary">
-                Sideband started from two founders who got tired of
-                mediocre tools: software that ships half-baked, bloated with
-                features nobody asked for. We decided to stop complaining and
-                start building. We stay indie because independence is what lets
-                us make these choices.
+                Sideband started with two friends fixing their own annoyances:
+                a missing second monitor, a blank Discord status. Now there are
+                four of us, still building whatever we wish existed. We keep it
+                small because that is what keeps it fun.
               </p>
             </div>
             <Link

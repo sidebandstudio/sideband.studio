@@ -36,49 +36,39 @@ export default function AboutPage() {
             [ ABOUT ]
           </span>
           <h1 className="mt-4 font-display text-5xl text-sideband-text-secondary md:text-7xl">
-            Three founders.
+            Four founders.
           </h1>
           <h1 className="font-display text-5xl font-bold text-sideband-text md:text-7xl">
-            One standard<span className="text-sideband-accent">.</span>
+            One studio<span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
 
         {/* Narrative */}
         <div className="mt-20 max-w-3xl space-y-16">
           <FadeUp>
-            <SectionLabel label="WHY WE EXIST" />
+            <SectionLabel label="WHY" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-              We got tired of mediocre tools. Software that ships half-baked,
-              bloated with features nobody asked for, and abandoned the moment
-              the next trend arrives. We decided to stop complaining and start
-              building. Sideband exists because we believe the best
-              software comes from people who are obsessed with the craft, not
-              the metrics.
+              We started Sideband because building software is the most fun we
+              know how to have. Every product here began as something one of us
+              wanted for ourselves, and that is still the whole strategy.
             </p>
           </FadeUp>
 
           <FadeUp>
-            <SectionLabel label="HOW WE WORK" />
+            <SectionLabel label="HOW" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-              We ship real things. Every project goes through the same filter:
-              Is this technically honest? Would we use this ourselves? Does it
-              respect the person on the other end? We care about technical
-              depth: DXGI pipelines, VideoToolbox decoding, Metal rendering. Not
-              because complexity is the goal, but because doing it right demands
-              going deep. We stay indie because independence is what lets us
-              make these choices.
+              We build for ourselves first, then polish until we would hand it
+              to a friend. Each product page has an honest write-up of how the
+              thing actually works, from DXGI capture down to the render loop.
+              The architecture is the interesting part, so we show it.
             </p>
           </FadeUp>
 
           <FadeUp>
-            <SectionLabel label="WHERE WE'RE GOING" />
+            <SectionLabel label="NEXT" />
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-              We&apos;re growing the contributor network, bringing in engineers,
-              designers, and builders who share the standard. Quality is
-              non-negotiable. Every contributor ships real features, gets real
-              credit, and walks away with real experience. The goal is to build
-              this studio into something lasting. Not a startup. Not a side
-              project. A studio.
+              More products. The list of things we wish existed is long, and we
+              are in no rush.
             </p>
           </FadeUp>
         </div>
@@ -148,5 +138,5 @@ export default function AboutPage() {
 export const metadata: Metadata = {
   title: 'About · Sideband',
   description:
-    'A three-founder software studio in Boston shipping technically ambitious products for developers, athletes, and people who care about quality.',
+    'Sideband is a four-founder software studio. We build the things we wished existed.',
 }

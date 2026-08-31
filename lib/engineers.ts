@@ -88,10 +88,10 @@ export const engineers: Engineer[] = [
     initials: 'AY',
     role: 'Co-Founder & Lead Engineer',
     shortBio:
-      'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
+      'Full-stack engineer focused on systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
       'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SDE Co-op at Philips in Cambridge, MA, and currently an SDE Intern on AWS CloudFormation in Seattle, where he shipped org-wide policy-based sharing of private resource types on the CloudFormation Registry, a tier-1 AWS control plane.',
-      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths. He stays indie because independence is what lets him build software the way it should be built: fast, honest, and obsessively refined.',
+      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths.',
     ],
     portrait: {
       src: '/assets/engineers/ali-younes/portrait.jpg',
@@ -699,6 +699,20 @@ export const engineers: Engineer[] = [
       linkedin: 'https://www.linkedin.com/in/karan-anand-19bbb81b3/',
       website: 'https://karan4248.github.io/Portfolio/',
       location: 'Winnipeg, MB',
+    },
+  },
+  {
+    id: 'naman-rusia',
+    name: 'Naman Rusia',
+    initials: 'NR',
+    role: 'Co-Founder',
+    shortBio: 'Fourth co-founder. Full dossier in progress.',
+    longBio: ['WIP'],
+    accentColor: '#F59E0B',
+    prev: [{ label: 'SIDEBAND', sublabel: 'CO-FOUNDER · CURRENT' }],
+    contact: {
+      email: 'hello@sideband.studio',
+      github: 'https://github.com/naman0r',
     },
   },
 ]

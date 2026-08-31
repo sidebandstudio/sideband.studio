@@ -17,7 +17,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-sideband-text-secondary">
-              Built to last. Shipped to matter. Three founders, one standard.
+              We build the things we wished existed.
             </p>
           </div>
 

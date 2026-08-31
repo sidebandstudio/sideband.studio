@@ -23,19 +23,19 @@ export default function EngineersIndexPage() {
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl">
             <span className="block text-sideband-text-secondary">
-              The people who
+              The people
             </span>
             <span className="block font-bold text-sideband-text">
-              actually ship<span className="text-sideband-accent">.</span>
+              behind the products<span className="text-sideband-accent">.</span>
             </span>
           </h1>
         </FadeUp>
 
         <FadeUp delay={0.1}>
           <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-            Each engineer at Sideband owns their work end-to-end. Open a
+            Each engineer at Sideband owns their work end to end. Open a
             dossier to see where they&apos;ve been, what they&apos;ve built, and
-            how they think about the craft.
+            how they work.
           </p>
         </FadeUp>
 
@@ -53,18 +53,7 @@ export default function EngineersIndexPage() {
           </div>
         </div>
 
-        <FadeUp>
-          <div className="mt-24 border-t border-sideband-border pb-24 pt-12">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-sideband-muted">
-              [ NETWORK EXPANDING ]
-            </p>
-            <p className="mt-3 max-w-xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-              We&apos;re growing the contributor network: engineers, designers,
-              and builders who share the standard. Reach out through the
-              contact page.
-            </p>
-          </div>
-        </FadeUp>
+        <div className="pb-24" />
       </div>
     </div>
   )

@@ -565,7 +565,7 @@ function RichPresenceSection() {
             status="LIVE"
             accent="#6366F1"
             problem="Apple Music runs on Windows. Spotify too. But Discord sees nothing: your Rich Presence is blank, your listening activity invisible, and there's no official bridge."
-            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install, no friction."
+            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install needed."
             tags={[
               'Python',
               'pywin32',
@@ -1054,7 +1054,7 @@ function EternalSummarySection() {
             status="LIVE"
             accent="#E879F9"
             problem="Reading long articles, docs, and research pages is a tax on attention. Existing summarizer extensions are bloated, slow, or send your data through a chain of middlemen."
-            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click, no friction."
+            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click."
             tags={[
               'JavaScript',
               'Chrome Extensions API',
@@ -1240,8 +1240,8 @@ export default function ProductsShowcase() {
               lineHeight: 1.8,
             }}
           >
-            Six products. Four live. Two in active development. Each one
-            technically ambitious, obsessively refined.
+            Six products. Four live, two in development. The write-ups below
+            cover how each one actually works.
           </p>
 
           {/* Jump nav */}

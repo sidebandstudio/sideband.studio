@@ -2,7 +2,7 @@
 
 **Co-Founder & Lead Engineer · Sideband**
 
-> Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.
+> Full-stack engineer focused on systems programming, low-latency streaming, and shipping products that respect the user.
 
 ---
 
@@ -18,7 +18,7 @@
 
 ## Tagline
 
-Software Engineer architecting scalable enterprise infrastructure. Goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths. Stays indie because independence is what lets him build software the way it should be built.
+Software Engineer architecting scalable enterprise infrastructure. Goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths.
 
 ---
 

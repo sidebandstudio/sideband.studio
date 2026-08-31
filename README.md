@@ -1,6 +1,6 @@
 # Sideband
 
-Sideband is an independent software studio founded in Boston, MA. Three founders building display streaming, media pipelines, fitness software, and web products. This repo is the studio site, [sideband.studio](https://sideband.studio).
+Sideband is an independent software studio founded in Boston, MA. Four founders building display streaming, media pipelines, fitness software, and web products. This repo is the studio site, [sideband.studio](https://sideband.studio).
 
 ## Getting Started
 
