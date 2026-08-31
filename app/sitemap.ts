@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/products', priority: 0.9 },
     { path: '/engineers', priority: 0.8 },
     { path: '/about', priority: 0.7 },
-    { path: '/inquire', priority: 0.7 },
     { path: '/contact', priority: 0.5 },
   ].map(({ path, priority }) => ({
     url: `${BASE}${path}`,

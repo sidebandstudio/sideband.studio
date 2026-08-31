@@ -6,11 +6,7 @@ export default function Footer() {
       <div className="inner py-12">
         <div className="footer-grid grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <Link
-              href="/"
-              className="inline-flex"
-              aria-label="Sideband home"
-            >
+            <Link href="/" className="inline-flex" aria-label="Sideband home">
               <span className="font-mono text-[16px] font-medium tracking-[-0.01em] text-sideband-text">
                 sideband
                 <span className="text-sideband-muted">.studio</span>
@@ -22,17 +18,15 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-wrap justify-start gap-6 md:justify-center">
-            {['Products', 'About', 'Inquire', 'Contact'].map(
-              (item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  className="text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
-                >
-                  {item}
-                </Link>
-              ),
-            )}
+            {['Products', 'About', 'Contact'].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                className="text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
+              >
+                {item}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-start gap-5 md:justify-end">

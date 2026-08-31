@@ -57,47 +57,8 @@ test('unknown engineer id returns a not-found page', async ({ page }) => {
   expect(res?.status()).toBe(404)
 })
 
-test('inquire form transmits and shows the success panel', async ({ page }) => {
-  await page.route('https://formspree.io/f/xkoperoj', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ ok: true }),
-    })
-  })
-
-  await page.goto('/inquire')
-
-  await page.getByLabel('Name *').fill('Ali')
-  await page.getByLabel('Email *').fill('ali@example.com')
-  await page.getByLabel('Project Brief *').fill('A low-latency streaming tool.')
-  await page.getByRole('button', { name: /Send Brief/i }).click()
-
-  await expect(page.getByText(/BRIEF SENT/i).first()).toBeVisible()
-})
-
-test('inquire form surfaces an announced error on failure', async ({
-  page,
-}) => {
-  await page.route('https://formspree.io/f/xkoperoj', async (route) => {
-    await route.fulfill({
-      status: 500,
-      contentType: 'application/json',
-      body: JSON.stringify({ ok: false }),
-    })
-  })
-
-  await page.goto('/inquire')
-
-  await page.getByLabel('Name *').fill('Ali')
-  await page.getByLabel('Email *').fill('ali@example.com')
-  await page.getByLabel('Project Brief *').fill('This should fail.')
-  await page.getByRole('button', { name: /Send Brief/i }).click()
-
-  await expect(page.locator('form p[role="alert"]')).toContainText(
-    /did not send/i,
-  )
-})
+// The inquire page is parked in app/(unused)/_inquire and not routed, so its
+// form tests are retired with it. Restore them if the route comes back.
 
 test('contact form success state is shown on successful submit', async ({
   page,
