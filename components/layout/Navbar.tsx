@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -42,9 +43,17 @@ export default function Navbar() {
         <div className="inner flex h-[64px] items-center justify-between">
           <Link
             href="/"
-            className="flex items-center"
+            className="flex items-center gap-2.5"
             aria-label="Sideband home"
           >
+            <Image
+              src="/assets/sideband/icon.png"
+              alt=""
+              width={128}
+              height={128}
+              priority
+              className="h-6 w-6 rounded-[6px]"
+            />
             <span className="font-mono text-[15px] font-medium tracking-[-0.01em] text-sideband-text">
               sideband
               <span className="text-sideband-muted">.studio</span>
