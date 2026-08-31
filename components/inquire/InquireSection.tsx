@@ -342,8 +342,8 @@ export default function InquireSection() {
                 {status === 'submitting' ? 'Sending…' : 'Send Brief →'}
               </GlowButton>
               <p className="font-mono text-[11px] text-sideband-muted">
-                By sending, you agree we may contact you about this brief at
-                the email above.
+                By sending, you agree we may contact you about this brief at the
+                email above.
               </p>
             </div>
           </form>
@@ -467,8 +467,8 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
           {ticketId}
         </p>
         <p className="mt-6 max-w-md font-mono text-[14px] leading-relaxed text-sideband-text-secondary">
-          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in. One of
-          us will reply within three business days.
+          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in. One of us
+          will reply within three business days.
         </p>
         <p className="mt-4 max-w-md font-mono text-[12px] leading-relaxed text-sideband-muted">
           Following up? Email{' '}

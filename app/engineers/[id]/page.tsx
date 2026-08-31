@@ -69,7 +69,9 @@ export default function EngineerDetailPage({
               ← ENGINEERS
             </Link>
             <span className="text-sideband-border">/</span>
-            <span className="text-sideband-text-secondary">{engineer.name}</span>
+            <span className="text-sideband-text-secondary">
+              {engineer.name}
+            </span>
           </div>
         </FadeUp>
 

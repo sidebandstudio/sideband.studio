@@ -508,8 +508,7 @@ export const products: Product[] = [
   {
     id: 'eternal-summary',
     name: 'Eternal Summary',
-    tagline:
-      'One-click AI summary for any webpage. Minimal Chrome extension.',
+    tagline: 'One-click AI summary for any webpage. Minimal Chrome extension.',
     description:
       'Minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay.',
     status: 'LIVE',

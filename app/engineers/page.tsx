@@ -33,9 +33,9 @@ export default function EngineersIndexPage() {
 
         <FadeUp delay={0.1}>
           <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-            Each engineer at Sideband owns their work end to end. Open a
-            dossier to see where they&apos;ve been, what they&apos;ve built, and
-            how they work.
+            Each engineer at Sideband owns their work end to end. Open a dossier
+            to see where they&apos;ve been, what they&apos;ve built, and how
+            they work.
           </p>
         </FadeUp>
 
