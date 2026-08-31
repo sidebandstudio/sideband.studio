@@ -60,8 +60,8 @@ export default function EngineersIndexPage() {
             </p>
             <p className="mt-3 max-w-xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
               We&apos;re growing the contributor network: engineers, designers,
-              and builders who share the standard. See open roles on the careers
-              page.
+              and builders who share the standard. Reach out through the
+              contact page.
             </p>
           </div>
         </FadeUp>

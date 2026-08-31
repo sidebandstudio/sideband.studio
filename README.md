@@ -47,9 +47,7 @@ Products shipped before the rebrand keep their Eternal-prefixed names. They are 
 
 ## Contributing
 
-We take part-time contributors. Check out [/careers](https://sideband.studio/careers) for current roles.
-
-Reach us at hello@sideband.studio.
+We take part-time contributors. Reach us at hello@sideband.studio.
 
 ## License
 

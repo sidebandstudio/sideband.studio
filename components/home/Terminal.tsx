@@ -50,7 +50,7 @@ function commandOutput(cmd: string): string[] | 'clear' | null {
     case 'contact':
       return [
         '  <a href="mailto:hello@sideband.studio">hello@sideband.studio</a>',
-        '  <a href="https://github.com/whoisaldo" target="_blank" rel="noopener noreferrer">github.com/whoisaldo</a>',
+        '  <a href="https://github.com/sidebandstudio" target="_blank" rel="noopener noreferrer">github.com/sidebandstudio</a>',
       ]
     case 'clear':
       return 'clear'

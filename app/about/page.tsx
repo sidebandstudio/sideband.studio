@@ -134,8 +134,8 @@ export default function AboutPage() {
               Want to build with us?
             </p>
             <div className="mt-6">
-              <GlowButton variant="filled" href="/careers">
-                View Contributor Roles
+              <GlowButton variant="filled" href="/contact">
+                Get in Touch
               </GlowButton>
             </div>
           </div>

@@ -97,7 +97,7 @@ export default function Hero() {
           </div>
 
           <a
-            href="https://github.com/whoisaldo"
+            href="https://github.com/sidebandstudio"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-[-0.01em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"

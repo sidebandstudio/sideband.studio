@@ -25,7 +25,7 @@ export default function FinalCta() {
               Send a Brief
             </Link>
             <a
-              href="https://github.com/whoisaldo"
+              href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-[10px] border border-sideband-border px-[22px] py-3.5 text-[15px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"

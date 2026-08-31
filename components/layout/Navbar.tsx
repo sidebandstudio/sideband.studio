@@ -9,7 +9,6 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/engineers', label: 'Engineers' },
   { href: '/about', label: 'About' },
-  { href: '/careers', label: 'Careers' },
   { href: '/inquire', label: 'Inquire' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -82,7 +81,7 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="https://github.com/whoisaldo"
+              href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-[13px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
@@ -156,7 +155,7 @@ export default function Navbar() {
                   delay: navLinks.length * 0.05,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                href="https://github.com/whoisaldo"
+                href="https://github.com/sidebandstudio"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-sm uppercase tracking-wider text-sideband-accent"
