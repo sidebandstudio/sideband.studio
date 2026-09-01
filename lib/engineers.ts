@@ -88,10 +88,10 @@ export const engineers: Engineer[] = [
     initials: 'AY',
     role: 'Co-Founder & Lead Engineer',
     shortBio:
-      'Full-stack engineer obsessed with systems programming, low-latency streaming, and shipping products that respect the user.',
+      'Full-stack engineer focused on systems programming, low-latency streaming, and shipping products that respect the user.',
     longBio: [
       'Ali architects scalable enterprise infrastructure and ships products end-to-end. CS & Political Science at Northeastern University, previously SDE Co-op at Philips in Cambridge, MA, and currently an SDE Intern on AWS CloudFormation in Seattle, where he shipped org-wide policy-based sharing of private resource types on the CloudFormation Registry, a tier-1 AWS control plane.',
-      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths. He stays indie because independence is what lets him build software the way it should be built: fast, honest, and obsessively refined.',
+      'He goes deep where it counts: DXGI capture pipelines, hardware H.264, Metal rendering, UEFI Secure Boot, IAM-style policy evaluation, DynamoDB hot paths.',
     ],
     portrait: {
       src: '/assets/engineers/ali-younes/portrait.jpg',
@@ -136,9 +136,7 @@ export const engineers: Engineer[] = [
         ],
       },
       {
-        company: 'Eternal Reverse',
-        logo: '/assets/EternalReverse/EternalReverse.png',
-        logoOnDark: true,
+        company: 'Sideband',
         role: 'Co-Founder & Lead Engineer',
         location: 'Boston, MA',
         startDate: '2025',
@@ -414,11 +412,11 @@ export const engineers: Engineer[] = [
     id: 'ali-tleis',
     name: 'Ali Tleis',
     initials: 'AT',
-    role: 'Co-Founder, Eternal Reverse · Full-Stack Engineer',
+    role: 'Co-Founder · Full-Stack Engineer',
     shortBio:
-      'CS @ Northeastern. Co-founder of Eternal Reverse. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
+      'CS @ Northeastern. Co-founder of Sideband. Web Application Developer at MIT Lincoln Laboratory. Builds production software end-to-end.',
     longBio: [
-      'Ali Tleis is a co-founder of Eternal Reverse, the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
+      'Ali Tleis is a co-founder of Sideband, the studio shipping six products across desktop, browser, and full-stack. Computer Science at Northeastern University via the co-op program (2024–2028).',
       'Web Application Developer (AI Integration) at MIT Lincoln Laboratory, Jul–Dec 2026. Past frontend co-op at Top Choice Realty in Staten Island. His work spans Next.js / Node web surfaces and Python / Lua / FFmpeg media pipelines.',
     ],
     portrait: {
@@ -447,9 +445,7 @@ export const engineers: Engineer[] = [
         skills: ['AI Integration', 'Web Apps', 'TypeScript', 'Node.js'],
       },
       {
-        company: 'Eternal Reverse',
-        logo: '/assets/EternalReverse/EternalReverse.png',
-        logoOnDark: true,
+        company: 'Sideband',
         role: 'Co-Founder',
         location: 'Boston, MA',
         startDate: '2025',
@@ -595,7 +591,7 @@ export const engineers: Engineer[] = [
     shortBio:
       'Systems design engineer and co-founder of Staged, an AI-powered resume builder. Ships quality solutions without compromising on time.',
     longBio: [
-      'Karan is a Computer Science student at the University of Manitoba and joined Eternal Reverse as its third co-founder, focused on systems design: architecture that holds up under real constraints, not just on paper.',
+      'Karan is a Computer Science student at the University of Manitoba and joined Sideband as its third co-founder, focused on systems design: architecture that holds up under real constraints, not just on paper.',
       'He previously co-founded and built Staged, an AI-powered resume builder with live preview, PDF export, and Claude-powered content generation, owning full-stack development, Stripe subscription billing, and Instagram-led user acquisition. He treats time and quality as the same problem: the right design up front is what makes both possible at once, rather than trading one for the other. Off the clock he is usually locked into Valorant, grinding a Monster Hunter boss, or watching basketball.',
     ],
     portrait: {
@@ -606,7 +602,7 @@ export const engineers: Engineer[] = [
     accentColor: '#10B981',
     prev: [
       {
-        label: 'ETERNAL REVERSE',
+        label: 'SIDEBAND',
         sublabel: 'CO-FOUNDER · SYSTEMS DESIGN · CURRENT',
       },
       { label: 'STAGED', sublabel: 'CO-FOUNDER & DEVELOPER' },
@@ -614,9 +610,7 @@ export const engineers: Engineer[] = [
     ],
     experience: [
       {
-        company: 'Eternal Reverse',
-        logo: '/assets/EternalReverse/EternalReverse.png',
-        logoOnDark: true,
+        company: 'Sideband',
         role: 'Co-Founder & Systems Design Engineer',
         location: 'Winnipeg, MB (Remote)',
         startDate: '2026',
@@ -650,7 +644,7 @@ export const engineers: Engineer[] = [
         endDate: 'Expected 2029',
         current: true,
         summary:
-          'Studying Computer Science while co-founding and shipping production software at Eternal Reverse and Staged.',
+          'Studying Computer Science while co-founding and shipping production software at Sideband and Staged.',
       },
     ],
     skills: [
@@ -705,6 +699,20 @@ export const engineers: Engineer[] = [
       linkedin: 'https://www.linkedin.com/in/karan-anand-19bbb81b3/',
       website: 'https://karan4248.github.io/Portfolio/',
       location: 'Winnipeg, MB',
+    },
+  },
+  {
+    id: 'naman-rusia',
+    name: 'Naman Rusia',
+    initials: 'NR',
+    role: 'Co-Founder',
+    shortBio: 'Fourth co-founder. Full dossier in progress.',
+    longBio: ['WIP'],
+    accentColor: '#F59E0B',
+    prev: [{ label: 'SIDEBAND', sublabel: 'CO-FOUNDER · CURRENT' }],
+    contact: {
+      email: 'hello@sideband.studio',
+      github: 'https://github.com/naman0r',
     },
   },
 ]

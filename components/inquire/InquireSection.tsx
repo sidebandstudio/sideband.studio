@@ -67,18 +67,18 @@ const EMPTY_FORM: FormState = {
 }
 
 const inputClass =
-  'w-full border border-eternal-border bg-eternal-surface px-4 py-3 font-mono text-[14px] text-eternal-text transition-colors duration-200 placeholder:text-eternal-muted focus:border-eternal-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-eternal-accent'
+  'w-full border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent'
 
 const labelClass =
-  'mb-2 block font-mono text-[11px] uppercase tracking-wider text-eternal-text-secondary'
+  'mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary'
 
 const sectionHeaderClass =
-  'font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent'
+  'font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent'
 
 export default function InquireSection() {
   // Generated after mount: the ID is random, so producing it during render
   // makes the prerendered HTML disagree with the client and breaks hydration.
-  const [ticketId, setTicketId] = useState('ER-XXXX-XXXX')
+  const [ticketId, setTicketId] = useState('SB-XXXX-XXXX')
   useEffect(() => setTicketId(generateTicketId()), [])
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [status, setStatus] = useState<Status>('idle')
@@ -86,9 +86,9 @@ export default function InquireSection() {
 
   const ticketStatus: TicketStatus =
     status === 'submitting'
-      ? 'TRANSMITTING'
+      ? 'SENDING'
       : status === 'success'
-        ? 'TRANSMITTED'
+        ? 'SENT'
         : status === 'error'
           ? 'ERROR'
           : 'DRAFT'
@@ -293,14 +293,14 @@ export default function InquireSection() {
                   onChange={(e) => update('nda', e.target.checked)}
                   className="peer absolute h-4 w-4 cursor-pointer opacity-0"
                 />
-                <span className="relative mt-[3px] block h-4 w-4 shrink-0 border border-eternal-border bg-eternal-surface transition-colors duration-200 group-hover:border-eternal-accent peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-eternal-accent">
+                <span className="relative mt-[3px] block h-4 w-4 shrink-0 border border-sideband-border bg-sideband-surface transition-colors duration-200 group-hover:border-sideband-accent peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-sideband-accent">
                   {form.nda && (
-                    <span className="absolute inset-0.5 bg-eternal-accent" />
+                    <span className="absolute inset-0.5 bg-sideband-accent" />
                   )}
                 </span>
-                <span className="font-mono text-[12px] leading-relaxed text-eternal-text-secondary">
-                  Flag this brief as confidential. We treat it as under NDA from
-                  the moment you transmit.
+                <span className="font-mono text-[12px] leading-relaxed text-sideband-text-secondary">
+                  Mark this brief as confidential. We will not share its
+                  contents.
                 </span>
               </label>
             </section>
@@ -323,15 +323,15 @@ export default function InquireSection() {
             </div>
 
             {/* Submit */}
-            <div className="flex flex-col items-start gap-4 border-t border-eternal-border pt-8">
+            <div className="flex flex-col items-start gap-4 border-t border-sideband-border pt-8">
               {status === 'error' && (
                 <p
                   role="alert"
                   className="font-mono text-[11px] uppercase tracking-wider text-red-400"
                 >
-                  Transmission failed.{' '}
+                  That did not send.{' '}
                   <a
-                    href={`mailto:hello@eternalreverse.com?subject=INQUIRE · ${ticketId}`}
+                    href={`mailto:hello@sideband.studio?subject=INQUIRE · ${ticketId}`}
                     className="underline underline-offset-4"
                   >
                     email us directly with reference {ticketId}
@@ -339,11 +339,11 @@ export default function InquireSection() {
                 </p>
               )}
               <GlowButton variant="filled" disabled={status === 'submitting'}>
-                {status === 'submitting' ? 'Transmitting…' : 'Transmit Brief →'}
+                {status === 'submitting' ? 'Sending…' : 'Send Brief →'}
               </GlowButton>
-              <p className="font-mono text-[11px] text-eternal-muted">
-                By transmitting, you agree we may contact you about this brief
-                at the email above.
+              <p className="font-mono text-[11px] text-sideband-muted">
+                By sending, you agree we may contact you about this brief at the
+                email above.
               </p>
             </div>
           </form>
@@ -359,38 +359,17 @@ export default function InquireSection() {
             fields={ticketFields}
           />
 
-          <div className="border border-eternal-border bg-eternal-black px-5 py-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent-pink">
+          <div className="border border-sideband-border bg-sideband-black px-5 py-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent-pink">
               [ NOTE / CURIOSITY BRIEFS ]
             </p>
-            <p className="mt-3 font-mono text-[12px] leading-relaxed text-eternal-text-secondary">
+            <p className="mt-3 font-mono text-[12px] leading-relaxed text-sideband-text-secondary">
               No budget? Pick{' '}
-              <span className="text-eternal-text">
+              <span className="text-sideband-text">
                 &ldquo;Curiosity brief&rdquo;
               </span>
-              . If the idea genuinely grips us, we&apos;ll consider building it
-              pro bono. Selection is rare and entirely at our discretion.
+              . If it is something we wish existed, we might build it anyway.
             </p>
-          </div>
-
-          <div className="border border-eternal-border bg-eternal-black px-5 py-5 font-mono text-[12px] leading-relaxed text-eternal-text-secondary">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
-              {'// what happens next'}
-            </p>
-            <ul className="mt-3 space-y-2">
-              <li>
-                <span className="text-eternal-accent">→</span> Ticket logged
-                instantly.
-              </li>
-              <li>
-                <span className="text-eternal-accent">→</span> Founders review
-                personally.
-              </li>
-              <li>
-                <span className="text-eternal-accent">→</span> Response within 3
-                business days.
-              </li>
-            </ul>
           </div>
         </aside>
       </FadeUp>
@@ -400,9 +379,9 @@ export default function InquireSection() {
 
 function SectionHeader({ num, label }: { num: string; label: string }) {
   return (
-    <div className="flex items-center gap-4 border-b border-eternal-border pb-3">
+    <div className="flex items-center gap-4 border-b border-sideband-border pb-3">
       <span className={sectionHeaderClass}>{`[ ${num} // ${label} ]`}</span>
-      <div className="h-px flex-1 bg-eternal-border" />
+      <div className="h-px flex-1 bg-sideband-border" />
     </div>
   )
 }
@@ -429,24 +408,24 @@ function SelectField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={`${inputClass} appearance-none pr-10 ${
-          value ? '' : 'text-eternal-muted'
+          value ? '' : 'text-sideband-muted'
         }`}
       >
-        <option value="" className="bg-eternal-surface text-eternal-muted">
+        <option value="" className="bg-sideband-surface text-sideband-muted">
           {placeholder}
         </option>
         {options.map((opt) => (
           <option
             key={opt}
             value={opt}
-            className="bg-eternal-surface text-eternal-text"
+            className="bg-sideband-surface text-sideband-text"
           >
             {opt}
           </option>
         ))}
       </select>
       <svg
-        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-eternal-text-secondary"
+        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sideband-text-secondary"
         width="10"
         height="6"
         viewBox="0 0 10 6"
@@ -462,10 +441,10 @@ function SelectField({
 
 function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
   return (
-    <div className="border border-eternal-accent bg-eternal-surface">
-      <div className="flex items-center justify-between border-b border-eternal-accent/40 bg-eternal-surface-2 px-6 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent">
-          [ TRANSMISSION COMPLETE ]
+    <div className="border border-sideband-accent bg-sideband-surface">
+      <div className="flex items-center justify-between border-b border-sideband-accent/40 bg-sideband-surface-2 px-6 py-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
+          [ BRIEF SENT ]
         </span>
         <div className="flex items-center gap-2">
           <span
@@ -476,31 +455,30 @@ function SuccessPanel({ ticketId, name }: { ticketId: string; name: string }) {
             }}
           />
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#4ade80]">
-            ACK
+            SENT
           </span>
         </div>
       </div>
       <div className="px-6 py-10 md:px-10 md:py-14">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-eternal-text-secondary">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-sideband-text-secondary">
           {'// your reference'}
         </p>
-        <p className="mt-3 break-all font-display text-4xl text-eternal-text md:text-6xl">
+        <p className="mt-3 break-all font-display text-4xl text-sideband-text md:text-6xl">
           {ticketId}
         </p>
-        <p className="mt-6 max-w-md font-mono text-[14px] leading-relaxed text-eternal-text-secondary">
-          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in.
-          We&apos;ve logged it against this ticket and a founder will review it
-          personally within 3 business days.
+        <p className="mt-6 max-w-md font-mono text-[14px] leading-relaxed text-sideband-text-secondary">
+          {name ? `${name.split(' ')[0]}, your` : 'Your'} brief is in. One of us
+          will reply within three business days.
         </p>
-        <p className="mt-4 max-w-md font-mono text-[12px] leading-relaxed text-eternal-muted">
-          A copy is also queued to{' '}
+        <p className="mt-4 max-w-md font-mono text-[12px] leading-relaxed text-sideband-muted">
+          Following up? Email{' '}
           <a
-            href={`mailto:hello@eternalreverse.com?subject=Re: ${ticketId}`}
-            className="text-eternal-text-secondary underline underline-offset-4 transition-colors hover:text-eternal-accent"
+            href={`mailto:hello@sideband.studio?subject=Re: ${ticketId}`}
+            className="text-sideband-text-secondary underline underline-offset-4 transition-colors hover:text-sideband-accent"
           >
-            hello@eternalreverse.com
-          </a>
-          . Replies to that thread will route back to the same ticket.
+            hello@sideband.studio
+          </a>{' '}
+          and quote your reference.
         </p>
       </div>
     </div>

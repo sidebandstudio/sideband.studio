@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -10,8 +10,7 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/engineers', label: 'Engineers' },
   { href: '/about', label: 'About' },
-  { href: '/careers', label: 'Careers' },
-  { href: '/inquire', label: 'Inquire' },
+  //{ href: '/inquire', label: 'Inquire' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -35,27 +34,30 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed left-0 right-0 top-0 z-[100] bg-eternal-black transition-[border-color,box-shadow] duration-200 ${
+        className={`fixed left-0 right-0 top-0 z-[100] bg-sideband-black transition-[border-color,box-shadow] duration-200 ${
           scrolled
-            ? 'border-b border-eternal-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
+            ? 'border-b border-sideband-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
             : 'border-b border-transparent'
         }`}
       >
         <div className="inner flex h-[64px] items-center justify-between">
           <Link
             href="/"
-            className="flex items-center"
-            aria-label="Eternal Reverse home"
+            className="flex items-center gap-2.5"
+            aria-label="Sideband home"
           >
             <Image
-              src="/assets/EternalReverse/EternalReverse.png"
-              alt="Eternal Reverse"
-              width={1882}
-              height={778}
+              src="/assets/sideband/icon.png"
+              alt=""
+              width={128}
+              height={128}
               priority
-              sizes="140px"
-              className="h-5 w-auto md:h-6"
+              className="h-6 w-6 rounded-[6px]"
             />
+            <span className="font-mono text-[15px] font-medium tracking-[-0.01em] text-sideband-text">
+              sideband
+              <span className="text-sideband-muted">.studio</span>
+            </span>
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -69,8 +71,8 @@ export default function Navbar() {
                     pathname.startsWith('/products/')) ||
                   (link.href === '/engineers' &&
                     pathname.startsWith('/engineers/'))
-                    ? 'text-eternal-accent'
-                    : 'text-eternal-text-secondary hover:text-eternal-text'
+                    ? 'text-sideband-accent'
+                    : 'text-sideband-text-secondary hover:text-sideband-text'
                 }`}
               >
                 {link.label}
@@ -81,17 +83,17 @@ export default function Navbar() {
                     pathname.startsWith('/engineers/'))) && (
                   <motion.div
                     layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-eternal-accent"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-sideband-accent"
                     transition={{ duration: 0.2 }}
                   />
                 )}
               </Link>
             ))}
             <a
-              href="https://github.com/whoisaldo"
+              href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-[13px] uppercase tracking-wider text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
+              className="font-mono text-[13px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
             >
               [ GitHub &rarr; ]
             </a>
@@ -103,17 +105,17 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             <span
-              className={`block h-[1.5px] w-5 bg-eternal-text transition-all duration-200 ${
+              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
                 isOpen ? 'translate-y-[4.5px] rotate-45' : ''
               }`}
             />
             <span
-              className={`block h-[1.5px] w-5 bg-eternal-text transition-all duration-200 ${
+              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
                 isOpen ? 'opacity-0' : ''
               }`}
             />
             <span
-              className={`block h-[1.5px] w-5 bg-eternal-text transition-all duration-200 ${
+              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
                 isOpen ? '-translate-y-[4.5px] -rotate-45' : ''
               }`}
             />
@@ -128,7 +130,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-eternal-black/98 md:hidden"
+            className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-sideband-black/98 md:hidden"
           >
             <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
@@ -146,8 +148,8 @@ export default function Navbar() {
                     href={link.href}
                     className={`font-display text-4xl transition-colors duration-200 ${
                       pathname === link.href
-                        ? 'text-eternal-accent'
-                        : 'text-eternal-text hover:text-eternal-accent'
+                        ? 'text-sideband-accent'
+                        : 'text-sideband-text hover:text-sideband-accent'
                     }`}
                   >
                     {link.label}
@@ -162,10 +164,10 @@ export default function Navbar() {
                   delay: navLinks.length * 0.05,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                href="https://github.com/whoisaldo"
+                href="https://github.com/sidebandstudio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm uppercase tracking-wider text-eternal-accent"
+                className="font-mono text-sm uppercase tracking-wider text-sideband-accent"
               >
                 [ GitHub &rarr; ]
               </motion.a>

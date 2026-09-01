@@ -140,7 +140,7 @@ export const products: Product[] = [
     id: 'eternal-rich-presence',
     name: 'EternalRichPresence',
     tagline:
-      'Discord Rich Presence for Apple Music & Spotify. Live cover art. Zero friction.',
+      'Discord Rich Presence for Apple Music & Spotify. Live cover art. Portable .exe.',
     description:
       'Bridges Windows SMTC to Discord Rich Presence. Live cover art upload, Listen Along deep-link via custom eternalrp:// URI scheme, system tray host, portable .exe via PyInstaller. Provider priority: Apple Music → Spotify fallback.',
     status: 'LIVE',
@@ -219,7 +219,7 @@ export const products: Product[] = [
     id: 'exerly',
     name: 'Exerly Fitness',
     tagline:
-      'Cross-platform fitness companion built for people serious about their training.',
+      'Cross-platform fitness companion with AI coaching, barcode scanning, and HealthKit sync.',
     description:
       'Barcode scanning via FatSecret API, 12-step onboarding wizard computing BMI/TDEE/macro targets, AI coaching via Gemini 2.0 Flash. Monorepo with shared Express API serving both web and iOS. SwiftUI + HealthKit on mobile.',
     status: 'IN DEVELOPMENT',
@@ -247,7 +247,7 @@ export const products: Product[] = [
     detail: {
       accentColor: '#D946EF',
       tagline:
-        'Cross-platform fitness companion. AI coaching, barcode scanning, HealthKit sync. Built for serious training.',
+        'Cross-platform fitness companion. AI coaching, barcode scanning, HealthKit sync.',
       stats: [
         { label: 'AI Model', value: 'Gemini 2.0' },
         { label: 'Mobile', value: 'SwiftUI' },
@@ -348,7 +348,7 @@ export const products: Product[] = [
   {
     id: 'signature-cuts',
     name: 'Signature Cuts 413',
-    tagline: 'Modern barbershop booking. No app download. No friction.',
+    tagline: 'Modern barbershop booking. No app download. Book by text.',
     description:
       'Static Next.js site with Tailwind CSS. SMS and WhatsApp deep-link booking flow with proper URI encoding. Custom domain on Namecheap. Built to be fast, mobile-first, and dead simple for clients.',
     status: 'LIVE',
@@ -508,8 +508,7 @@ export const products: Product[] = [
   {
     id: 'eternal-summary',
     name: 'Eternal Summary',
-    tagline:
-      'One-click AI summary for any webpage. Minimal Chrome extension. No friction.',
+    tagline: 'One-click AI summary for any webpage. Minimal Chrome extension.',
     description:
       'Minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay.',
     status: 'LIVE',
@@ -536,7 +535,7 @@ export const products: Product[] = [
     detail: {
       accentColor: '#E879F9',
       tagline:
-        'One-click AI summary for any webpage. MV3 Chrome extension. Streaming, minimal, no friction.',
+        'One-click AI summary for any webpage. MV3 Chrome extension. Streaming and minimal.',
       stats: [
         { label: 'Platform', value: 'Chrome MV3' },
         { label: 'Backend', value: 'Node + Express' },

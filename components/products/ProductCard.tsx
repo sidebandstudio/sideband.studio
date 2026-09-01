@@ -21,8 +21,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        border: `1px solid ${hovered ? product.accentColor + '50' : 'var(--eternal-border)'}`,
-        background: 'var(--eternal-surface)',
+        border: `1px solid ${hovered ? product.accentColor + '50' : 'var(--sideband-border)'}`,
+        background: 'var(--sideband-surface)',
         transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
         transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
         boxShadow: hovered ? `0 8px 40px ${product.accentColor}18` : 'none',
@@ -201,7 +201,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             width: '100%',
             paddingBottom: '62%',
             overflow: 'hidden',
-            background: 'var(--eternal-surface-2)',
+            background: 'var(--sideband-surface-2)',
           }}
         >
           <Image
@@ -275,7 +275,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               className="font-display"
               style={{
                 fontSize: 22,
-                color: 'var(--eternal-text)',
+                color: 'var(--sideband-text)',
                 fontWeight: 700,
               }}
             >
@@ -285,7 +285,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               <span
                 style={{
                   fontSize: 10,
-                  color: 'var(--eternal-muted)',
+                  color: 'var(--sideband-muted)',
                   letterSpacing: '0.08em',
                 }}
               >
@@ -297,7 +297,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             style={{
               fontSize: 12,
               lineHeight: 1.7,
-              color: 'var(--eternal-text-secondary)',
+              color: 'var(--sideband-text-secondary)',
             }}
           >
             {product.tagline}
@@ -319,8 +319,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           style={{
             fontSize: 10,
             letterSpacing: '0.08em',
-            color: 'var(--eternal-text-secondary)',
-            borderTop: '1px solid var(--eternal-border)',
+            color: 'var(--sideband-text-secondary)',
+            borderTop: '1px solid var(--sideband-border)',
             paddingTop: 10,
             marginTop: 'auto',
           }}
@@ -400,13 +400,13 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             href={`/products/${product.id}`}
             style={{
               background: 'none',
-              border: '1px solid var(--eternal-border)',
+              border: '1px solid var(--sideband-border)',
               cursor: 'pointer',
               padding: '9px 16px',
               fontSize: 11,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'var(--eternal-text-secondary)',
+              color: 'var(--sideband-text-secondary)',
               transition: 'all 0.2s',
               display: 'inline-flex',
               alignItems: 'center',
@@ -418,8 +418,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               e.currentTarget.style.color = product.accentColor
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--eternal-border)'
-              e.currentTarget.style.color = 'var(--eternal-text-secondary)'
+              e.currentTarget.style.borderColor = 'var(--sideband-border)'
+              e.currentTarget.style.color = 'var(--sideband-text-secondary)'
             }}
           >
             Deep Dive →

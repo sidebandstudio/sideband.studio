@@ -13,8 +13,8 @@ export default function Tag({ label, color }: TagProps) {
         fontSize: 10,
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
-        border: `1px solid ${color ?? 'var(--eternal-border)'}`,
-        color: color ?? 'var(--eternal-text-secondary)',
+        border: `1px solid ${color ?? 'var(--sideband-border)'}`,
+        color: color ?? 'var(--sideband-text-secondary)',
         opacity: color ? 0.85 : 1,
       }}
     >

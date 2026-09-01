@@ -29,9 +29,9 @@ export function generateMetadata({
   params: { id: string }
 }): Metadata {
   const e = getEngineerById(params.id)
-  if (!e) return { title: 'Engineer not found · Eternal Reverse' }
+  if (!e) return { title: 'Engineer not found · Sideband' }
   return {
-    title: `${e.name} · ${e.role} · Eternal Reverse`,
+    title: `${e.name} · ${e.role} · Sideband`,
     description: e.shortBio,
     alternates: { canonical: `/engineers/${e.id}` },
     openGraph: {
@@ -57,19 +57,21 @@ export default function EngineerDetailPage({
   const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
 
   return (
-    <div className="min-h-screen bg-eternal-black pt-32">
+    <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Breadcrumb */}
         <FadeUp>
-          <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-muted">
+          <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-muted">
             <Link
               href="/engineers"
-              className="transition-colors hover:text-eternal-accent"
+              className="transition-colors hover:text-sideband-accent"
             >
               ← ENGINEERS
             </Link>
-            <span className="text-eternal-border">/</span>
-            <span className="text-eternal-text-secondary">{engineer.name}</span>
+            <span className="text-sideband-border">/</span>
+            <span className="text-sideband-text-secondary">
+              {engineer.name}
+            </span>
           </div>
         </FadeUp>
 
@@ -77,27 +79,27 @@ export default function EngineerDetailPage({
         <section className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
             <FadeUp>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
+              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
                 [ ENGINEER DOSSIER · {indexLabel} ]
               </span>
             </FadeUp>
             <FadeUp delay={0.05}>
               <h1 className="mt-5 font-display text-[64px] leading-[0.95] md:text-[88px]">
-                <span className="block text-eternal-text">
+                <span className="block text-sideband-text">
                   {engineer.name.split(' ')[0]}
                 </span>
-                <span className="block text-eternal-text-secondary">
+                <span className="block text-sideband-text-secondary">
                   {engineer.name.split(' ').slice(1).join(' ')}
-                  <span className="text-eternal-accent">.</span>
+                  <span className="text-sideband-accent">.</span>
                 </span>
               </h1>
             </FadeUp>
             <FadeUp delay={0.1}>
-              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-eternal-accent">
+              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-sideband-accent">
                 {engineer.role}
               </p>
               {engineer.contact.location && (
-                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-muted">
+                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
                   {engineer.contact.location}
                 </p>
               )}
@@ -137,22 +139,22 @@ export default function EngineerDetailPage({
             <div className="relative">
               <span
                 aria-hidden
-                className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-eternal-accent"
+                className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-sideband-accent"
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-eternal-accent"
+                className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-sideband-accent"
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-eternal-accent"
+                className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-sideband-accent"
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-eternal-accent"
+                className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-sideband-accent"
               />
 
-              <div className="relative aspect-[4/5] w-full overflow-hidden border border-eternal-border bg-eternal-surface-2">
+              <div className="relative aspect-[4/5] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
                 {portraitSrc ? (
                   <Image
                     src={portraitSrc}
@@ -164,16 +166,16 @@ export default function EngineerDetailPage({
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <span className="font-display text-[160px] italic text-eternal-text/30">
+                    <span className="font-display text-[160px] italic text-sideband-text/30">
                       {engineer.initials}
                     </span>
                   </div>
                 )}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-eternal-black/80 to-transparent" />
-                <span className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-eternal-text">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-sideband-black/80 to-transparent" />
+                <span className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-sideband-text">
                   {engineer.initials} · ID {engineer.id.toUpperCase()}
                 </span>
-                <span className="absolute right-4 top-4 border border-eternal-border bg-eternal-black/70 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-eternal-accent backdrop-blur">
+                <span className="absolute right-4 top-4 border border-sideband-border bg-sideband-black/70 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-sideband-accent backdrop-blur">
                   [ ACTIVE ]
                 </span>
               </div>
@@ -189,7 +191,7 @@ export default function EngineerDetailPage({
           <div className="max-w-3xl space-y-6">
             {engineer.longBio.map((para, i) => (
               <FadeUp key={i} delay={i * 0.05}>
-                <p className="font-mono text-[14px] leading-[1.95] text-eternal-text-secondary">
+                <p className="font-mono text-[14px] leading-[1.95] text-sideband-text-secondary">
                   {para}
                 </p>
               </FadeUp>
@@ -242,14 +244,14 @@ export default function EngineerDetailPage({
             <div className="mt-10 space-y-6">
               {engineer.education.map((ed, i) => (
                 <FadeUp key={i} delay={i * 0.05}>
-                  <div className="border-l-2 border-eternal-accent/60 pl-6">
-                    <h3 className="font-display text-[22px] text-eternal-text">
+                  <div className="border-l-2 border-sideband-accent/60 pl-6">
+                    <h3 className="font-display text-[22px] text-sideband-text">
                       {ed.school}
                     </h3>
-                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary">
+                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
                       {ed.degree}
                     </p>
-                    <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-muted">
+                    <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
                       {ed.dates}
                       {ed.honors ? ` · ${ed.honors}` : ''}
                     </p>
@@ -267,10 +269,8 @@ export default function EngineerDetailPage({
               <SectionLabel label="OFF DUTY" withLine />
             </FadeUp>
             <FadeUp delay={0.05}>
-              <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
-                The same obsession that ships software shows up everywhere else.
-                Tuned cars, sumo bots, powerlifting platforms: context for the
-                code.
+              <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
+                What the building looks like outside the repos.
               </p>
             </FadeUp>
             <div className="mt-10">
@@ -287,13 +287,11 @@ export default function EngineerDetailPage({
           <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <FadeUp>
               <div className="max-w-md">
-                <p className="font-display text-[28px] leading-tight text-eternal-text">
+                <p className="font-display text-[28px] leading-tight text-sideband-text">
                   Want to build with {engineer.name.split(' ')[0]}?
                 </p>
-                <p className="mt-4 font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
-                  Reach out directly. Resume, GitHub, and live channels below.
-                  Eternal Reverse is independent and selective. Every
-                  conversation matters.
+                <p className="mt-4 font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
+                  Email is fastest. Resume, GitHub, and the rest are below.
                 </p>
               </div>
             </FadeUp>
@@ -305,18 +303,18 @@ export default function EngineerDetailPage({
 
         {/* NEXT ENGINEER */}
         {other && (
-          <section className="mt-32 border-t border-eternal-border pb-24 pt-12">
+          <section className="mt-32 border-t border-sideband-border pb-24 pt-12">
             <FadeUp>
               <div className="flex flex-wrap items-baseline justify-between gap-6">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
                     NEXT DOSSIER
                   </p>
-                  <p className="mt-2 font-display text-[36px] leading-tight text-eternal-text">
+                  <p className="mt-2 font-display text-[36px] leading-tight text-sideband-text">
                     {other.name}
-                    <span className="text-eternal-accent">.</span>
+                    <span className="text-sideband-accent">.</span>
                   </p>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-eternal-text-secondary">
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-text-secondary">
                     {other.role}
                   </p>
                 </div>

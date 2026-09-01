@@ -84,7 +84,7 @@ const FACTS = [
   {
     label: 'founder count',
     expected: engineerCount,
-    re: /\b([a-z]+)[- ](?:founders?|person|people)\b/gi,
+    re: /\b([a-z]+)[- ](?:founders?|person|people|friends?)\b/gi,
   },
   {
     label: 'total product count',

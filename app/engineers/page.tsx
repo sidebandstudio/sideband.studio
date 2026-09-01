@@ -5,37 +5,37 @@ import EngineerCard from '@/components/engineers/EngineerCard'
 import { engineerCountLabel, listEngineers } from '@/lib/engineers'
 
 export const metadata: Metadata = {
-  title: 'Engineers · Eternal Reverse',
+  title: 'Engineers · Sideband',
   description:
-    'The engineers behind Eternal Reverse. Dossiers, work history, and the projects we ship.',
+    'The engineers behind Sideband. Dossiers, work history, and the projects we ship.',
 }
 
 export default function EngineersIndexPage() {
   const all = listEngineers()
 
   return (
-    <div className="min-h-screen bg-eternal-black pt-32">
+    <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-eternal-accent">
+          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ ENGINEERS · {engineerCountLabel} ]
           </span>
           <h1 className="mt-4 font-display text-5xl md:text-7xl">
-            <span className="block text-eternal-text-secondary">
-              The people who
+            <span className="block text-sideband-text-secondary">
+              The people
             </span>
-            <span className="block font-bold text-eternal-text">
-              actually ship<span className="text-eternal-accent">.</span>
+            <span className="block font-bold text-sideband-text">
+              behind the products<span className="text-sideband-accent">.</span>
             </span>
           </h1>
         </FadeUp>
 
         <FadeUp delay={0.1}>
-          <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-eternal-text-secondary">
-            Each engineer at Eternal Reverse owns their work end-to-end. Open a
-            dossier to see where they&apos;ve been, what they&apos;ve built, and
-            how they think about the craft.
+          <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
+            Each engineer at Sideband owns their work end to end. Open a dossier
+            to see where they&apos;ve been, what they&apos;ve built, and how
+            they work.
           </p>
         </FadeUp>
 
@@ -53,18 +53,7 @@ export default function EngineersIndexPage() {
           </div>
         </div>
 
-        <FadeUp>
-          <div className="mt-24 border-t border-eternal-border pb-24 pt-12">
-            <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-eternal-muted">
-              [ NETWORK EXPANDING ]
-            </p>
-            <p className="mt-3 max-w-xl font-mono text-[13px] leading-[1.85] text-eternal-text-secondary">
-              We&apos;re growing the contributor network: engineers, designers,
-              and builders who share the standard. See open roles on the careers
-              page.
-            </p>
-          </div>
-        </FadeUp>
+        <div className="pb-24" />
       </div>
     </div>
   )

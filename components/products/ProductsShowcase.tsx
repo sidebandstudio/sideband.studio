@@ -100,7 +100,7 @@ function ProductText({
           <span
             style={{
               fontSize: 10,
-              color: 'var(--eternal-muted)',
+              color: 'var(--sideband-muted)',
               letterSpacing: '0.06em',
             }}
           >
@@ -114,7 +114,7 @@ function ProductText({
         className="font-display"
         style={{
           fontSize: 'clamp(36px, 4vw, 54px)',
-          color: 'var(--eternal-text)',
+          color: 'var(--sideband-text)',
           lineHeight: 1.05,
           marginBottom: 36,
           fontWeight: 700,
@@ -130,7 +130,7 @@ function ProductText({
             fontSize: 9,
             textTransform: 'uppercase',
             letterSpacing: '0.22em',
-            color: 'var(--eternal-text-secondary)',
+            color: 'var(--sideband-text-secondary)',
             display: 'block',
             marginBottom: 10,
           }}
@@ -167,7 +167,7 @@ function ProductText({
           style={{
             fontSize: 13,
             lineHeight: 1.9,
-            color: 'var(--eternal-text)',
+            color: 'var(--sideband-text)',
           }}
         >
           {solution}
@@ -260,13 +260,13 @@ function ProductText({
           href={`/products/${productId}`}
           style={{
             background: 'none',
-            border: '1px solid var(--eternal-border)',
+            border: '1px solid var(--sideband-border)',
             cursor: 'pointer',
             padding: '10px 20px',
             fontSize: 12,
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
-            color: 'var(--eternal-text-secondary)',
+            color: 'var(--sideband-text-secondary)',
             transition: 'all 0.2s',
             display: 'inline-flex',
             alignItems: 'center',
@@ -278,8 +278,8 @@ function ProductText({
             e.currentTarget.style.color = accent
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--eternal-border)'
-            e.currentTarget.style.color = 'var(--eternal-text-secondary)'
+            e.currentTarget.style.borderColor = 'var(--sideband-border)'
+            e.currentTarget.style.color = 'var(--sideband-text-secondary)'
           }}
         >
           Deep Dive →
@@ -397,7 +397,7 @@ function EternalMonitorSection() {
               <span
                 style={{
                   fontSize: 10,
-                  color: 'var(--eternal-muted)',
+                  color: 'var(--sideband-muted)',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
@@ -547,7 +547,7 @@ function RichPresenceSection() {
             <span
               style={{
                 fontSize: 10,
-                color: 'var(--eternal-muted)',
+                color: 'var(--sideband-muted)',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
               }}
@@ -565,7 +565,7 @@ function RichPresenceSection() {
             status="LIVE"
             accent="#6366F1"
             problem="Apple Music runs on Windows. Spotify too. But Discord sees nothing: your Rich Presence is blank, your listening activity invisible, and there's no official bridge."
-            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install, no friction."
+            solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install needed."
             tags={[
               'Python',
               'pywin32',
@@ -803,7 +803,7 @@ function ExerlySection() {
               <span
                 style={{
                   fontSize: 10,
-                  color: 'var(--eternal-muted)',
+                  color: 'var(--sideband-muted)',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
@@ -928,7 +928,7 @@ function Eternal2xSection() {
               <span
                 style={{
                   fontSize: 10,
-                  color: 'var(--eternal-muted)',
+                  color: 'var(--sideband-muted)',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
@@ -1035,7 +1035,7 @@ function EternalSummarySection() {
               <span
                 style={{
                   fontSize: 10,
-                  color: 'var(--eternal-muted)',
+                  color: 'var(--sideband-muted)',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
@@ -1054,7 +1054,7 @@ function EternalSummarySection() {
             status="LIVE"
             accent="#E879F9"
             problem="Reading long articles, docs, and research pages is a tax on attention. Existing summarizer extensions are bloated, slow, or send your data through a chain of middlemen."
-            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click, no friction."
+            solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click."
             tags={[
               'JavaScript',
               'Chrome Extensions API',
@@ -1155,7 +1155,7 @@ function SignatureCutsSection() {
             <span
               style={{
                 fontSize: 10,
-                color: 'var(--eternal-muted)',
+                color: 'var(--sideband-muted)',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
               }}
@@ -1201,7 +1201,7 @@ export default function ProductsShowcase() {
         style={{
           paddingTop: 72,
           paddingBottom: 80,
-          borderBottom: '1px solid var(--eternal-border)',
+          borderBottom: '1px solid var(--sideband-border)',
         }}
       >
         <div
@@ -1214,7 +1214,7 @@ export default function ProductsShowcase() {
               fontSize: 10,
               textTransform: 'uppercase',
               letterSpacing: '0.22em',
-              color: 'var(--eternal-accent)',
+              color: 'var(--sideband-accent)',
             }}
           >
             [ PRODUCTS ]
@@ -1224,24 +1224,24 @@ export default function ProductsShowcase() {
             style={{
               fontSize: 'clamp(48px, 7vw, 80px)',
               marginTop: 10,
-              color: 'var(--eternal-text)',
+              color: 'var(--sideband-text)',
               lineHeight: 0.95,
             }}
           >
             What we build
-            <span style={{ color: 'var(--eternal-accent)' }}>.</span>
+            <span style={{ color: 'var(--sideband-accent)' }}>.</span>
           </h1>
           <p
             style={{
               marginTop: 14,
               fontSize: 13,
-              color: 'var(--eternal-text-secondary)',
+              color: 'var(--sideband-text-secondary)',
               maxWidth: 480,
               lineHeight: 1.8,
             }}
           >
-            Six products. Four live. Two in active development. Each one
-            technically ambitious, obsessively refined.
+            Six products. Four live, two in development. The write-ups below
+            cover how each one actually works.
           </p>
 
           {/* Jump nav */}
@@ -1261,9 +1261,9 @@ export default function ProductsShowcase() {
                   alignItems: 'center',
                   gap: 8,
                   padding: '6px 14px',
-                  border: '1px solid var(--eternal-border)',
+                  border: '1px solid var(--sideband-border)',
                   fontSize: 11,
-                  color: 'var(--eternal-text-secondary)',
+                  color: 'var(--sideband-text-secondary)',
                   letterSpacing: '0.06em',
                 }}
               >
@@ -1277,7 +1277,7 @@ export default function ProductsShowcase() {
                       p.status === 'LIVE' ? `0 0 6px ${p.accentColor}` : 'none',
                   }}
                 />
-                <span style={{ fontSize: 10, color: 'var(--eternal-muted)' }}>
+                <span style={{ fontSize: 10, color: 'var(--sideband-muted)' }}>
                   0{i + 1}
                 </span>
                 {p.name}

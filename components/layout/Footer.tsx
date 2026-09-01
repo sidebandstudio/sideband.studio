@@ -1,60 +1,40 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-eternal-border bg-eternal-surface">
-      <div className="border-b border-eternal-border py-3 text-center">
-        <Link
-          href="/careers"
-          className="text-[10px] uppercase tracking-[0.15em] text-eternal-accent transition-colors duration-200 hover:text-eternal-text"
-        >
-          [ OPEN TO CONTRIBUTORS &rarr; /careers ]
-        </Link>
-      </div>
-
+    <footer className="border-t border-sideband-border bg-sideband-surface">
       <div className="inner py-12">
         <div className="footer-grid grid grid-cols-1 gap-10 md:grid-cols-3">
           <div>
-            <Link
-              href="/"
-              className="inline-flex"
-              aria-label="Eternal Reverse home"
-            >
-              <Image
-                src="/assets/EternalReverse/EternalReverse.png"
-                alt="Eternal Reverse"
-                width={1882}
-                height={778}
-                sizes="180px"
-                className="h-8 w-auto"
-              />
+            <Link href="/" className="inline-flex" aria-label="Sideband home">
+              <span className="font-mono text-[16px] font-medium tracking-[-0.01em] text-sideband-text">
+                sideband
+                <span className="text-sideband-muted">.studio</span>
+              </span>
             </Link>
-            <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-eternal-text-secondary">
-              Built to last. Shipped to matter. Three founders, one standard.
+            <p className="mt-4 max-w-[260px] text-[12px] leading-relaxed text-sideband-text-secondary">
+              We build the things we wished existed.
             </p>
           </div>
 
           <div className="flex flex-wrap justify-start gap-6 md:justify-center">
-            {['Products', 'About', 'Careers', 'Inquire', 'Contact'].map(
-              (item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  className="text-[12px] uppercase tracking-[0.12em] text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-text"
-                >
-                  {item}
-                </Link>
-              ),
-            )}
+            {['Products', 'About', 'Contact'].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                className="text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
+              >
+                {item}
+              </Link>
+            ))}
           </div>
 
           <div className="flex items-start gap-5 md:justify-end">
             <a
-              href="https://github.com/whoisaldo"
+              href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
               aria-label="GitHub"
             >
               <svg
@@ -67,24 +47,8 @@ export default function Footer() {
               </svg>
             </a>
             <a
-              href="https://www.linkedin.com/in/alialdoyounes/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
-              aria-label="LinkedIn"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-            <a
-              href="mailto:hello@eternalreverse.com"
-              className="text-eternal-text-secondary transition-colors duration-200 hover:text-eternal-accent"
+              href="mailto:hello@sideband.studio"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
               aria-label="Email"
             >
               <svg
@@ -103,9 +67,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-eternal-border py-4 text-center">
-        <p className="text-[11px] text-eternal-muted">
-          &copy; 2026 Eternal Reverse &middot; hello@eternalreverse.com
+      <div className="border-t border-sideband-border py-4 text-center">
+        <p className="text-[11px] text-sideband-muted">
+          &copy; 2026 Sideband &middot; hello@sideband.studio
         </p>
       </div>
     </footer>

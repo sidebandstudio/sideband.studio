@@ -6,7 +6,7 @@ export default function ProductsPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Products · Eternal Reverse',
+  title: 'Products · Sideband',
   description:
     'Six products across desktop, mobile, and browser. Four live, two in active development.',
 }

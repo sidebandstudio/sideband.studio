@@ -21,28 +21,20 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Eternal Reverse · Built to last. Shipped to matter.',
-  description: 'Indie software studio shipping technically ambitious products.',
-  metadataBase: new URL('https://eternalreverse.com'),
+  title: 'Sideband · Independent software studio',
+  description:
+    'Sideband is an independent software studio. We build the things we wished existed.',
+  metadataBase: new URL('https://sideband.studio'),
   openGraph: {
-    title: 'Eternal Reverse · Built to last. Shipped to matter.',
+    title: 'Sideband · Independent software studio',
     description:
-      'Indie software studio shipping technically ambitious products.',
-    images: [
-      {
-        url: '/assets/EternalReverse/EternalReverse.png',
-        width: 1882,
-        height: 778,
-        alt: 'Eternal Reverse',
-      },
-    ],
+      'Sideband is an independent software studio. We build the things we wished existed.',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Eternal Reverse · Built to last. Shipped to matter.',
+    card: 'summary',
+    title: 'Sideband · Independent software studio',
     description:
-      'Indie software studio shipping technically ambitious products.',
-    images: ['/assets/EternalReverse/EternalReverse.png'],
+      'Sideband is an independent software studio. We build the things we wished existed.',
   },
 }
 
@@ -53,7 +45,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-eternal-black font-sans text-eternal-text antialiased">
+      <body className="min-h-screen bg-sideband-black font-sans text-sideband-text antialiased">
         <NoiseOverlay />
         <CustomCursor />
         <Navbar />

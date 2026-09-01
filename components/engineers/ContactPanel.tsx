@@ -58,16 +58,16 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
   }
 
   return (
-    <div className="border border-eternal-border bg-eternal-surface">
-      <div className="flex items-center justify-between border-b border-eternal-border bg-eternal-surface-2 px-5 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-accent">
+    <div className="border border-sideband-border bg-sideband-surface">
+      <div className="flex items-center justify-between border-b border-sideband-border bg-sideband-surface-2 px-5 py-3">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
           [ DIRECT LINE ]
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-eternal-muted">
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-sideband-muted">
           {name}
         </span>
       </div>
-      <div className="divide-y divide-eternal-border">
+      <div className="divide-y divide-sideband-border">
         {rows.map((r) => (
           <a
             key={r.label}
@@ -75,14 +75,14 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
             {...(r.external
               ? { target: '_blank', rel: 'noopener noreferrer' }
               : {})}
-            className="group flex items-center justify-between gap-6 px-5 py-3 transition-colors duration-200 hover:bg-eternal-surface-2"
+            className="group flex items-center justify-between gap-6 px-5 py-3 transition-colors duration-200 hover:bg-sideband-surface-2"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
               {r.label}
             </span>
-            <span className="flex items-center gap-3 font-mono text-[12px] text-eternal-text-secondary transition-colors duration-200 group-hover:text-eternal-accent">
+            <span className="flex items-center gap-3 font-mono text-[12px] text-sideband-text-secondary transition-colors duration-200 group-hover:text-sideband-accent">
               {r.value}
-              <span className="text-eternal-muted transition-colors duration-200 group-hover:text-eternal-accent">
+              <span className="text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
                 {r.external ? '↗' : '→'}
               </span>
             </span>
@@ -90,10 +90,10 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
         ))}
         {contact.location && (
           <div className="flex items-center justify-between gap-6 px-5 py-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-eternal-muted">
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
               LOCATION
             </span>
-            <span className="font-mono text-[12px] text-eternal-text-secondary">
+            <span className="font-mono text-[12px] text-sideband-text-secondary">
               {contact.location}
             </span>
           </div>
