@@ -14,7 +14,7 @@ How changes land in this repo. Applies to founders, contributors, and coding age
 
 Visual changes need screenshots on the PR. The `pr-screenshots` workflow handles this automatically: on every push to a PR it builds the site, captures the standard landing set, commits the images to the `pr-assets` branch, and posts (or updates) a sticky comment on the PR. No manual steps.
 
-For ad-hoc captures, run the site locally and use `npm run shots` (`BASE_URL` and `OUT_DIR` env vars override the defaults). Note: `raw.githubusercontent.com` links do not render in this private repo; embed images with `https://github.com/<owner>/<repo>/raw/<ref>/<path>` instead.
+For ad-hoc captures, run the site locally and use `npm run shots` (`BASE_URL` and `OUT_DIR` env vars override the defaults). Embed images with `https://github.com/<owner>/<repo>/raw/<ref>/<path>` (the form `scripts/pr-screenshot.sh` prints) so the link pins a commit and keeps rendering after later pushes.
 
 ## Commits
 
@@ -70,7 +70,7 @@ Then sweep for what your change makes stale:
 
 If a visitor could see the difference, the PR shows it. The `pr-screenshots` workflow covers the standard landing set automatically (see Screenshots above). For pages that set does not cover, capture the affected page yourself: run the site locally, take the screenshot, publish it with `scripts/pr-screenshot.sh <image> <pr-number>`, and paste the markdown it prints into "Proof It Works". For edits to existing UI, include before and after.
 
-Screenshots must render inline in the PR body or comment, never sit behind a bare link. In this private repo that means same-origin URLs of the form `https://github.com/<owner>/<repo>/raw/<ref>/<path>` (drag-and-drop in the browser also works). A preview link or "verified locally" does not count. The reviewer judges the change from the description without checking out the branch.
+Screenshots must render inline in the PR body or comment, never sit behind a bare link. Use same-origin URLs of the form `https://github.com/<owner>/<repo>/raw/<ref>/<path>` (drag-and-drop in the browser also works). A preview link or "verified locally" does not count. The reviewer judges the change from the description without checking out the branch.
 
 Not needed for changes with no visual effect: CI, docs, tests, scripts, data-only edits that do not change rendered output.
 
