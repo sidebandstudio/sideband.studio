@@ -17,16 +17,6 @@
   --sideband-accent: #a855f7;
 }
 
-* {
-  cursor: none;
-}
-
-@media (pointer: coarse) {
-  * {
-    cursor: auto;
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
