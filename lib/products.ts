@@ -22,7 +22,6 @@ export interface ProductArchitectureStep {
 }
 
 export interface ProductDetail {
-  accentColor: string
   tagline: string
   stats: ProductStat[]
   gallery: ProductGalleryItem[]
@@ -42,8 +41,7 @@ export interface Product {
   version: string | null
   accentColor: string
   highlight: string
-  images: string[]
-  cardHero: string | 'branded'
+  cardHero: string
   detail: ProductDetail
 }
 
@@ -71,14 +69,8 @@ export const products: Product[] = [
     version: 'v0.1.1-mirror',
     accentColor: '#A855F7',
     highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
-    images: [
-      '/assets/EternalMonitor/EternalMonitorCover.jpg',
-      '/assets/EternalMonitor/EternalMonitorIpadView.png',
-      '/assets/EternalMonitor/EternalMonitorPCView.png',
-    ],
     cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
     detail: {
-      accentColor: '#A855F7',
       tagline:
         'iPad as a low-latency Windows display receiver. No dongle. No driver. No subscription.',
       stats: [
@@ -150,14 +142,8 @@ export const products: Product[] = [
     version: 'v1.0.0-beta',
     accentColor: '#6366F1',
     highlight: 'SMTC bridge · custom URI scheme · portable .exe',
-    images: [
-      '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
-      '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
-      '/assets/EternalRichPresence/EternalRichPresenceTerminal.png',
-    ],
     cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
     detail: {
-      accentColor: '#6366F1',
       tagline:
         'Discord Rich Presence for Apple Music & Spotify on Windows. Live cover art. Portable .exe.',
       stats: [
@@ -238,14 +224,8 @@ export const products: Product[] = [
     accentColor: '#D946EF',
     highlight:
       'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
-    images: [
-      '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
-      '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
-      '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
-    ],
     cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
     detail: {
-      accentColor: '#D946EF',
       tagline:
         'Cross-platform fitness companion. AI coaching, barcode scanning, HealthKit sync.',
       stats: [
@@ -358,14 +338,8 @@ export const products: Product[] = [
     version: null,
     accentColor: '#C084FC',
     highlight: 'SMS deep-link booking · mobile-first · zero backend',
-    images: [
-      '/assets/SignatureCuts/SignatureCutsCover.jpg',
-      '/assets/SignatureCuts/SignatureCutsWebView.png',
-      '/assets/SignatureCuts/SignatureCutsPhoneView.png',
-    ],
     cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
     detail: {
-      accentColor: '#C084FC',
       tagline:
         'Modern barbershop booking for Signature Cuts in Chicopee, MA. Two taps to book. Zero backend.',
       stats: [
@@ -432,14 +406,8 @@ export const products: Product[] = [
     version: 'v0.2.0',
     accentColor: '#8B5CF6',
     highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
-    images: [
-      '/assets/Eternal2x/Eternal2xCover.jpg',
-      '/assets/Eternal2x/Eternal2xHome.png',
-      '/assets/Eternal2x/Eternal2xPhone.png',
-    ],
     cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
     detail: {
-      accentColor: '#8B5CF6',
       tagline:
         'DaVinci Resolve smart upscale. Motion-aware. Auto-marked. Auto-segmented. Rendered to 4K.',
       stats: [
@@ -526,14 +494,8 @@ export const products: Product[] = [
     version: 'v1.0.0',
     accentColor: '#E879F9',
     highlight: 'MV3 extension · Fly.io broker · streaming summary',
-    images: [
-      '/assets/EternalSummary/EternalSummaryCover.jpg',
-      '/assets/EternalSummary/EternalSummaryHomePage.png',
-      '/assets/EternalSummary/EternalSummaryPhone.png',
-    ],
     cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
     detail: {
-      accentColor: '#E879F9',
       tagline:
         'One-click AI summary for any webpage. MV3 Chrome extension. Streaming and minimal.',
       stats: [

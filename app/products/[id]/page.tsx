@@ -17,8 +17,6 @@ export function generateMetadata({
   const product = getProductById(params.id)
   if (!product) return { title: 'Product not found · Sideband' }
 
-  const cover = product.cardHero !== 'branded' ? product.cardHero : undefined
-
   return {
     title: `${product.name} · ${product.tagline} · Sideband`,
     description: product.description,
@@ -27,7 +25,7 @@ export function generateMetadata({
       title: `${product.name} · Sideband`,
       description: product.description,
       url: `/products/${product.id}`,
-      ...(cover ? { images: [{ url: cover }] } : {}),
+      images: [{ url: product.cardHero }],
     },
   }
 }

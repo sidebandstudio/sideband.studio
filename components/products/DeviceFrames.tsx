@@ -6,36 +6,21 @@ interface FrameProps {
   alt: string
 }
 
-interface IPhoneFrameProps extends FrameProps {
-  width?: number
-  tilt?: number
-  animDelay?: number
-  animClass?: string
-}
-
-interface IPadFrameProps extends FrameProps {
+interface SizedFrameProps extends FrameProps {
   width?: number
 }
 
 interface BrowserFrameProps extends FrameProps {
   url?: string
-  width?: number | string
-  style?: CSSProperties
   objectPosition?: string
 }
 
 interface TerminalFrameProps extends FrameProps {
   label?: string
+  sizes?: string
 }
 
-export function IPhoneFrame({
-  src,
-  alt,
-  width = 230,
-  tilt = 0,
-  animDelay = 0,
-  animClass = 'deviceFloat',
-}: IPhoneFrameProps) {
+export function IPhoneFrame({ src, alt, width = 230 }: SizedFrameProps) {
   const h = Math.round(width * 2.167)
 
   return (
@@ -43,8 +28,8 @@ export function IPhoneFrame({
       className="iphone-wrap"
       style={
         {
-          '--r': `${tilt}deg`,
-          animation: `${animClass} ${5 + animDelay * 0.5}s ease-in-out ${animDelay}s infinite`,
+          '--r': '0deg',
+          animation: 'deviceFloat 5s ease-in-out 0s infinite',
           flexShrink: 0,
         } as CSSProperties
       }
@@ -89,7 +74,7 @@ export function IPhoneFrame({
   )
 }
 
-export function IPadFrame({ src, alt, width = 340 }: IPadFrameProps) {
+export function IPadFrame({ src, alt, width = 340 }: SizedFrameProps) {
   const h = Math.round(width * 1.333)
 
   return (
@@ -147,8 +132,6 @@ export function BrowserFrame({
   src,
   alt,
   url = '',
-  width,
-  style,
   objectPosition,
 }: BrowserFrameProps) {
   return (
@@ -159,9 +142,7 @@ export function BrowserFrame({
         border: '1px solid #2a2a2a',
         overflow: 'hidden',
         background: '#0d0d0d',
-        width,
         flexShrink: 0,
-        ...style,
       }}
     >
       <div
@@ -216,13 +197,7 @@ export function BrowserFrame({
           src={src}
           alt={alt}
           fill
-          sizes={
-            typeof width === 'number'
-              ? `${width}px`
-              : width && typeof width === 'string'
-                ? width
-                : '100vw'
-          }
+          sizes="100vw"
           style={{ objectFit: 'cover', objectPosition, display: 'block' }}
         />
       </div>
@@ -234,6 +209,7 @@ export function TerminalFrame({
   src,
   alt,
   label = 'terminal',
+  sizes = '100vw',
 }: TerminalFrameProps) {
   return (
     <div
@@ -285,7 +261,7 @@ export function TerminalFrame({
           src={src}
           alt={alt}
           fill
-          sizes="100vw"
+          sizes={sizes}
           style={{ objectFit: 'cover', display: 'block' }}
         />
       </div>

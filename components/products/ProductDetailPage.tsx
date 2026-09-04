@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { products, type Product } from '@/lib/products'
+import { products, type Product, type ProductGalleryItem } from '@/lib/products'
 import FadeUp from '@/components/animations/FadeUp'
 import Tag from '@/components/ui/Tag'
 import StatusBadge from '@/components/ui/StatusBadge'
@@ -14,13 +14,11 @@ import {
   TerminalFrame,
 } from '@/components/products/DeviceFrames'
 
-type GalleryItemType = Product['detail']['gallery'][number]
-
 function GalleryItem({
   item,
   accent,
 }: {
-  item: GalleryItemType
+  item: ProductGalleryItem
   accent: string
 }) {
   const [hov, setHov] = useState(false)
@@ -174,7 +172,7 @@ function ArchitectureRow({
 
 export default function ProductDetailPage({ product }: { product: Product }) {
   const detail = product.detail
-  const acc = detail.accentColor
+  const acc = product.accentColor
   const index = products.findIndex((p) => p.id === product.id)
   const numLabel = String(index + 1).padStart(2, '0')
 
