@@ -9,6 +9,9 @@ interface FadeUpProps {
   className?: string
 }
 
+// The server always renders the hidden initial state, so the reveal must run
+// on the client even when motion is reduced. Otherwise the inline opacity: 0
+// from SSR is never overwritten and the section stays invisible.
 export default function FadeUp({
   children,
   delay = 0,
@@ -18,17 +21,13 @@ export default function FadeUp({
 
   return (
     <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={
         reduceMotion
           ? { duration: 0 }
-          : {
-              duration: 0.6,
-              delay,
-              ease: [0.16, 1, 0.3, 1],
-            }
+          : { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }
       }
       className={className}
     >
