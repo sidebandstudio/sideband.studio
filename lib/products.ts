@@ -40,6 +40,7 @@ export interface Product {
   github: string | null
   version: string | null
   cardHero: string
+  icon: string
   detail: ProductDetail
 }
 
@@ -66,6 +67,7 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
     cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
+    icon: '/assets/ProductIcons/em.png',
     detail: {
       tagline:
         'iPad as a low-latency Windows display receiver. No dongle. No driver. No subscription.',
@@ -137,6 +139,7 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
     cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
+    icon: '/assets/ProductIcons/rp.png',
     detail: {
       tagline:
         'Discord Rich Presence for Apple Music & Spotify on Windows. Live cover art. Portable .exe.',
@@ -216,6 +219,7 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
     cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
+    icon: '/assets/ProductIcons/ex.png',
     detail: {
       tagline:
         'Cross-platform fitness companion. AI coaching, barcode scanning, HealthKit sync.',
@@ -328,6 +332,7 @@ export const products: Product[] = [
     github: null,
     version: null,
     cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
+    icon: '/assets/ProductIcons/sc.png',
     detail: {
       tagline:
         'Modern barbershop booking for Signature Cuts in Chicopee, MA. Two taps to book. Zero backend.',
@@ -394,6 +399,7 @@ export const products: Product[] = [
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
     cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
+    icon: '/assets/ProductIcons/e2x.png',
     detail: {
       tagline:
         'DaVinci Resolve smart upscale. Motion-aware. Auto-marked. Auto-segmented. Rendered to 4K.',
@@ -480,6 +486,7 @@ export const products: Product[] = [
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
     cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
+    icon: '/assets/ProductIcons/es.png',
     detail: {
       tagline:
         'One-click AI summary for any webpage. MV3 Chrome extension. Streaming and minimal.',

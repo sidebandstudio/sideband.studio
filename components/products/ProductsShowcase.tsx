@@ -991,7 +991,7 @@ export default function ProductsShowcase() {
             Products
           </span>
           <h1 className="display mt-3.5 text-[clamp(40px,6vw,72px)]">
-            What we build<span className="text-sideband-accent">.</span>
+            What we <em>build.</em>
           </h1>
           <p className="mt-3.5 max-w-[560px] text-pretty text-[17px] tracking-[-0.005em] text-sideband-text-secondary">
             Six products. Four live, two in development. The write-ups below

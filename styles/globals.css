@@ -240,11 +240,56 @@ body {
   }
 }
 
-/* ---- t3-inspired landing helpers ---- */
+/* ---- Type ---- */
 .display {
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 1.05;
   color: var(--sideband-text);
+}
+
+/* Emphasis word inside a display headline. */
+.display em,
+.accent-word {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-size: 1.08em;
+  line-height: 1;
+}
+
+/* ---- Motion ---- */
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 48s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }

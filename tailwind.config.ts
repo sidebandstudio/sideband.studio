@@ -27,6 +27,7 @@ const config: Config = {
         sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
         display: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains-mono)', 'ui-monospace', 'monospace'],
+        serif: ['var(--font-instrument-serif)', 'Georgia', 'serif'],
       },
     },
   },

@@ -22,12 +22,19 @@ export default function Navbar() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
 
+  // Blur once the page moves, tuck away while scrolling down, return on the
+  // first scroll back up.
   useEffect(() => {
+    let lastY = window.scrollY
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
+      const y = window.scrollY
+      setScrolled(y > 10)
+      setHidden(y > 120 && y > lastY)
+      lastY = y
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -38,11 +45,11 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed left-0 right-0 top-0 z-[100] bg-sideband-black transition-[border-color,box-shadow] duration-200 ${
+        className={`fixed left-0 right-0 top-0 z-[100] border-b transition-[transform,background-color,border-color] duration-300 ${
           scrolled
-            ? 'border-b border-sideband-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
-            : 'border-b border-transparent'
-        }`}
+            ? 'border-sideband-border bg-sideband-black/70 backdrop-blur-md'
+            : 'border-transparent bg-transparent'
+        } ${hidden && !isOpen ? '-translate-y-full' : 'translate-y-0'}`}
       >
         <div className="inner flex h-[64px] items-center justify-between">
           <Link

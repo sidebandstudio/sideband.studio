@@ -48,7 +48,7 @@ export default function ContactPage() {
             Contact
           </span>
           <h1 className="display mt-3.5 text-[clamp(40px,6vw,72px)]">
-            Let&apos;s build<span className="text-sideband-accent">.</span>
+            Let&apos;s <em>build.</em>
           </h1>
         </FadeUp>
 

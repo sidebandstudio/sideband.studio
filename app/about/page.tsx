@@ -36,8 +36,7 @@ export default function AboutPage() {
             About
           </span>
           <h1 className="display mt-3.5 max-w-[18ch] text-balance text-[clamp(40px,6vw,72px)]">
-            Four founders. One studio
-            <span className="text-sideband-accent">.</span>
+            Four founders. <em>One studio.</em>
           </h1>
         </FadeUp>
 

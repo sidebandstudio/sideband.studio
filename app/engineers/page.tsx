@@ -22,8 +22,7 @@ export default function EngineersIndexPage() {
             Engineers · {engineerCountLabel}
           </span>
           <h1 className="display mt-3.5 max-w-[18ch] text-balance text-[clamp(40px,6vw,72px)]">
-            The people behind the products
-            <span className="text-sideband-accent">.</span>
+            The people behind <em>the products.</em>
           </h1>
         </FadeUp>
 

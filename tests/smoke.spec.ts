@@ -9,7 +9,7 @@ test('homepage renders and primary navigation reaches products', async ({
     page.getByRole('heading', { name: /We build the things/i }),
   ).toBeVisible()
 
-  await page.getByRole('link', { name: /View Products/i }).click()
+  await page.getByRole('link', { name: /See the work/i }).click()
   await expect(page).toHaveURL(/\/products$/)
 })
 

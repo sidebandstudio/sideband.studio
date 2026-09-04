@@ -134,7 +134,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
           <FadeUp>
             <SectionLabel label="How it works" withLine />
             <h2 className="display mt-3.5 text-[clamp(32px,4vw,48px)]">
-              Under the hood<span className="text-sideband-accent">.</span>
+              Under the <em>hood.</em>
             </h2>
           </FadeUp>
           <div className="mt-10">
