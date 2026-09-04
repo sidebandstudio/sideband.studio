@@ -22,7 +22,7 @@ export default function Footer() {
               <Link
                 key={item}
                 href={`/${item.toLowerCase()}`}
-                className="text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
+                className="text-[14px] font-medium tracking-[-0.01em] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
               >
                 {item}
               </Link>

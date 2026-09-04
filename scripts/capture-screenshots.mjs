@@ -54,8 +54,11 @@ try {
 
 for (const [name, action] of [
   ['03-products', () => document.getElementById('products')?.scrollIntoView()],
-  ['04-under-the-hood', () => window.scrollBy(0, 1400)],
-  ['05-studio-cta', () => document.getElementById('team')?.scrollIntoView()],
+  ['04-studio', () => document.getElementById('team')?.scrollIntoView()],
+  [
+    '05-contact',
+    () => window.scrollTo(0, document.documentElement.scrollHeight),
+  ],
 ]) {
   await page.evaluate(action)
   await page.waitForTimeout(900)

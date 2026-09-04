@@ -102,11 +102,11 @@ jobs:
               '|---|---|',
               `| ![Hero](${base}/01-hero.jpg) | ![Terminal](${base}/02-terminal.jpg) |`,
               '',
-              '| Products | Under the hood |',
+              '| Products | Studio |',
               '|---|---|',
-              `| ![Products](${base}/03-products.jpg) | ![Under the hood](${base}/04-under-the-hood.jpg) |`,
+              `| ![Products](${base}/03-products.jpg) | ![Studio](${base}/04-studio.jpg) |`,
               '',
-              `![Studio and CTA](${base}/05-studio-cta.jpg)`,
+              `![Contact](${base}/05-contact.jpg)`,
             ].join('\n')
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner, repo, issue_number: pr, per_page: 100,

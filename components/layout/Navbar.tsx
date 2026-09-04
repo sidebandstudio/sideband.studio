@@ -64,34 +64,27 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
+                className={`text-[14px] font-medium tracking-[-0.01em] transition-colors duration-200 ${
                   isActive(pathname, link.href)
-                    ? 'text-sideband-accent'
+                    ? 'text-sideband-text'
                     : 'text-sideband-text-secondary hover:text-sideband-text'
                 }`}
               >
                 {link.label}
-                {isActive(pathname, link.href) && (
-                  <motion.div
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-sideband-accent"
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
               </Link>
             ))}
             <a
               href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-[13px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
+              className="inline-flex h-8 items-center rounded-lg border border-sideband-border px-3 text-[13px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
             >
-              [ GitHub &rarr; ]
+              GitHub
             </a>
           </div>
 
@@ -142,10 +135,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`font-display text-4xl transition-colors duration-200 ${
-                      pathname === link.href
-                        ? 'text-sideband-accent'
-                        : 'text-sideband-text hover:text-sideband-accent'
+                    className={`display text-4xl transition-colors duration-200 ${
+                      isActive(pathname, link.href)
+                        ? 'text-sideband-text'
+                        : 'text-sideband-text-secondary hover:text-sideband-text'
                     }`}
                   >
                     {link.label}
@@ -163,9 +156,9 @@ export default function Navbar() {
                 href="https://github.com/sidebandstudio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm uppercase tracking-wider text-sideband-accent"
+                className="inline-flex h-10 items-center rounded-lg border border-sideband-border px-4 text-[15px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:text-sideband-text"
               >
-                [ GitHub &rarr; ]
+                GitHub
               </motion.a>
             </div>
           </motion.div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import FadeUp from '@/components/animations/FadeUp'
-import GlowButton from '@/components/ui/GlowButton'
+import Button from '@/components/ui/Button'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -44,10 +44,10 @@ export default function ContactPage() {
       <div className="w-full max-w-xl">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
-            [ CONTACT ]
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+            Contact
           </span>
-          <h1 className="mt-4 font-display text-5xl text-sideband-text md:text-7xl">
+          <h1 className="display mt-3.5 text-[clamp(40px,6vw,72px)]">
             Let&apos;s build<span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
@@ -96,7 +96,7 @@ export default function ContactPage() {
         {/* Contact Form */}
         <FadeUp delay={0.2}>
           {status === 'success' ? (
-            <div className="mt-12 border border-sideband-accent bg-sideband-surface px-6 py-8 font-mono text-[14px] text-sideband-accent">
+            <div className="mt-12 rounded-[10px] border border-sideband-border-strong bg-sideband-surface px-6 py-8 font-mono text-[14px] text-sideband-text">
               <p className="text-[11px] uppercase tracking-wider">
                 [ MESSAGE SENT ]
               </p>
@@ -128,7 +128,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, name: e.target.value })
                   }
-                  className="w-full border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
+                  className="w-full rounded-[10px] border border-sideband-border bg-sideband-surface px-4 py-3 text-[15px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-border-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="Your name"
                 />
               </div>
@@ -148,7 +148,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, email: e.target.value })
                   }
-                  className="w-full border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
+                  className="w-full rounded-[10px] border border-sideband-border bg-sideband-surface px-4 py-3 text-[15px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-border-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="you@example.com"
                 />
               </div>
@@ -168,7 +168,7 @@ export default function ContactPage() {
                   onChange={(e) =>
                     setFormState({ ...formState, message: e.target.value })
                   }
-                  className="w-full resize-none border border-sideband-border bg-sideband-surface px-4 py-3 font-mono text-[14px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
+                  className="w-full resize-none rounded-[10px] border border-sideband-border bg-sideband-surface px-4 py-3 text-[15px] text-sideband-text transition-colors duration-200 placeholder:text-sideband-muted focus:border-sideband-border-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
                   placeholder="What are you working on?"
                 />
               </div>
@@ -182,9 +182,9 @@ export default function ContactPage() {
                 </p>
               )}
 
-              <GlowButton variant="filled" disabled={status === 'submitting'}>
+              <Button variant="filled" disabled={status === 'submitting'}>
                 {status === 'submitting' ? 'Sending...' : 'Send Message'}
-              </GlowButton>
+              </Button>
             </form>
           )}
         </FadeUp>

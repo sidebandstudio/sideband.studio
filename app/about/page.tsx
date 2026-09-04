@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GlowButton from '@/components/ui/GlowButton'
+import Button from '@/components/ui/Button'
 import EngineerCard from '@/components/engineers/EngineerCard'
 import { listEngineers } from '@/lib/engineers'
 
@@ -29,17 +29,15 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-sideband-black pt-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="inner">
         {/* Hero */}
         <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
-            [ ABOUT ]
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+            About
           </span>
-          <h1 className="mt-4 font-display text-5xl text-sideband-text-secondary md:text-7xl">
-            Four founders.
-          </h1>
-          <h1 className="font-display text-5xl font-bold text-sideband-text md:text-7xl">
-            One studio<span className="text-sideband-accent">.</span>
+          <h1 className="display mt-3.5 max-w-[18ch] text-balance text-[clamp(40px,6vw,72px)]">
+            Four founders. One studio
+            <span className="text-sideband-accent">.</span>
           </h1>
         </FadeUp>
 
@@ -47,7 +45,7 @@ export default function AboutPage() {
         <div className="mt-20 max-w-3xl space-y-16">
           <FadeUp>
             <SectionLabel label="WHY" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
+            <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               We started Sideband because building software is the most fun we
               know how to have. Every product here began as something one of us
               wanted for ourselves, and that is still the whole strategy.
@@ -56,7 +54,7 @@ export default function AboutPage() {
 
           <FadeUp>
             <SectionLabel label="HOW" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
+            <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               We build for ourselves first, then polish until we would hand it
               to a friend. Each product page has an honest write-up of how the
               thing actually works, from DXGI capture down to the render loop.
@@ -66,7 +64,7 @@ export default function AboutPage() {
 
           <FadeUp>
             <SectionLabel label="NEXT" />
-            <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
+            <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               More products. The list of things we wish existed is long, and we
               are in no rush.
             </p>
@@ -120,13 +118,13 @@ export default function AboutPage() {
         {/* CTA */}
         <FadeUp>
           <div className="mt-24 border-t border-sideband-border pb-24 pt-16 text-center">
-            <p className="font-display text-3xl text-sideband-text">
+            <p className="display text-[clamp(28px,3vw,36px)]">
               Want to build with us?
             </p>
             <div className="mt-6">
-              <GlowButton variant="filled" href="/contact">
+              <Button variant="filled" href="/contact">
                 Get in Touch
-              </GlowButton>
+              </Button>
             </div>
           </div>
         </FadeUp>

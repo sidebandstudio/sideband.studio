@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import FadeUp from '@/components/animations/FadeUp'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GlowButton from '@/components/ui/GlowButton'
+import Button from '@/components/ui/Button'
 import PrevBadge from '@/components/engineers/PrevBadge'
 import ExperienceTimeline from '@/components/engineers/ExperienceTimeline'
 import SkillsCloud from '@/components/engineers/SkillsCloud'
@@ -58,7 +58,7 @@ export default function EngineerDetailPage({
 
   return (
     <div className="min-h-screen bg-sideband-black pt-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="inner">
         {/* Breadcrumb */}
         <FadeUp>
           <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-muted">
@@ -79,8 +79,8 @@ export default function EngineerDetailPage({
         <section className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
             <FadeUp>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
-                [ ENGINEER DOSSIER · {indexLabel} ]
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+                Engineer dossier · {indexLabel}
               </span>
             </FadeUp>
             <FadeUp delay={0.05}>
@@ -116,20 +116,20 @@ export default function EngineerDetailPage({
             <FadeUp delay={0.2}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 {engineer.contact.resume && (
-                  <GlowButton
+                  <Button
                     variant="filled"
                     href={engineer.contact.resume}
                     external
                   >
                     Download Resume ↓
-                  </GlowButton>
+                  </Button>
                 )}
-                <GlowButton
+                <Button
                   variant="ghost"
                   href={`mailto:${engineer.contact.email}`}
                 >
                   Contact →
-                </GlowButton>
+                </Button>
               </div>
             </FadeUp>
           </div>
@@ -318,9 +318,9 @@ export default function EngineerDetailPage({
                     {other.role}
                   </p>
                 </div>
-                <GlowButton variant="ghost" href={`/engineers/${other.id}`}>
+                <Button variant="ghost" href={`/engineers/${other.id}`}>
                   Open Dossier →
-                </GlowButton>
+                </Button>
               </div>
             </FadeUp>
           </section>
