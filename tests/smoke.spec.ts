@@ -57,9 +57,6 @@ test('unknown engineer id returns a not-found page', async ({ page }) => {
   expect(res?.status()).toBe(404)
 })
 
-// The inquire page is parked in app/(unused)/_inquire and not routed, so its
-// form tests are retired with it. Restore them if the route comes back.
-
 test('contact form success state is shown on successful submit', async ({
   page,
 }) => {

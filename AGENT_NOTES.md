@@ -8,7 +8,6 @@ This file tracks project-specific decisions that future agents should preserve.
 - Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Eternal2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
 - The design token namespace is `sideband-*` (Tailwind color scale and CSS variables in `styles/globals.css`).
 - The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` and `assets/EternalReverse/`, the old `public/favicon.png`, and the pre-rebrand design mockups in `references/` were removed. `app/icon.png` is the favicon and social preview image.
-- Inquiry ticket references are prefixed `SB-` (`lib/ticket.ts`).
 
 ## Current Deployment State
 
