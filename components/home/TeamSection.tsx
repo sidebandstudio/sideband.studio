@@ -4,25 +4,6 @@ import Link from 'next/link'
 import FadeUp from '@/components/animations/FadeUp'
 import { listEngineers } from '@/lib/engineers'
 
-const techStack = [
-  'Rust',
-  'Swift',
-  'Metal',
-  'DXGI',
-  'VideoToolbox',
-  'H.264',
-  'FFmpeg',
-  'Next.js',
-  'React',
-  'TypeScript',
-  'Node.js',
-  'SwiftUI',
-  'HealthKit',
-  'MongoDB',
-  'Gemini AI',
-  'DigitalOcean',
-]
-
 const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six']
 
 export default function TeamSection() {
@@ -54,22 +35,6 @@ export default function TeamSection() {
             >
               Meet the engineers &rarr;
             </Link>
-          </div>
-        </FadeUp>
-
-        <FadeUp delay={0.1}>
-          <div className="mb-3 mt-10 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
-            Built with
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {techStack.map((item) => (
-              <span
-                key={item}
-                className="rounded-md border border-sideband-border bg-white/[0.02] px-2.5 py-1.5 font-mono text-[12px] text-sideband-text-secondary"
-              >
-                {item}
-              </span>
-            ))}
           </div>
         </FadeUp>
       </div>
