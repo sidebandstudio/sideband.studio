@@ -42,17 +42,18 @@ function StackCard({
           scale: reduce ? 1 : scale,
           top: `calc(-4vh + ${index * 22}px)`,
         }}
-        className="relative grid h-[76vh] w-full origin-top grid-rows-[42%_1fr] overflow-hidden rounded-2xl border border-sideband-border bg-sideband-surface shadow-[0_-20px_80px_-30px_rgba(0,0,0,0.9)] min-[900px]:grid-cols-[minmax(0,42fr)_minmax(0,58fr)] min-[900px]:grid-rows-1"
+        className="group relative grid h-[76vh] w-full origin-top grid-rows-[42%_1fr] overflow-hidden rounded-2xl border border-sideband-border bg-sideband-surface shadow-[0_-20px_80px_-30px_rgba(0,0,0,0.9)] min-[900px]:grid-cols-[minmax(0,42fr)_minmax(0,58fr)] min-[900px]:grid-rows-1"
       >
-        <div className="relative order-first min-[900px]:order-last">
-          <Image
-            src={product.cardHero}
-            alt={`${product.name} cover art`}
-            fill
-            sizes="(min-width: 900px) 58vw, 100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-sideband-surface via-transparent to-transparent min-[900px]:bg-gradient-to-r" />
+        <div className="order-first flex items-center justify-center p-5 min-[900px]:order-last min-[900px]:p-10">
+          <div className="relative aspect-[3/2] max-h-full w-full overflow-hidden">
+            <Image
+              src={product.cardHero}
+              alt={`${product.name} cover art`}
+              fill
+              sizes="(min-width: 900px) 58vw, 100vw"
+              className="object-cover mix-blend-lighten transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col justify-between gap-6 p-6 min-[900px]:p-12">

@@ -66,7 +66,7 @@ export const products: Product[] = [
     url: 'https://eternalmonitor.dev',
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
-    cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
+    cardHero: '/assets/covers/eternal-monitor.jpg',
     icon: '/assets/ProductIcons/em.png',
     detail: {
       tagline:
@@ -138,7 +138,7 @@ export const products: Product[] = [
     url: 'https://eternalrichpresence.dev',
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
-    cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
+    cardHero: '/assets/covers/eternal-rich-presence.jpg',
     icon: '/assets/ProductIcons/rp.png',
     detail: {
       tagline:
@@ -218,7 +218,7 @@ export const products: Product[] = [
     url: 'https://whoisaldo.github.io/Exerly-Fitness/',
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
-    cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
+    cardHero: '/assets/covers/exerly.jpg',
     icon: '/assets/ProductIcons/ex.png',
     detail: {
       tagline:
@@ -331,7 +331,7 @@ export const products: Product[] = [
     url: 'https://signaturecutschicopee.com',
     github: null,
     version: null,
-    cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
+    cardHero: '/assets/covers/signature-cuts.jpg',
     icon: '/assets/ProductIcons/sc.png',
     detail: {
       tagline:
@@ -398,7 +398,7 @@ export const products: Product[] = [
     url: 'https://eternal2x.com',
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
-    cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
+    cardHero: '/assets/covers/eternal2x.jpg',
     icon: '/assets/ProductIcons/e2x.png',
     detail: {
       tagline:
@@ -485,7 +485,7 @@ export const products: Product[] = [
     url: 'https://alitleis123.github.io/Eternal-Summary/',
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
-    cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
+    cardHero: '/assets/covers/eternal-summary.jpg',
     icon: '/assets/ProductIcons/es.png',
     detail: {
       tagline:

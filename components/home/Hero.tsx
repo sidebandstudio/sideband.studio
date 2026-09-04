@@ -182,7 +182,7 @@ export default function Hero() {
                   >
                     <Link
                       href={`/products/${p.id}`}
-                      className="group relative block aspect-[16/10] overflow-hidden rounded-xl border border-white/[0.09] bg-[#0a0913] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.85)] transition-[border-color] duration-300 hover:border-white/20"
+                      className="group relative block aspect-[16/10] overflow-hidden rounded-xl border border-white/[0.09] bg-sideband-surface shadow-[0_40px_90px_-30px_rgba(0,0,0,0.85)] transition-[border-color] duration-300 hover:border-white/20"
                     >
                       <Image
                         src={p.cardHero}
@@ -190,7 +190,7 @@ export default function Hero() {
                         fill
                         sizes="(min-width: 1024px) 340px, 45vw"
                         priority={i < 2}
-                        className="object-cover"
+                        className="object-cover mix-blend-lighten"
                       />
                       <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-3.5 pb-3 pt-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <span className="text-[13px] font-semibold tracking-[-0.01em] text-white">

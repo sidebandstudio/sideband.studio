@@ -21,14 +21,14 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   const inner = (
     <>
       {cover && (
-        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-sideband-border bg-[#0a0913]">
+        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-sideband-border bg-sideband-surface">
           <Image
             src={cover}
             alt=""
             aria-hidden
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-cover mix-blend-lighten transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </div>
       )}
