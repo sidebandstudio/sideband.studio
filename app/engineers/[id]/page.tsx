@@ -61,18 +61,12 @@ export default function EngineerDetailPage({
       <div className="inner">
         {/* Breadcrumb */}
         <FadeUp>
-          <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-muted">
-            <Link
-              href="/engineers"
-              className="transition-colors hover:text-sideband-accent"
-            >
-              ← ENGINEERS
-            </Link>
-            <span className="text-sideband-border">/</span>
-            <span className="text-sideband-text-secondary">
-              {engineer.name}
-            </span>
-          </div>
+          <Link
+            href="/engineers"
+            className="inline-flex items-center gap-2 text-[14px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
+          >
+            &larr; Engineers
+          </Link>
         </FadeUp>
 
         {/* HERO */}
@@ -84,22 +78,17 @@ export default function EngineerDetailPage({
               </span>
             </FadeUp>
             <FadeUp delay={0.05}>
-              <h1 className="mt-5 font-display text-[64px] leading-[0.95] md:text-[88px]">
-                <span className="block text-sideband-text">
-                  {engineer.name.split(' ')[0]}
-                </span>
-                <span className="block text-sideband-text-secondary">
-                  {engineer.name.split(' ').slice(1).join(' ')}
-                  <span className="text-sideband-accent">.</span>
-                </span>
+              <h1 className="display mt-3.5 text-balance text-[clamp(44px,6vw,80px)]">
+                {engineer.name}
+                <span className="text-sideband-accent">.</span>
               </h1>
             </FadeUp>
             <FadeUp delay={0.1}>
-              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-sideband-accent">
+              <p className="mt-4 text-[17px] tracking-[-0.005em] text-sideband-text-secondary">
                 {engineer.role}
               </p>
               {engineer.contact.location && (
-                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
+                <p className="mt-2 font-mono text-[12px] text-sideband-muted">
                   {engineer.contact.location}
                 </p>
               )}
@@ -121,14 +110,14 @@ export default function EngineerDetailPage({
                     href={engineer.contact.resume}
                     external
                   >
-                    Download Resume ↓
+                    Download resume &darr;
                   </Button>
                 )}
                 <Button
                   variant="ghost"
                   href={`mailto:${engineer.contact.email}`}
                 >
-                  Contact →
+                  Contact &rarr;
                 </Button>
               </div>
             </FadeUp>
@@ -136,62 +125,36 @@ export default function EngineerDetailPage({
 
           {/* Portrait */}
           <FadeUp delay={0.1}>
-            <div className="relative">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-sideband-accent"
-              />
-
-              <div className="relative aspect-[4/5] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
-                {portraitSrc ? (
-                  <Image
-                    src={portraitSrc}
-                    alt={`${engineer.name}, portrait`}
-                    fill
-                    sizes="(min-width: 1024px) 480px, 100vw"
-                    priority
-                    className="object-cover object-top"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <span className="font-display text-[160px] italic text-sideband-text/30">
-                      {engineer.initials}
-                    </span>
-                  </div>
-                )}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-sideband-black/80 to-transparent" />
-                <span className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-sideband-text">
-                  {engineer.initials} · ID {engineer.id.toUpperCase()}
-                </span>
-                <span className="absolute right-4 top-4 border border-sideband-border bg-sideband-black/70 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-sideband-accent backdrop-blur">
-                  [ ACTIVE ]
-                </span>
-              </div>
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-sideband-border bg-[#0a0913]">
+              {portraitSrc ? (
+                <Image
+                  src={portraitSrc}
+                  alt={`${engineer.name}, portrait`}
+                  fill
+                  sizes="(min-width: 1024px) 480px, 100vw"
+                  priority
+                  className="object-cover object-top"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="display text-[160px] text-sideband-text/20">
+                    {engineer.initials}
+                  </span>
+                </div>
+              )}
             </div>
           </FadeUp>
         </section>
 
         {/* BIO */}
-        <section className="mt-32 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
+        <section className="mt-24 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
           <FadeUp>
-            <SectionLabel label="WHO" />
+            <SectionLabel label="Who" />
           </FadeUp>
           <div className="max-w-3xl space-y-6">
             {engineer.longBio.map((para, i) => (
               <FadeUp key={i} delay={i * 0.05}>
-                <p className="font-mono text-[14px] leading-[1.95] text-sideband-text-secondary">
+                <p className="text-pretty text-[17px] leading-[1.6] tracking-[-0.005em] text-sideband-text-secondary">
                   {para}
                 </p>
               </FadeUp>
@@ -201,9 +164,9 @@ export default function EngineerDetailPage({
 
         {/* EXPERIENCE */}
         {engineer.experience && engineer.experience.length > 0 && (
-          <section className="mt-32">
+          <section className="mt-24">
             <FadeUp>
-              <SectionLabel label="EXPERIENCE" withLine />
+              <SectionLabel label="Experience" withLine />
             </FadeUp>
             <div className="mt-12">
               <ExperienceTimeline entries={engineer.experience} />
@@ -213,9 +176,9 @@ export default function EngineerDetailPage({
 
         {/* SKILLS */}
         {engineer.skills && engineer.skills.length > 0 && (
-          <section className="mt-32">
+          <section className="mt-24">
             <FadeUp>
-              <SectionLabel label="STACK" withLine />
+              <SectionLabel label="Stack" withLine />
             </FadeUp>
             <div className="mt-10">
               <SkillsCloud groups={engineer.skills} />
@@ -225,9 +188,9 @@ export default function EngineerDetailPage({
 
         {/* PROJECTS */}
         {engineer.projects && engineer.projects.length > 0 && (
-          <section className="mt-32">
+          <section className="mt-24">
             <FadeUp>
-              <SectionLabel label="FEATURED WORK" withLine />
+              <SectionLabel label="Featured work" withLine />
             </FadeUp>
             <div className="mt-10">
               <FeaturedProjects projects={engineer.projects} />
@@ -237,21 +200,21 @@ export default function EngineerDetailPage({
 
         {/* EDUCATION */}
         {engineer.education && engineer.education.length > 0 && (
-          <section className="mt-32">
+          <section className="mt-24">
             <FadeUp>
-              <SectionLabel label="EDUCATION" withLine />
+              <SectionLabel label="Education" withLine />
             </FadeUp>
             <div className="mt-10 space-y-6">
               {engineer.education.map((ed, i) => (
                 <FadeUp key={i} delay={i * 0.05}>
-                  <div className="border-l-2 border-sideband-accent/60 pl-6">
-                    <h3 className="font-display text-[22px] text-sideband-text">
+                  <div className="border-l border-sideband-border pl-6">
+                    <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-sideband-text">
                       {ed.school}
                     </h3>
-                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
+                    <p className="mt-0.5 text-[14px] text-sideband-text-secondary">
                       {ed.degree}
                     </p>
-                    <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
+                    <p className="mt-2 font-mono text-[12px] text-sideband-muted">
                       {ed.dates}
                       {ed.honors ? ` · ${ed.honors}` : ''}
                     </p>
@@ -264,12 +227,12 @@ export default function EngineerDetailPage({
 
         {/* LIFESTYLE */}
         {engineer.lifestyle && engineer.lifestyle.length > 0 && (
-          <section className="mt-32">
+          <section className="mt-24">
             <FadeUp>
-              <SectionLabel label="OFF DUTY" withLine />
+              <SectionLabel label="Off duty" withLine />
             </FadeUp>
             <FadeUp delay={0.05}>
-              <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
+              <p className="mt-3 text-[15px] text-sideband-text-secondary">
                 What the building looks like outside the repos.
               </p>
             </FadeUp>
@@ -280,17 +243,17 @@ export default function EngineerDetailPage({
         )}
 
         {/* CONTACT */}
-        <section className="mt-32">
+        <section className="mt-24">
           <FadeUp>
-            <SectionLabel label="CONTACT" withLine />
+            <SectionLabel label="Contact" withLine />
           </FadeUp>
           <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <FadeUp>
               <div className="max-w-md">
-                <p className="font-display text-[28px] leading-tight text-sideband-text">
+                <p className="display text-[clamp(28px,3vw,36px)]">
                   Want to build with {engineer.name.split(' ')[0]}?
                 </p>
-                <p className="mt-4 font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
+                <p className="mt-3 text-[15px] leading-[1.6] text-sideband-text-secondary">
                   Email is fastest. Resume, GitHub, and the rest are below.
                 </p>
               </div>
@@ -303,23 +266,23 @@ export default function EngineerDetailPage({
 
         {/* NEXT ENGINEER */}
         {other && (
-          <section className="mt-32 border-t border-sideband-border pb-24 pt-12">
+          <section className="mt-24 border-t border-sideband-border pb-24 pt-12">
             <FadeUp>
               <div className="flex flex-wrap items-baseline justify-between gap-6">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
-                    NEXT DOSSIER
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+                    Next dossier
                   </p>
-                  <p className="mt-2 font-display text-[36px] leading-tight text-sideband-text">
+                  <p className="display mt-3 text-[clamp(28px,3vw,36px)]">
                     {other.name}
                     <span className="text-sideband-accent">.</span>
                   </p>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-text-secondary">
+                  <p className="mt-1.5 text-[15px] text-sideband-text-secondary">
                     {other.role}
                   </p>
                 </div>
                 <Button variant="ghost" href={`/engineers/${other.id}`}>
-                  Open Dossier →
+                  Open dossier &rarr;
                 </Button>
               </div>
             </FadeUp>

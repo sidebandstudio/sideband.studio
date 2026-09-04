@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FadeUp from '@/components/animations/FadeUp'
+import Tag from '@/components/ui/Tag'
 import type { FeaturedProject } from '@/lib/engineers'
 import { getProductById } from '@/lib/products'
 
@@ -19,25 +20,8 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   const cover = coverFor(project)
   const inner = (
     <>
-      <span
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-
       {cover && (
-        <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
+        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-sideband-border bg-[#0a0913]">
           <Image
             src={cover}
             alt=""
@@ -46,38 +30,38 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
             sizes="(min-width: 768px) 33vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sideband-surface/70 to-transparent" />
         </div>
       )}
 
-      <div className="flex items-baseline justify-between gap-3">
-        <h3 className="font-display text-[22px] leading-tight text-sideband-text">
-          {project.name}
-        </h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
-          {project.internal ? 'OPEN →' : project.source ? 'SOURCE ↗' : 'LIVE ↗'}
-        </span>
-      </div>
-      <p className="mt-3 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
-        {project.blurb}
-      </p>
-      {project.tech && project.tech.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className="border border-sideband-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-sideband-muted"
-            >
-              {t}
-            </span>
-          ))}
+      <div className="flex flex-1 flex-col gap-1.5 p-[18px]">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-sideband-text">
+            {project.name}
+          </h3>
+          <span className="whitespace-nowrap font-mono text-[11px] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-text">
+            {project.internal
+              ? 'Open →'
+              : project.source
+                ? 'Source ↗'
+                : 'Live ↗'}
+          </span>
         </div>
-      )}
+        <p className="text-pretty text-[14px] leading-[1.5] text-sideband-text-secondary">
+          {project.blurb}
+        </p>
+        {project.tech && project.tech.length > 0 && (
+          <div className="mt-auto flex flex-wrap gap-1.5 pt-3">
+            {project.tech.map((t) => (
+              <Tag key={t} label={t} />
+            ))}
+          </div>
+        )}
+      </div>
     </>
   )
 
   const className =
-    'group relative block border border-sideband-border bg-sideband-surface p-6 transition-all duration-300 hover:border-sideband-accent/60 hover:bg-sideband-surface-2'
+    'group flex h-full flex-col overflow-hidden rounded-xl border border-sideband-border bg-white/[0.015] transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03]'
 
   if (project.internal) {
     return (
@@ -100,9 +84,9 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
 
 export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {projects.map((p, i) => (
-        <FadeUp key={p.name} delay={i * 0.05}>
+        <FadeUp key={p.name} delay={i * 0.05} className="h-full">
           <ProjectCard project={p} />
         </FadeUp>
       ))}

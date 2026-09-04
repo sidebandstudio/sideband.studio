@@ -14,12 +14,12 @@ interface Row {
 
 export default function ContactPanel({ contact, name }: ContactPanelProps) {
   const rows: Row[] = [
-    { label: 'EMAIL', value: contact.email, href: `mailto:${contact.email}` },
+    { label: 'Email', value: contact.email, href: `mailto:${contact.email}` },
   ]
   if (contact.website) {
     const stripped = contact.website.replace(/^https?:\/\//, '')
     rows.push({
-      label: 'WEB',
+      label: 'Web',
       value: stripped,
       href: contact.website,
       external: true,
@@ -31,7 +31,7 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
       '',
     )
     rows.push({
-      label: 'GITHUB',
+      label: 'GitHub',
       value: `@${handle}`,
       href: contact.github,
       external: true,
@@ -42,7 +42,7 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
       .replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '')
       .replace(/\/$/, '')
     rows.push({
-      label: 'LINKEDIN',
+      label: 'LinkedIn',
       value: `in/${handle}`,
       href: contact.linkedin,
       external: true,
@@ -50,7 +50,7 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
   }
   if (contact.resume) {
     rows.push({
-      label: 'RESUME',
+      label: 'Resume',
       value: 'resume.pdf',
       href: contact.resume,
       external: true,
@@ -58,12 +58,12 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
   }
 
   return (
-    <div className="border border-sideband-border bg-sideband-surface">
-      <div className="flex items-center justify-between border-b border-sideband-border bg-sideband-surface-2 px-5 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
-          [ DIRECT LINE ]
+    <div className="overflow-hidden rounded-xl border border-sideband-border bg-white/[0.015]">
+      <div className="flex items-center justify-between border-b border-sideband-border bg-white/[0.02] px-5 py-3">
+        <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+          Direct line
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-sideband-muted">
+        <span className="font-mono text-[11px] text-sideband-muted">
           {name}
         </span>
       </div>
@@ -75,14 +75,14 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
             {...(r.external
               ? { target: '_blank', rel: 'noopener noreferrer' }
               : {})}
-            className="group flex items-center justify-between gap-6 px-5 py-3 transition-colors duration-200 hover:bg-sideband-surface-2"
+            className="group flex items-center justify-between gap-6 px-5 py-3 transition-colors duration-200 hover:bg-white/[0.03]"
           >
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
+            <span className="text-[14px] text-sideband-text-secondary">
               {r.label}
             </span>
-            <span className="flex items-center gap-3 font-mono text-[12px] text-sideband-text-secondary transition-colors duration-200 group-hover:text-sideband-accent">
+            <span className="flex items-center gap-2 font-mono text-[13px] text-sideband-text-secondary transition-colors duration-200 group-hover:text-sideband-text">
               {r.value}
-              <span className="text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
+              <span className="text-sideband-muted">
                 {r.external ? '↗' : '→'}
               </span>
             </span>
@@ -90,10 +90,10 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
         ))}
         {contact.location && (
           <div className="flex items-center justify-between gap-6 px-5 py-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
-              LOCATION
+            <span className="text-[14px] text-sideband-text-secondary">
+              Location
             </span>
-            <span className="font-mono text-[12px] text-sideband-text-secondary">
+            <span className="font-mono text-[13px] text-sideband-text-secondary">
               {contact.location}
             </span>
           </div>

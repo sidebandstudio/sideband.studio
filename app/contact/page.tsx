@@ -57,7 +57,7 @@ export default function ContactPage() {
           <div className="mt-10 space-y-3">
             <a
               href="mailto:hello@sideband.studio"
-              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
+              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
             >
               <svg
                 width="16"
@@ -77,7 +77,7 @@ export default function ContactPage() {
               href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
+              className="flex items-center gap-3 font-mono text-[14px] text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
             >
               <svg
                 width="16"
@@ -97,15 +97,15 @@ export default function ContactPage() {
         <FadeUp delay={0.2}>
           {status === 'success' ? (
             <div className="mt-12 rounded-[10px] border border-sideband-border-strong bg-sideband-surface px-6 py-8 font-mono text-[14px] text-sideband-text">
-              <p className="text-[11px] uppercase tracking-wider">
-                [ MESSAGE SENT ]
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+                Message sent
               </p>
-              <p className="mt-2 text-sideband-text-secondary">
+              <p className="mt-2 font-sans text-[15px] text-sideband-text-secondary">
                 Thanks for reaching out, we&apos;ll get back to you soon.
               </p>
               <button
                 onClick={() => setStatus('idle')}
-                className="mt-4 text-[11px] uppercase tracking-wider text-sideband-accent underline underline-offset-4 transition-opacity hover:opacity-70"
+                className="mt-4 font-sans text-[14px] font-medium text-sideband-text underline decoration-sideband-hairline underline-offset-4 transition-colors hover:decoration-sideband-text"
               >
                 Send another
               </button>
@@ -115,7 +115,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="name"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
+                  className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted"
                 >
                   Name
                 </label>
@@ -135,7 +135,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="email"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
+                  className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted"
                 >
                   Email
                 </label>
@@ -155,7 +155,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="message"
-                  className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-sideband-text-secondary"
+                  className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted"
                 >
                   Message
                 </label>
@@ -174,10 +174,7 @@ export default function ContactPage() {
               </div>
 
               {status === 'error' && (
-                <p
-                  role="alert"
-                  className="font-mono text-[11px] uppercase tracking-wider text-red-500"
-                >
+                <p role="alert" className="text-[14px] text-sideband-accent-2">
                   Something went wrong. Please try again.
                 </p>
               )}

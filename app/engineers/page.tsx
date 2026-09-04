@@ -38,9 +38,9 @@ export default function EngineersIndexPage() {
         {/* Engineer grid */}
         <div className="mt-20">
           <FadeUp>
-            <SectionLabel label="DOSSIERS" withLine />
+            <SectionLabel label="Dossiers" withLine />
           </FadeUp>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-4xl">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:max-w-4xl">
             {all.map((engineer, i) => (
               <FadeUp key={engineer.id} delay={0.1 + i * 0.08}>
                 <EngineerCard engineer={engineer} />

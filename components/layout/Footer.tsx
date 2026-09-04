@@ -34,7 +34,7 @@ export default function Footer() {
               href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
               aria-label="GitHub"
             >
               <svg
@@ -48,7 +48,7 @@ export default function Footer() {
             </a>
             <a
               href="mailto:hello@sideband.studio"
-              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-accent"
+              className="text-sideband-text-secondary transition-colors duration-200 hover:text-sideband-text"
               aria-label="Email"
             >
               <svg

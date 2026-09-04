@@ -44,7 +44,7 @@ export default function AboutPage() {
         {/* Narrative */}
         <div className="mt-20 max-w-3xl space-y-16">
           <FadeUp>
-            <SectionLabel label="WHY" />
+            <SectionLabel label="Why" />
             <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               We started Sideband because building software is the most fun we
               know how to have. Every product here began as something one of us
@@ -53,7 +53,7 @@ export default function AboutPage() {
           </FadeUp>
 
           <FadeUp>
-            <SectionLabel label="HOW" />
+            <SectionLabel label="How" />
             <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               We build for ourselves first, then polish until we would hand it
               to a friend. Each product page has an honest write-up of how the
@@ -63,7 +63,7 @@ export default function AboutPage() {
           </FadeUp>
 
           <FadeUp>
-            <SectionLabel label="NEXT" />
+            <SectionLabel label="Next" />
             <p className="mt-6 max-w-[600px] text-pretty text-[17px] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary">
               More products. The list of things we wish existed is long, and we
               are in no rush.
@@ -74,14 +74,14 @@ export default function AboutPage() {
         {/* Team Cards */}
         <div className="mt-24">
           <FadeUp>
-            <SectionLabel label="THE TEAM" withLine />
+            <SectionLabel label="The team" withLine />
           </FadeUp>
           <FadeUp delay={0.05}>
-            <p className="mt-6 max-w-2xl font-mono text-[12px] uppercase tracking-[0.15em] text-sideband-muted">
-              Open a dossier for the full picture →
+            <p className="mt-3 text-[15px] text-sideband-text-secondary">
+              Open a dossier for the full picture.
             </p>
           </FadeUp>
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-4xl">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:max-w-4xl">
             {founders.map((founder, i) => (
               <FadeUp key={founder.id} delay={0.1 + i * 0.08}>
                 <EngineerCard engineer={founder} />
@@ -93,19 +93,19 @@ export default function AboutPage() {
         {/* Timeline */}
         <div className="mt-24">
           <FadeUp>
-            <SectionLabel label="TIMELINE" withLine />
+            <SectionLabel label="Timeline" withLine />
           </FadeUp>
           <div className="relative mt-10 ml-4 border-l border-sideband-border pl-8">
             {timeline.map((entry, i) => (
               <FadeUp key={i} delay={i * 0.05}>
                 <div className="relative mb-8 last:mb-0">
                   {/* Dot */}
-                  <div className="absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-sideband-accent bg-sideband-black" />
+                  <div className="absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-sideband-border-strong bg-sideband-black" />
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
-                    <span className="font-mono text-[13px] font-medium text-sideband-accent">
+                    <span className="font-mono text-[13px] font-medium text-sideband-text">
                       {entry.year}
                     </span>
-                    <span className="font-mono text-[13px] text-sideband-text-secondary">
+                    <span className="text-[15px] text-sideband-text-secondary">
                       {entry.event}
                     </span>
                   </div>
@@ -123,7 +123,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-6">
               <Button variant="filled" href="/contact">
-                Get in Touch
+                Get in touch
               </Button>
             </div>
           </div>

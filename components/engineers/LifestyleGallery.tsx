@@ -25,7 +25,7 @@ export default function LifestyleGallery({ images }: LifestyleGalleryProps) {
         const span = spanPattern[i % spanPattern.length]
         return (
           <FadeUp key={img.src} delay={(i % 4) * 0.05} className={span}>
-            <div className="group relative h-full w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
+            <div className="group relative h-full w-full overflow-hidden rounded-xl border border-sideband-border bg-sideband-surface-2">
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -37,7 +37,7 @@ export default function LifestyleGallery({ images }: LifestyleGalleryProps) {
               {img.caption && (
                 <span
                   aria-hidden
-                  className="absolute bottom-3 left-3 right-3 font-mono text-[9px] uppercase tracking-[0.22em] text-sideband-text"
+                  className="absolute bottom-3 left-3 right-3 font-mono text-[11px] text-sideband-text"
                 >
                   {img.caption}
                 </span>

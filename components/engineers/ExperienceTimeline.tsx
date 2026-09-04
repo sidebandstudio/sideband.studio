@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import FadeUp from '@/components/animations/FadeUp'
+import Tag from '@/components/ui/Tag'
 import type { ExperienceEntry } from '@/lib/engineers'
 
 /** Leading letters, up to three — "Amazon Web Services" -> "AWS". */
@@ -33,16 +34,15 @@ function CompanyMark({ entry }: { entry: ExperienceEntry }) {
   return (
     <span
       aria-hidden
-      className={`inline-flex h-10 items-center border px-3 ${
-        entry.emphasis ? 'border-sideband-accent/40' : 'border-sideband-border'
-      }`}
+      className="inline-flex h-10 items-center rounded-lg border border-sideband-border bg-white/[0.02] px-3"
     >
-      <span className="font-mono text-[11px] tracking-[0.12em] text-sideband-muted">
+      <span className="font-mono text-[12px] tracking-[0.08em] text-sideband-muted">
         {monogram(entry.company)}
       </span>
     </span>
   )
 }
+
 interface ExperienceTimelineProps {
   entries: ExperienceEntry[]
 }
@@ -50,15 +50,17 @@ interface ExperienceTimelineProps {
 function StatusPill({ entry }: { entry: ExperienceEntry }) {
   if (entry.upcoming) {
     return (
-      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
-        INCOMING
+      <span className="inline-flex items-center gap-1.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-sideband-accent" />
+        Incoming
       </span>
     )
   }
   if (entry.current) {
     return (
-      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
-        ● CURRENT
+      <span className="inline-flex items-center gap-1.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-sideband-accent-2" />
+        Current
       </span>
     )
   }
@@ -73,32 +75,27 @@ export default function ExperienceTimeline({
       {entries.map((entry, i) => (
         <FadeUp key={`${entry.company}-${i}`} delay={i * 0.06}>
           <div className="relative mb-12 last:mb-0">
-            {/* Dot */}
             <div
               className={`absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 bg-sideband-black ${
                 entry.emphasis
-                  ? 'border-sideband-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]'
-                  : 'border-sideband-border'
+                  ? 'border-sideband-accent'
+                  : 'border-sideband-border-strong'
               }`}
             />
 
-            {/* Date / status row */}
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-accent">
+            <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+              <span>
                 {entry.startDate} – {entry.endDate}
               </span>
               <StatusPill entry={entry} />
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted">
-                {entry.location}
-              </span>
+              <span>{entry.location}</span>
             </div>
 
-            {/* Headline */}
             <div className="mt-4">
               <CompanyMark entry={entry} />
               <div className="mt-2.5 min-w-0">
                 <h3
-                  className={`font-display text-[26px] leading-tight ${
+                  className={`text-[20px] font-semibold tracking-[-0.02em] ${
                     entry.emphasis
                       ? 'text-sideband-text'
                       : 'text-sideband-text-secondary'
@@ -106,42 +103,34 @@ export default function ExperienceTimeline({
                 >
                   {entry.company}
                 </h3>
-                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
+                <p className="mt-0.5 text-[14px] text-sideband-text-secondary">
                   {entry.role}
                 </p>
               </div>
             </div>
 
-            {/* Summary */}
-            <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
+            <p className="mt-3 max-w-2xl text-pretty text-[15px] leading-[1.6] text-sideband-text-secondary">
               {entry.summary}
             </p>
 
-            {/* Highlights */}
             {entry.highlights && entry.highlights.length > 0 && (
               <ul className="mt-4 space-y-2">
                 {entry.highlights.map((h, hi) => (
                   <li
                     key={hi}
-                    className="flex gap-3 font-mono text-[12px] leading-[1.7] text-sideband-text-secondary"
+                    className="flex gap-3 text-[14px] leading-[1.55] text-sideband-text-secondary"
                   >
-                    <span className="mt-1 inline-block h-1 w-2 flex-shrink-0 bg-sideband-accent/70" />
+                    <span className="mt-[9px] h-1 w-1 flex-shrink-0 rounded-full bg-sideband-muted" />
                     <span>{h}</span>
                   </li>
                 ))}
               </ul>
             )}
 
-            {/* Skill chips */}
             {entry.skills && entry.skills.length > 0 && (
               <div className="mt-5 flex flex-wrap gap-1.5">
                 {entry.skills.map((s) => (
-                  <span
-                    key={s}
-                    className="border border-sideband-border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-sideband-muted"
-                  >
-                    {s}
-                  </span>
+                  <Tag key={s} label={s} />
                 ))}
               </div>
             )}
