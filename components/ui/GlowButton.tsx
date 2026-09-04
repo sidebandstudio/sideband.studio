@@ -2,25 +2,21 @@
 
 import Link from 'next/link'
 
+const ACCENT = '#A855F7'
+
 interface GlowButtonProps {
   children: React.ReactNode
   variant: 'filled' | 'ghost'
-  color?: string
   href?: string
-  onClick?: () => void
   external?: boolean
-  className?: string
   disabled?: boolean
 }
 
 export default function GlowButton({
   children,
   variant,
-  color = '#A855F7',
   href,
-  onClick,
   external = false,
-  className = '',
   disabled = false,
 }: GlowButtonProps) {
   const baseStyles =
@@ -31,25 +27,25 @@ export default function GlowButton({
       ? 'hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]'
       : 'hover:text-black'
 
-  const combinedClassName = `${baseStyles} ${variantStyles} ${className}`.trim()
+  const className = `${baseStyles} ${variantStyles}`
 
   const style: Record<string, string> =
     variant === 'filled'
       ? {
-          backgroundColor: color,
+          backgroundColor: ACCENT,
           color: '#000',
         }
       : {
           borderWidth: '1px',
           borderStyle: 'solid',
-          borderColor: color,
-          color: color,
+          borderColor: ACCENT,
+          color: ACCENT,
         }
 
   const hoverHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (variant === 'ghost') {
       const el = e.currentTarget
-      el.style.backgroundColor = color
+      el.style.backgroundColor = ACCENT
       el.style.color = '#000'
     }
   }
@@ -58,12 +54,12 @@ export default function GlowButton({
     if (variant === 'ghost') {
       const el = e.currentTarget
       el.style.backgroundColor = 'transparent'
-      el.style.color = color
+      el.style.color = ACCENT
     }
   }
 
   const props = {
-    className: combinedClassName,
+    className,
     style,
     onMouseEnter: hoverHandler,
     onMouseLeave: leaveHandler,
@@ -86,10 +82,9 @@ export default function GlowButton({
 
   return (
     <button
-      onClick={onClick}
       disabled={disabled}
       {...props}
-      className={`${combinedClassName} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`${className} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {children}
     </button>

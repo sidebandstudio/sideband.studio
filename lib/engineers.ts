@@ -70,7 +70,6 @@ export interface Engineer {
     width: number
     height: number
   }
-  portraitPlaceholder?: string
   prev?: PrevBadgeEntry[]
   experience?: ExperienceEntry[]
   education?: EducationEntry[]

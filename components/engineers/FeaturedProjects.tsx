@@ -8,8 +8,7 @@ import { getProductById } from '@/lib/products'
 function coverFor(project: FeaturedProject): string | null {
   if (!project.internal) return null
   const id = project.href.split('/').filter(Boolean).pop()
-  const cover = id ? getProductById(id)?.cardHero : undefined
-  return cover && cover !== 'branded' ? cover : null
+  return (id && getProductById(id)?.cardHero) || null
 }
 
 interface FeaturedProjectsProps {

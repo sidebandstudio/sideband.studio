@@ -10,9 +10,13 @@ const navLinks = [
   { href: '/products', label: 'Products' },
   { href: '/engineers', label: 'Engineers' },
   { href: '/about', label: 'About' },
-  //{ href: '/inquire', label: 'Inquire' },
   { href: '/contact', label: 'Contact' },
 ]
+
+/** Section links stay lit on their detail pages, e.g. /products/<id>. */
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -66,21 +70,13 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
-                  pathname === link.href ||
-                  (link.href === '/products' &&
-                    pathname.startsWith('/products/')) ||
-                  (link.href === '/engineers' &&
-                    pathname.startsWith('/engineers/'))
+                  isActive(pathname, link.href)
                     ? 'text-sideband-accent'
                     : 'text-sideband-text-secondary hover:text-sideband-text'
                 }`}
               >
                 {link.label}
-                {(pathname === link.href ||
-                  (link.href === '/products' &&
-                    pathname.startsWith('/products/')) ||
-                  (link.href === '/engineers' &&
-                    pathname.startsWith('/engineers/'))) && (
+                {isActive(pathname, link.href) && (
                   <motion.div
                     layoutId="nav-underline"
                     className="absolute -bottom-1 left-0 right-0 h-[2px] bg-sideband-accent"

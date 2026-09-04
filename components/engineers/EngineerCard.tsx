@@ -6,16 +6,8 @@ import {
   type Engineer,
 } from '@/lib/engineers'
 
-interface EngineerCardProps {
-  engineer: Engineer
-  compact?: boolean
-}
-
-export default function EngineerCard({
-  engineer,
-  compact = false,
-}: EngineerCardProps) {
-  const portraitSrc = engineer.portrait?.src ?? engineer.portraitPlaceholder
+export default function EngineerCard({ engineer }: { engineer: Engineer }) {
+  const portraitSrc = engineer.portrait?.src
 
   return (
     <Link
@@ -40,9 +32,7 @@ export default function EngineerCard({
         className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
       />
 
-      <div
-        className={`relative ${compact ? 'aspect-[4/3]' : 'aspect-[5/6]'} overflow-hidden bg-sideband-surface-2`}
-      >
+      <div className="relative aspect-[5/6] overflow-hidden bg-sideband-surface-2">
         {portraitSrc ? (
           <Image
             src={portraitSrc}
@@ -79,11 +69,9 @@ export default function EngineerCard({
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-sideband-accent">
           {engineer.role}
         </p>
-        {!compact && (
-          <p className="pt-1 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
-            {engineer.shortBio}
-          </p>
-        )}
+        <p className="pt-1 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
+          {engineer.shortBio}
+        </p>
       </div>
     </Link>
   )

@@ -53,7 +53,7 @@ export default function EngineerDetailPage({
   if (!engineer) notFound()
 
   const other = getOtherEngineer(engineer.id)
-  const portraitSrc = engineer.portrait?.src ?? engineer.portraitPlaceholder
+  const portraitSrc = engineer.portrait?.src
   const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
 
   return (
