@@ -18,7 +18,7 @@ const roles = [
     title: 'Marketing',
     area: 'Growth',
     description:
-      'Get Eternal products in front of the right people. Launch posts, landing copy, social, community, and the story of how a small studio ships.',
+      'Get Sideband products in front of the right people. Launch posts, landing copy, social, community, and the story of how a small studio ships.',
     build:
       'Launch campaigns, content, and the growth channels that actually convert',
     learn:
@@ -48,7 +48,7 @@ const roles = [
     title: 'Design Engineer (UX/UI)',
     area: 'Design',
     description:
-      'UX and UI is our biggest gap right now. Own how Eternal products look and feel: flows, components, motion, and the design system across web, iOS, and marketing.',
+      'UX and UI is our biggest gap right now. Own how Sideband products look and feel: flows, components, motion, and the design system across web, iOS, and marketing.',
     build: 'User flows, UI components, design systems, and the marketing site',
     learn:
       'Production design engineering, component architecture, brand systems',

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Publish a screenshot to the pr-assets branch and print markdown that renders
-# inline in a PR body or comment (same-origin /raw/ URL, which works in this
-# private repo where raw.githubusercontent.com does not).
+# inline in a PR body or comment (same-origin /raw/ URL pinned to a commit).
 #
 # Usage: scripts/pr-screenshot.sh <image> <pr-number> [name]
 #

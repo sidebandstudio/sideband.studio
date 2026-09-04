@@ -7,7 +7,7 @@ This file tracks project-specific decisions that future agents should preserve.
 - The studio is **Sideband** (sideband.studio, hello@sideband.studio), rebranded from Eternal Reverse in 2026.
 - Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Eternal2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
 - The design token namespace is `sideband-*` (Tailwind color scale and CSS variables in `styles/globals.css`).
-- The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` were removed.
+- The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` and `assets/EternalReverse/`, the old `public/favicon.png`, and the pre-rebrand design mockups in `references/` were removed. `app/icon.png` is the favicon and social preview image.
 - Inquiry ticket references are prefixed `SB-` (`lib/ticket.ts`).
 
 ## Current Deployment State
@@ -61,19 +61,6 @@ Tailwind content paths are intentionally scoped to source files:
 
 Do not broaden this casually without a reason.
 
-## Reference Files
-
-The following files are references only and should stay out of the app root:
-
-- `references/Eternal Reverse.html`
-- `references/er-components.jsx`
-- `references/er-products.jsx`
-- `references/er-product-detail.jsx`
-
-They were originally dropped into the repo root, but were moved into `references/` to keep the project structure clean.
-
-Use them as visual/content references, not as runtime application files.
-
 ## Cleanup Rules
 
 Do not commit local tool residue.
@@ -110,7 +97,7 @@ Follow `PR.md` for branch naming, commit format, the pre-review checklist, and m
 
 For any change a visitor could see (pages, components, styles, images, copy in components), run `npm run dev`, open the affected page, take a screenshot of the result, and attach it to the PR under "Proof It Works". Before/after for edits to existing UI. This is the normal way to open a UI PR here, not an extra; the reviewer should be able to judge the change from the description alone. Skip it only for changes with no rendered effect (CI, docs, tests, scripts, data-only edits). See `PR.md` -> Screenshots For Visual Changes.
 
-The `pr-screenshots` workflow auto-captures the standard landing set on every PR and posts a sticky comment, so the landing page is always covered. For any other page, publish the image with `scripts/pr-screenshot.sh <image> <pr-number>` and embed the same-origin markdown it prints. `raw.githubusercontent.com` links do not render in this private repo. Use `https://github.com/<owner>/<repo>/raw/<ref>/<path>` instead.
+The `pr-screenshots` workflow auto-captures the standard landing set on every PR and posts a sticky comment, so the landing page is always covered. For any other page, publish the image with `scripts/pr-screenshot.sh <image> <pr-number>` and embed the same-origin markdown it prints (`https://github.com/<owner>/<repo>/raw/<ref>/<path>`, pinned to a commit).
 
 Never fork this repository or open a PR from a fork. Push branches straight to `origin` (this repo) and open the PR from there. Fork PRs are auto-closed by `.github/workflows/no-fork-prs.yml`, get no CI or Claude review, and cannot merge.
 

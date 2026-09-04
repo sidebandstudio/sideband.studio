@@ -12,3 +12,5 @@ next-env.d.ts
 .codex-dev-*.log
 test-results/
 playwright-report/
+.vercel
+ORG-MIGRATION-NOTES.md

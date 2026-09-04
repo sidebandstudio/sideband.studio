@@ -29,12 +29,14 @@ export const metadata: Metadata = {
     title: 'Sideband · Independent software studio',
     description:
       'Sideband is an independent software studio. We build the things we wished existed.',
+    images: ['/icon.png'],
   },
   twitter: {
     card: 'summary',
     title: 'Sideband · Independent software studio',
     description:
       'Sideband is an independent software studio. We build the things we wished existed.',
+    images: ['/icon.png'],
   },
 }
 
