@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { products, type Product } from '@/lib/products'
@@ -10,6 +9,7 @@ import {
   BrowserFrame,
   IPadFrame,
   IPhoneFrame,
+  TerminalFrame,
 } from '@/components/products/DeviceFrames'
 
 function useReveal(threshold = 0.15) {
@@ -484,64 +484,12 @@ function RichPresenceSection() {
                 } as CSSProperties
               }
             >
-              <div
-                style={{
-                  borderRadius: 8,
-                  border: '1px solid #2a2a2a',
-                  overflow: 'hidden',
-                  background: '#0d0d0d',
-                }}
-              >
-                <div
-                  style={{
-                    height: 30,
-                    background: '#151515',
-                    borderBottom: '1px solid #222',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    padding: '0 12px',
-                  }}
-                >
-                  {['#FF5F57', '#FEBC2E', '#28C840'].map((c) => (
-                    <div
-                      key={c}
-                      style={{
-                        width: 9,
-                        height: 9,
-                        borderRadius: '50%',
-                        background: c,
-                        opacity: 0.75,
-                      }}
-                    />
-                  ))}
-                  <span
-                    style={{
-                      fontSize: 10,
-                      color: '#444',
-                      marginLeft: 8,
-                      letterSpacing: '0.06em',
-                    }}
-                  >
-                    eternalrp · terminal
-                  </span>
-                </div>
-                <div
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '16 / 10',
-                  }}
-                >
-                  <Image
-                    src="/assets/EternalRichPresence/EternalRichPresenceTerminal.png"
-                    alt="EternalRichPresence terminal"
-                    fill
-                    sizes="(min-width: 1024px) 440px, 100vw"
-                    style={{ objectFit: 'cover', display: 'block' }}
-                  />
-                </div>
-              </div>
+              <TerminalFrame
+                src="/assets/EternalRichPresence/EternalRichPresenceTerminal.png"
+                alt="EternalRichPresence terminal"
+                label="eternalrp · terminal"
+                sizes="(min-width: 1024px) 440px, 100vw"
+              />
             </div>
 
             <span
