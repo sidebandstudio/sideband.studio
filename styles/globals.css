@@ -15,6 +15,8 @@
   --sideband-text: #edeaf5;
   --sideband-text-secondary: #8b82aa;
   --sideband-accent: #a855f7;
+  /* Second brand color, the pink from the studio icon. Filled buttons and the live dot. */
+  --sideband-accent-2: #f23fa4;
 }
 
 html {
@@ -271,27 +273,4 @@ body {
   letter-spacing: -0.035em;
   line-height: 1.05;
   color: var(--sideband-text);
-}
-
-.term-p {
-  color: var(--sideband-accent);
-}
-
-.term-d {
-  color: #6b6488;
-}
-
-.term-scroll a {
-  color: var(--sideband-text);
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.2);
-  text-underline-offset: 3px;
-}
-
-.term-scroll a:hover {
-  text-decoration-color: var(--sideband-text);
-}
-
-.term-scroll {
-  scrollbar-width: thin;
 }

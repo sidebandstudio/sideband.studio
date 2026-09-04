@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Button from '@/components/ui/Button'
 import FadeUp from '@/components/animations/FadeUp'
 import { listEngineers } from '@/lib/engineers'
 
@@ -29,12 +29,9 @@ export default function TeamSection() {
                 small because that is what keeps it fun.
               </p>
             </div>
-            <Link
-              href="/engineers"
-              className="inline-flex items-center gap-2 rounded-lg border border-sideband-border px-[18px] py-2.5 text-[14px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
-            >
+            <Button variant="ghost" size="sm" href="/engineers">
               Meet the engineers &rarr;
-            </Link>
+            </Button>
           </div>
         </FadeUp>
       </div>

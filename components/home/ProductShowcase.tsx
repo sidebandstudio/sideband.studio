@@ -3,13 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FadeUp from '@/components/animations/FadeUp'
-import { products, ProductStatus } from '@/lib/products'
-
-const STATUS: Record<ProductStatus, { label: string; className: string }> = {
-  LIVE: { label: 'Live', className: 'text-[#4ade80]' },
-  'IN DEVELOPMENT': { label: 'In development', className: 'text-[#fbbf24]' },
-  'COMING SOON': { label: 'Coming soon', className: 'text-sideband-muted' },
-}
+import { products } from '@/lib/products'
+import Button from '@/components/ui/Button'
+import StatusBadge from '@/components/ui/StatusBadge'
 
 const LIVE = products.filter((p) => p.status === 'LIVE').length
 const DEV = products.filter((p) => p.status === 'IN DEVELOPMENT').length
@@ -42,12 +38,9 @@ export default function ProductShowcase() {
                 in active development.
               </p>
             </div>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-lg border border-sideband-border px-[18px] py-2.5 text-[14px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
-            >
+            <Button variant="ghost" size="sm" href="/products">
               All products &rarr;
-            </Link>
+            </Button>
           </div>
         </FadeUp>
 
@@ -73,11 +66,7 @@ export default function ProductShowcase() {
                     <h3 className="text-[17px] font-semibold tracking-[-0.02em] text-sideband-text">
                       {product.name}
                     </h3>
-                    <span
-                      className={`whitespace-nowrap font-mono text-[10.5px] font-medium uppercase tracking-[0.12em] ${STATUS[product.status].className}`}
-                    >
-                      {STATUS[product.status].label}
-                    </span>
+                    <StatusBadge status={product.status} />
                   </div>
                   <p className="text-pretty text-[14px] leading-[1.5] tracking-[-0.003em] text-sideband-text-secondary">
                     {product.tagline}

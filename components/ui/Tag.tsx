@@ -1,23 +1,10 @@
 interface TagProps {
   label: string
-  color?: string
 }
 
-export default function Tag({ label, color }: TagProps) {
+export default function Tag({ label }: TagProps) {
   return (
-    <span
-      style={{
-        display: 'inline-block',
-        padding: '2px 8px',
-        fontFamily: 'inherit',
-        fontSize: 10,
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        border: `1px solid ${color ?? 'var(--sideband-border)'}`,
-        color: color ?? 'var(--sideband-text-secondary)',
-        opacity: color ? 0.85 : 1,
-      }}
-    >
+    <span className="inline-block rounded-md border border-sideband-border bg-white/[0.02] px-2.5 py-1 font-mono text-[12px] text-sideband-text-secondary">
       {label}
     </span>
   )

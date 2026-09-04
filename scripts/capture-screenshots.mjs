@@ -44,19 +44,11 @@ await page.evaluate(() => window.scrollTo(0, 0))
 await page.waitForTimeout(800)
 await shot('01-hero')
 
-try {
-  await page.getByRole('button', { name: 'products', exact: true }).click()
-  await page.waitForTimeout(500)
-  await shot('02-terminal')
-} catch {
-  console.warn('terminal chip not found, skipping 02-terminal')
-}
-
 for (const [name, action] of [
-  ['03-products', () => document.getElementById('products')?.scrollIntoView()],
-  ['04-studio', () => document.getElementById('team')?.scrollIntoView()],
+  ['02-products', () => document.getElementById('products')?.scrollIntoView()],
+  ['03-studio', () => document.getElementById('team')?.scrollIntoView()],
   [
-    '05-contact',
+    '04-contact',
     () => window.scrollTo(0, document.documentElement.scrollHeight),
   ],
 ]) {

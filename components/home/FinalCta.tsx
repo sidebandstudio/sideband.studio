@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Button from '@/components/ui/Button'
 import FadeUp from '@/components/animations/FadeUp'
 
 export default function FinalCta() {
@@ -15,20 +15,16 @@ export default function FinalCta() {
             Everything we ship ends up on GitHub.
           </p>
           <div className="flex flex-wrap justify-center gap-2.5">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-[10px] bg-sideband-text px-[22px] py-3.5 text-[15px] font-semibold text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-white"
-            >
+            <Button variant="filled" href="/contact">
               Contact
-            </Link>
-            <a
+            </Button>
+            <Button
+              variant="ghost"
               href="https://github.com/sidebandstudio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-[10px] border border-sideband-border px-[22px] py-3.5 text-[15px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
+              external
             >
               GitHub
-            </a>
+            </Button>
           </div>
         </FadeUp>
       </div>

@@ -40,7 +40,6 @@ export interface Product {
   github: string | null
   version: string | null
   accentColor: string
-  highlight: string
   cardHero: string
   detail: ProductDetail
 }
@@ -68,7 +67,6 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
     accentColor: '#A855F7',
-    highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
     cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
     detail: {
       tagline:
@@ -141,7 +139,6 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
     accentColor: '#6366F1',
-    highlight: 'SMTC bridge · custom URI scheme · portable .exe',
     cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
     detail: {
       tagline:
@@ -222,8 +219,6 @@ export const products: Product[] = [
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
     accentColor: '#D946EF',
-    highlight:
-      'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
     detail: {
       tagline:
@@ -337,7 +332,6 @@ export const products: Product[] = [
     github: null,
     version: null,
     accentColor: '#C084FC',
-    highlight: 'SMS deep-link booking · mobile-first · zero backend',
     cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
     detail: {
       tagline:
@@ -405,7 +399,6 @@ export const products: Product[] = [
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
     accentColor: '#8B5CF6',
-    highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
     cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
     detail: {
       tagline:
@@ -493,7 +486,6 @@ export const products: Product[] = [
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
     accentColor: '#E879F9',
-    highlight: 'MV3 extension · Fly.io broker · streaming summary',
     cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
     detail: {
       tagline:

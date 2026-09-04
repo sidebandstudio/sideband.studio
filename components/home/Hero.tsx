@@ -2,65 +2,51 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import Terminal from '@/components/home/Terminal'
+import Button from '@/components/ui/Button'
 
 const marks = [
   {
     src: '/assets/ProductIcons/em.png',
-    alt: 'EternalMonitor',
-    cls: 'left-[6%] top-[9%] -rotate-[8deg]',
+    name: 'EternalMonitor',
+    href: '/products/eternal-monitor',
+    tilt: '-rotate-6',
   },
   {
     src: '/assets/ProductIcons/rp.png',
-    alt: 'EternalRichPresence',
-    cls: 'right-[6%] top-[7%] rotate-[6deg]',
+    name: 'EternalRichPresence',
+    href: '/products/eternal-rich-presence',
+    tilt: 'rotate-3',
   },
   {
     src: '/assets/ProductIcons/ex.png',
-    alt: 'Exerly Fitness',
-    cls: 'left-[4%] top-[36%] rotate-[4deg]',
-  },
-  {
-    src: '/assets/ProductIcons/e2x.png',
-    alt: 'Eternal2x',
-    cls: 'right-[4%] top-[36%] -rotate-[5deg]',
-  },
-  {
-    src: '/assets/ProductIcons/es.png',
-    alt: 'Eternal Summary',
-    cls: 'left-[7%] top-[63%] rotate-[3deg]',
+    name: 'Exerly Fitness',
+    href: '/products/exerly',
+    tilt: '-rotate-2',
   },
   {
     src: '/assets/ProductIcons/sc.png',
-    alt: 'Signature Cuts 413',
-    cls: 'right-[7%] top-[63%] -rotate-[3deg]',
+    name: 'Signature Cuts 413',
+    href: '/products/signature-cuts',
+    tilt: 'rotate-6',
+  },
+  {
+    src: '/assets/ProductIcons/e2x.png',
+    name: 'Eternal2x',
+    href: '/products/eternal2x',
+    tilt: '-rotate-3',
+  },
+  {
+    src: '/assets/ProductIcons/es.png',
+    name: 'Eternal Summary',
+    href: '/products/eternal-summary',
+    tilt: 'rotate-2',
   },
 ]
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-sideband-black pb-20 pt-[88px]">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-[1] hidden min-[900px]:block"
-      >
-        {marks.map((m) => (
-          <div
-            key={m.src}
-            className={`absolute grid h-[92px] w-[92px] place-items-center overflow-hidden rounded-[22px] border border-sideband-border bg-[#0b0a14] shadow-[0_20px_48px_-16px_rgba(0,0,0,0.65),inset_0_2px_rgba(255,255,255,0.04)] ${m.cls}`}
-          >
-            <Image
-              src={m.src}
-              alt=""
-              width={256}
-              height={256}
-              className="h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className="inner relative z-[2] text-center">
+      <div className="inner text-center">
         <span className="inline-flex h-8 items-center rounded-full border border-sideband-border bg-white/[0.03] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-sideband-text-secondary">
           Independent software studio · Boston, MA
         </span>
@@ -75,22 +61,35 @@ export default function Hero() {
           Discord, a smarter video upscaler, and more in progress.
         </p>
 
-        <div className="mb-16 flex flex-wrap justify-center gap-2.5">
-          <Link
-            href="/products"
-            className="inline-flex items-center justify-center rounded-[10px] bg-sideband-text px-[22px] py-3.5 text-[15px] font-semibold text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-white"
-          >
+        <div className="flex flex-wrap justify-center gap-2.5">
+          <Button variant="filled" href="/products">
             View Products
-          </Link>
-          <Link
-            href="/engineers"
-            className="inline-flex items-center justify-center rounded-[10px] border border-sideband-border px-[22px] py-3.5 text-[15px] font-medium text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:bg-white/[0.03] hover:text-sideband-text"
-          >
+          </Button>
+          <Button variant="ghost" href="/engineers">
             Meet the Engineers
-          </Link>
+          </Button>
         </div>
 
-        <Terminal />
+        <ul className="mx-auto mt-16 flex max-w-[720px] flex-wrap items-center justify-center gap-4 min-[600px]:gap-6">
+          {marks.map((m) => (
+            <li key={m.href}>
+              <Link
+                href={m.href}
+                title={m.name}
+                aria-label={m.name}
+                className={`block h-[76px] w-[76px] overflow-hidden rounded-[20px] border border-sideband-border bg-[#0b0a14] shadow-[0_20px_48px_-16px_rgba(0,0,0,0.65),inset_0_2px_rgba(255,255,255,0.04)] transition-transform duration-300 hover:-translate-y-1 hover:rotate-0 min-[600px]:h-[88px] min-[600px]:w-[88px] ${m.tilt}`}
+              >
+                <Image
+                  src={m.src}
+                  alt=""
+                  width={256}
+                  height={256}
+                  className="h-full w-full object-cover"
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
