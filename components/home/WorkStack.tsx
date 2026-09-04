@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useRef } from 'react'
 import {
   motion,
@@ -11,6 +10,7 @@ import {
 } from 'framer-motion'
 import FadeUp from '@/components/animations/FadeUp'
 import Button from '@/components/ui/Button'
+import ProductCover from '@/components/products/ProductCover'
 import StatusBadge from '@/components/ui/StatusBadge'
 import Tag from '@/components/ui/Tag'
 import { products, type Product } from '@/lib/products'
@@ -44,15 +44,9 @@ function StackCard({
         }}
         className="group relative grid h-[76vh] w-full origin-top grid-rows-[42%_1fr] overflow-hidden rounded-2xl border border-sideband-border bg-sideband-surface shadow-[0_-20px_80px_-30px_rgba(0,0,0,0.9)] min-[900px]:grid-cols-[minmax(0,42fr)_minmax(0,58fr)] min-[900px]:grid-rows-1"
       >
-        <div className="order-first flex items-center justify-center p-5 min-[900px]:order-last min-[900px]:p-10">
-          <div className="relative aspect-[3/2] max-h-full w-full overflow-hidden">
-            <Image
-              src={product.cardHero}
-              alt={`${product.name} cover art`}
-              fill
-              sizes="(min-width: 900px) 58vw, 100vw"
-              className="object-cover mix-blend-lighten transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            />
+        <div className="order-first flex items-center justify-center p-4 min-[900px]:order-last min-[900px]:p-8">
+          <div className="relative aspect-[16/10] max-h-full w-full overflow-hidden rounded-xl border border-sideband-border transition-transform duration-700 ease-out group-hover:scale-[1.02]">
+            <ProductCover product={product} />
           </div>
         </div>
 

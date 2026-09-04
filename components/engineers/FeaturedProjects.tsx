@@ -1,15 +1,15 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import FadeUp from '@/components/animations/FadeUp'
 import Tag from '@/components/ui/Tag'
+import ProductCover from '@/components/products/ProductCover'
 import type { FeaturedProject } from '@/lib/engineers'
 import { getProductById } from '@/lib/products'
 
-/** Internal projects point at /products/<id>; reuse that product's cover art. */
-function coverFor(project: FeaturedProject): string | null {
+/** Internal projects point at /products/<id>; reuse that product's cover. */
+function productFor(project: FeaturedProject) {
   if (!project.internal) return null
   const id = project.href.split('/').filter(Boolean).pop()
-  return (id && getProductById(id)?.cardHero) || null
+  return (id && getProductById(id)) || null
 }
 
 interface FeaturedProjectsProps {
@@ -17,19 +17,12 @@ interface FeaturedProjectsProps {
 }
 
 function ProjectCard({ project }: { project: FeaturedProject }) {
-  const cover = coverFor(project)
+  const product = productFor(project)
   const inner = (
     <>
-      {cover && (
-        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-sideband-border bg-sideband-surface">
-          <Image
-            src={cover}
-            alt=""
-            aria-hidden
-            fill
-            sizes="(min-width: 768px) 33vw, 100vw"
-            className="object-cover mix-blend-lighten transition-transform duration-500 group-hover:scale-[1.03]"
-          />
+      {product && (
+        <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-sideband-border">
+          <ProductCover product={product} />
         </div>
       )}
 

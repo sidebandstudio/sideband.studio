@@ -29,6 +29,21 @@ export interface ProductDetail {
   highlights: string[]
 }
 
+export type CoverShotKind = 'window' | 'card' | 'terminal' | 'phone' | 'tablet'
+
+export interface CoverShot {
+  src: string
+  kind: CoverShotKind
+  alt: string
+}
+
+/** Real screenshots composed into a card: a primary screen plus an optional
+ *  smaller device overlapping it. Rendered by components/products/ProductCover. */
+export interface ProductCover {
+  primary: CoverShot
+  secondary?: CoverShot
+}
+
 export interface Product {
   id: string
   name: string
@@ -39,7 +54,7 @@ export interface Product {
   url: string | null
   github: string | null
   version: string | null
-  cardHero: string
+  cover: ProductCover
   icon: string
   detail: ProductDetail
 }
@@ -66,7 +81,18 @@ export const products: Product[] = [
     url: 'https://eternalmonitor.dev',
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
-    cardHero: '/assets/covers/eternal-monitor.jpg',
+    cover: {
+      primary: {
+        src: '/assets/EternalMonitor/EternalMonitorPCView.png',
+        kind: 'window',
+        alt: 'EternalMonitor host app streaming to an iPad',
+      },
+      secondary: {
+        src: '/assets/EternalMonitor/EternalMonitorIpadView.png',
+        kind: 'tablet',
+        alt: 'EternalMonitor iPad client',
+      },
+    },
     icon: '/assets/ProductIcons/em.png',
     detail: {
       tagline:
@@ -138,7 +164,18 @@ export const products: Product[] = [
     url: 'https://eternalrichpresence.dev',
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
-    cardHero: '/assets/covers/eternal-rich-presence.jpg',
+    cover: {
+      primary: {
+        src: '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
+        kind: 'card',
+        alt: 'Discord profile showing EternalRichPresence playing a song',
+      },
+      secondary: {
+        src: '/assets/EternalRichPresence/EternalRichPresenceTerminal.png',
+        kind: 'terminal',
+        alt: 'EternalRichPresence running in a terminal',
+      },
+    },
     icon: '/assets/ProductIcons/rp.png',
     detail: {
       tagline:
@@ -218,7 +255,18 @@ export const products: Product[] = [
     url: 'https://whoisaldo.github.io/Exerly-Fitness/',
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
-    cardHero: '/assets/covers/exerly.jpg',
+    cover: {
+      primary: {
+        src: '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
+        kind: 'window',
+        alt: 'Exerly Fitness web dashboard',
+      },
+      secondary: {
+        src: '/assets/ExerlyFitness/ExerlyFitnessPhoneView1.png',
+        kind: 'phone',
+        alt: 'Exerly Fitness iOS app',
+      },
+    },
     icon: '/assets/ProductIcons/ex.png',
     detail: {
       tagline:
@@ -331,7 +379,18 @@ export const products: Product[] = [
     url: 'https://signaturecutschicopee.com',
     github: null,
     version: null,
-    cardHero: '/assets/covers/signature-cuts.jpg',
+    cover: {
+      primary: {
+        src: '/assets/SignatureCuts/SignatureCutsWebView.png',
+        kind: 'window',
+        alt: 'Signature Cuts 413 website',
+      },
+      secondary: {
+        src: '/assets/SignatureCuts/SignatureCutsPhoneView.png',
+        kind: 'phone',
+        alt: 'Signature Cuts 413 on a phone',
+      },
+    },
     icon: '/assets/ProductIcons/sc.png',
     detail: {
       tagline:
@@ -398,7 +457,18 @@ export const products: Product[] = [
     url: 'https://eternal2x.com',
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
-    cardHero: '/assets/covers/eternal2x.jpg',
+    cover: {
+      primary: {
+        src: '/assets/Eternal2x/Eternal2xHome.png',
+        kind: 'window',
+        alt: 'Eternal2x website',
+      },
+      secondary: {
+        src: '/assets/Eternal2x/Eternal2xPhone.png',
+        kind: 'phone',
+        alt: 'Eternal2x on a phone',
+      },
+    },
     icon: '/assets/ProductIcons/e2x.png',
     detail: {
       tagline:
@@ -485,7 +555,18 @@ export const products: Product[] = [
     url: 'https://alitleis123.github.io/Eternal-Summary/',
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
-    cardHero: '/assets/covers/eternal-summary.jpg',
+    cover: {
+      primary: {
+        src: '/assets/EternalSummary/EternalSummaryHomePage.png',
+        kind: 'window',
+        alt: 'Eternal Summary website',
+      },
+      secondary: {
+        src: '/assets/EternalSummary/EternalSummaryPhone.png',
+        kind: 'phone',
+        alt: 'Eternal Summary on a phone',
+      },
+    },
     icon: '/assets/ProductIcons/es.png',
     detail: {
       tagline:

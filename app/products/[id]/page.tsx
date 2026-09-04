@@ -25,7 +25,7 @@ export function generateMetadata({
       title: `${product.name} · Sideband`,
       description: product.description,
       url: `/products/${product.id}`,
-      images: [{ url: product.cardHero }],
+      images: [{ url: product.cover.primary.src }],
     },
   }
 }
