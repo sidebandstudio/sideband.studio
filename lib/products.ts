@@ -39,7 +39,6 @@ export interface Product {
   url: string | null
   github: string | null
   version: string | null
-  accentColor: string
   cardHero: string
   detail: ProductDetail
 }
@@ -66,7 +65,6 @@ export const products: Product[] = [
     url: 'https://eternalmonitor.dev',
     github: 'https://github.com/whoisaldo/EternalMonitor',
     version: 'v0.1.1-mirror',
-    accentColor: '#A855F7',
     cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
     detail: {
       tagline:
@@ -138,7 +136,6 @@ export const products: Product[] = [
     url: 'https://eternalrichpresence.dev',
     github: 'https://github.com/whoisaldo/Eternal-Rich-Presence',
     version: 'v1.0.0-beta',
-    accentColor: '#6366F1',
     cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
     detail: {
       tagline:
@@ -218,7 +215,6 @@ export const products: Product[] = [
     url: 'https://whoisaldo.github.io/Exerly-Fitness/',
     github: 'https://github.com/whoisaldo/Exerly-Fitness',
     version: null,
-    accentColor: '#D946EF',
     cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
     detail: {
       tagline:
@@ -331,7 +327,6 @@ export const products: Product[] = [
     url: 'https://signaturecutschicopee.com',
     github: null,
     version: null,
-    accentColor: '#C084FC',
     cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
     detail: {
       tagline:
@@ -398,7 +393,6 @@ export const products: Product[] = [
     url: 'https://eternal2x.com',
     github: 'https://github.com/Alitleis123/Eternal2x.com',
     version: 'v0.2.0',
-    accentColor: '#8B5CF6',
     cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
     detail: {
       tagline:
@@ -485,7 +479,6 @@ export const products: Product[] = [
     url: 'https://alitleis123.github.io/Eternal-Summary/',
     github: 'https://github.com/Alitleis123/Eternal-Summary',
     version: 'v1.0.0',
-    accentColor: '#E879F9',
     cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
     detail: {
       tagline:

@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Button from '@/components/ui/Button'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { products, type Product } from '@/lib/products'
 import Tag from '@/components/ui/Tag'
@@ -46,7 +46,6 @@ interface ProductTextProps {
   tags: string[]
   github: string | null
   url: string | null
-  accent: string
   vis: boolean
   dir?: 'left' | 'right'
 }
@@ -62,7 +61,6 @@ function ProductText({
   tags,
   github,
   url,
-  accent,
   vis,
   dir = 'left',
 }: ProductTextProps) {
@@ -76,214 +74,54 @@ function ProductText({
         opacity: vis ? 1 : 0,
       }}
     >
-      {/* Eyebrow */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          marginBottom: 20,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 10,
-            color: accent,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-          }}
-        >
-          [ {num} ]
-        </span>
+      <div className="mb-5 flex flex-wrap items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+        <span>{num}</span>
         <StatusBadge status={status} />
         {version && (
-          <span
-            style={{
-              fontSize: 10,
-              color: 'var(--sideband-muted)',
-              letterSpacing: '0.06em',
-            }}
-          >
-            {version}
-          </span>
+          <span className="normal-case tracking-normal">{version}</span>
         )}
       </div>
 
-      {/* Name */}
-      <h2
-        className="font-display"
-        style={{
-          fontSize: 'clamp(36px, 4vw, 54px)',
-          color: 'var(--sideband-text)',
-          lineHeight: 1.05,
-          marginBottom: 36,
-          fontWeight: 700,
-        }}
-      >
-        {name}
-      </h2>
+      <h2 className="display mb-8 text-[clamp(32px,4vw,48px)]">{name}</h2>
 
-      {/* Problem */}
-      <div style={{ marginBottom: 28 }}>
-        <span
-          style={{
-            fontSize: 9,
-            textTransform: 'uppercase',
-            letterSpacing: '0.22em',
-            color: 'var(--sideband-text-secondary)',
-            display: 'block',
-            marginBottom: 10,
-          }}
-        >
-          THE PROBLEM
+      <div className="mb-6">
+        <span className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+          The problem
         </span>
-        <p className="prod-problem">{problem}</p>
+        <p className="max-w-[520px] text-pretty text-[15px] leading-[1.6] text-sideband-text-secondary">
+          {problem}
+        </p>
       </div>
 
-      {/* Divider */}
-      <div
-        style={{
-          height: 1,
-          background: `linear-gradient(to right, ${accent}40, transparent)`,
-          margin: '24px 0',
-        }}
-      />
-
-      {/* Solution */}
-      <div style={{ marginBottom: 32 }}>
-        <span
-          style={{
-            fontSize: 9,
-            textTransform: 'uppercase',
-            letterSpacing: '0.22em',
-            color: accent,
-            display: 'block',
-            marginBottom: 10,
-          }}
-        >
-          THE SOLUTION
+      <div className="mb-7">
+        <span className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+          The solution
         </span>
-        <p
-          style={{
-            fontSize: 13,
-            lineHeight: 1.9,
-            color: 'var(--sideband-text)',
-          }}
-        >
+        <p className="max-w-[520px] text-pretty text-[15px] leading-[1.6] text-sideband-text">
           {solution}
         </p>
       </div>
 
-      {/* Tags */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 5,
-          marginBottom: 28,
-        }}
-      >
+      <div className="mb-7 flex flex-wrap gap-1.5">
         {tags.map((t) => (
-          <Tag key={t} label={t} color={accent} />
+          <Tag key={t} label={t} />
         ))}
       </div>
 
-      {/* CTAs */}
-      <div
-        style={{
-          display: 'flex',
-          gap: 10,
-          flexWrap: 'wrap',
-          alignItems: 'center',
-        }}
-      >
-        {github && (
-          <a
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '10px 22px',
-              fontSize: 12,
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              textDecoration: 'none',
-              border: `1px solid ${accent}`,
-              color: accent,
-              background: 'transparent',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = accent
-              e.currentTarget.style.color = '#000'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = accent
-            }}
-          >
-            GitHub ↗
-          </a>
-        )}
+      <div className="flex flex-wrap items-center gap-2.5">
         {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '10px 22px',
-              fontSize: 12,
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              textDecoration: 'none',
-              background: accent,
-              color: '#000',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = `0 0 22px ${accent}80`
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = 'none'
-            }}
-          >
-            Visit ↗
-          </a>
+          <Button variant="filled" size="sm" href={url} external>
+            Visit &#8599;
+          </Button>
         )}
-        <Link
-          href={`/products/${productId}`}
-          style={{
-            background: 'none',
-            border: '1px solid var(--sideband-border)',
-            cursor: 'pointer',
-            padding: '10px 20px',
-            fontSize: 12,
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: 'var(--sideband-text-secondary)',
-            transition: 'all 0.2s',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            textDecoration: 'none',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = accent
-            e.currentTarget.style.color = accent
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--sideband-border)'
-            e.currentTarget.style.color = 'var(--sideband-text-secondary)'
-          }}
-        >
-          Deep Dive →
-        </Link>
+        {github && (
+          <Button variant="ghost" size="sm" href={github} external>
+            GitHub &#8599;
+          </Button>
+        )}
+        <Button variant="ghost" size="sm" href={`/products/${productId}`}>
+          Deep dive &rarr;
+        </Button>
       </div>
     </div>
   )
@@ -293,10 +131,11 @@ function ProductText({
 function EternalMonitorSection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ right: '3%' }}>
-        01
-      </span>
+    <section
+      id="eternal-monitor"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           <ProductText
@@ -305,7 +144,6 @@ function EternalMonitorSection() {
             name="EternalMonitor"
             version="v0.1.1-mirror"
             status="IN DEVELOPMENT"
-            accent="#A855F7"
             problem="Your second monitor costs $300. Your iPad Pro costs $1000+. Neither talks to Windows natively: you either buy a dongle, pay a subscription, or accept the latency."
             solution="EternalMonitor captures your desktop via DXGI Desktop Duplication, transcodes BGRA→YUV420P, and encodes H.264 in hardware (NVENC, AMF, or QuickSync auto-selected). Streams over fragmented UDP to an iPad client that decodes via VideoToolbox and renders with Metal. Zero-config discovery via mDNS."
             tags={[
@@ -416,10 +254,11 @@ function EternalMonitorSection() {
 function RichPresenceSection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ left: '3%' }}>
-        02
-      </span>
+    <section
+      id="eternal-rich-presence"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           {/* Devices LEFT */}
@@ -511,7 +350,6 @@ function RichPresenceSection() {
             name="EternalRichPresence"
             version="v1.0.0-beta"
             status="LIVE"
-            accent="#6366F1"
             problem="Apple Music runs on Windows. Spotify too. But Discord sees nothing: your Rich Presence is blank, your listening activity invisible, and there's no official bridge."
             solution="A lightweight Python daemon that reads the Windows System Media Transport Controls (SMTC) and bridges it to Discord Rich Presence. Live album art via upload, custom eternalrp:// URI scheme for Listen Along deep-links. Ships as a portable .exe. No install needed."
             tags={[
@@ -667,10 +505,11 @@ function ExerlyPhoneFan() {
 function ExerlySection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ right: '3%' }}>
-        03
-      </span>
+    <section
+      id="exerly"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           <ProductText
@@ -679,7 +518,6 @@ function ExerlySection() {
             name="Exerly Fitness"
             version={null}
             status="IN DEVELOPMENT"
-            accent="#D946EF"
             problem="Fitness apps treat everyone the same. Generic macros, no AI coaching, no integration with your actual health data. You track calories in a vacuum."
             solution="A 12-step onboarding wizard computes your exact BMI, TDEE, and macro targets. Gemini 2.0 Flash coaches you in real-time. SwiftUI + HealthKit on iOS, shared Express API with the web client. Barcode scanner via FatSecret. Progress photo compare mode."
             tags={[
@@ -770,10 +608,11 @@ function ExerlySection() {
 function Eternal2xSection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ right: '3%' }}>
-        05
-      </span>
+    <section
+      id="eternal2x"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           <ProductText
@@ -782,7 +621,6 @@ function Eternal2xSection() {
             name="Eternal2x"
             version="v0.2.0"
             status="LIVE"
-            accent="#8B5CF6"
             problem="Upscaling old footage to 4K in DaVinci Resolve is slow, manual, and lossy. Editors waste hours marking motion ranges, splitting clips, and re-rendering dead frames that didn't need touching in the first place."
             solution="Eternal2x is a Python + Lua + OpenCV pipeline that auto-detects motion frames, isolates active segments via threshold-based detection, removes dead frames before interpolation, and automates marker placement, clip segmentation, and timeline reconstruction inside DaVinci Resolve, then upscales the result to 4K with FFmpeg."
             tags={['Python', 'Lua', 'OpenCV', 'FFmpeg', 'DaVinci Resolve API']}
@@ -895,10 +733,11 @@ function Eternal2xSection() {
 function EternalSummarySection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ left: '3%' }}>
-        06
-      </span>
+    <section
+      id="eternal-summary"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           {/* Devices LEFT */}
@@ -1000,7 +839,6 @@ function EternalSummarySection() {
             name="Eternal Summary"
             version="v1.0.0"
             status="LIVE"
-            accent="#E879F9"
             problem="Reading long articles, docs, and research pages is a tax on attention. Existing summarizer extensions are bloated, slow, or send your data through a chain of middlemen."
             solution="Eternal Summary is a minimal MV3 Chrome extension that AI-summarizes any webpage in real time. Content scripts extract live page content, a Node/Express backend on Fly.io brokers the Gemini API request, and the summary streams back into a clean popup overlay. One click."
             tags={[
@@ -1027,10 +865,11 @@ function EternalSummarySection() {
 function SignatureCutsSection() {
   const [ref, vis] = useReveal()
   return (
-    <section ref={ref as React.RefObject<HTMLElement>} className="prod-section">
-      <span className="prod-num" style={{ left: '3%' }}>
-        04
-      </span>
+    <section
+      id="signature-cuts"
+      ref={ref as React.RefObject<HTMLElement>}
+      className="prod-section"
+    >
       <div className="inner">
         <div className="prod-grid">
           {/* Devices LEFT */}
@@ -1119,7 +958,6 @@ function SignatureCutsSection() {
             name="Signature Cuts 413"
             version={null}
             status="LIVE"
-            accent="#C084FC"
             problem="Booking a haircut requires downloading an app, creating an account, or making a phone call. For a local barbershop in Chicopee, MA, this friction costs appointments."
             solution="A static Next.js site, mobile-first by design, with SMS and WhatsApp deep-link booking flows. Tap to open a pre-filled booking message. No app, no account, no backend. Custom domain, fast, dead simple."
             tags={[
@@ -1142,97 +980,40 @@ function SignatureCutsSection() {
 
 export default function ProductsShowcase() {
   return (
-    <div style={{ paddingTop: 60 }}>
-      {/* Header */}
-      <div
-        className="inner"
-        style={{
-          paddingTop: 72,
-          paddingBottom: 80,
-          borderBottom: '1px solid var(--sideband-border)',
-        }}
-      >
+    <div className="pt-[60px]">
+      <div className="inner border-b border-sideband-border pb-16 pt-[72px]">
         <div
           style={{
             animation: 'slideRevealU 0.6s cubic-bezier(0.16,1,0.3,1) both',
           }}
         >
-          <span
-            style={{
-              fontSize: 10,
-              textTransform: 'uppercase',
-              letterSpacing: '0.22em',
-              color: 'var(--sideband-accent)',
-            }}
-          >
-            [ PRODUCTS ]
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-sideband-muted">
+            Products
           </span>
-          <h1
-            className="font-display"
-            style={{
-              fontSize: 'clamp(48px, 7vw, 80px)',
-              marginTop: 10,
-              color: 'var(--sideband-text)',
-              lineHeight: 0.95,
-            }}
-          >
-            What we build
-            <span style={{ color: 'var(--sideband-accent)' }}>.</span>
+          <h1 className="display mt-3.5 text-[clamp(40px,6vw,72px)]">
+            What we build<span className="text-sideband-accent">.</span>
           </h1>
-          <p
-            style={{
-              marginTop: 14,
-              fontSize: 13,
-              color: 'var(--sideband-text-secondary)',
-              maxWidth: 480,
-              lineHeight: 1.8,
-            }}
-          >
+          <p className="mt-3.5 max-w-[560px] text-pretty text-[17px] tracking-[-0.005em] text-sideband-text-secondary">
             Six products. Four live, two in development. The write-ups below
             cover how each one actually works.
           </p>
 
-          {/* Jump nav */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 10,
-              marginTop: 28,
-            }}
+          <nav
+            aria-label="Jump to product"
+            className="mt-8 flex flex-wrap gap-2"
           >
             {products.map((p, i) => (
-              <div
+              <a
                 key={p.id}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '6px 14px',
-                  border: '1px solid var(--sideband-border)',
-                  fontSize: 11,
-                  color: 'var(--sideband-text-secondary)',
-                  letterSpacing: '0.06em',
-                }}
+                href={`#${p.id}`}
+                className="inline-flex items-center gap-2.5 rounded-lg border border-sideband-border bg-white/[0.02] px-3 py-2 font-mono text-[12px] text-sideband-text-secondary transition-colors duration-200 hover:border-sideband-border-strong hover:text-sideband-text"
               >
-                <span
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
-                    background: p.accentColor,
-                    boxShadow:
-                      p.status === 'LIVE' ? `0 0 6px ${p.accentColor}` : 'none',
-                  }}
-                />
-                <span style={{ fontSize: 10, color: 'var(--sideband-muted)' }}>
-                  0{i + 1}
-                </span>
+                <span className="text-sideband-muted">0{i + 1}</span>
                 {p.name}
                 <StatusBadge status={p.status} />
-              </div>
+              </a>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
 
