@@ -13,6 +13,26 @@ test('homepage renders and primary navigation reaches products', async ({
   await expect(page).toHaveURL(/\/products$/)
 })
 
+test('homepage preview tabs switch the visible product screenshot', async ({
+  page,
+}) => {
+  await page.goto('/')
+
+  const tabs = page.getByRole('tablist', { name: 'Products' })
+  await expect(tabs.getByRole('tab')).toHaveCount(6)
+  await expect(tabs.getByRole('tab', { selected: true })).toHaveText(
+    'EternalMonitor',
+  )
+
+  await tabs.getByRole('tab', { name: 'Eternal2x' }).click()
+  await expect(tabs.getByRole('tab', { selected: true })).toHaveText(
+    'Eternal2x',
+  )
+  await expect(
+    page.getByRole('tabpanel', { name: 'Eternal2x' }).getByRole('img'),
+  ).toBeVisible()
+})
+
 test('product detail navigation works', async ({ page }) => {
   await page.goto('/products')
 
