@@ -20,6 +20,9 @@ const config: Config = {
           text: 'var(--sideband-text)',
           'text-secondary': 'var(--sideband-text-secondary)',
           accent: 'var(--sideband-accent)',
+          'accent-dim': 'var(--sideband-accent-dim)',
+          ok: 'var(--sideband-ok)',
+          warn: 'var(--sideband-warn)',
         },
       },
       fontFamily: {

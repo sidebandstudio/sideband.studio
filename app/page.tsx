@@ -1,16 +1,16 @@
 import Hero from '@/components/home/Hero'
-import ProductShowcase from '@/components/home/ProductShowcase'
-import EngineeringNotes from '@/components/home/EngineeringNotes'
-import TeamSection from '@/components/home/TeamSection'
+import ProductGrid from '@/components/home/ProductGrid'
+import StudioSection from '@/components/home/StudioSection'
+import OpenSource from '@/components/home/OpenSource'
 import FinalCta from '@/components/home/FinalCta'
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <ProductShowcase />
-      <EngineeringNotes />
-      <TeamSection />
+      <ProductGrid />
+      <StudioSection />
+      <OpenSource />
       <FinalCta />
     </>
   )

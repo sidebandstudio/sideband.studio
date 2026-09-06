@@ -42,6 +42,10 @@ export interface Product {
   accentColor: string
   highlight: string
   cardHero: string
+  /** Square app icon, used for the hero marks, preview tabs, and product grid. */
+  icon: string
+  /** A wide screenshot of the real product for the landing page preview. */
+  preview: { src: string; alt: string }
   detail: ProductDetail
 }
 
@@ -70,6 +74,11 @@ export const products: Product[] = [
     accentColor: '#A855F7',
     highlight: 'Hardware H.264 encode · Metal render · mDNS zero-config',
     cardHero: '/assets/EternalMonitor/EternalMonitorCover.jpg',
+    icon: '/assets/ProductIcons/em.png',
+    preview: {
+      src: '/assets/EternalMonitor/EternalMonitorPCView.png',
+      alt: 'EternalMonitor Windows host streaming to an iPad, with encode and latency stats',
+    },
     detail: {
       tagline:
         'iPad as a low-latency Windows display receiver. No dongle. No driver. No subscription.',
@@ -143,6 +152,11 @@ export const products: Product[] = [
     accentColor: '#6366F1',
     highlight: 'SMTC bridge · custom URI scheme · portable .exe',
     cardHero: '/assets/EternalRichPresence/EternalRichPresenceCover.jpg',
+    icon: '/assets/ProductIcons/rp.png',
+    preview: {
+      src: '/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png',
+      alt: 'A Discord profile showing EternalRichPresence with live cover art',
+    },
     detail: {
       tagline:
         'Discord Rich Presence for Apple Music & Spotify on Windows. Live cover art. Portable .exe.',
@@ -225,6 +239,11 @@ export const products: Product[] = [
     highlight:
       'SwiftUI + HealthKit · Gemini 2.0 Flash AI · shared monorepo API',
     cardHero: '/assets/ExerlyFitness/ExerlyFitnessCover.jpg',
+    icon: '/assets/ProductIcons/ex.png',
+    preview: {
+      src: '/assets/ExerlyFitness/ExerlyWebViewDashboard.png',
+      alt: "The Exerly Fitness dashboard with the day's workouts and meals",
+    },
     detail: {
       tagline:
         'Cross-platform fitness companion. AI coaching, barcode scanning, HealthKit sync.',
@@ -339,6 +358,11 @@ export const products: Product[] = [
     accentColor: '#C084FC',
     highlight: 'SMS deep-link booking · mobile-first · zero backend',
     cardHero: '/assets/SignatureCuts/SignatureCutsCover.jpg',
+    icon: '/assets/ProductIcons/sc.png',
+    preview: {
+      src: '/assets/SignatureCuts/SignatureCutsWebView.png',
+      alt: 'The Signature Cuts 413 booking site',
+    },
     detail: {
       tagline:
         'Modern barbershop booking for Signature Cuts in Chicopee, MA. Two taps to book. Zero backend.',
@@ -407,6 +431,11 @@ export const products: Product[] = [
     accentColor: '#8B5CF6',
     highlight: 'Motion-aware upscale · DaVinci Lua hooks · 4K via FFmpeg',
     cardHero: '/assets/Eternal2x/Eternal2xCover.jpg',
+    icon: '/assets/ProductIcons/e2x.png',
+    preview: {
+      src: '/assets/Eternal2x/Eternal2xHome.png',
+      alt: 'The Eternal2x site for the DaVinci Resolve upscaling plugin',
+    },
     detail: {
       tagline:
         'DaVinci Resolve smart upscale. Motion-aware. Auto-marked. Auto-segmented. Rendered to 4K.',
@@ -495,6 +524,11 @@ export const products: Product[] = [
     accentColor: '#E879F9',
     highlight: 'MV3 extension · Fly.io broker · streaming summary',
     cardHero: '/assets/EternalSummary/EternalSummaryCover.jpg',
+    icon: '/assets/ProductIcons/es.png',
+    preview: {
+      src: '/assets/EternalSummary/EternalSummaryHomePage.png',
+      alt: 'The Eternal Summary extension home page',
+    },
     detail: {
       tagline:
         'One-click AI summary for any webpage. MV3 Chrome extension. Streaming and minimal.',

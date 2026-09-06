@@ -50,6 +50,17 @@ If a future change breaks the build, fix that before pushing.
 - All app image sources should resolve from `public/`
 - Existing project assets live under `public/assets/...`
 
+## Landing Page
+
+The landing page borrows its structure and motion rules from the T3 Code marketing site (`apps/marketing` in github.com/pingdotgg/t3code). Preserve these when editing it:
+
+- One page-load sequence in the hero: `[data-rise]` elements with staggered `--d` delays. Sections below the hero do not fade in on scroll.
+- Six floating product marks (`components/home/HeroMarks.tsx`): CSS owns the `mark-in` entrance and the `mark-drift` loop, JS only toggles `--home-motion-state` (on screen and tab visible) and feeds `--px`/`--py` for pointer parallax on fine pointers. Per-mark placement lives in the `.hf-*` blocks in `styles/globals.css`, including the phone layout.
+- The preview (`components/home/ProductPreview.tsx`) is a browser window with one tab per product and a real screenshot behind each. It pages itself only while on screen and yields to the visitor: hover or focus pauses it, a click or arrow key stops it for good.
+- Every animation is off under `prefers-reduced-motion`, and content must stay visible without it.
+- Each product's `icon` and `preview` come from `lib/products.ts`. The landing shows real screenshots only, never generated art or the old 3D `cardHero` renders.
+- No custom cursor, no hero terminal, no live SVG noise filter. Grain is a tiled `body::after` texture.
+
 ## Tailwind
 
 Tailwind content paths are intentionally scoped to source files:
@@ -80,7 +91,7 @@ When you add, remove, or change something that the site states as a fact, update
 
 Known duplications to keep in sync:
 
-- **Founder count** — `lib/engineers.ts` is the source. Adding an engineer means updating the prose that names the number: About page headline and metadata, Hero, Footer. (The `[ · 03 ]` labels already derive from `engineers.length`; the prose does not.)
+- **Founder count** — `lib/engineers.ts` is the source. Adding an engineer means updating the prose that names the number: About page headline and metadata, and the Hero subtitle ("Four friends"). The studio section headline and founder list derive from `engineers.length`; the prose does not.
 - **Product count and the live / in-development split** — `lib/products.ts` is the source (`status: 'LIVE'` vs `'IN DEVELOPMENT'`). Adding a product means updating "Six products", "Four live, two in active development", and the same phrasing on the products page, home strip, and product showcase.
 - **Stack, roles, locations, dates** — stated in more than one place; grep for the old value before assuming one edit is enough.
 
