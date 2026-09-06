@@ -52,6 +52,15 @@ test('engineer dossier renders exactly one h1 and the portrait', async ({
   await expect(portrait).toBeVisible()
 })
 
+test('every Sideband role shows the studio mark, not a monogram', async ({
+  page,
+}) => {
+  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand']) {
+    await page.goto(`/engineers/${id}`)
+    await expect(page.getByRole('img', { name: 'Sideband logo' })).toBeVisible()
+  }
+})
+
 test('unknown engineer id returns a not-found page', async ({ page }) => {
   const res = await page.goto('/engineers/nobody')
   expect(res?.status()).toBe(404)
