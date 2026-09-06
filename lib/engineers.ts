@@ -136,6 +136,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Sideband',
+        logo: '/assets/logos/sideband.png',
+        logoOnDark: true,
         role: 'Co-Founder & Lead Engineer',
         location: 'Boston, MA',
         startDate: '2025',
@@ -445,6 +447,8 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Sideband',
+        logo: '/assets/logos/sideband.png',
+        logoOnDark: true,
         role: 'Co-Founder',
         location: 'Boston, MA',
         startDate: '2025',
@@ -610,6 +614,8 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'Sideband',
+        logo: '/assets/logos/sideband.png',
+        logoOnDark: true,
         role: 'Co-Founder & Systems Design Engineer',
         location: 'Winnipeg, MB (Remote)',
         startDate: '2026',
