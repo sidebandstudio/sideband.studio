@@ -111,8 +111,7 @@ Activities: Northeastern Wrestling · Powerlifting Club · Arab Student Associat
 
 ## Contact
 
-- **Primary email:** younes.al@northeastern.edu
-- **Personal email:** whois.younes@gmail.com
+- **Personal email:** aldo@sideband.studio
 - **Business email:** hello@sideband.studio
 - **GitHub:** https://github.com/whoisaldo
 - **LinkedIn:** https://www.linkedin.com/in/alialdoyounes/
