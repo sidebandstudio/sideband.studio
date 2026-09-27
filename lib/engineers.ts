@@ -401,7 +401,7 @@ export const engineers: Engineer[] = [
       },
     ],
     contact: {
-      email: 'younes.al@northeastern.edu',
+      email: 'aldo@sideband.studio',
       github: 'https://github.com/whoisaldo',
       linkedin: 'https://www.linkedin.com/in/alialdoyounes/',
       website: 'https://aliyounes.dev',
