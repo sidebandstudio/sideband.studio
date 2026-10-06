@@ -218,8 +218,8 @@ export const products: Product[] = [
       'MongoDB',
       'Gemini AI',
     ],
-    url: 'https://whoisaldo.github.io/Exerly-Fitness/',
-    github: 'https://github.com/whoisaldo/Exerly-Fitness',
+    url: 'https://exerlyfitness.com/',
+    github: 'https://github.com/sidebandstudio/Exerly-Fitness',
     version: null,
     accentColor: '#D946EF',
     highlight:
