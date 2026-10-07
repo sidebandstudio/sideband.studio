@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, type CSSProperties } from 'react'
+import { GitHubIcon } from '@/components/ui/Icons'
 
 const navLinks = [
   { href: '/products', label: 'Products' },
@@ -18,36 +18,42 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
+const delay = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
+
 export default function Navbar() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
   return (
     <>
       <nav
-        className={`fixed left-0 right-0 top-0 z-[100] bg-sideband-black transition-[border-color,box-shadow] duration-200 ${
-          scrolled
-            ? 'border-b border-sideband-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
-            : 'border-b border-transparent'
+        className={`fixed left-0 right-0 top-0 z-[100] border-b bg-sideband-black/75 backdrop-blur-[18px] transition-colors duration-300 ${
+          scrolled || isOpen ? 'border-sideband-border' : 'border-transparent'
         }`}
       >
-        <div className="inner flex h-[64px] items-center justify-between">
+        <div className="inner flex h-[64px] items-center justify-between gap-6">
           <Link
             href="/"
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-2.5 text-sideband-text transition-colors duration-200 hover:text-white"
             aria-label="Sideband home"
           >
             <Image
@@ -56,121 +62,90 @@ export default function Navbar() {
               width={128}
               height={128}
               priority
-              className="h-6 w-6 rounded-[6px]"
+              className="h-[22px] w-[22px] rounded-[6px]"
             />
-            <span className="font-mono text-[15px] font-medium tracking-[-0.01em] text-sideband-text">
-              sideband
-              <span className="text-sideband-muted">.studio</span>
+            <span className="text-[16px] font-semibold leading-none tracking-[-0.025em]">
+              Sideband
             </span>
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-1 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
+                className={`rounded-lg px-3 py-1.5 text-[14px] font-medium tracking-[-0.01em] transition-colors duration-[180ms] hover:bg-white/[0.03] hover:text-sideband-text ${
                   isActive(pathname, link.href)
-                    ? 'text-sideband-accent'
-                    : 'text-sideband-text-secondary hover:text-sideband-text'
+                    ? 'text-sideband-text'
+                    : 'text-sideband-text-secondary'
                 }`}
               >
                 {link.label}
-                {isActive(pathname, link.href) && (
-                  <motion.div
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-sideband-accent"
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
               </Link>
             ))}
             <a
               href="https://github.com/sidebandstudio"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono text-[13px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
+              className="ml-3 inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-full border border-sideband-border bg-white/[0.02] px-3.5 text-[13px] font-medium tracking-[-0.01em] text-sideband-text-secondary transition-colors duration-[180ms] hover:border-sideband-border-strong hover:bg-white/[0.04] hover:text-sideband-text"
             >
-              [ GitHub &rarr; ]
+              <GitHubIcon size={14} />
+              GitHub
             </a>
           </div>
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex flex-col gap-1.5 md:hidden"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
           >
             <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? 'translate-y-[4.5px] rotate-45' : ''
+              className={`block h-[1.5px] w-5 bg-sideband-text transition-transform duration-200 ${
+                isOpen ? 'translate-y-[3.75px] rotate-45' : ''
               }`}
             />
             <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? '-translate-y-[4.5px] -rotate-45' : ''
+              className={`block h-[1.5px] w-5 bg-sideband-text transition-transform duration-200 ${
+                isOpen ? '-translate-y-[3.75px] -rotate-45' : ''
               }`}
             />
           </button>
         </div>
       </nav>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-sideband-black/98 md:hidden"
-          >
-            <div className="flex flex-col items-center gap-8">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{
-                    delay: i * 0.05,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                >
-                  <Link
-                    href={link.href}
-                    className={`font-display text-4xl transition-colors duration-200 ${
-                      pathname === link.href
-                        ? 'text-sideband-accent'
-                        : 'text-sideband-text hover:text-sideband-accent'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-              <motion.a
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  delay: navLinks.length * 0.05,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                href="https://github.com/sidebandstudio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-sm uppercase tracking-wider text-sideband-accent"
+      {isOpen && (
+        <div className="fixed inset-0 top-[64px] z-[99] flex flex-col bg-sideband-black/95 backdrop-blur-[18px] md:hidden">
+          <div className="inner flex flex-col gap-1 pt-6">
+            {navLinks.map((link, i) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                data-rise
+                style={delay(i * 50)}
+                className={`display rounded-lg px-2 py-3 text-[32px] transition-colors duration-200 ${
+                  isActive(pathname, link.href)
+                    ? 'text-sideband-text'
+                    : 'text-sideband-text-secondary hover:text-sideband-text'
+                }`}
               >
-                [ GitHub &rarr; ]
-              </motion.a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href="https://github.com/sidebandstudio"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-rise
+              style={delay(navLinks.length * 50)}
+              className="mt-4 inline-flex items-center gap-2 px-2 text-[15px] font-medium text-sideband-text-secondary"
+            >
+              <GitHubIcon size={15} />
+              GitHub
+            </a>
+          </div>
+        </div>
+      )}
     </>
   )
 }
