@@ -30,7 +30,7 @@ Building AI-integrated internal web applications inside MIT’s federally funded
 
 ### Sideband · Co-Founder *(Current)*
 
-**Boston, MA · 2025 – Present**
+**Boston, MA · Jan 2026 – Present**
 
 Co-founded the dev studio shipping six products across desktop, browser, and full-stack. Combines Next.js / Node web surfaces with Python / Lua / FFmpeg media pipelines.
 

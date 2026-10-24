@@ -451,7 +451,7 @@ export const engineers: Engineer[] = [
         logoOnDark: true,
         role: 'Co-Founder',
         location: 'Boston, MA',
-        startDate: '2025',
+        startDate: 'Jan 2026',
         endDate: 'Present',
         current: true,
         emphasis: true,
