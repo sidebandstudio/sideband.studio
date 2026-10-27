@@ -986,7 +986,7 @@ export const products: Product[] = [
       docs: 'https://upflow2x.com/help.html',
     },
     repo: 'sidebandstudio/Upflow2x',
-    accentColor: '#7C6FEF',
+    accentColor: '#F2A93B',
     icon: image(
       'upflow2x',
       'icon.webp',
