@@ -82,6 +82,50 @@ for (const product of products) {
   })
 }
 
+test('client apps carry a client badge and say who they were built for', async ({
+  page,
+}) => {
+  const clients = products.filter((p) => p.client)
+  expect(clients.map((p) => p.id).sort()).toEqual([
+    'fade-empire',
+    'signature-cuts',
+  ])
+
+  for (const product of products) {
+    await visit(page, `/products/${product.id}`)
+    const badge = page.getByText(`Client app for ${product.client?.name}`)
+    const line = page.locator('[data-product-client]')
+    if (!product.client) {
+      await expect(page.getByText(/^Client app for /)).toHaveCount(0)
+      await expect(line).toHaveCount(0)
+      continue
+    }
+    await expect(badge).toBeVisible()
+    await expect(line).toHaveText(
+      `Built for ${product.client.name} in ${product.client.location}.`,
+    )
+    await expect(line.getByRole('link')).toHaveAttribute(
+      'href',
+      product.client.url!,
+    )
+  }
+
+  // On the index the badge sits beside the status of each client app only.
+  await visit(page, '/products')
+  for (const product of products) {
+    const entry = page.locator(`article[data-rank]`, {
+      has: page.getByRole('heading', {
+        level: 2,
+        name: product.name,
+        exact: true,
+      }),
+    })
+    await expect(entry.getByText(/^Client app for /)).toHaveCount(
+      product.client ? 1 : 0,
+    )
+  }
+})
+
 test('the old Eternal2x product URL redirects to Upflow2x for good', async ({
   request,
 }) => {
