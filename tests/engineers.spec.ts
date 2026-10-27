@@ -53,6 +53,7 @@ for (const engineer of engineers) {
       c.website,
       c.x,
       c.tiktok,
+      c.instagram,
       c.resume,
       `mailto:${c.email}`,
     ].filter((h): h is string => Boolean(h))
@@ -135,6 +136,65 @@ test('the engineers index shows each GitHub signal and the team graph', async ({
       name: new RegExp(`${fmt(total)} contributions across the team`),
     }),
   ).toBeVisible()
+})
+
+test('the about timeline dates every engineer from their Sideband role', async ({
+  page,
+}) => {
+  await page.goto('/about')
+  const history = page.locator('section[aria-labelledby="history-title"]')
+  const roles = engineers.map((e) => ({
+    engineer: e,
+    role: e.experience!.find((x) => x.company === 'Sideband')!,
+  }))
+  for (const { engineer, role } of roles) {
+    // Every Sideband role is a founding role, so its title is never typed out on the page.
+    expect(role.role).toBe(engineer.role)
+    const year = role.startDate.match(/\d{4}/)![0]
+    const yearBlock = history
+      .getByRole('listitem')
+      .filter({ has: page.getByRole('heading', { name: year, exact: true }) })
+    await expect(yearBlock).toContainText(engineer.name)
+  }
+  const joined = roles.filter((r) => r.engineer.id !== 'ali-younes')
+  for (const { engineer, role } of joined)
+    await expect(history).toContainText(
+      `${engineer.name} joins as ${role.role}.`,
+    )
+  await expect(history).not.toContainText(/co-?found/i)
+})
+
+test('a role dated by year alone shows the year without a month or length', async ({
+  page,
+}) => {
+  await page.goto('/engineers/david-czartoryski')
+  const exp = page.locator('section[aria-labelledby="experience-title"]')
+  const sideband = exp
+    .getByRole('listitem')
+    .filter({ has: page.getByRole('img', { name: 'Sideband logo' }) })
+  await expect(sideband).toContainText('2026 – Present · Boston, MA')
+  await expect(sideband).not.toContainText(/\b(mo|mos|yr|yrs)\b/)
+})
+
+test("David's ventures are listed as his own, outside Sideband", async ({
+  page,
+}) => {
+  await page.goto('/engineers/david-czartoryski')
+  const projects = page.locator('section[aria-labelledby="projects-title"]')
+  const heading = projects.getByRole('heading', {
+    name: "David's own ventures, outside Sideband",
+  })
+  await expect(heading).toBeVisible()
+  const ventures = heading.locator('xpath=..').getByRole('listitem')
+  await expect(ventures).toHaveCount(3)
+  for (const name of ['EternalTap', 'CrediMax', 'The creative engine'])
+    await expect(ventures.filter({ hasText: name }).first()).toContainText(
+      'Own venture',
+    )
+  // None of them is presented as a Sideband product.
+  await expect(
+    projects.getByRole('heading', { name: 'At Sideband' }),
+  ).toHaveCount(0)
 })
 
 test.describe('contact form', () => {
