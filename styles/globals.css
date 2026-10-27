@@ -2,60 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colour tokens (--sideband-*) are emitted by the plugin in tailwind.config.ts,
+   which is their single source. This file owns motion, base styles and the
+   few patterns Tailwind cannot express. See DESIGN.md. */
+
 :root {
-  --sideband-black: #06050e;
-  --sideband-surface: #0d0b1a;
-  --sideband-surface-2: #131127;
-  --sideband-border: rgba(255, 255, 255, 0.07);
-  --sideband-border-strong: rgba(255, 255, 255, 0.13);
-  /* Text-safe dim tone: >=4.5:1 (WCAG AA) on black, surface and surface-2.
-     Use --sideband-hairline for decorative lines, not this. */
-  --sideband-muted: #837aa4;
-  --sideband-hairline: #382f5c;
-  --sideband-text: #edeaf5;
-  --sideband-text-secondary: #8b82aa;
-  --sideband-accent: #a855f7;
+  --dur-press: 120ms;
+  --dur-hover: 180ms;
+  --dur-ui: 320ms;
+  --dur-enter: 720ms;
+  --stagger: 70ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --nav-h: 4rem;
 }
 
-* {
-  cursor: none;
-}
-
-@media (pointer: coarse) {
-  * {
-    cursor: auto;
-  }
-}
+/* ---- Base ---- */
 
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+  background-color: var(--sideband-black);
 }
 
 body {
   background-color: var(--sideband-black);
   color: var(--sideband-text);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-.inner {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 32px;
-  padding-right: 32px;
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+  hyphens: none;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Film grain as one tiled 256px texture, never a live filter over the page. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 ::selection {
-  background-color: #a855f730;
-  color: var(--sideband-text);
+  background-color: var(--sideband-accent);
+  color: var(--sideband-accent-ink);
 }
 
-/* Scrollbar */
+:focus-visible {
+  outline: 2px solid var(--sideband-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -64,206 +83,167 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--sideband-hairline);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sideband-text-secondary);
+  background: var(--sideband-muted);
 }
 
-@keyframes fadeUp {
+/* ---- Motion: page-load sequence ----
+   [data-rise] plays once on first paint, offset by --d. Pure CSS, so it runs
+   before hydration and needs no script. <Reveal trigger="mount"> renders it. */
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
-@keyframes orbFloat {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(28px, -18px) scale(1.04);
-  }
-  66% {
-    transform: translate(-18px, 14px) scale(0.96);
-  }
+[data-rise] {
+  animation: rise var(--dur-enter) var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
 }
 
-/* Product showcase animations */
-@keyframes deviceFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--r, 0deg));
-  }
-  50% {
-    transform: translateY(-14px) rotate(var(--r, 0deg));
-  }
+/* ---- Motion: scroll reveal ----
+   Content is visible by default. <Reveal> marks an element hidden only after
+   hydration and only if it starts below the fold, then reveals it once. No
+   script, or reduced motion, means it simply stays visible. */
+[data-reveal='hidden'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 24px), 0);
 }
 
-@keyframes deviceFloatB {
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--r, 0deg));
-  }
-  50% {
-    transform: translateY(-10px) rotate(var(--r, 0deg));
-  }
+[data-reveal='shown'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-enter) var(--ease-out),
+    transform var(--dur-enter) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
-@keyframes deviceFloatC {
-  0%,
-  100% {
-    transform: translateY(-6px) rotate(var(--r, 0deg));
-  }
-  50% {
-    transform: translateY(8px) rotate(var(--r, 0deg));
-  }
+/* ---- Motion: ambient loops ----
+   Loops run only while their host is on screen and the tab is visible.
+   useAmbient() sets data-play="on" on the host; anything looping inside uses
+   animation-play-state: var(--play, paused). */
+[data-play='on'] {
+  --play: running;
 }
 
-@keyframes glowPulse {
-  0%,
-  100% {
-    opacity: 0.18;
-  }
-  50% {
-    opacity: 0.32;
-  }
+/* ---- Backdrops (components/ui/Backdrop.tsx) ---- */
+.bd-grid {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.09) 1px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+  background-position: center top;
+  mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    black 30%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    black 30%,
+    transparent 75%
+  );
 }
 
-@keyframes slideRevealL {
-  from {
-    opacity: 0;
-    transform: translateX(-48px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.bd-spotlight {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 0%,
+    rgba(255, 255, 255, 0.075),
+    transparent 70%
+  );
 }
 
-@keyframes slideRevealR {
-  from {
-    opacity: 0;
-    transform: translateX(48px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.bd-spotlight[data-tone='accent'] {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 0%,
+    color-mix(in srgb, var(--band-a, var(--sideband-accent)) 18%, transparent),
+    transparent 70%
+  );
 }
 
-@keyframes slideRevealU {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.bd-spotlight[data-from='bottom'] {
+  background-position: 0 0;
+  transform: scaleY(-1);
 }
 
-/* Product showcase sections */
-.prod-section {
-  position: relative;
-  overflow: hidden;
-  padding: 128px 0;
+/* The signature: the mark's two offset tiles as flat fields of colour at
+   low strength. Upper tile in --band-a, lower in
+   --band-b. */
+.bd-bands {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
 }
 
-.prod-section:nth-child(odd) {
-  background: var(--sideband-black);
-}
-
-.prod-section:nth-child(even) {
-  background: var(--sideband-surface);
-}
-
-.prod-num {
+.bd-band {
   position: absolute;
-  top: -16px;
-  pointer-events: none;
-  user-select: none;
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-size: clamp(160px, 22vw, 280px);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--sideband-text);
-  opacity: 0.035;
+  width: min(44%, 560px);
+  aspect-ratio: 1.6;
+  border-radius: 28% 28% 28% 6%;
+  opacity: 0.08;
+  animation: band-drift 18s var(--ease-in-out) infinite alternate;
+  animation-play-state: var(--play, paused);
 }
 
-.prod-problem {
-  padding-left: 16px;
-  border-left: 2px solid var(--sideband-border);
-  font-size: 14px;
-  font-style: italic;
-  line-height: 1.85;
-  color: var(--sideband-text-secondary);
+.bd-band-a {
+  top: 8%;
+  left: max(2%, calc(50% - 640px));
+  background: var(--band-a, var(--sideband-accent));
 }
 
-.prod-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 72px;
-  align-items: center;
+.bd-band-b {
+  bottom: 8%;
+  right: max(2%, calc(50% - 640px));
+  border-radius: 6% 28% 28% 28%;
+  background: var(--band-b, var(--sideband-violet));
+  animation-direction: alternate-reverse;
 }
 
-/* Device shadows */
-.iphone-wrap {
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
-}
-
-.ipad-wrap {
-  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.65));
-}
-
-.browser-wrap {
-  filter: drop-shadow(0 24px 56px rgba(0, 0, 0, 0.55));
-}
-
-@media (max-width: 960px) {
-  .prod-grid {
-    grid-template-columns: 1fr;
-    gap: 56px;
+@keyframes band-drift {
+  from {
+    transform: translate3d(-3%, 0, 0);
   }
-
-  .prod-num {
-    display: none;
-  }
-
-  .prod-devices-right {
-    order: -1;
+  to {
+    transform: translate3d(3%, 0, 0);
   }
 }
 
-@media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .highlights-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .inner {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-/* Respect users who ask the OS to reduce motion. */
+/* ---- Reduced motion: every animation off, all content visible ---- */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-rise],
+  [data-reveal] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
   *,
   *::before,
   *::after {
@@ -272,49 +252,4 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* ---- t3-inspired landing helpers ---- */
-.display {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  color: var(--sideband-text);
-}
-
-.hero-grid-bg {
-  background-image:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(80% 60% at 50% 40%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(
-    80% 60% at 50% 40%,
-    #000 40%,
-    transparent 100%
-  );
-}
-
-.term-p {
-  color: var(--sideband-accent);
-}
-
-.term-d {
-  color: #6b6488;
-}
-
-.term-scroll a {
-  color: var(--sideband-text);
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.2);
-  text-underline-offset: 3px;
-}
-
-.term-scroll a:hover {
-  text-decoration-color: var(--sideband-text);
-}
-
-.term-scroll {
-  scrollbar-width: thin;
 }

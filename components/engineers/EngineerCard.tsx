@@ -1,78 +1,195 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  engineerCountLabel,
-  engineerIndexLabel,
-  type Engineer,
-} from '@/lib/engineers'
+import type { CSSProperties } from 'react'
+import { ArrowRightIcon } from '@/components/ui/Icons'
+import type { Engineer } from '@/lib/engineers'
+import type { Product } from '@/lib/products'
+import { cx } from '@/components/ui/cx'
+import { formatCount, type EngineerGithub } from '@/lib/engineers-github'
 
-export default function EngineerCard({ engineer }: { engineer: Engineer }) {
-  const portraitSrc = engineer.portrait?.src
+/** Weekly contribution totals as bars, oldest on the left. Decorative: the figures sit beside it. */
+function Sparkline({ values }: { values: number[] }) {
+  const max = Math.max(1, ...values)
+  const bar = 4
+  const gap = 2
+  const h = 40
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox={`0 0 ${values.length * (bar + gap)} ${h}`}
+      preserveAspectRatio="none"
+      className="block h-10 w-full"
+    >
+      {values.map((v, i) => {
+        const height = v === 0 ? 2 : Math.max(3, (v / max) * h)
+        return (
+          <rect
+            key={i}
+            x={i * (bar + gap)}
+            y={h - height}
+            width={bar}
+            height={height}
+            rx={1}
+            style={{
+              fill:
+                v === 0 ? 'var(--sideband-surface-3)' : 'var(--graph-accent)',
+            }}
+          />
+        )
+      })}
+    </svg>
+  )
+}
+
+interface EngineerCardProps {
+  engineer: Engineer
+  gh: EngineerGithub | null
+  weekly: number[]
+  products: Product[]
+  /** Stars on the repositories of the Sideband products they build. */
+  productStars: number
+  /** Fill a whole row: who they are on the left, their GitHub signal on the right. */
+  wide?: boolean
+}
+
+/** An engineer on the index: who they are, what they build here, and their GitHub signal. */
+export default function EngineerCard({
+  engineer,
+  gh,
+  weekly,
+  products,
+  productStars,
+  wide = false,
+}: EngineerCardProps) {
+  const stats = gh
+    ? [
+        { label: 'Contributions', value: gh.summary.total },
+        { label: 'Followers', value: gh.followers },
+        { label: 'Public repos', value: gh.publicRepos },
+        { label: 'Stars on own repos', value: gh.stars },
+      ]
+    : []
 
   return (
-    <Link
-      href={`/engineers/${engineer.id}`}
-      className="group relative block border border-sideband-border bg-sideband-surface transition-all duration-300 hover:border-sideband-accent/50 hover:shadow-[0_0_32px_rgba(168,85,247,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sideband-accent"
+    <article
+      className={cx(
+        'group relative flex h-full flex-col rounded-panel bg-sideband-surface p-6 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:p-8',
+        wide && 'lg:grid lg:grid-cols-2 lg:gap-x-16',
+      )}
+      style={{ '--graph-accent': engineer.accentColor } as CSSProperties}
     >
-      {/* Corner ticks */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-3 w-3 border-l border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-3 w-3 border-r border-t border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-3 w-3 border-b border-l border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-      <span
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 h-3 w-3 border-b border-r border-sideband-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-      />
-
-      <div className="relative aspect-[5/6] overflow-hidden bg-sideband-surface-2">
-        {portraitSrc ? (
-          <Image
-            src={portraitSrc}
-            alt={`${engineer.name}, ${engineer.role}`}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.02]"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <span className="font-display text-[120px] italic text-sideband-text/30">
-              {engineer.initials}
-            </span>
+      <div>
+        <div className="grid grid-cols-[6.5rem_1fr] gap-5 sm:grid-cols-[9rem_1fr] sm:gap-7">
+          {engineer.portrait ? (
+            <Image
+              src={engineer.portrait.src}
+              alt=""
+              width={engineer.portrait.width}
+              height={engineer.portrait.height}
+              sizes="144px"
+              className="aspect-[4/5] w-full rounded-inner bg-sideband-surface-2 object-cover"
+            />
+          ) : (
+            <span className="aspect-[4/5] w-full rounded-inner bg-sideband-surface-2" />
+          )}
+          <div className="min-w-0">
+            <h2 className="text-lead font-medium text-sideband-text">
+              <Link
+                href={`/engineers/${engineer.id}`}
+                className="after:absolute after:inset-0 after:rounded-panel"
+              >
+                {engineer.name}
+              </Link>
+            </h2>
+            <p className="mt-1 text-small text-sideband-text-secondary">
+              {engineer.role}
+            </p>
+            {engineer.contact.location && (
+              <p className="mt-1 text-small text-sideband-muted">
+                {engineer.contact.location}
+              </p>
+            )}
+            <p className="mt-4 hidden text-body text-sideband-text sm:block">
+              {engineer.shortBio}
+            </p>
           </div>
-        )}
-        {/* Bottom gradient veil */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-sideband-surface via-sideband-surface/60 to-transparent" />
-
-        {/* Floating chip */}
-        <span className="absolute left-4 top-4 border border-sideband-border bg-sideband-black/70 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-sideband-accent backdrop-blur">
-          [ {engineerIndexLabel(engineer.id)} / {engineerCountLabel} ]
-        </span>
-      </div>
-
-      <div className="space-y-2 p-6">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display text-[26px] leading-tight text-sideband-text">
-            {engineer.name}
-          </h3>
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
-            VIEW →
-          </span>
         </div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-sideband-accent">
-          {engineer.role}
-        </p>
-        <p className="pt-1 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
+        <p className="mt-5 text-body text-sideband-text sm:hidden">
           {engineer.shortBio}
         </p>
+
+        {products.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-small text-sideband-muted">
+              Builds at Sideband
+              <span className="text-sideband-text-secondary">
+                {' · '}
+                {formatCount(productStars)}{' '}
+                {productStars === 1 ? 'star' : 'stars'} on these products&apos;
+                repos
+              </span>
+            </h3>
+            <ul className="relative z-10 mt-3 flex flex-wrap gap-2">
+              {products.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={`/products/${p.id}`}
+                    className="inline-flex h-9 items-center gap-2 rounded-full bg-sideband-surface-2 pl-1.5 pr-3.5 text-small text-sideband-text transition-colors duration-hover hover:bg-sideband-surface-3"
+                  >
+                    {p.icon ? (
+                      <Image
+                        src={p.icon.src}
+                        alt=""
+                        width={48}
+                        height={48}
+                        className="h-6 w-6 rounded-[6px]"
+                      />
+                    ) : (
+                      <span className="h-6 w-1" />
+                    )}
+                    {p.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-    </Link>
+
+      <div
+        className={cx(
+          'mt-auto flex flex-col',
+          wide && 'lg:mt-0 lg:justify-end',
+        )}
+      >
+        {gh && (
+          <div className={cx('pt-8', wide && 'lg:pt-0')}>
+            <h3 className="sr-only">GitHub, last year</h3>
+            <Sparkline values={weekly} />
+            <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="flex flex-col-reverse justify-end gap-1"
+                >
+                  <dt className="text-small text-sideband-muted">{s.label}</dt>
+                  <dd className="text-lead font-medium tabular-nums text-sideband-text">
+                    {formatCount(s.value)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        <span className="mt-8 inline-flex items-center gap-1.5 text-small font-medium text-sideband-text">
+          Open dossier
+          <ArrowRightIcon
+            size={14}
+            className="transition-transform duration-hover ease-out group-hover:translate-x-1"
+          />
+        </span>
+      </div>
+    </article>
   )
 }

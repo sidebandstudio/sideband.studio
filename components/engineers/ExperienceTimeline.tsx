@@ -1,153 +1,227 @@
-import Image from 'next/image'
-import FadeUp from '@/components/animations/FadeUp'
+import Reveal from '@/components/ui/Reveal'
+import Badge from '@/components/ui/Badge'
+import { ArrowUpRightIcon } from '@/components/ui/Icons'
+import { cx } from '@/components/ui/cx'
 import type { ExperienceEntry } from '@/lib/engineers'
+import {
+  dateRange,
+  duration,
+  periods,
+  type ExperienceGroup,
+} from '@/lib/engineers-view'
+import CompanyMark from './CompanyMark'
+import type { CollapseTarget } from './ShowAll'
 
-/** Leading letters, up to three — "Amazon Web Services" -> "AWS". */
-function monogram(company: string): string {
-  return company
-    .split(/\s+/)
-    .slice(0, 3)
-    .map((w) => w[0])
-    .join('')
-    .toUpperCase()
-}
-
-function CompanyMark({ entry }: { entry: ExperienceEntry }) {
-  if (entry.logo) {
-    return (
-      <span className="relative block h-10 w-[132px]">
-        {/* Brand marks are drawn for light backgrounds; render them as a
-            single tone so they stay legible on the dark surface. */}
-        <Image
-          src={entry.logo}
-          alt={`${entry.company} logo`}
-          fill
-          sizes="132px"
-          className={`object-contain object-left ${
-            entry.logoOnDark ? 'opacity-95' : 'brightness-0 invert opacity-90'
-          }`}
-        />
-      </span>
-    )
-  }
+function RoleStatus({ role }: { role: ExperienceEntry }) {
+  if (!role.current && !role.upcoming) return null
   return (
-    <span
-      aria-hidden
-      className={`inline-flex h-10 items-center border px-3 ${
-        entry.emphasis ? 'border-sideband-accent/40' : 'border-sideband-border'
-      }`}
-    >
-      <span className="font-mono text-[11px] tracking-[0.12em] text-sideband-muted">
-        {monogram(entry.company)}
-      </span>
-    </span>
+    <Badge>
+      <span
+        aria-hidden="true"
+        className={cx(
+          'h-1.5 w-1.5 rounded-full',
+          role.upcoming ? 'bg-sideband-warn' : 'bg-sideband-ok',
+        )}
+      />
+      {role.upcoming ? 'Incoming' : 'Current'}
+    </Badge>
   )
 }
-interface ExperienceTimelineProps {
-  entries: ExperienceEntry[]
-}
 
-function StatusPill({ entry }: { entry: ExperienceEntry }) {
-  if (entry.upcoming) {
-    return (
-      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
-        INCOMING
-      </span>
-    )
-  }
-  if (entry.current) {
-    return (
-      <span className="border border-sideband-accent/60 bg-sideband-accent/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-sideband-accent">
-        ● CURRENT
-      </span>
-    )
-  }
-  return null
-}
-
-export default function ExperienceTimeline({
-  entries,
-}: ExperienceTimelineProps) {
+function Role({
+  role,
+  nested,
+  group,
+  omit,
+  detailsId,
+}: {
+  role: ExperienceEntry
+  nested: boolean
+  /** The group's name, so a role under another company name says which. */
+  group: string
+  /** Names whose highlights are told elsewhere on the page. */
+  omit: string[]
+  /** Id of the highlights and tools, which a phone shows on request. */
+  detailsId?: string
+}) {
+  const stints = periods(role)
+  const highlights = (role.highlights ?? []).filter(
+    (h) => !omit.some((name) => h.startsWith(name)),
+  )
   return (
-    <div className="relative ml-4 border-l border-sideband-border pl-8">
-      {entries.map((entry, i) => (
-        <FadeUp key={`${entry.company}-${i}`} delay={i * 0.06}>
-          <div className="relative mb-12 last:mb-0">
-            {/* Dot */}
-            <div
-              className={`absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 bg-sideband-black ${
-                entry.emphasis
-                  ? 'border-sideband-accent shadow-[0_0_12px_rgba(168,85,247,0.6)]'
-                  : 'border-sideband-border'
-              }`}
-            />
-
-            {/* Date / status row */}
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-accent">
-                {entry.startDate} – {entry.endDate}
-              </span>
-              <StatusPill entry={entry} />
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted">
-                {entry.location}
-              </span>
-            </div>
-
-            {/* Headline */}
-            <div className="mt-4">
-              <CompanyMark entry={entry} />
-              <div className="mt-2.5 min-w-0">
-                <h3
-                  className={`font-display text-[26px] leading-tight ${
-                    entry.emphasis
-                      ? 'text-sideband-text'
-                      : 'text-sideband-text-secondary'
-                  }`}
-                >
-                  {entry.company}
-                </h3>
-                <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
-                  {entry.role}
-                </p>
-              </div>
-            </div>
-
-            {/* Summary */}
-            <p className="mt-3 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-              {entry.summary}
-            </p>
-
-            {/* Highlights */}
-            {entry.highlights && entry.highlights.length > 0 && (
-              <ul className="mt-4 space-y-2">
-                {entry.highlights.map((h, hi) => (
-                  <li
-                    key={hi}
-                    className="flex gap-3 font-mono text-[12px] leading-[1.7] text-sideband-text-secondary"
-                  >
-                    <span className="mt-1 inline-block h-1 w-2 flex-shrink-0 bg-sideband-accent/70" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* Skill chips */}
-            {entry.skills && entry.skills.length > 0 && (
-              <div className="mt-5 flex flex-wrap gap-1.5">
-                {entry.skills.map((s) => (
-                  <span
-                    key={s}
-                    className="border border-sideband-border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-sideband-muted"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </FadeUp>
-      ))}
+    <div className={cx(nested && 'relative pl-7')}>
+      {nested && (
+        <span
+          aria-hidden="true"
+          className={cx(
+            'absolute left-0 top-[0.55em] h-2.5 w-2.5 rounded-full',
+            role.current || role.upcoming
+              ? 'bg-sideband-text'
+              : 'bg-sideband-surface-3',
+          )}
+        />
+      )}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <h4 className="text-lead font-medium text-sideband-text">
+          {role.role}
+        </h4>
+        <RoleStatus role={role} />
+      </div>
+      {role.company !== group && (
+        <p className="mt-1.5 text-small text-sideband-text-secondary">
+          {role.company}
+        </p>
+      )}
+      {/* One line per stint, each measured on its own. */}
+      <ul className="mt-1.5 space-y-0.5 text-small tabular-nums text-sideband-muted">
+        {stints.map((p, i) => (
+          <li key={p.startDate}>
+            {[
+              dateRange(p.startDate, p.endDate),
+              role.upcoming ? null : duration(p.startDate, p.endDate),
+              p.note,
+              i === 0 ? role.location : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 max-w-prose text-body text-sideband-text">
+        {role.summary}
+      </p>
+      <div id={detailsId}>
+        {highlights.length > 0 && (
+          <ul className="mt-4 max-w-prose space-y-2.5 text-body text-sideband-text-secondary">
+            {highlights.map((h) => (
+              <li key={h} className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-[0.7em] block h-1 w-1 shrink-0 rounded-full bg-sideband-muted"
+                />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {role.skills && role.skills.length > 0 && (
+          <ul aria-label="Tools" className="mt-5 flex flex-wrap gap-2">
+            {role.skills.map((s) => (
+              <li key={s}>
+                <Badge>{s}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
+  )
+}
+
+const roleDetailsId = (listId: string, group: number, role: number) =>
+  `${listId}-${group}-${role}-details`
+
+/**
+ * What a phone shows of the history before "Show all": the first `keep`
+ * organisations with each role's title, dates and summary. Their highlights
+ * and tools, and every later organisation, wait for the button.
+ */
+export function collapseExperience(
+  groups: ExperienceGroup[],
+  listId: string,
+  keep: number,
+): CollapseTarget[] {
+  return [
+    ...groups.slice(0, keep).flatMap((g, gi) =>
+      g.roles.map((_, ri) => ({
+        id: roleDetailsId(listId, gi, ri),
+        keep: 0,
+      })),
+    ),
+    ...(groups.length > keep ? [{ id: listId, keep }] : []),
+  ]
+}
+
+/**
+ * Work history, one entry per organisation. Several dated roles at the same
+ * place (promotions, a return, parallel roles) are listed under it on a rail.
+ */
+export default function ExperienceTimeline({
+  groups,
+  listId,
+  omitHighlights = [],
+}: {
+  groups: ExperienceGroup[]
+  listId?: string
+  /**
+   * Highlights that start with one of these names are left out, because the
+   * page tells them in full elsewhere (a venture's own project card).
+   */
+  omitHighlights?: string[]
+}) {
+  return (
+    <ol id={listId} className="space-y-6">
+      {groups.map((group, gi) => {
+        const many = group.roles.length > 1
+        return (
+          <Reveal
+            as="li"
+            key={group.company}
+            className="grid gap-6 rounded-panel bg-sideband-surface p-6 md:grid-cols-[13rem_1fr] md:gap-10 md:p-10"
+          >
+            <div className="flex items-center gap-4 md:flex-col md:items-start">
+              <CompanyMark
+                name={group.company}
+                logo={group.logo}
+                onDark={group.logoOnDark}
+              />
+              <div className="min-w-0">
+                <h3 className="text-body font-medium text-sideband-text">
+                  {group.companyUrl ? (
+                    <a
+                      href={group.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-1.5 transition-colors duration-hover hover:text-white"
+                    >
+                      {group.company}
+                      <ArrowUpRightIcon
+                        size={12}
+                        className="shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      />
+                    </a>
+                  ) : (
+                    group.company
+                  )}
+                </h3>
+                {many && (
+                  <p className="mt-1 text-small tabular-nums text-sideband-muted">
+                    {group.roles.length} roles · {group.span}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div
+              className={cx(
+                many
+                  ? 'relative space-y-10 before:absolute before:bottom-2 before:left-1 before:top-3 before:w-0.5 before:bg-sideband-surface-3'
+                  : '',
+              )}
+            >
+              {group.roles.map((role, ri) => (
+                <Role
+                  detailsId={listId && roleDetailsId(listId, gi, ri)}
+                  key={`${role.role}-${role.startDate}`}
+                  role={role}
+                  nested={many}
+                  group={group.company}
+                  omit={omitHighlights}
+                />
+              ))}
+            </div>
+          </Reveal>
+        )
+      })}
+    </ol>
   )
 }

@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import ProductDetailPage from '@/components/products/ProductDetailPage'
-import { getProductById, products } from '@/lib/products'
+import ProductDetail from '@/components/products/ProductDetail'
+import { pageMetadata } from '@/lib/metadata'
+import { getProductById, products, rankedProducts } from '@/lib/products'
 
 export function generateStaticParams() {
-  return products.map((product) => ({
-    id: product.id,
-  }))
+  return products.map((product) => ({ id: product.id }))
 }
+
+export const dynamicParams = false
 
 export function generateMetadata({
   params,
@@ -17,25 +18,36 @@ export function generateMetadata({
   const product = getProductById(params.id)
   if (!product) return { title: 'Product not found · Sideband' }
 
-  return {
-    title: `${product.name} · ${product.tagline} · Sideband`,
+  // The first screenshot the product lists is its preview.
+  const preview =
+    product.images.find((image) => image.kind === 'screenshot') ??
+    product.images[0]
+
+  return pageMetadata({
+    title: `${product.name} · ${product.category} · Sideband`,
     description: product.description,
-    alternates: { canonical: `/products/${product.id}` },
-    openGraph: {
-      title: `${product.name} · Sideband`,
-      description: product.description,
-      url: `/products/${product.id}`,
-      images: [{ url: product.cardHero }],
+    path: `/products/${product.id}`,
+    socialTitle: `${product.name}: ${product.tagline}`,
+    image: {
+      url: preview.src,
+      width: preview.width,
+      height: preview.height,
+      alt: preview.alt,
     },
-  }
+  })
 }
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = getProductById(params.id)
+  const ranked = rankedProducts()
+  const index = ranked.findIndex((r) => r.product.id === params.id)
+  if (index === -1) notFound()
 
-  if (!product) {
-    notFound()
-  }
-
-  return <ProductDetailPage product={product} />
+  return (
+    <ProductDetail
+      ranked={ranked[index]}
+      total={ranked.length}
+      previous={ranked[index - 1] ?? null}
+      next={ranked[index + 1] ?? null}
+    />
+  )
 }

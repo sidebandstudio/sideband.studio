@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>EternalExchange card loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --ink: #f3f2ef; --accent: #4bd07a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1440px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 62%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 66%; }
+
+      /* The first three rows of the site's price list, from its phone layout at 4x, shown at 1240px (3.56x CSS size). */
+      #rows {
+        position: absolute; left: 100px; top: 384px; width: 1240px; height: 606px; border-radius: 16px; overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      #rows img { display: block; width: 100%; height: 100%; }
+      #ring-row { position: absolute; left: 64px; top: 96px; width: 1112px; height: 130px; border-radius: 14px; box-shadow: inset 0 0 0 4px var(--accent); }
+
+      #cap { position: absolute; left: 80px; right: 80px; top: 56px; text-align: center; text-wrap: balance; color: var(--ink); font-size: 90px; line-height: 1.04; font-weight: 500; letter-spacing: -0.035em; }
+      #cap span { display: block; color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="card" data-start="0" data-duration="7" data-width="1440" data-height="1080">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="rows">
+          <img src="assets/img/site-rows-phone.webp" alt="" />
+          <div id="ring-row"></div>
+        </div>
+      </div>
+
+      <div id="cap"><span>Minecraft mod</span>Burn matter into EMC, and make any learned item back</div>
+    </div>
+
+    <script>
+      // Authored constants only. Row pitch of the shown crop: 204 capture px at 0.893.
+      const ROW = 182;
+
+      // Rest state at t=0, restored by t=7.
+      gsap.set("#camera", { scale: 1 });
+      gsap.set("#ring-row", { opacity: 0, y: 0, scale: 1 });
+
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#camera", { scale: 1.02, duration: 3.2, ease: "sine.inOut" }, 0.3)
+        .fromTo("#ring-row", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.34, ease: "power3.out", immediateRender: false }, 0.5)
+        .to("#ring-row", { y: ROW, duration: 0.4, ease: "power2.inOut" }, 1.8)
+        .to("#ring-row", { y: 2 * ROW, duration: 0.4, ease: "power2.inOut" }, 3.1)
+        .fromTo("#ring-row", { scale: 1 }, { scale: 1.025, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 3.6)
+        .to("#ring-row", { opacity: 0, duration: 0.3, ease: "power1.in" }, 5.4)
+        .to("#camera", { scale: 1, duration: 3.0, ease: "sine.inOut" }, 3.8)
+        .set("#ring-row", { y: 0 }, 5.8);
+
+      window.__timelines["card"] = tl;
+    </script>
+  </body>
+</html>

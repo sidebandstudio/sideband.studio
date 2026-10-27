@@ -1,60 +1,98 @@
 import type { Metadata } from 'next'
-import FadeUp from '@/components/animations/FadeUp'
-import SectionLabel from '@/components/ui/SectionLabel'
+import Section from '@/components/ui/Section'
+import SectionHeading from '@/components/ui/SectionHeading'
+import Reveal from '@/components/ui/Reveal'
 import EngineerCard from '@/components/engineers/EngineerCard'
-import { engineerCountLabel, listEngineers } from '@/lib/engineers'
+import TeamActivity from '@/components/engineers/TeamActivity'
+import { listEngineers } from '@/lib/engineers'
+import { pageMetadata } from '@/lib/metadata'
+import { productRepo } from '@/lib/products'
+import {
+  engineerGithub,
+  formatCount,
+  syncedLabel,
+  teamCalendar,
+  weeklyTotals,
+} from '@/lib/engineers-github'
+import {
+  capitalize,
+  countWord,
+  listJoin,
+  productsBy,
+} from '@/lib/engineers-view'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Engineers · Sideband',
   description:
-    'The engineers behind Sideband. Dossiers, work history, and the projects we ship.',
-}
+    'The founding engineers behind Sideband: what each of them builds at the studio, their work history and projects, and their activity on GitHub.',
+  path: '/engineers',
+})
 
-export default function EngineersIndexPage() {
+export default function EngineersPage() {
   const all = listEngineers()
+  const team = teamCalendar()
+  const cities = Array.from(
+    new Set(
+      all
+        .map((e) => e.contact.location?.replace(/^Greater /, ''))
+        .filter((c): c is string => Boolean(c)),
+    ),
+  )
 
   return (
-    <div className="min-h-screen bg-sideband-black pt-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Hero */}
-        <FadeUp>
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
-            [ ENGINEERS · {engineerCountLabel} ]
-          </span>
-          <h1 className="mt-4 font-display text-5xl md:text-7xl">
-            <span className="block text-sideband-text-secondary">
-              The people
-            </span>
-            <span className="block font-bold text-sideband-text">
-              behind the products<span className="text-sideband-accent">.</span>
-            </span>
-          </h1>
-        </FadeUp>
+    <>
+      <Section labelledBy="engineers-title" className="!pt-32">
+        <SectionHeading
+          as="h1"
+          id="engineers-title"
+          trigger="mount"
+          title={`${capitalize(countWord(all.length))} founding engineers`}
+          lede={`The people who build Sideband, working from ${listJoin(cities)}. Open a dossier for their work history, every project, what they build here and a year of GitHub activity.`}
+        />
+        <ul className="mt-14 grid gap-6 lg:grid-cols-2">
+          {all.map((engineer, i) => {
+            const gh = engineerGithub(engineer)
+            // An odd last card takes the whole row, laid out sideways.
+            const wide = all.length % 2 === 1 && i === all.length - 1
+            return (
+              <Reveal
+                as="li"
+                key={engineer.id}
+                trigger={i < 2 ? 'mount' : 'scroll'}
+                delay={i < 2 ? 280 + i * 70 : (i % 2) * 70}
+                className={wide ? 'lg:col-span-2' : undefined}
+              >
+                <EngineerCard
+                  wide={wide}
+                  engineer={engineer}
+                  gh={gh}
+                  weekly={gh ? weeklyTotals(gh.weeks) : []}
+                  products={productsBy(engineer.id)}
+                  productStars={productsBy(engineer.id).reduce(
+                    (sum, p) => sum + productRepo(p).stars,
+                    0,
+                  )}
+                />
+              </Reveal>
+            )
+          })}
+        </ul>
+      </Section>
 
-        <FadeUp delay={0.1}>
-          <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
-            Each engineer at Sideband owns their work end to end. Open a dossier
-            to see where they&apos;ve been, what they&apos;ve built, and how
-            they work.
-          </p>
-        </FadeUp>
-
-        {/* Engineer grid */}
-        <div className="mt-20">
-          <FadeUp>
-            <SectionLabel label="DOSSIERS" withLine />
-          </FadeUp>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-4xl">
-            {all.map((engineer, i) => (
-              <FadeUp key={engineer.id} delay={0.1 + i * 0.08}>
-                <EngineerCard engineer={engineer} />
-              </FadeUp>
-            ))}
-          </div>
+      <Section labelledBy="team-title" className="!pt-0">
+        <SectionHeading
+          id="team-title"
+          title="A year on GitHub, together"
+          lede={`${formatCount(team.summary.total)} contributions from all ${countWord(team.people.length)} founding engineers in the last year, every calendar added day by day. From the snapshot synced ${syncedLabel}.`}
+        />
+        <div className="mt-14">
+          <TeamActivity
+            weeks={team.weeks}
+            summary={team.summary}
+            people={team.people}
+          />
         </div>
-
-        <div className="pb-24" />
-      </div>
-    </div>
+      </Section>
+    </>
   )
 }

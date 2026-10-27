@@ -5,8 +5,9 @@ This file tracks project-specific decisions that future agents should preserve.
 ## Brand
 
 - The studio is **Sideband** (sideband.studio, hello@sideband.studio), rebranded from Eternal Reverse in 2026.
-- Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Eternal2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
-- The design token namespace is `sideband-*` (Tailwind color scale and CSS variables in `styles/globals.css`).
+- Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Upflow2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
+- Upflow2x was called Eternal2x until its makers renamed it in October 2026 (upflow2x.com, github.com/sidebandstudio/Upflow2x). Its product id is `upflow2x`, and `next.config.mjs` permanently redirects `/products/eternal2x` to `/products/upflow2x`. Its Resolve and frames images predate the rename and still show the Eternal2x name. Leave them as captured. Its product video was re-rendered after the rename and no longer shows the old name: both cuts show only Hero footage (from the repo's `promo.mp4` and `promo-resolve.jpg`, cropped clear of the old name) labelled Upflow2x, and both keep the Hero credit. The two upflow2x.com screenshots leave out the site's comparison player, whose anime clip has no licence the site can show.
+- The design token namespace is `sideband-*`: a Tailwind colour scale defined once in `tailwind.config.ts`, which also emits it as `--sideband-*` CSS variables. See `DESIGN.md`.
 - The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` and `assets/EternalReverse/`, the old `public/favicon.png`, and the pre-rebrand design mockups in `references/` were removed. `app/icon.png` is the favicon and social preview image.
 
 ## Current Deployment State
@@ -41,14 +42,38 @@ If a future change breaks the build, fix that before pushing.
 ## Layout And Root Rules
 
 - `app/layout.tsx` is the only root-level place that should import `@/styles/globals.css`
-- Keep `metadataBase` aligned with the real deployed site, not GitHub Pages
-- Components using hooks, browser APIs, or Framer Motion must remain client components
+- Keep `metadataBase` aligned with the real deployed site (`SITE_URL` in `lib/metadata.ts`), not GitHub Pages
+- Every route builds its metadata with `pageMetadata()` from `lib/metadata.ts`: title, description, canonical URL, Open Graph and Twitter card. Next replaces a parent's `openGraph` and `twitter` wholesale instead of merging them, so a page that sets only some of them loses the rest. Pages without a picture of their own use `app/icon.png`. Product pages use their first screenshot and dossiers the portrait.
+- `app/sitemap.ts` lists every route from `lib/products.ts` and `lib/engineers.ts`. `tests/site.spec.ts` fails if a page links to a route the sitemap does not list.
+- Components using hooks or browser APIs must remain client components (`'use client'`)
 
 ## Images
 
 - Prefer `next/image` over raw `<img>` in app components
 - All app image sources should resolve from `public/`
-- Existing project assets live under `public/assets/...`
+- Existing project assets live under `public/assets/...`: `products/<id>/`, `engineers/<id>/`, `logos/`, `sideband/`
+- Product images are labelled by `kind` (`screenshot`, `artwork`, `photo`) and captioned that way. Artwork is never called a screenshot. An image's or video cut's `credit` (author, link, license) stays in `lib/products.ts` as the source of truth, and is not shown inline. `lib/credits.ts` gathers every unique credit on the server, with the products and media it applies to, and the footer lists them in a collapsed `<details id="credits">` at the bottom of every page (Ali's call: keep credits such as the Blender Foundation footage aside). `source` records where the file came from.
+- **Client apps.** A product built for a client business sets `client: { name, location?, url? }` in `lib/products.ts`, taken from the business's own site. `ClientBadge` ("Client app for <name>") sits beside its `StatusBadge` everywhere the status shows, and its product page says in one line who it was built for. Client apps stay in the ranking as computed. Signature Cuts 413 and Fade Empire are client apps.
+- A product's `icon` is its own icon or logo. Signature Cuts ships none, so its icon is a monogram drawn by Sideband (`public/assets/products/signature-cuts/mark.svg`, rasterized to `icon.webp`), and its `source` says so.
+
+## Design System
+
+`DESIGN.md` at the repo root is the design contract: tokens, type, colour, layout, motion, the
+components in `components/ui/`, and the product video rules (`components/products/ProductVideo.tsx`).
+Read it before building or changing any page. These rules from earlier work still hold:
+
+- Every animation is off under `prefers-reduced-motion`, and content stays visible and complete without it (and without script).
+- No custom cursor. No live SVG noise filter: grain is one tiled `body::after` texture.
+- Product visuals are real screenshots plus silent product videos made from them, never AI raster art posing as product UI.
+- Each product's `icon` and images come from `lib/products.ts`.
+
+## Site Structure
+
+- **Products.** `lib/products.ts` holds every product: copy from its repo, docs and live site, images, links, and the `repo` (and `upstreamRepo`) keys into the GitHub snapshot. `rankedProducts()` orders them by one score, `RANKING_WEIGHTS.popularity` (stars, forks, release downloads) plus `RANKING_WEIGHTS.scope` (code bytes, commits, contributors, platforms), with the inputs in `RANKING_POPULARITY_INPUTS` and `RANKING_SCOPE_INPUTS`. No rank is typed by hand. Prose that explains the ranking reads `rankingMethod` in `lib/products-view.ts`, so it cannot drift from the weights. Licenses come from `productLicense(product)`, which reads the snapshot's detected license: only an OSI-approved license is called open source. hushtype is proprietary (its LICENSE is not OSI), though it is built on the open-source Handy, and the home Open source section lists only OSI-licensed repos. Pages: `app/products/page.tsx` (`ProductIndex`) and `app/products/[id]/page.tsx` (`ProductDetail`).
+- **Private repos.** A product whose repo is private sets `repoPrivate: true` and leaves `links.repo` unset. Its snapshot numbers still feed the ranking and its product page's figures (`npm run sync:github` reads private repos with the token, and writes `url: null` for them so the snapshot keeps no link), but nothing on the site links to the repo: no Source on GitHub action, no repo link in the products index, the Repository panel or an engineer's project card, and no row in the home Open source list. Each of those places says "Source is private" instead. `tests/products.spec.ts` fails when `repoPrivate` disagrees with the snapshot's `isPrivate`, or when a page links to a private repo. Fade Empire's repo (sidebandstudio/FadeEmpire) was made private by its owner in October 2026.
+- **Product videos.** Every product has a silent looping video in two cuts, `hero` (16:10, 1920x1200, 10 to 12 s) and `card` (4:3, 1440x1080, 6 to 8 s), recorded as `product.video` in `lib/products.ts` through `videoCut()`. The files (`<id>-<cut>.webm`, `.mp4`, `-poster.webp`) live in `public/assets/products/<id>/video/`. `components/products/ProductVideo.tsx` is the only way to show one; its rules are in `DESIGN.md` -> Product videos. The HyperFrames source of each video is in `media/product-videos/<id>/` (only the files its compositions reference), with how to render and encode in `media/product-videos/README.md`. To regenerate, render and encode there, then run `npm run sync:videos -- <folder with <id>/out/>`: it checks every file with ffprobe, copies them in, rewrites the durations in `lib/products.ts` and refreshes the sources. Budgets per file: hero MP4 2.5 MB and WebM 1.5 MB, card MP4 1.2 MB and WebM 0.8 MB, no audio stream. The script prints each against its budget. On the site no video downloads before its frame nears the viewport, except the product page hero's metadata, so the home page's first load adds only the posters it shows. `media/` is excluded from TypeScript and Prettier and is not served.
+- **Engineers.** `lib/engineers.ts` holds the five founding engineers: profile, experience, projects, portrait and `githubLogin`. Every Sideband title is "Founding Engineer". `content/engineers/<id>/bio.md` holds the long-form dossier text (quotes, notes, ventures). The server-only helpers in `lib/engineers-*.ts` shape both for the pages: `engineers-dossier.ts` keeps each fact in the first place it is told, `engineers-studio.ts` derives the /about facts and timeline, `engineers-github.ts` turns the snapshot into calendar props. Pages: `app/engineers/page.tsx` and the dossier `app/engineers/[id]/page.tsx`. `/about` and `/contact` read the same data.
+- **GitHub sync.** `npm run sync:github` (`scripts/sync-github.mjs`, token from `GITHUB_TOKEN` or `gh auth token`) writes `lib/data/github.json`: the org, every product repo, and every engineer's public profile and contribution calendar. The site reads the committed file through `lib/github.ts` and never calls GitHub at build or request time. The snapshot is server-only: never import it, `lib/products-view.ts`, `lib/home-data.ts` or `lib/engineers-github.ts` from a `'use client'` file. `tests/site.spec.ts` fails if it reaches a client bundle.
 
 ## Tailwind
 
@@ -80,11 +105,22 @@ When you add, remove, or change something that the site states as a fact, update
 
 Known duplications to keep in sync:
 
-- **Founder count** — `lib/engineers.ts` is the source. Adding an engineer means updating the prose that names the number: About page headline and metadata, Hero, Footer. (The `[ · 03 ]` labels already derive from `engineers.length`; the prose does not.)
-- **Product count and the live / in-development split** — `lib/products.ts` is the source (`status: 'LIVE'` vs `'IN DEVELOPMENT'`). Adding a product means updating "Six products", "Four live, two in active development", and the same phrasing on the products page, home strip, and product showcase.
+- **Founder count** — `lib/engineers.ts` is the source: five founding engineers, and every Sideband title is "Founding Engineer". The site names the team as "founding engineers". The pages derive the count from `engineers.length` (through `countWord()` in `lib/engineers-view.ts` and `lib/home-data.ts`): the home hero and team section, the engineers index, the About page and its metadata, and the footer. Still written out, so adding an engineer means editing them: the README, and count prose inside `lib/engineers.ts` summaries and `content/engineers/*/bio.md` ("is five founding engineers now", "One of five founding engineers").
+- **Product count and the live / in-development split** — `lib/products.ts` is the source (`status: 'LIVE'` vs `'IN DEVELOPMENT'`). The products page and its metadata, the home page and About derive every product count they state from the data (`numberWord()` in `lib/products-view.ts`, `countWord()` in `lib/home-data.ts`). The README lists the products by name, so update it when one is added. Client apps (`client` set) are counted apart from Sideband's own products wherever the prose says "its own": `studioFacts()` in `lib/engineers-studio.ts` returns `own` and `clientApps`, each with its live and in-development counts, and the About lede states both.
 - **Stack, roles, locations, dates** — stated in more than one place; grep for the old value before assuming one edit is enough.
 
-This is enforced. `scripts/check-consistency.mjs` re-derives the founder and product counts from `lib/` and fails if any prose disagrees (it also catches stale head-count phrasings like "two-person studio" once the count moves on). It runs in CI on every PR (`npm run check:consistency`) and is a required check, so drift blocks merge. Run it locally before pushing. To cover a new derived fact, add an entry to the `FACTS` array in that script.
+These are enforced. `scripts/check-consistency.mjs` re-derives the founder and product counts from `lib/` and fails if any prose disagrees (it also catches stale head-count phrasings like "two-person studio", "four engineers", "four co-founders" or "is now four founders" once the count moves on, and scans the prose in `lib/` for the studio's own team nouns and product counts, and checks "N client apps" and "N products of its own" against the client and own counts). It runs in CI on every PR (`npm run check:consistency`) and is a required check, so drift blocks merge. Run it locally before pushing. To cover a new derived fact, add an entry to the `FACTS` array in that script.
+
+## Checks
+
+What each check guards. All but `check:links` run in CI on every PR.
+
+- `npm run check:consistency`: counts in prose match `lib/` (see above).
+- `npm run check:copy`: no em dashes or semicolons in user-facing copy (see Copy Style).
+- `tests/videos.spec.ts`: on every page that shows a product, each video has a WebM and an MP4 source and a poster that load, the right aspect frame, muted, looping, inline, no controls and nothing focusable, plays on screen and pauses off screen, shifts no layout, stays a poster under reduced motion (also when it turns on mid-play), downloads nothing before its frame nears the viewport, shows no credit inline, and the footer credits Upflow2x's footage wherever its video appears.
+- `tests/site.spec.ts`: crawls every route from the home page and the sitemap. At 390 and 1440 each page returns 200 and has one `h1`, a title, a description, a canonical URL and social images that exist, no console or page errors, no sideways scrolling, internal links and `#` anchors that resolve, and images with alt text that load, and a footer Credits section that is closed and lists the Upflow2x footage credit with its license link. Under reduced motion nothing animates and all page text is drawn. On phones it also guards layout shift (0.1 or less), image weight (500 KB or less) and keeps the GitHub snapshot out of client scripts.
+- `npm run check:links` (local only, needs the network): every external link on the built site answers. Run it after `npm run build`. It allows only the bot-blockers listed in `scripts/check-links.mjs`, each with its reason.
+- Tests that click or type act only on a settled, hydrated page: open pages with `visit()` and wait with `settle()` from `tests/helpers.ts`, and wait on observable state (`expect.poll`, `toHaveURL`), never on a fixed timeout. The only timeouts left check that something does not happen within a window. Focus an element with `focusOnScreen()` before a key press that scrolls the page: the page scrolls smoothly, so focusing something off screen starts a scroll the jump would race.
 
 ## Copy Style
 
@@ -107,6 +143,5 @@ Check these first:
 1. `next.config.mjs` for accidental static export / GitHub Pages settings
 2. `app/layout.tsx` metadata and global CSS setup
 3. image paths under `public/`
-4. missing `'use client'` on hook/browser/Framer Motion components
+4. missing `'use client'` on hook or browser-API components
 5. `npm run build`
-

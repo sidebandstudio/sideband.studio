@@ -1,9 +1,18 @@
 import { test, expect } from '@playwright/test'
+import { engineers } from '../lib/engineers'
+import {
+  productLicense,
+  productRepo,
+  products,
+  productsByRank,
+} from '../lib/products'
+import { DISCORD_URL } from '../lib/metadata'
+import { focusOnScreen, visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
 
   await expect(
     page.getByRole('heading', { name: /We build the things/i }),
@@ -13,37 +22,91 @@ test('homepage renders and primary navigation reaches products', async ({
   await expect(page).toHaveURL(/\/products$/)
 })
 
+test('homepage preview tabs switch the visible product screenshot', async ({
+  page,
+}) => {
+  await visit(page, '/')
+
+  const tabs = page.getByRole('tablist', { name: 'Products' })
+  await expect(tabs.getByRole('tab')).toHaveCount(6)
+  await expect(tabs.getByRole('tab', { selected: true })).toHaveText(
+    'EternalMonitor',
+  )
+
+  await tabs.getByRole('tab', { name: 'Upflow2x' }).click()
+  await expect(tabs.getByRole('tab', { selected: true })).toHaveText('Upflow2x')
+  await expect(
+    page.getByRole('tabpanel', { name: 'Upflow2x' }).getByRole('img'),
+  ).toBeVisible()
+})
+
 test('product detail navigation works', async ({ page }) => {
-  await page.goto('/products')
+  await visit(page, '/products')
 
   await expect(
     page.getByRole('heading', { name: 'EternalRichPresence' }),
   ).toBeVisible()
 
-  await page.goto('/products/exerly')
+  await visit(page, '/products/exerly')
   await expect(
     page.getByRole('heading', { name: 'Exerly Fitness' }).first(),
   ).toBeVisible()
 })
 
+for (const product of products) {
+  test(`product page ${product.id} returns 200 and shows its name`, async ({
+    page,
+  }) => {
+    const res = await visit(page, `/products/${product.id}`)
+    expect(res?.status()).toBe(200)
+    await expect(
+      page.getByRole('heading', { level: 1, name: product.name }),
+    ).toBeVisible()
+  })
+}
+
+test('home Open source section lists only OSI-licensed product repos', async ({
+  page,
+}) => {
+  expect(
+    productLicense(products.find((p) => p.id === 'hushtype')!),
+  ).toMatchObject({ openSource: false })
+  await visit(page, '/')
+  const section = page.locator('#open-source')
+  for (const product of products) {
+    // The row names, links and counts the repo the product's numbers come from.
+    const repo = productRepo(product)
+    const path = product.upstreamRepo ?? product.repo
+    const row = section.getByRole('link', { name: path })
+    // A private repo is never listed, whatever its license.
+    const listed = productLicense(product).openSource && !product.repoPrivate
+    await expect(row).toHaveCount(listed ? 1 : 0)
+    if (!listed) continue
+    await expect(row).toHaveAttribute('href', repo.url!)
+    await expect(row).toContainText(
+      `${repo.commits.toLocaleString('en-US')} commits`,
+    )
+  }
+})
+
 test('engineers index lists all founders and links to a dossier', async ({
   page,
 }) => {
-  await page.goto('/engineers')
+  await visit(page, '/engineers')
 
-  await expect(page.getByRole('link', { name: /Ali Younes/i })).toBeVisible()
-  await expect(page.getByRole('link', { name: /Ali Tleis/i })).toBeVisible()
-  await expect(page.getByRole('link', { name: /Karan Anand/i })).toBeVisible()
-  await expect(page.getByRole('link', { name: /Naman Rusia/i })).toBeVisible()
+  // Scoped to the page body: the footer links every engineer too.
+  const main = page.getByRole('main')
+  for (const { name } of engineers)
+    await expect(main.getByRole('link', { name }).first()).toBeVisible()
 
-  await page.getByRole('link', { name: /Ali Younes/i }).click()
+  await main.getByRole('link', { name: /Ali Younes/i }).click()
   await expect(page).toHaveURL(/\/engineers\/ali-younes$/)
 })
 
 test('engineer dossier renders exactly one h1 and the portrait', async ({
   page,
 }) => {
-  await page.goto('/engineers/ali-younes')
+  await visit(page, '/engineers/ali-younes')
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Ali')
@@ -55,14 +118,27 @@ test('engineer dossier renders exactly one h1 and the portrait', async ({
 test('every Sideband role shows the studio mark, not a monogram', async ({
   page,
 }) => {
-  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand']) {
-    await page.goto(`/engineers/${id}`)
+  for (const { id } of engineers) {
+    await visit(page, `/engineers/${id}`)
     await expect(page.getByRole('img', { name: 'Sideband logo' })).toBeVisible()
   }
 })
 
+for (const { id, name } of engineers) {
+  test(`engineer dossier /engineers/${id} returns 200 and names ${name}`, async ({
+    page,
+  }) => {
+    const res = await visit(page, `/engineers/${id}`)
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      name.split(' ')[0],
+    )
+    await expect(page.getByText(name).first()).toBeVisible()
+  })
+}
+
 test('unknown engineer id returns a not-found page', async ({ page }) => {
-  const res = await page.goto('/engineers/nobody')
+  const res = await visit(page, '/engineers/nobody')
   expect(res?.status()).toBe(404)
 })
 
@@ -77,7 +153,7 @@ test('contact form success state is shown on successful submit', async ({
     })
   })
 
-  await page.goto('/contact')
+  await visit(page, '/contact')
 
   await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
   await page.getByRole('textbox', { name: 'Email' }).fill('ali@example.com')
@@ -98,7 +174,7 @@ test('contact form error state is shown on failed submit', async ({ page }) => {
     })
   })
 
-  await page.goto('/contact')
+  await visit(page, '/contact')
 
   await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
   await page.getByRole('textbox', { name: 'Email' }).fill('ali@example.com')
@@ -110,4 +186,221 @@ test('contact form error state is shown on failed submit', async ({ page }) => {
   await expect(
     page.getByText(/Something went wrong. Please try again./i),
   ).toBeVisible()
+})
+
+test('mobile menu works from the keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await visit(page, '/')
+
+  const menu = page.locator('#mobile-menu')
+  await expect(menu).toBeHidden()
+
+  await page.getByRole('button', { name: 'Open menu' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(menu).toBeVisible()
+  await expect(menu.getByRole('link', { name: 'Products' })).toBeFocused()
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).overflow,
+    ),
+  ).toBe('hidden')
+  // The page behind the menu is out of reach for screen readers too.
+  const inert = () =>
+    page.evaluate(() =>
+      ['main', 'footer', 'a[href="#main"]'].map(
+        (sel) => (document.querySelector(sel) as HTMLElement).inert,
+      ),
+    )
+  expect(await inert()).toEqual([true, true, true])
+
+  // Tab and Shift+Tab stay inside the bar and the open menu.
+  for (let i = 0; i < 10; i++) {
+    await page.keyboard.press('Tab')
+    expect(
+      await page.evaluate(() => !!document.activeElement?.closest('header')),
+    ).toBe(true)
+  }
+  await page.keyboard.press('Shift+Tab')
+  expect(
+    await page.evaluate(() => !!document.activeElement?.closest('header')),
+  ).toBe(true)
+
+  await page.keyboard.press('Escape')
+  await expect(menu).toBeHidden()
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+  expect(await inert()).toEqual([false, false, false])
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).overflow,
+    ),
+  ).not.toBe('hidden')
+
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await menu.getByRole('link', { name: 'Engineers' }).click()
+  await expect(page).toHaveURL(/\/engineers$/)
+  await expect(menu).toBeHidden()
+})
+
+test('skip link moves focus to the main content', async ({ page }) => {
+  await visit(page, '/about')
+  await page.keyboard.press('Tab')
+  const skip = page.getByRole('link', { name: 'Skip to content' })
+  await expect(skip).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('#main')).toBeFocused()
+})
+
+test('footer links every product, in rank order, and every engineer', async ({
+  page,
+}) => {
+  await visit(page, '/about')
+  const footer = page.getByRole('contentinfo')
+  const productLinks = footer
+    .getByRole('navigation', { name: 'Products' })
+    .getByRole('link')
+  await expect(productLinks).toHaveText(productsByRank().map((p) => p.name))
+  expect(
+    await productLinks.evaluateAll((links) =>
+      links.map((a) => new URL((a as HTMLAnchorElement).href).pathname),
+    ),
+  ).toEqual(productsByRank().map((p) => `/products/${p.id}`))
+  const engineerLinks = footer
+    .getByRole('navigation', { name: 'Engineers' })
+    .getByRole('link')
+  await expect(engineerLinks).toHaveCount(engineers.length)
+  expect(
+    await engineerLinks.evaluateAll((links) =>
+      links.map((a) => new URL((a as HTMLAnchorElement).href).pathname),
+    ),
+  ).toEqual(engineers.map((e) => `/engineers/${e.id}`))
+  // Follow the first link by address rather than by a client-side transition,
+  // whose timing on a loaded CI runner made this test flaky.
+  const first = productsByRank()[0]
+  const res = await page.goto(`/products/${first.id}`)
+  expect(res?.status()).toBe(200)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    first.name.replace(/\s+/g, ' '),
+  )
+})
+
+test('choosing the current page in the mobile menu returns focus to the toggle', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await visit(page, '/products')
+
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await page
+    .locator('#mobile-menu')
+    .getByRole('link', { name: 'Products' })
+    .click()
+
+  await expect(page.locator('#mobile-menu')).toBeHidden()
+  await expect(page).toHaveURL(/\/products$/)
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+})
+
+test('the home link closes the mobile menu on the home page', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await visit(page, '/')
+
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await expect(page.locator('#mobile-menu')).toBeVisible()
+  await page
+    .getByRole('banner')
+    .getByRole('link', { name: 'Sideband home' })
+    .click()
+
+  await expect(page.locator('#mobile-menu')).toBeHidden()
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).overflow,
+    ),
+  ).not.toBe('hidden')
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+})
+
+test('stats skip the count-up when reduced motion is turned on after load', async ({
+  page,
+}) => {
+  await visit(page, '/')
+  // Hydrated with motion allowed: the count-up is armed at zero.
+  await expect(page.locator('dd span[aria-hidden]').first()).toHaveText('0')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const finals = await page
+    .locator('dd .sr-only')
+    .evaluateAll((els) => els.map((e) => e.textContent ?? ''))
+  // Turning it on settles every armed figure on its final value.
+  await expect
+    .poll(() =>
+      page
+        .locator('dd span[aria-hidden]')
+        .evaluateAll((els) => els.map((e) => e.textContent ?? '')),
+    )
+    .toEqual(finals)
+  await page.evaluate(() => {
+    const w = window as unknown as { seen: string[] }
+    w.seen = []
+    document.querySelectorAll('dd span[aria-hidden]').forEach((s) => {
+      w.seen.push(s.textContent ?? '')
+      new MutationObserver(() => w.seen.push(s.textContent ?? '')).observe(s, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      })
+    })
+  })
+
+  await page.locator('dl').scrollIntoViewIfNeeded()
+  // Longer than a full count-up (1200ms), so one that started would be seen.
+  await page.waitForTimeout(1500)
+
+  const seen = await page.evaluate(
+    () => (window as unknown as { seen: string[] }).seen,
+  )
+  expect(finals.length).toBeGreaterThan(0)
+  expect(seen.every((v) => finals.includes(v))).toBe(true)
+})
+
+test('the footer credits open by keyboard and list each credit with its license', async ({
+  page,
+}) => {
+  const credit = products.find((p) => p.id === 'upflow2x')!.video.card.credit!
+  await visit(page, '/about')
+  const credits = page.locator('footer details#credits')
+  const summary = credits.locator('summary')
+  await expect(credits.getByText(credit.text)).toBeHidden()
+  await focusOnScreen(summary)
+  await page.keyboard.press('Enter')
+  await expect
+    .poll(() => credits.evaluate((d: HTMLDetailsElement) => d.open))
+    .toBe(true)
+  await expect(
+    credits.getByRole('link', { name: credit.text }),
+  ).toHaveAttribute('href', credit.href!)
+  await expect(
+    credits.getByRole('link', { name: credit.license! }),
+  ).toHaveAttribute('href', credit.licenseHref!)
+  await expect(credits).toContainText('Upflow2x: ')
+  await expect(credits).toContainText('both product videos')
+  await page.keyboard.press('Space')
+  await expect
+    .poll(() => credits.evaluate((d: HTMLDetailsElement) => d.open))
+    .toBe(false)
+})
+
+test('the footer and the contact page link the studio Discord server', async ({
+  page,
+}) => {
+  await visit(page, '/contact')
+  const footerLink = page
+    .getByRole('contentinfo')
+    .getByRole('link', { name: 'Discord' })
+  await expect(footerLink).toHaveAttribute('href', DISCORD_URL)
+  await expect(footerLink).toHaveAttribute('target', '_blank')
+  await expect(
+    page.locator('main').locator(`a[href="${DISCORD_URL}"]`),
+  ).toHaveCount(1)
 })

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Signature Cuts 413</title>
+  <defs>
+    <linearGradient id="sc-quartz" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8DDD0"/>
+      <stop offset="0.5" stop-color="#D4C5B0"/>
+      <stop offset="1" stop-color="#B8A894"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#1A1A1A"/>
+  <g fill="none" stroke-width="58">
+    <path stroke="#F0EBE3" d="M215 190 V164 A63 63 0 0 0 89 164 V193 A63 63 0 0 0 152 256 A63 63 0 0 1 215 319 V348 A63 63 0 0 1 89 348 V322"/>
+    <path stroke="url(#sc-quartz)" d="M423 190 V164 A63 63 0 0 0 297 164 V348 A63 63 0 0 0 423 348 V322"/>
+  </g>
+  <path d="M30 400 L482 140" stroke="#1A1A1A" stroke-width="20"/>
+</svg>

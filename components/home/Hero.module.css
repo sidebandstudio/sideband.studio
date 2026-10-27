@@ -1,0 +1,10 @@
+/* The display size, with one more limit on phones: never wider than the
+   longest half of the headline ("We build the things", 7.71em at this
+   tracking) allows in the content width, so it sets in two lines from 320px
+   up. Above about 400px the shared text-display clamp is the smaller value. */
+h1.title {
+  font-size: max(
+    2.125rem,
+    min(clamp(2.75rem, 1.2rem + 5.6vw, 6.5rem), 12.4vw - 0.3125rem)
+  );
+}

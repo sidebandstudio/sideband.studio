@@ -30,36 +30,32 @@ const shot = async (name) => {
 
 await page.goto(BASE_URL, { waitUntil: 'networkidle' })
 
-// Scroll through slowly so whileInView reveals fire before capturing.
-await page.evaluate(async () => {
-  const height = () => document.documentElement.scrollHeight
-  for (let y = 0; y < height(); y += 500) {
-    window.scrollTo(0, y)
-    await new Promise((r) => setTimeout(r, 300))
-  }
-})
-await page.waitForTimeout(1200)
-
-await page.evaluate(() => window.scrollTo(0, 0))
-await page.waitForTimeout(800)
+// Let the hero's page-load sequence finish before the first capture.
+await page.waitForTimeout(1800)
 await shot('01-hero')
 
 try {
-  await page.getByRole('button', { name: 'products', exact: true }).click()
-  await page.waitForTimeout(500)
-  await shot('02-terminal')
+  await page.getByRole('tab', { name: 'Exerly Fitness' }).click()
+  await page.waitForTimeout(900)
+  await shot('02-preview-tab')
 } catch {
-  console.warn('terminal chip not found, skipping 02-terminal')
+  console.warn('preview tab not found, skipping 02-preview-tab')
 }
 
-for (const [name, action] of [
-  ['03-products', () => document.getElementById('products')?.scrollIntoView()],
-  ['04-under-the-hood', () => window.scrollBy(0, 1400)],
-  ['05-studio-cta', () => document.getElementById('team')?.scrollIntoView()],
+for (const [name, id] of [
+  ['03-products', 'products'],
+  ['04-studio', 'team'],
+  ['05-open-source', 'open-source'],
 ]) {
-  await page.evaluate(action)
+  await page.evaluate((id) => document.getElementById(id)?.scrollIntoView(), id)
   await page.waitForTimeout(900)
   await shot(name)
 }
+
+await page.evaluate(() =>
+  window.scrollTo(0, document.documentElement.scrollHeight),
+)
+await page.waitForTimeout(900)
+await shot('06-cta-footer')
 
 await browser.close()

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1200" />
+    <title>EternalExchange product loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --accent: #4bd07a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 38%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* Monitor. The screen is the site's 1440x900 viewport at 0.6944 scale. */
+      #pc { position: absolute; left: 444px; top: 318px; width: 1032px; }
+      .pc-body {
+        position: relative; z-index: 1; width: 1032px; height: 657px; padding: 16px;
+        border-radius: 20px; background: var(--surface-2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .pc-screen { position: relative; width: 1000px; height: 625px; border-radius: 8px; overflow: hidden; background: #1c1d21; }
+      .pc-neck { width: 132px; height: 92px; margin: -6px auto 0; background: linear-gradient(180deg, #141417 0%, #1d1d21 100%); }
+      .pc-base { width: 330px; height: 14px; margin: 0 auto; border-radius: 7px; background: var(--surface-3); }
+      /* The whole page, captured at 2x, shown at 1000px wide. Scrolling is a translate of this image. */
+      #page { position: absolute; left: 0; top: 0; width: 1000px; height: 2800px; }
+      #page img { display: block; width: 100%; height: 100%; }
+      #dim { position: absolute; inset: 0; background: #000; opacity: 0; }
+
+      /* Lifted panels: crisp crops of the same page, drawn at their largest size and scaled down to sit on the page. */
+      .lift {
+        position: absolute; left: 0; top: 0; z-index: 3; transform-origin: 0 0; border-radius: 12px; overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .lift img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+      #lift-values { width: 720px; height: 680px; }
+      #lift-yours { width: 760px; height: 493px; }
+
+      .ring { position: absolute; border-radius: 10px; box-shadow: inset 0 0 0 3px var(--accent); }
+
+      /* How it works, one step at a time: 4x crops of the three steps, 1110px wide (3.27x the site's CSS size). */
+      #steps { position: absolute; left: 405px; top: 352px; z-index: 4; width: 3470px; height: 616px; }
+      .step {
+        position: absolute; top: 0; width: 1110px; height: 616px; border-radius: 14px; overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .step img { display: block; width: 100%; height: 100%; }
+      .step .ring { left: 42px; top: 42px; width: 165px; height: 165px; border-radius: 6px; }
+
+      #caps { position: absolute; left: 0; right: 0; top: 112px; height: 100px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; color: var(--ink);
+        font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1200">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="pc" data-layout-allow-overflow>
+          <div class="pc-body">
+            <div class="pc-screen">
+              <div id="page"><img src="assets/img/site-full.webp" alt="" /></div>
+              <div id="dim"></div>
+            </div>
+          </div>
+          <div class="pc-neck"></div>
+          <div class="pc-base"></div>
+
+          <div id="lift-values" class="lift">
+            <img src="assets/img/site-values.webp" alt="" />
+            <div id="ring-row" class="ring" style="left: 52px; top: 63px; width: 616px; height: 70px"></div>
+          </div>
+          <div id="lift-yours" class="lift">
+            <img src="assets/img/site-yours.webp" alt="" />
+            <div id="ring-file" class="ring" style="left: 456px; top: 84px; width: 240px; height: 52px"></div>
+            <div id="ring-emc" class="ring" style="left: 416px; top: 333px; width: 66px; height: 44px"></div>
+          </div>
+        </div>
+
+        <div id="steps" data-layout-allow-overflow>
+          <div class="step" style="left: 0"><img src="assets/img/site-step-1.webp" alt="" /><div id="ring-s1" class="ring"></div></div>
+          <div class="step" style="left: 1180px"><img src="assets/img/site-step-2.webp" alt="" /><div id="ring-s2" class="ring"></div></div>
+          <div class="step" style="left: 2360px"><img src="assets/img/site-step-3.webp" alt="" /><div id="ring-s3" class="ring"></div></div>
+        </div>
+      </div>
+
+      <div id="caps">
+        <div id="cap-1" class="cap">Every item has a price</div>
+        <div id="cap-2" class="cap">Learn, burn, transmute</div>
+        <div id="cap-3" class="cap">Override any value</div>
+      </div>
+    </div>
+
+    <script>
+      // Authored constants only, no layout reads at tween time.
+      const S = 1000 / 1440; // site CSS px to screen px
+      const SHIFT = -240; // monitor moves left while a panel sits on the right
+      const scrollTo = (cssY) => ({ y: -cssY * S });
+      // A crop of the page at CSS box (x, y, w) seen at page scroll `scroll`, in #pc coordinates.
+      const onPage = (x, y, w, natural, scroll) => ({ x: 16 + x * S, y: 16 + (y - scroll) * S, scale: (w * S) / natural });
+
+      const VALUES = { rest: onPage(732, 669, 508, 720, 600), up: { x: 676, y: 22, scale: 1 } };
+      const STEP_PITCH = 1180; // the step strip moves one card at a time
+      const YOURS = { rest: onPage(728, 1784, 512, 760, 1500), up: { x: 656, y: 96, scale: 1 } };
+
+      // Rest state at t=0. The timeline returns every channel to it by t=12, so the loop has no seam.
+      gsap.set("#camera", { x: 0, y: 0, scale: 1 });
+      gsap.set("#pc", { x: 0 });
+      gsap.set("#page", scrollTo(0));
+      gsap.set("#dim", { opacity: 0 });
+      gsap.set("#lift-values", { ...VALUES.rest, opacity: 0 });
+      gsap.set("#steps", { x: 0, y: 30, scale: 0.94, opacity: 0 });
+      gsap.set("#lift-yours", { ...YOURS.rest, opacity: 0 });
+      gsap.set(".ring", { opacity: 0, scale: 1 });
+
+      const tl = gsap.timeline({ paused: true });
+      const capIn = (id, at) => tl.fromTo(id, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, at);
+      const capOut = (id, at) => tl.to(id, { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, at);
+      const cam = (v, at, duration, ease) => tl.to("#camera", { ...v, duration, ease }, at);
+
+      // A crop rises off the page to its full size, and later settles back into the page.
+      function lift(id, box, at) {
+        tl.set(id, { opacity: 1 }, at)
+          .to(id, { ...box.up, duration: 0.85, ease: "power3.inOut" }, at)
+          .to("#dim", { opacity: 0.55, duration: 0.6, ease: "power1.out" }, at + 0.1);
+      }
+      function drop(id, box, at) {
+        tl.to(id, { ...box.rest, duration: 0.6, ease: "power3.inOut" }, at)
+          .to("#dim", { opacity: 0, duration: 0.5, ease: "power1.in" }, at)
+          .set(id, { opacity: 0 }, at + 0.6);
+      }
+      const ringIn = (id, at) => tl.fromTo(id, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, at);
+      const ringOut = (id, at) => tl.to(id, { opacity: 0, duration: 0.25, ease: "power1.in" }, at);
+
+      // Beat 1 (0 to 4.3s): the page scrolls to its price list, which rises off the page, and the rows are read down to Diamond.
+      tl.to("#page", { ...scrollTo(600), duration: 1.15, ease: "power2.inOut" }, 0.3)
+        .to("#pc", { x: SHIFT, duration: 1.15, ease: "power2.inOut" }, 0.3);
+      capIn("#cap-1", 0.7);
+      lift("#lift-values", VALUES, 1.35);
+      cam({ scale: 1.03 }, 1.6, 2.4, "sine.inOut");
+      ringIn("#ring-row", 2.25);
+      tl.to("#ring-row", { y: 72, duration: 0.3, ease: "power2.inOut" }, 2.75)
+        .to("#ring-row", { y: 143, duration: 0.3, ease: "power2.inOut" }, 3.2)
+        .fromTo("#ring-row", { scale: 1 }, { scale: 1.04, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 3.55);
+      capOut("#cap-1", 4.05);
+      ringOut("#ring-row", 4.0);
+      drop("#lift-values", VALUES, 4.1);
+      tl.set("#ring-row", { y: 0 }, 4.35);
+
+      // Beat 2 (4.2 to 8.2s): the page scrolls to How it works, and its three steps come up large, one after another.
+      tl.to("#page", { ...scrollTo(1150), duration: 1.0, ease: "power2.inOut" }, 4.3)
+        .to("#pc", { x: 0, duration: 1.0, ease: "power2.inOut" }, 4.3);
+      cam({ scale: 1 }, 4.2, 0.9, "power2.inOut");
+      capIn("#cap-2", 4.55);
+      tl.to("#steps", { y: 0, scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 5.0)
+        .to("#dim", { opacity: 0.6, duration: 0.5, ease: "power1.out" }, 5.0);
+      ringIn("#ring-s1", 5.35);
+      tl.to("#steps", { x: -STEP_PITCH, duration: 0.6, ease: "power3.inOut" }, 6.15);
+      ringIn("#ring-s2", 6.6);
+      tl.to("#steps", { x: -2 * STEP_PITCH, duration: 0.6, ease: "power3.inOut" }, 7.3);
+      ringIn("#ring-s3", 7.75);
+      capOut("#cap-2", 8.15);
+      tl.to("#steps", { y: 20, scale: 0.96, opacity: 0, duration: 0.4, ease: "power2.in" }, 8.2)
+        .to("#dim", { opacity: 0, duration: 0.4, ease: "power1.in" }, 8.2)
+        .set("#steps", { x: 0 }, 8.65)
+        .set(["#ring-s1", "#ring-s2", "#ring-s3"], { opacity: 0 }, 8.65);
+
+      // Beat 3 (8.2 to 12s): the page scrolls to Yours to change, the custom_emc.json override rises, then all returns to the top.
+      tl.to("#page", { ...scrollTo(1500), duration: 0.9, ease: "power2.inOut" }, 8.25)
+        .to("#pc", { x: SHIFT, duration: 0.9, ease: "power2.inOut" }, 8.25);
+      capIn("#cap-3", 8.45);
+      lift("#lift-yours", YOURS, 8.95);
+      ringIn("#ring-file", 9.6);
+      ringOut("#ring-file", 10.05);
+      ringIn("#ring-emc", 10.12);
+      cam({ scale: 1.03 }, 9.2, 1.4, "sine.inOut");
+      capOut("#cap-3", 10.75);
+      ringOut("#ring-emc", 10.75);
+      drop("#lift-yours", YOURS, 10.8);
+      cam({ scale: 1 }, 10.7, 0.9, "power2.inOut");
+      tl.to("#page", { ...scrollTo(0), duration: 0.95, ease: "power2.inOut" }, 10.95)
+        .to("#pc", { x: 0, duration: 0.95, ease: "power2.inOut" }, 10.95);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

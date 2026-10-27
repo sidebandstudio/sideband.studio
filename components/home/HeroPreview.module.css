@@ -1,0 +1,31 @@
+/* How long until the window pages to the next product. Only rendered while
+   it is paging, so reduced motion never shows it. */
+.progress {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sideband-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: fill 6000ms linear forwards;
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* One row of tabs that scrolls sideways on narrow screens. The cut-off tab at
+   the edge shows there is more, so the scrollbar itself is hidden. */
+.scroller {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}

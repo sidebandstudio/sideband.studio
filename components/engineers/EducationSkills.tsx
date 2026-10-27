@@ -1,0 +1,111 @@
+import Badge from '@/components/ui/Badge'
+import Reveal from '@/components/ui/Reveal'
+import type { EducationEntry, SkillGroup } from '@/lib/engineers'
+import CompanyMark from './CompanyMark'
+import ShowAll from './ShowAll'
+
+/** Short items read as tags. Sentence-length ones read as a list, so they wrap. */
+function ItemList({ items, id }: { items: string[]; id?: string }) {
+  if (items.every((item) => item.length <= 32))
+    return (
+      <ul id={id} className="mt-3 flex flex-wrap gap-2">
+        {items.map((item) => (
+          <li key={item}>
+            <Badge>{item}</Badge>
+          </li>
+        ))}
+      </ul>
+    )
+  return (
+    <ul id={id} className="mt-3 space-y-2 text-small text-sideband-text">
+      {items.map((item) => (
+        <li key={item} className="flex gap-3">
+          <span
+            aria-hidden="true"
+            className="mt-[0.6em] block h-1 w-1 shrink-0 rounded-full bg-sideband-muted"
+          />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const courseworkId = (i: number) => `education-${i}-coursework`
+
+export function Education({ entries }: { entries: EducationEntry[] }) {
+  return (
+    <ul className="space-y-12">
+      {entries.map((e, i) => (
+        <Reveal as="li" key={e.school}>
+          <div className="flex flex-wrap items-start gap-5">
+            <CompanyMark name={e.school} logo={e.logo} onDark={e.logoOnDark} />
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lead font-medium text-sideband-text">
+                {e.school}
+              </h3>
+              <p className="mt-1 text-body text-sideband-text">{e.degree}</p>
+              <p className="mt-1 text-small tabular-nums text-sideband-muted">
+                {[e.dates, e.honors].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+          </div>
+          {e.coursework && e.coursework.length > 0 && (
+            <div className="mt-6">
+              <h4 className="text-small font-medium text-sideband-text-secondary">
+                Coursework
+              </h4>
+              <ItemList items={e.coursework} id={courseworkId(i)} />
+              {e.coursework.length > 4 && (
+                <ShowAll
+                  targets={[{ id: courseworkId(i), keep: 4 }]}
+                  total={e.coursework.length}
+                  noun="courses"
+                  className="mt-4"
+                />
+              )}
+            </div>
+          )}
+          {e.activities && e.activities.length > 0 && (
+            <div className="mt-6">
+              <h4 className="text-small font-medium text-sideband-text-secondary">
+                Activities
+              </h4>
+              <ItemList items={e.activities} />
+            </div>
+          )}
+        </Reveal>
+      ))}
+    </ul>
+  )
+}
+
+/** Skills in the person's own groups, in their own order. */
+export function Skills({
+  groups,
+  listId,
+}: {
+  groups: SkillGroup[]
+  listId?: string
+}) {
+  return (
+    <dl id={listId} className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+      {groups.map((g) => (
+        <div key={g.category}>
+          <dt className="text-small font-medium text-sideband-text-secondary">
+            {g.category}
+          </dt>
+          <dd className="mt-3">
+            <ul className="flex flex-wrap gap-2">
+              {g.items.map((item) => (
+                <li key={item}>
+                  <Badge>{item}</Badge>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}

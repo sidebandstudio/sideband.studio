@@ -1,16 +1,23 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
+import Button from '@/components/ui/Button'
+import { GitHubIcon } from '@/components/ui/Icons'
+import { cx } from '@/components/ui/cx'
 
-const navLinks = [
+const links = [
   { href: '/products', label: 'Products' },
   { href: '/engineers', label: 'Engineers' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
 ]
 
 /** Section links stay lit on their detail pages, e.g. /products/<id>. */
@@ -18,159 +25,265 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
+const FOCUSABLE = 'a[href], button:not([disabled])'
+
 export default function Navbar() {
   const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const barRef = useRef<HTMLElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+  const close = useCallback((returnFocus: boolean) => {
+    setOpen(false)
+    if (returnFocus) toggleRef.current?.focus()
   }, [])
 
+  // Any nav link (menu links and the home link) closes the menu and hands
+  // focus back to the toggle, also when the link is the current page and no
+  // route change follows.
+  const closeFromLink = () => close(true)
+
   useEffect(() => {
-    setIsOpen(false)
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // A route change closes the menu.
+  useEffect(() => {
+    setOpen(false)
   }, [pathname])
 
-  return (
-    <>
-      <nav
-        className={`fixed left-0 right-0 top-0 z-[100] bg-sideband-black transition-[border-color,box-shadow] duration-200 ${
-          scrolled
-            ? 'border-b border-sideband-border shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
-            : 'border-b border-transparent'
-        }`}
-      >
-        <div className="inner flex h-[64px] items-center justify-between">
-          <Link
-            href="/"
-            className="flex items-center gap-2.5"
-            aria-label="Sideband home"
-          >
-            <Image
-              src="/assets/sideband/icon.png"
-              alt=""
-              width={128}
-              height={128}
-              priority
-              className="h-6 w-6 rounded-[6px]"
-            />
-            <span className="font-mono text-[15px] font-medium tracking-[-0.01em] text-sideband-text">
-              sideband
-              <span className="text-sideband-muted">.studio</span>
-            </span>
-          </Link>
+  // While open: lock page scroll, make the page behind the menu inert (out of
+  // reach for Tab and screen readers), move focus into the menu, keep Tab
+  // inside the bar and menu, close on Escape or when the viewport grows past
+  // mobile.
+  useEffect(() => {
+    if (!open) return
+    const root = document.documentElement
+    const prevOverflow = root.style.overflow
+    root.style.overflow = 'hidden'
+    // Body siblings of the bar: skip link, main, footer. Next's route
+    // announcer stays live so the next page title is still read out.
+    const covered = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        el !== barRef.current &&
+        !el.inert &&
+        !['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].includes(el.tagName),
+    )
+    covered.forEach((el) => (el.inert = true))
+    menuRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus()
 
-          <div className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => (
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        close(true)
+        return
+      }
+      if (e.key !== 'Tab') return
+      const items = [barRef.current, menuRef.current].flatMap((el, i) =>
+        Array.from(
+          el?.querySelectorAll<HTMLElement>(
+            i === 0 ? '[data-nav-mobile]' : FOCUSABLE,
+          ) ?? [],
+        ),
+      )
+      if (items.length === 0) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      const index = items.indexOf(document.activeElement as HTMLElement)
+      if (e.shiftKey && (index <= 0 || index === -1)) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && (index === items.length - 1 || index === -1)) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    const mq = window.matchMedia('(min-width: 768px)')
+    const onWide = () => mq.matches && close(false)
+
+    document.addEventListener('keydown', onKey)
+    mq.addEventListener('change', onWide)
+    return () => {
+      root.style.overflow = prevOverflow
+      covered.forEach((el) => (el.inert = false))
+      document.removeEventListener('keydown', onKey)
+      mq.removeEventListener('change', onWide)
+    }
+  }, [open, close])
+
+  return (
+    <header
+      ref={barRef}
+      className={cx(
+        'fixed inset-x-0 top-0 z-[100] transition-colors duration-ui ease-standard',
+        // No backdrop-filter while open: it would make the bar the containing
+        // block of the fixed menu panel.
+        open
+          ? 'bg-sideband-black'
+          : scrolled
+            ? 'bg-sideband-black/75 backdrop-blur-xl backdrop-saturate-150'
+            : 'bg-transparent',
+      )}
+    >
+      <nav
+        aria-label="Main"
+        className="mx-auto flex h-nav w-full max-w-container items-center justify-between gap-6 px-gutter"
+      >
+        <Link
+          href="/"
+          data-nav-mobile
+          aria-label="Sideband home"
+          // On / there is no route change to close the menu, so close it here.
+          onClick={() => open && closeFromLink()}
+          className="-ml-1 flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 text-sideband-text"
+        >
+          <Image
+            src="/assets/sideband/icon.png"
+            alt=""
+            width={128}
+            height={128}
+            priority
+            className="h-6 w-6"
+          />
+          <span className="text-[1.0625rem] font-semibold leading-none tracking-[-0.03em]">
+            Sideband
+          </span>
+        </Link>
+
+        <div className="hidden items-center gap-1 md:flex">
+          {links.map((link) => {
+            const active = isActive(pathname, link.href)
+            return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-mono text-[13px] uppercase tracking-wider transition-colors duration-200 ${
-                  isActive(pathname, link.href)
-                    ? 'text-sideband-accent'
-                    : 'text-sideband-text-secondary hover:text-sideband-text'
-                }`}
+                aria-current={active ? 'page' : undefined}
+                className={cx(
+                  'rounded-full px-3.5 py-2 text-small font-medium transition-colors duration-hover ease-standard',
+                  active
+                    ? 'bg-white/[0.07] text-sideband-text'
+                    : 'text-sideband-text-secondary hover:text-sideband-text',
+                )}
               >
                 {link.label}
-                {isActive(pathname, link.href) && (
-                  <motion.div
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-sideband-accent"
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
               </Link>
-            ))}
-            <a
-              href="https://github.com/sidebandstudio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-[13px] uppercase tracking-wider text-sideband-accent transition-colors duration-200 hover:text-sideband-text"
-            >
-              [ GitHub &rarr; ]
-            </a>
-          </div>
+            )
+          })}
+        </div>
 
+        <div className="flex items-center gap-2">
+          <Button href="/contact" className="hidden md:inline-flex">
+            Contact
+          </Button>
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex flex-col gap-1.5 md:hidden"
-            aria-label="Toggle menu"
+            ref={toggleRef}
+            type="button"
+            data-nav-mobile
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            className="-mr-2 grid h-11 w-11 place-items-center rounded-full transition-colors duration-hover hover:bg-white/[0.06] md:hidden"
           >
-            <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? 'translate-y-[4.5px] rotate-45' : ''
-              }`}
-            />
-            <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block h-[1.5px] w-5 bg-sideband-text transition-all duration-200 ${
-                isOpen ? '-translate-y-[4.5px] -rotate-45' : ''
-              }`}
-            />
+            <span aria-hidden="true" className="relative block h-3 w-5">
+              <span
+                className={cx(
+                  'absolute left-0 h-[1.5px] w-5 rounded-full bg-sideband-text transition-transform duration-ui ease-out',
+                  open ? 'top-[5px] rotate-45' : 'top-0',
+                )}
+              />
+              <span
+                className={cx(
+                  'absolute left-0 h-[1.5px] w-5 rounded-full bg-sideband-text transition-transform duration-ui ease-out',
+                  open ? 'top-[5px] -rotate-45' : 'top-[10px]',
+                )}
+              />
+            </span>
           </button>
         </div>
       </nav>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-sideband-black/98 md:hidden"
-          >
-            <div className="flex flex-col items-center gap-8">
-              {navLinks.map((link, i) => (
-                <motion.div
+      <div
+        ref={menuRef}
+        id="mobile-menu"
+        hidden={!open}
+        className="fixed inset-x-0 bottom-0 top-nav overflow-y-auto bg-sideband-black md:hidden"
+      >
+        <nav
+          aria-label="Mobile"
+          className="flex min-h-full flex-col px-gutter pb-[max(2rem,env(safe-area-inset-bottom))] pt-6"
+        >
+          <ul className="flex flex-col">
+            {links.map((link, i) => {
+              const active = isActive(pathname, link.href)
+              return (
+                <li
                   key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{
-                    delay: i * 0.05,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
+                  data-rise
+                  style={{ '--d': `${i * 50}ms` } as CSSProperties}
                 >
                   <Link
                     href={link.href}
-                    className={`font-display text-4xl transition-colors duration-200 ${
-                      pathname === link.href
-                        ? 'text-sideband-accent'
-                        : 'text-sideband-text hover:text-sideband-accent'
-                    }`}
+                    aria-current={active ? 'page' : undefined}
+                    onClick={closeFromLink}
+                    className={cx(
+                      'flex items-center justify-between py-3 text-head transition-colors duration-hover',
+                      active
+                        ? 'text-sideband-text'
+                        : 'text-sideband-text-secondary hover:text-sideband-text',
+                    )}
                   >
                     {link.label}
+                    {active && (
+                      <span
+                        aria-hidden="true"
+                        className="h-2 w-2 rounded-full bg-sideband-accent"
+                      />
+                    )}
                   </Link>
-                </motion.div>
-              ))}
-              <motion.a
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  delay: navLinks.length * 0.05,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+                </li>
+              )
+            })}
+          </ul>
+          <div
+            data-rise
+            style={{ '--d': `${links.length * 50}ms` } as CSSProperties}
+            className="mt-auto flex flex-col gap-5 pt-10"
+          >
+            <Button
+              href="/contact"
+              size="lg"
+              onClick={closeFromLink}
+              className="w-full"
+            >
+              Contact
+            </Button>
+            <div className="flex items-center justify-between text-small text-sideband-text-secondary">
+              <a
+                href="mailto:hello@sideband.studio"
+                className="py-2 transition-colors hover:text-sideband-text"
+              >
+                hello@sideband.studio
+              </a>
+              <a
                 href="https://github.com/sidebandstudio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-sm uppercase tracking-wider text-sideband-accent"
+                className="inline-flex items-center gap-2 py-2 transition-colors hover:text-sideband-text"
               >
-                [ GitHub &rarr; ]
-              </motion.a>
+                <GitHubIcon size={15} />
+                GitHub
+              </a>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+          </div>
+        </nav>
+      </div>
+    </header>
   )
 }
