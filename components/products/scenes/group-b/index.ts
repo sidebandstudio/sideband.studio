@@ -3,6 +3,7 @@ import BetterCanvasScene from './better-canvas/Scene'
 import EternalSummaryScene from './eternal-summary/Scene'
 import HushtypeScene from './hushtype/Scene'
 import SignatureCutsScene from './signature-cuts/Scene'
+import TopChoiceRealtyScene from './top-choice-realty/Scene'
 
 /** Product scenes in group b, keyed by product id. */
 export const scenesB: SceneMap = {
@@ -10,4 +11,5 @@ export const scenesB: SceneMap = {
   'eternal-summary': EternalSummaryScene,
   hushtype: HushtypeScene,
   'signature-cuts': SignatureCutsScene,
+  'top-choice-realty': TopChoiceRealtyScene,
 }
