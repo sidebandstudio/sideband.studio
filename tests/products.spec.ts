@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { products, productsByRank } from '../lib/products'
+import { productsBy } from '../lib/engineers-view'
+import { getRepo } from '../lib/github'
 import {
   visit,
   settle,
@@ -81,6 +83,69 @@ for (const product of products) {
     )
   })
 }
+
+test('a private repo is never linked, and its pages say the source is private', async ({
+  page,
+}) => {
+  // repoPrivate follows the snapshot, so a repo made private (or public)
+  // fails here until the data says so.
+  for (const product of products) {
+    expect(Boolean(product.repoPrivate), product.id).toBe(
+      getRepo(product.repo)!.isPrivate,
+    )
+  }
+  const hidden = products.filter((p) => p.repoPrivate)
+  expect(hidden.map((p) => p.id)).toEqual(['fade-empire'])
+
+  for (const product of hidden) {
+    expect(product.links.repo).toBeUndefined()
+    const repoUrl = new RegExp(`github\\.com/${product.repo}`, 'i')
+    const pages = [
+      '/',
+      '/products',
+      `/products/${product.id}`,
+      '/about',
+      '/engineers',
+      ...product.engineers.map((id) => `/engineers/${id}`),
+      // Pages whose "More from Sideband" may show it.
+      ...products.map((p) => `/products/${p.id}`),
+    ]
+    for (const path of pages.filter((p, i) => pages.indexOf(p) === i)) {
+      await visit(page, path)
+      expect(await page.content(), path).not.toMatch(repoUrl)
+    }
+
+    await visit(page, `/products/${product.id}`)
+    await expect(page.locator('[data-product-actions]')).toContainText(
+      'Source is private',
+    )
+    await expect(
+      page.locator('[data-product-actions] a', { hasText: 'GitHub' }),
+    ).toHaveCount(0)
+    await expect(page.locator('[data-private-source]')).toHaveCount(2)
+
+    await visit(page, '/products')
+    const entry = page.locator('article[data-rank]', {
+      has: page.getByRole('heading', {
+        level: 2,
+        name: product.name,
+        exact: true,
+      }),
+    })
+    await expect(entry.locator('[data-private-source]')).toHaveText(
+      'Source is private',
+    )
+    await expect(entry.getByRole('link', { name: 'GitHub' })).toHaveCount(0)
+
+    for (const id of product.engineers) {
+      if (!productsBy(id).some((p) => p.id === product.id)) continue
+      await visit(page, `/engineers/${id}`)
+      await expect(
+        page.locator('[data-private-source]', { hasText: 'Source is private' }),
+      ).toHaveCount(1)
+    }
+  }
+})
 
 test('client apps carry a client badge and say who they were built for', async ({
   page,

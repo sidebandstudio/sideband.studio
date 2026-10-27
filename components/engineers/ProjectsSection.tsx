@@ -137,6 +137,14 @@ export default function ProjectsSection({
                       <span className="sr-only"> for {project.name}</span>
                     </ArrowLink>
                   )}
+                  {product.repoPrivate && (
+                    <span
+                      data-private-source=""
+                      className="text-sideband-muted"
+                    >
+                      Source is private
+                    </span>
+                  )}
                 </div>
               </Reveal>
             ))}

@@ -77,9 +77,11 @@ test('home Open source section lists only OSI-licensed product repos', async ({
     const repo = productRepo(product)
     const path = product.upstreamRepo ?? product.repo
     const row = section.getByRole('link', { name: path })
-    await expect(row).toHaveCount(productLicense(product).openSource ? 1 : 0)
-    if (!productLicense(product).openSource) continue
-    await expect(row).toHaveAttribute('href', repo.url)
+    // A private repo is never listed, whatever its license.
+    const listed = productLicense(product).openSource && !product.repoPrivate
+    await expect(row).toHaveCount(listed ? 1 : 0)
+    if (!listed) continue
+    await expect(row).toHaveAttribute('href', repo.url!)
     await expect(row).toContainText(
       `${repo.commits.toLocaleString('en-US')} commits`,
     )

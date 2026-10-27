@@ -220,13 +220,21 @@ function Hero({
                 </Button>
               ))}
             </div>
-            {links.length > 0 && (
+            {(links.length > 0 || product.repoPrivate) && (
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                 {links.map((a) => (
                   <ArrowLink key={a.href} href={a.href} external>
                     {a.label}
                   </ArrowLink>
                 ))}
+                {product.repoPrivate && (
+                  <p
+                    data-private-source=""
+                    className="text-body text-sideband-text-secondary"
+                  >
+                    Source is private
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -621,7 +629,9 @@ function Numbers({
   const { product } = ranked
   const source = facts.readsUpstream
     ? `Read from ${facts.repoKey}, where ${product.name} is built. Synced from GitHub on ${syncedLabel}.`
-    : `From ${facts.repoKey} on GitHub, synced ${syncedLabel}.`
+    : facts.repoUrl
+      ? `From ${facts.repoKey} on GitHub, synced ${syncedLabel}.`
+      : `From ${product.name}’s private repo on GitHub, synced ${syncedLabel}. The source is private, so only these figures are shown.`
 
   return (
     <Section labelledBy="numbers-title" tone="surface">
@@ -772,14 +782,23 @@ function Numbers({
             </Row>
             <Row label="Synced">{syncedLabel}</Row>
           </dl>
-          <ArrowLink
-            href={facts.repoUrl}
-            external
-            tone="muted"
-            className="mt-6 text-small"
-          >
-            {facts.repoKey}
-          </ArrowLink>
+          {facts.repoUrl ? (
+            <ArrowLink
+              href={facts.repoUrl}
+              external
+              tone="muted"
+              className="mt-6 text-small"
+            >
+              {facts.repoKey}
+            </ArrowLink>
+          ) : (
+            <p
+              data-private-source=""
+              className="mt-6 text-small text-sideband-muted"
+            >
+              Source is private
+            </p>
+          )}
         </Reveal>
       </div>
     </Section>

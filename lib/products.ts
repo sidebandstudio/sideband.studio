@@ -119,6 +119,13 @@ export interface Product {
   repo: string
   /** The repo the product is developed in, when `repo` is Sideband's fork of it. Ranking reads this one. */
   upstreamRepo?: string
+  /**
+   * The repo is private. Its snapshot numbers still count for the ranking,
+   * but the site never links to it and says the source is private where the
+   * link would be. Keep `links.repo` unset. Must match the snapshot's
+   * `isPrivate` (tests/products.spec.ts).
+   */
+  repoPrivate?: boolean
   accentColor: string
   /**
    * The icon shown for the product: its own icon or logo, or one Sideband
@@ -1667,7 +1674,8 @@ export const products: Product[] = [
       ),
     ],
   },
-  // Read from github.com/sidebandstudio/FadeEmpire at 5cd5710 (2026-10-21):
+  // Read from the sidebandstudio/FadeEmpire repo at 5cd5710 (2026-10-21), which
+  // its owner has since made private, so the site does not link to it:
   // README, index.html, scripts/, supabase/ (migrations 0001-0022, three Edge
   // Functions), ios/ (project.yml, README) and docs/barber-app/CONTRACT.md, and
   // from the live site. Its GitHub description ("Static only website") predates
@@ -1747,7 +1755,6 @@ export const products: Product[] = [
     origin: null,
     links: {
       site: 'https://chicopeefadeempire.com/',
-      repo: 'https://github.com/sidebandstudio/FadeEmpire',
     },
     // The shop's own name and town, from its site's title and schema.org
     // BarberShop data (1193 Memorial Dr, Chicopee).
@@ -1757,6 +1764,7 @@ export const products: Product[] = [
       url: 'https://chicopeefadeempire.com/',
     },
     repo: 'sidebandstudio/FadeEmpire',
+    repoPrivate: true,
     accentColor: '#C8A24A',
     icon: image(
       'fade-empire',
@@ -1900,7 +1908,7 @@ export function productLicense(product: Product): ProductLicense {
       `${product.repo} is missing from lib/data/github.json. Run npm run sync:github.`,
     )
   }
-  const url = repo.licenseFile?.url ?? null
+  const url = product.repoPrivate ? null : (repo.licenseFile?.url ?? null)
   if (!repo.licenseFile) {
     return {
       spdx: null,

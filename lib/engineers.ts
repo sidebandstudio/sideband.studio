@@ -579,7 +579,6 @@ export const engineers: Engineer[] = [
         href: '/products/fade-empire',
         internal: true,
         productId: 'fade-empire',
-        repo: 'https://github.com/sidebandstudio/FadeEmpire',
         tech: [
           'JavaScript',
           'Supabase',

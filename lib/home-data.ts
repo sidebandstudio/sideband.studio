@@ -291,8 +291,8 @@ export function getHomeData() {
   // panel does. Which products are open source still follows productLicense.
   const openRepos: OpenRepo[] = ranked.flatMap((p) => {
     const license = productLicense(p)
-    if (!license.openSource) return []
     const repo = productRepo(p)
+    if (!license.openSource || p.repoPrivate || !repo.url) return []
     return [
       {
         id: p.id,

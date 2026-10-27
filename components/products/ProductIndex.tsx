@@ -255,6 +255,11 @@ function Links({ r }: { r: RankedProduct }) {
           </ArrowLink>
         </li>
       )}
+      {product.repoPrivate && (
+        <li data-private-source="" className="text-sideband-muted">
+          Source is private
+        </li>
+      )}
     </ul>
   )
 }
