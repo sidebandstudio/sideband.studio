@@ -32,7 +32,7 @@ Portfolio: https://karan4248.github.io/Portfolio/ · GitHub: [@Karan4248](https:
 
 **Winnipeg, MB (Remote) · Aug 2026 – Present**
 
-Joined the studio as its third founding engineer, working on systems design: architecture and technical planning for the product lineup.
+Joined the studio as a founding engineer, working on systems design: architecture and technical planning for the product lineup.
 
 ### Staged · Co-Founder & Developer
 

@@ -1176,7 +1176,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Joined the studio as its third founding engineer, working on systems design: architecture and technical planning for the product lineup.',
+          'Joined the studio as a founding engineer, working on systems design: architecture and technical planning for the product lineup.',
         skills: ['Systems Design', 'Architecture', 'TypeScript'],
       },
       {
