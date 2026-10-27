@@ -46,7 +46,7 @@ Lead maintainer and code owner of Virtual Link, Pinnatec's app-controlled loweri
 
 **Boston, MA · Aug 2026 – Present**
 
-Owns the grading server of Northeastern's open-source autograder, in production for the university's CS courses, with two other students on an eleven-person team. The scoring algorithm turns build, lint, test and pitest mutation results into grades. Submissions run through a TypeScript GitHub Action in the student's repository and report back to Deno edge functions on Supabase, authenticated per submission with a GitHub OIDC token.
+Owns the grading server of Northeastern's open-source autograder, in production for the university's CS courses, with two other students on a team of eleven. The scoring algorithm turns build, lint, test and pitest mutation results into grades. Submissions run through a TypeScript GitHub Action in the student's repository and report back to Deno edge functions on Supabase, authenticated per submission with a GitHub OIDC token.
 
 ### Amazon Web Services · SDE Intern, AWS CloudFormation
 

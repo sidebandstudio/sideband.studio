@@ -232,7 +232,7 @@ export const engineers: Engineer[] = [
         endDate: 'Present',
         current: true,
         summary:
-          'Owns the grading server of Northeastern’s open-source autograder, in production for the university’s CS courses, with two other students on an eleven-person team.',
+          'Owns the grading server of Northeastern’s open-source autograder, in production for the university’s CS courses, with two other students on a team of eleven.',
         highlights: [
           'The scoring algorithm, the project’s most complex part, turns build, lint, test and pitest mutation results into grades',
           'Every submission runs through a TypeScript GitHub Action in the student’s own repository, and the results come back to Deno edge functions on Supabase',
