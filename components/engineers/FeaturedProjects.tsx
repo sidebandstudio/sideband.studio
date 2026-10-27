@@ -12,7 +12,9 @@ function coverFor(project: FeaturedProject): ProductImage | null {
   const product = id ? getProductById(id) : undefined
   if (!product) return null
   return (
-    product.images.find((img) => img.device === 'desktop') ?? product.images[0]
+    product.images.find(
+      (img) => img.kind === 'screenshot' && img.device === 'desktop',
+    ) ?? product.images[0]
   )
 }
 

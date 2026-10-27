@@ -87,6 +87,12 @@ function GalleryItem({
           letterSpacing: '0.04em',
         }}
       >
+        {item.kind !== 'screenshot' && (
+          <span style={{ color: 'var(--sideband-text-secondary)' }}>
+            {item.kind === 'photo' ? 'Photo' : 'Artwork'}
+            {' · '}
+          </span>
+        )}
         {item.alt}
       </p>
       {item.credit && (
@@ -374,7 +380,9 @@ export default function ProductDetailPage({
                 marginTop: 8,
               }}
             >
-              Real screenshots of the product and its site.
+              {product.images.every((img) => img.kind === 'screenshot')
+                ? 'Real screenshots of the product and its site.'
+                : 'Screenshots of the product and its site, with photos and artwork labelled.'}
             </p>
           </FadeUp>
           <div

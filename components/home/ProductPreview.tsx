@@ -23,7 +23,10 @@ export default function ProductPreview({
     .slice(0, 6)
     .map((p) => ({
       ...p,
-      preview: p.images.find((img) => img.device === 'desktop') ?? p.images[0],
+      preview:
+        p.images.find(
+          (img) => img.kind === 'screenshot' && img.device === 'desktop',
+        ) ?? p.images[0],
     }))
   const count = products.length
   const [active, setActive] = useState(0)
