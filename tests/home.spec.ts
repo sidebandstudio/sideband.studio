@@ -281,8 +281,7 @@ for (const [width, height] of [
     // The tabs are one row that scrolls, and the keyboard brings the last
     // one into view.
     const tabs = page.getByRole('tablist', { name: 'Products' })
-    const row = (await tabs.boundingBox())!
-    expect(row.height).toBeLessThan(60)
+    expect((await tabs.boundingBox())!.height).toBeLessThan(60)
     await tabs.getByRole('tab', { selected: true }).focus()
     await page.keyboard.press('End')
     const last = tabs.getByRole('tab').last()
@@ -290,7 +289,8 @@ for (const [width, height] of [
     await expect
       .poll(async () => {
         const b = (await last.boundingBox())!
-        return b.x >= row.x - 1 && b.x + b.width <= row.x + row.width + 1
+        const r = (await tabs.boundingBox())!
+        return b.x >= r.x - 1 && b.x + b.width <= r.x + r.width + 1
       })
       .toBe(true)
   })
