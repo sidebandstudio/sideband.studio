@@ -1127,7 +1127,8 @@ export const engineers: Engineer[] = [
       linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
       website: 'https://alitleis.dev',
       tiktok: 'https://www.tiktok.com/@.justlightt',
-      resume: '/assets/engineers/ali-tleis/resume.pdf',
+      // Linked, not copied: the PDF prints his phone number and his clearance.
+      resume: 'https://alitleis.dev/resume/resume.pdf',
       location: 'Greater Boston, MA',
     },
   },

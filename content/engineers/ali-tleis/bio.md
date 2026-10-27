@@ -124,7 +124,7 @@ Other work:
 - **LinkedIn:** https://www.linkedin.com/in/ali-tleis-091800247/
 - **TikTok:** https://www.tiktok.com/@.justlightt
 - **Portfolio:** https://alitleis.dev
-- **Resume:** [/assets/engineers/ali-tleis/resume.pdf](/assets/engineers/ali-tleis/resume.pdf)
+- **Resume:** https://alitleis.dev/resume/resume.pdf
 
 ---
 
