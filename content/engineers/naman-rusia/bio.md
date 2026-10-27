@@ -119,7 +119,7 @@ Coursework: Foundations of Artificial Intelligence · Object-Oriented Design · 
 
 ## Projects
 
-- **[TandemCode](https://www.tandemcode.space/)** · Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes. FastAPI and Postgres on AWS Lightsail, React 19 frontend.
+- **[TandemCode](/products/tandemcode)** · Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes. FastAPI and Postgres on AWS Lightsail, React 19 frontend.
 - **[Dockmaster](https://trydockmaster.vercel.app/)** · Know what's running on your Mac and your homelab: stray dev servers, repos, worktrees and coding agents.
 - **[Canvas Buddy](https://trycanvasbuddy.vercel.app/)** · Ask questions about your Canvas classes from a small terminal app, with cited sources from a read-only MCP server. `brew install naman0r/tap/canvas-buddy`
   Other work:

@@ -1231,7 +1231,7 @@ export const products: Product[] = [
     status: 'IN DEVELOPMENT',
     version: null,
     yearStarted: 2025,
-    engineers: ['ali-younes', 'ali-tleis'],
+    engineers: ['ali-younes'],
     origin: null,
     links: {
       site: 'https://topchoicerealtyny.com/',

@@ -523,7 +523,7 @@ export const engineers: Engineer[] = [
         href: '/products/signature-cuts',
         internal: true,
         productId: 'signature-cuts',
-        repo: 'https://github.com/whoisaldo/FadeEmpire',
+        repo: 'https://github.com/whoisaldo/SignatureCuts',
         tech: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
       },
       {
@@ -531,7 +531,9 @@ export const engineers: Engineer[] = [
         featured: true,
         blurb:
           'A 39K-line Minecraft alchemy mod for Fabric 1.21.1. A spin-off of ProjectE with a recipe-graph solver that prices every item in the game at world load.',
-        href: 'https://eternalexchangemod.com',
+        href: '/products/eternal-exchange',
+        internal: true,
+        productId: 'eternal-exchange',
         repo: 'https://github.com/sidebandstudio/EternalExchange',
         tech: ['Java 21', 'Fabric', 'Mixin', 'Gradle'],
       },
@@ -569,12 +571,14 @@ export const engineers: Engineer[] = [
         tech: ['TypeScript', 'Electron', 'React'],
       },
       {
-        name: 'Top Choice Realty listings tool',
-        blurb: 'Cross-referencing tool for real estate property listing data.',
-        href: 'https://github.com/sidebandstudio/topchoicerealty',
-        source: true,
+        name: 'Top Choice Realty',
+        blurb:
+          'Listings site and agent back office for a New York brokerage. Visitors browse listings and message the listing agent, and agents manage listings, sales and customers.',
+        href: '/products/top-choice-realty',
+        internal: true,
+        productId: 'top-choice-realty',
         repo: 'https://github.com/sidebandstudio/topchoicerealty',
-        tech: ['TypeScript', 'React'],
+        tech: ['React', 'TypeScript', 'Vite', 'Supabase Postgres'],
       },
       {
         name: 'CS3520 · C++',
@@ -961,8 +965,9 @@ export const engineers: Engineer[] = [
         name: 'Better Canvas',
         blurb:
           'Canvas LMS customizer for Chrome and Firefox: skins, a kanban planner, Pomodoro, GPA and rubric predictors, and a command palette. Everything stays local, with no accounts and no telemetry.',
-        href: 'https://github.com/sidebandstudio/Better-Canvas',
-        source: true,
+        href: '/products/better-canvas',
+        internal: true,
+        productId: 'better-canvas',
         repo: 'https://github.com/sidebandstudio/Better-Canvas',
         role: 'Creator',
         tech: ['JavaScript', 'Chrome MV3', 'Firefox'],
@@ -1536,7 +1541,9 @@ export const engineers: Engineer[] = [
         featured: true,
         blurb:
           'Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes.',
-        href: 'https://www.tandemcode.space/',
+        href: '/products/tandemcode',
+        internal: true,
+        productId: 'tandemcode',
         repo: 'https://github.com/naman0r/tandemcode',
         role: 'Solo developer',
         tech: [

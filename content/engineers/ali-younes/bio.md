@@ -107,14 +107,14 @@ Coursework: Data Structures & Algorithms · Object-Oriented Design · Systems Pr
 - **[Exerly Fitness](/products/exerly)** · React 19 web app, Node/Express API, an AI coach, and a native SwiftUI iOS client waiting on App Store review.
 - **[EternalRichPresence](/products/eternal-rich-presence)** · Windows tray app that puts Apple Music and Spotify on your Discord profile, with a Listen Along feature built on raw named pipes.
 - **[Signature Cuts 413](/products/signature-cuts)** · Marketing and booking site for a Chicopee barbershop, built free of charge.
-- **[EternalExchange](https://eternalexchangemod.com)** · A 39K-line Minecraft alchemy mod for Fabric 1.21.1 with a recipe-graph solver that prices every item at world load. Written up in [Porting ProjectE to Fabric](https://aliyounes.dev/blog/porting-projecte-to-fabric).
+- **[EternalExchange](/products/eternal-exchange)** · A 39K-line Minecraft alchemy mod for Fabric 1.21.1 with a recipe-graph solver that prices every item at world load. Written up in [Porting ProjectE to Fabric](https://aliyounes.dev/blog/porting-projecte-to-fabric).
 - **[Moops Bookstore](https://moopsbooks.com)** · Social reading tracker with shelves, reviews, clubs and a streak counter.
 - **[Real-Time Face Analytics](https://whoisaldo.github.io/real-time-face-analytics/)** · Face, emotion, age and gender detection entirely in the browser with TensorFlow.js.
 
 Other work:
 
 - **[BetterAppleMusic](https://github.com/whoisaldo/BetterAppleMusic)** · Windows Apple Music client on Electron and MusicKit JS.
-- **[Top Choice Realty listings tool](https://github.com/sidebandstudio/topchoicerealty)** · Cross-referencing tool for real estate property listing data.
+- **[Top Choice Realty](/products/top-choice-realty)** · Listings site and agent back office for a New York brokerage. Visitors browse listings and message the listing agent, and agents manage listings, sales and customers.
 - **[CS3520 · C++](https://github.com/whoisaldo/CS3520-Summer-2025)** · Course work: nested containers, Makefiles, GDB and CLI formatting.
 - **[Password Generator](https://github.com/whoisaldo/Password-Generator)** · Configurable password generator across Java and Swift.
 - **[Grade Calculator](https://github.com/whoisaldo/Grade-Calculator)** · Weighted grade calculator with a simple desktop UI.

@@ -95,7 +95,7 @@ Activities: Video Editing Club · Arab Student Association
 
 Other work:
 
-- **[Better Canvas](https://github.com/sidebandstudio/Better-Canvas)** · Canvas LMS customizer for Chrome and Firefox with skins, a kanban planner, Pomodoro, GPA and rubric predictors, and a command palette. Local only, no accounts, no telemetry.
+- **[Better Canvas](/products/better-canvas)** · Canvas LMS customizer for Chrome and Firefox with skins, a kanban planner, Pomodoro, GPA and rubric predictors, and a command palette. Local only, no accounts, no telemetry.
 - **[NEU Academic Calendar → ICS](https://github.com/Alitleis123/neu-academic-calendar-ics)** · Checks the registrar every Monday and republishes Northeastern's academic calendar as subscribable .ics feeds.
 - **Top Choice Realty Platform** · Next.js client intake and agent dashboards on Express APIs, with role-based access, MongoDB Atlas and Azure Blob Storage.
 - **[CalorieCalculator](https://github.com/Alitleis123/CalorieCalculator)** · Mifflin-St Jeor for BMR, an activity multiplier for TDEE, then a goal adjustment.
