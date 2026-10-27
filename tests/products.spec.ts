@@ -1,5 +1,40 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { products, productsByRank } from '../lib/products'
+
+/**
+ * Waits until a page has settled after a navigation: loaded, hydrated (React
+ * has attached to the document, so clicks reach its handlers) and idle. Tests
+ * act or leave only after this, so nothing runs against server HTML and a page
+ * is not left in the middle of its own route prefetches.
+ */
+async function settle(page: Page) {
+  await page.waitForLoadState('load')
+  await page.waitForFunction(() =>
+    Object.keys(document.body).some((key) => key.startsWith('__reactFiber')),
+  )
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestIdleCallback(() => resolve(), { timeout: 2000 }),
+      ),
+  )
+}
+
+async function visit(page: Page, path: string) {
+  const response = await page.goto(path)
+  await settle(page)
+  return response
+}
+
+/** Lets layout catch up after a viewport change. */
+async function nextFrame(page: Page) {
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  )
+}
 
 test('products index lists every product in ranked order', async ({ page }) => {
   await page.goto('/products')
@@ -78,7 +113,7 @@ for (const product of products) {
 test('the image viewer works by keyboard', async ({ page }) => {
   const product = products.find((p) => p.id === 'eternal2x')!
   const [first, second] = product.images
-  await page.goto(`/products/${product.id}`)
+  await visit(page, `/products/${product.id}`)
 
   const trigger = page.getByRole('button', {
     name: `View larger: ${first.alt}`,
@@ -115,12 +150,13 @@ test('the image viewer works by keyboard', async ({ page }) => {
 test('leaving a product page with the viewer open releases the scroll lock', async ({
   page,
 }) => {
-  await page.goto('/products')
+  await visit(page, '/products')
   await page
     .getByRole('heading', { name: 'EternalMonitor' })
     .getByRole('link')
     .click()
   await page.waitForURL('**/products/eternal-monitor')
+  await settle(page)
 
   await page
     .getByRole('button', { name: /^View larger:/ })
@@ -133,6 +169,7 @@ test('leaving a product page with the viewer open releases the scroll lock', asy
 
   await page.goBack()
   await page.waitForURL(/\/products$/)
+  await settle(page)
   await expect
     .poll(() => page.evaluate(() => document.documentElement.style.overflow))
     .toBe('')
@@ -195,10 +232,12 @@ for (const product of products) {
   test(`${product.id}: hero title fits and clears the actions at 360, 390, 1440`, async ({
     page,
   }) => {
-    test.setTimeout(60000)
+    // One load, then each width by resizing: the title's fit is layout only.
+    await page.setViewportSize({ width: 360, height: 900 })
+    await visit(page, `/products/${product.id}`)
     for (const width of [360, 390, 1440]) {
       await page.setViewportSize({ width, height: 900 })
-      await page.goto(`/products/${product.id}`)
+      await nextFrame(page)
       expect(
         await textFits(page, 'h1', '[data-product-actions]'),
         `at ${width}`,
@@ -208,10 +247,11 @@ for (const product of products) {
 }
 
 test('products index names fit at 360, 768, 1440', async ({ page }) => {
-  test.setTimeout(60000)
+  await page.setViewportSize({ width: 360, height: 900 })
+  await visit(page, '/products')
   for (const width of [360, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/products')
+    await nextFrame(page)
     expect(await textFits(page, 'h1, article h2'), `at ${width}`).toEqual([])
   }
 })
@@ -228,7 +268,7 @@ for (const viewport of [
     await page.setViewportSize(viewport)
     for (const id of ['eternal2x', 'eternal-monitor', 'exerly']) {
       const product = products.find((p) => p.id === id)!
-      await page.goto(`/products/${id}`)
+      await visit(page, `/products/${id}`)
       const triggers = page.getByRole('button', { name: /^View larger:/ })
       const count = await triggers.count()
       expect(count).toBe(product.images.length)
@@ -266,7 +306,7 @@ for (const product of products) {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto(`/products/${product.id}`)
+    await visit(page, `/products/${product.id}`)
     const lead =
       product.images.find((i) => i.kind === 'screenshot') ?? product.images[0]
     const leadBlock = page.locator('[data-lead]')
@@ -318,26 +358,63 @@ for (const product of products) {
   })
 }
 
-const WIDTHS = [390, 768, 1440, 1920]
+/**
+ * What Next logs when a route prefetch is cut off because the page navigates
+ * or closes while it is in flight. Matched exactly, so any other failed fetch
+ * or console error still fails the test.
+ */
+const ABORTED_PREFETCH =
+  /^Failed to fetch RSC payload for http:\/\/127\.0\.0\.1:\d+\/\S*\. Falling back to browser navigation\. TypeError: (?:Failed to fetch|network error)$/
+
+/**
+ * Two fresh loads, the narrowest and the widest width, so code that runs at
+ * mount runs at both ends. The widths between are reached by resizing the
+ * narrow load. Each load is scrolled to the end so scroll-driven code runs.
+ */
+const LOADS = [[390, 768, 1440], [1920]]
+const WIDTHS = LOADS.flat()
 
 for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {
   test(`no console errors on ${path} at ${WIDTHS.join(', ')}`, async ({
-    page,
+    context,
   }) => {
-    test.setTimeout(60000)
-    const errors: string[] = []
-    page.on('console', (m) => {
-      if (m.type() === 'error') errors.push(m.text())
-    })
-    page.on('pageerror', (e) => errors.push(e.message))
-    for (const width of WIDTHS) {
-      await page.setViewportSize({ width, height: 900 })
-      await page.goto(path, { waitUntil: 'networkidle' })
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - window.innerWidth,
+    for (const [loadWidth, ...resizes] of LOADS) {
+      // A page per load: nothing navigates away mid-test, and listeners are
+      // removed before the page closes, so teardown cannot report errors.
+      const page = await context.newPage()
+      const errors: string[] = []
+      const onConsole = (m: import('@playwright/test').ConsoleMessage) => {
+        if (m.type() === 'error' && !ABORTED_PREFETCH.test(m.text()))
+          errors.push(m.text())
+      }
+      const onPageError = (e: Error) => errors.push(e.message)
+      page.on('console', onConsole)
+      page.on('pageerror', onPageError)
+
+      await page.setViewportSize({ width: loadWidth, height: 900 })
+      expect((await visit(page, path))?.status()).toBe(200)
+      for (const width of [loadWidth, ...resizes]) {
+        await page.setViewportSize({ width, height: 900 })
+        await nextFrame(page)
+        const overflow = await page.evaluate(
+          () => document.documentElement.scrollWidth - window.innerWidth,
+        )
+        expect(overflow, `horizontal overflow at ${width}`).toBeLessThanOrEqual(
+          0,
+        )
+      }
+      await page.evaluate(() =>
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'instant',
+        }),
       )
-      expect(overflow, `horizontal overflow at ${width}`).toBeLessThanOrEqual(0)
+      await settle(page)
+
+      page.off('console', onConsole)
+      page.off('pageerror', onPageError)
+      await page.close()
+      expect(errors, `loaded at ${loadWidth}`).toEqual([])
     }
-    expect(errors).toEqual([])
   })
 }
