@@ -84,6 +84,25 @@ for (const product of products) {
   })
 }
 
+test('About counts client apps apart from Sideband’s own software', async ({
+  page,
+}) => {
+  const own = products.filter((p) => !p.client)
+  const clients = products.filter((p) => p.client)
+  const live = (list: typeof products) =>
+    list.filter((p) => p.status === 'LIVE').length
+  await visit(page, '/about')
+  const lede = page.locator('header', {
+    has: page.getByRole('heading', { level: 1 }),
+  })
+  await expect(lede).toContainText(
+    `It makes its own software: ${own.length} products so far, ${live(own)} of them live and ${own.length - live(own)} in development.`,
+  )
+  await expect(lede).toContainText(
+    `It has also built ${clients.length} apps for clients, ${live(clients) === clients.length ? 'both live' : `${live(clients)} of them live`}`,
+  )
+})
+
 test('a private repo is never linked, and its pages say the source is private', async ({
   page,
 }) => {

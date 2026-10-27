@@ -10,12 +10,24 @@ import {
 } from '@/lib/products'
 import { listJoin, MONTHS, parseYearMonth } from '@/lib/engineers-view'
 
+/** How many of `list` there are, and how many are live and in development. */
+function statusSplit(list: Product[]) {
+  return {
+    count: list.length,
+    live: list.filter((p) => p.status === 'LIVE').length,
+    inDevelopment: list.filter((p) => p.status === 'IN DEVELOPMENT').length,
+  }
+}
+
 export function studioFacts() {
   const repos = products.map(productRepo)
   return {
     products: products.length,
     live: products.filter((p) => p.status === 'LIVE').length,
     inDevelopment: products.filter((p) => p.status === 'IN DEVELOPMENT').length,
+    /** Sideband's own products, and the apps it built for clients (`client`). */
+    own: statusSplit(products.filter((p) => !p.client)),
+    clientApps: statusSplit(products.filter((p) => p.client)),
     openSource: repos.filter((r) => !r.isPrivate).length,
     stars: repos.reduce((sum, r) => sum + r.stars, 0),
     releases: repos.reduce((sum, r) => sum + r.releases, 0),
