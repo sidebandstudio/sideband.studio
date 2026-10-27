@@ -45,8 +45,8 @@ export default function Team({ team }: { team: TeamMember[] }) {
 
 function Member({ member: m }: { member: TeamMember }) {
   return (
-    <article className="group relative grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-4 rounded-panel p-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)] md:gap-x-6 md:p-4 lg:grid-cols-[8rem_minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] lg:gap-x-8">
-      <div className="relative aspect-square overflow-hidden rounded-inner bg-sideband-surface-3 md:row-span-2 lg:row-span-1">
+    <article className="group relative grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-4 rounded-panel p-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:grid-cols-[6rem_minmax(0,1fr)] md:items-start md:gap-x-6 md:gap-y-3 md:p-4 lg:grid-cols-[8rem_minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] lg:items-center lg:gap-x-8">
+      <div className="relative aspect-square overflow-hidden rounded-inner bg-sideband-surface-3 md:row-span-3 lg:row-span-1">
         {m.portrait ? (
           <Image
             src={m.portrait.src}
@@ -62,7 +62,7 @@ function Member({ member: m }: { member: TeamMember }) {
         )}
       </div>
 
-      <div className="md:self-end lg:self-center">
+      <div>
         <h3 className="text-lead font-medium text-sideband-text">
           <Link
             href={`/engineers/${m.id}`}
@@ -74,11 +74,11 @@ function Member({ member: m }: { member: TeamMember }) {
         <p className="mt-1 text-small text-sideband-text-secondary">{m.role}</p>
       </div>
 
-      <p className="col-span-2 text-body text-sideband-text md:col-span-2 md:col-start-2 md:row-start-2 md:self-start lg:col-span-1 lg:col-start-auto lg:row-start-auto lg:self-center">
+      <p className="col-span-2 text-body text-sideband-text md:col-span-1 md:col-start-2 lg:col-start-auto">
         {m.builds}
       </p>
 
-      <div className="col-span-2 flex flex-col gap-3 md:col-span-1 md:col-start-3 md:row-start-1 md:self-end lg:col-start-auto lg:row-start-auto lg:self-center">
+      <div className="col-span-2 flex flex-col gap-3 md:col-span-1 md:col-start-2 lg:col-start-auto">
         {m.products.length > 0 && (
           <ul
             aria-label={`Products ${m.name} works on`}
