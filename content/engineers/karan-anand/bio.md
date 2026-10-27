@@ -1,6 +1,6 @@
 # Karan Anand
 
-**Co-Founder & Systems Design Engineer · Sideband**
+**Founding Engineer · Sideband**
 
 > "Computer science student at the University of Manitoba. I build things that work, then find new ways to break them."
 
@@ -19,7 +19,7 @@ Portfolio: https://karan4248.github.io/Portfolio/ · GitHub: [@Karan4248](https:
 
 ## Now
 
-- **Co-Founder & Systems Design Engineer at Sideband** since Aug 2026
+- **Founding Engineer at Sideband** since Aug 2026
 - Computer Science at the **University of Manitoba**
 - Open to Summer 2027 SWE internships
 - Based in **Winnipeg, MB**
@@ -28,11 +28,11 @@ Portfolio: https://karan4248.github.io/Portfolio/ · GitHub: [@Karan4248](https:
 
 ## Experience
 
-### Sideband · Co-Founder & Systems Design Engineer
+### Sideband · Founding Engineer
 
 **Winnipeg, MB (Remote) · Aug 2026 – Present**
 
-Joined the studio as its third co-founder, working on systems design: architecture and technical planning for the product lineup.
+Joined the studio as its third founding engineer, working on systems design: architecture and technical planning for the product lineup.
 
 ### Staged · Co-Founder & Developer
 

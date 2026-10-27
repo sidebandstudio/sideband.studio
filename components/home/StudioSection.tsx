@@ -16,7 +16,7 @@ export default function StudioSection() {
       <div className="inner split">
         <Surface padding="none" className="py-2">
           <div className="flex items-center justify-between gap-3 px-4 py-3">
-            <span className="eyebrow">Founders</span>
+            <span className="eyebrow">Founding engineers</span>
             <span className="font-mono text-[11px] text-sideband-muted">
               {String(engineers.length).padStart(2, '0')}
             </span>
@@ -56,11 +56,11 @@ export default function StudioSection() {
         <div className="section-head !mb-0">
           <span className="eyebrow">The studio</span>
           <h2 className="display text-balance">
-            {founderWord} founders. One studio.
+            {founderWord} founding engineers. One studio.
           </h2>
           <p className="text-pretty">
             Sideband started with two friends fixing their own annoyances: a
-            missing second monitor, a blank Discord status. Now there are four
+            missing second monitor, a blank Discord status. Now there are five
             of us, still building whatever we wish existed. We keep it small
             because that is what keeps it fun.
           </p>

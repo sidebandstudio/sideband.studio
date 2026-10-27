@@ -3,9 +3,10 @@
  * GitHub snapshot sync.
  *
  * Writes lib/data/github.json: the sidebandstudio org, every product repo named
- * in lib/products.ts (`repo:` and `upstreamRepo:` keys), and the four engineers'
- * GitHub profiles. The site reads this committed snapshot through lib/github.ts
- * instead of calling GitHub at request time (no token on Vercel, rate limits).
+ * in lib/products.ts (`repo:` and `upstreamRepo:` keys), and the GitHub profile
+ * of every engineer in lib/engineers.ts (`githubLogin:` keys). The site reads
+ * this committed snapshot through lib/github.ts instead of calling GitHub at
+ * request time (no token on Vercel, rate limits).
  *
  *   npm run sync:github
  *
@@ -27,8 +28,8 @@ import { fileURLToPath } from 'node:url'
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const OUT = join(ROOT, 'lib/data/github.json')
 const ORG = 'sidebandstudio'
-// Keyed by login. lib/engineers.ts carries the matching `githubLogin`.
-const USERS = ['whoisaldo', 'Alitleis123', 'Karan4248', 'naman0r']
+// Keyed by login, in roster order: every `githubLogin` in lib/engineers.ts.
+const USERS = engineerLogins()
 
 function fail(message) {
   console.error(`✖ sync:github: ${message}`)
@@ -97,6 +98,17 @@ async function licenseFile(key) {
     fail(`GET /repos/${key}/license ${res.status}: ${await res.text()}`)
   const body = await res.json()
   return { path: body.path, url: body.html_url }
+}
+
+/** GitHub logins declared in lib/engineers.ts (`githubLogin:` keys). */
+function engineerLogins() {
+  const src = readFileSync(join(ROOT, 'lib/engineers.ts'), 'utf8')
+  const logins = [...src.matchAll(/\bgithubLogin: '([\w-]+)'/g)].map(
+    (m) => m[1],
+  )
+  if (logins.length === 0)
+    fail('found no `githubLogin:` keys in lib/engineers.ts')
+  return [...new Set(logins)]
 }
 
 /** Repo keys (`owner/name`) declared in lib/products.ts. */
