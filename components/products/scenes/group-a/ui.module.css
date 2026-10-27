@@ -1,0 +1,97 @@
+/* Shared paint for the group-a scenes. Motion lives in each scene's own
+   module, so the two never set the same property. */
+
+.stage {
+  position: absolute;
+  inset: 0;
+}
+
+.frame {
+  height: 100%;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+.sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Code keeps its spaces. */
+.pre {
+  white-space: pre;
+}
+
+/* Fills */
+.ground {
+  fill: var(--sideband-black);
+}
+.s1 {
+  fill: var(--sideband-surface);
+}
+.s2 {
+  fill: var(--sideband-surface-2);
+}
+.s3 {
+  fill: var(--sideband-surface-3);
+}
+.ink {
+  fill: var(--sideband-text);
+}
+.ink2 {
+  fill: var(--sideband-text-secondary);
+}
+.muted {
+  fill: var(--sideband-muted);
+}
+.acc {
+  fill: var(--product-accent);
+}
+.accDim {
+  fill: color-mix(in srgb, var(--product-accent) 16%, transparent);
+}
+.accSoft {
+  fill: color-mix(
+    in srgb,
+    var(--product-accent) 42%,
+    var(--sideband-surface-2)
+  );
+}
+.none {
+  fill: none;
+}
+
+/* Strokes */
+.line {
+  stroke: rgb(255 255 255 / 0.12);
+}
+.lineStrong {
+  stroke: rgb(255 255 255 / 0.22);
+}
+.accLine {
+  stroke: var(--product-accent);
+}
+.accLineDim {
+  stroke: color-mix(in srgb, var(--product-accent) 40%, transparent);
+}
+.groundLine {
+  stroke: var(--sideband-black);
+}
+.surfaceLine {
+  stroke: var(--sideband-surface-2);
+}
+
+/* Every scene is a still picture under reduced motion: its base styles are
+   the most explanatory frame of the loop. */
+@media (prefers-reduced-motion: reduce) {
+  .stage * {
+    animation: none !important;
+  }
+}

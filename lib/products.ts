@@ -42,6 +42,12 @@ export interface ProductImage {
 export interface ProductFeature {
   title: string
   body: string
+  /**
+   * `src` of one of the product's images that shows this feature, set only
+   * where the image was checked to show it. The product page sets the two
+   * side by side.
+   */
+  image?: string
 }
 
 export interface ProductLinks {
@@ -140,10 +146,12 @@ export const products: Product[] = [
       {
         title: 'Mirror or second screen',
         body: 'The iPad can copy your main screen or become an extra one that exists only while it is connected.',
+        image: '/assets/products/eternal-monitor/host-stream.webp',
       },
       {
         title: 'Wi-Fi or USB',
         body: 'Stream over your home network or plug in a cable, and unplugging falls back to Wi-Fi.',
+        image: '/assets/products/eternal-monitor/ipad-connect.webp',
       },
       {
         title: 'Apple Pencil as a real pen',
@@ -152,10 +160,12 @@ export const products: Product[] = [
       {
         title: 'Touch, keyboard and trackpad',
         body: 'Tap to click, two fingers to scroll, hold to right-click, and hardware keyboards work too.',
+        image: '/assets/products/eternal-monitor/ipad-settings.webp',
       },
       {
         title: 'Encoded on your graphics card',
-        body: 'NVIDIA, AMD or Intel encode H.264 or HEVC at 30, 60, 90 or 120 frames per second.',
+        body: 'NVIDIA, AMD or Intel encode H.264 by default, or HEVC if you prefer it, at 30, 60, 90 or 120 frames per second.',
+        image: '/assets/products/eternal-monitor/host-performance.webp',
       },
       {
         title: 'Loss repair',
@@ -168,6 +178,7 @@ export const products: Product[] = [
       {
         title: 'Pair once',
         body: 'The first Wi-Fi connection takes a six-digit code or a QR scan, and USB needs no code.',
+        image: '/assets/products/eternal-monitor/ipad-pairing.webp',
       },
     ],
     platforms: [
@@ -302,7 +313,7 @@ export const products: Product[] = [
     overview: [
       'Discord shows Spotify listening on its own but has no Apple Music status. EternalRichPresence fills that gap for Windows users who listen in Apple Music or iTunes, and also covers Spotify through a Spotify developer app.',
       'A Python tray app polls every five seconds. It reads iTunes over COM and the Apple Music app through Windows media controls, or Spotify through its Web API, and asks the providers in order until one is playing. It uploads the cover art to a short-lived image host and sends title, artist, cover, timestamps and a join secret to Discord over local IPC.',
-      'When a friend presses Join, their copy receives the secret through its own Discord pipe and either starts the track on Spotify at your position or opens an Apple Music search for it. Official builds ship as one portable exe with a Discord app already set up.',
+      'When a friend presses Join, their copy receives the secret through its own Discord pipe and either starts the track on Spotify at your position or opens an Apple Music search for it. The current code, version 2.0, builds one portable exe with a Discord app already set up. The newest public download is still the February beta, which predates it.',
     ],
     features: [
       {
@@ -312,6 +323,7 @@ export const products: Product[] = [
       {
         title: 'Live cover art',
         body: 'The real album artwork from Apple Music or Spotify appears on your status.',
+        image: '/assets/products/eternal-rich-presence/discord-profile.webp',
       },
       {
         title: 'Listen Along',
@@ -431,10 +443,12 @@ export const products: Product[] = [
       {
         title: 'Trend weight',
         body: 'Daily weigh-ins are smoothed into a trend line so progress is judged on the trend and not on single readings.',
+        image: '/assets/products/exerly/ios-progress-weight.webp',
       },
       {
         title: 'Measured expenditure',
         body: 'Exerly estimates what you burn from your food log and weight trend, then adjusts targets at weekly check-ins.',
+        image: '/assets/products/exerly/ios-program-expenditure.webp',
       },
       {
         title: 'Barcode and label logging',
@@ -597,12 +611,13 @@ export const products: Product[] = [
     overview: [
       'In a coding interview you think aloud while someone watches your code take shape. TandemCode lets two people practice that together: one room, one editor with live cursors, a chat, and one verdict that both see at the same moment.',
       'The React app edits a Monaco editor over a Yjs document. A FastAPI server relays the editor frames between the two browsers without keeping a copy, records them for replay, and rate-limits every socket. Design rooms add a shared whiteboard in the same document.',
-      'A run becomes a pending submission that a separate runner claims and judges inside a throwaway container with no network, a read-only disk and gVisor in production. Postgres notifies the room when the verdict lands, and an accepted run can be timed on larger inputs to estimate how it scales.',
+      'A run becomes a pending submission that a separate runner claims and judges inside a throwaway container with no network, a read-only disk and gVisor in production. Postgres notifies the room when the verdict lands, and an accepted run can be timed on larger inputs to estimate how it scales. The API, runner and database run on one AWS Lightsail host with Docker Compose and Caddy, and the web app is on Vercel.',
     ],
     features: [
       {
         title: 'Shared editor',
         body: 'Two people edit one Monaco editor and see each other’s cursors live.',
+        image: '/assets/products/tandemcode/site-home-desktop.webp',
       },
       {
         title: 'Hidden tests',
@@ -645,6 +660,9 @@ export const products: Product[] = [
       'Docker',
       'gVisor',
       'Clerk',
+      'Caddy',
+      'AWS Lightsail',
+      'Vercel',
     ],
     status: 'LIVE',
     version: null,
@@ -724,6 +742,7 @@ export const products: Product[] = [
       {
         title: 'Theme packs',
         body: 'Themes change the wallpaper, course card art, panels, type and shapes together.',
+        image: '/assets/products/better-canvas/settings-theme-preview.webp',
       },
       {
         title: 'Photo search',
@@ -826,7 +845,7 @@ export const products: Product[] = [
     overview: [
       'Hand-drawn animation often holds each drawing for two or three frames. Eternal2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
       'A Lua panel inside Resolve starts a Python worker in the background. OpenCV scores every frame against the last new drawing with a tile-based difference, so a blink still counts as new, and works out whether the clip is on 1s, 2s or 3s. It refuses live action and clips already on 1s.',
-      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, cuts snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
+      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
     ],
     features: [
       {
@@ -836,6 +855,7 @@ export const products: Product[] = [
       {
         title: 'Drawn in-betweens',
         body: 'The RIFE network draws each missing frame, on the GPU on Windows.',
+        image: '/assets/products/eternal2x/frames-compare.webp',
       },
       {
         title: 'Timing stays put',
@@ -852,6 +872,7 @@ export const products: Product[] = [
       {
         title: 'Lands above the original',
         body: 'The render goes on the track above the source clip, and Show Original flips between the two.',
+        image: '/assets/products/eternal2x/resolve-panel.webp',
       },
       {
         title: 'Grainy source mode',
@@ -963,10 +984,12 @@ export const products: Product[] = [
       {
         title: 'Four styles',
         body: 'Choose summary, bullets, key points or plain English, and each new style is added below the last.',
+        image: '/assets/products/eternal-summary/bullets-mode.webp',
       },
       {
         title: 'Worth reading verdict',
         body: 'The header shows reading time and says whether the page is worth reading, a skim or skippable, with the reason.',
+        image: '/assets/products/eternal-summary/panel-beside-article.webp',
       },
       {
         title: 'Clickable sources',
@@ -975,10 +998,12 @@ export const products: Product[] = [
       {
         title: 'Highlight to summarize',
         body: 'Select text and a Summarize button appears, opening a card that follows the passage as you scroll.',
+        image: '/assets/products/eternal-summary/selection-card.webp',
       },
       {
         title: 'Follow-up questions',
         body: 'Ask about the page in the same panel and the answer cites the page where it can.',
+        image: '/assets/products/eternal-summary/follow-up-chat.webp',
       },
       {
         title: 'Thirteen languages',
@@ -1095,6 +1120,7 @@ export const products: Product[] = [
       {
         title: 'Hold to talk',
         body: 'Hold Option-Space, speak, and release to paste the text at the cursor.',
+        image: '/assets/products/hushtype/app-dictation-dark.webp',
       },
       {
         title: 'Recognition on your Mac',
@@ -1111,6 +1137,7 @@ export const products: Product[] = [
       {
         title: 'Modes per app',
         body: 'Messaging, Email, Code and Default match by app or web address and change wording and style.',
+        image: '/assets/products/hushtype/app-modes-light.webp',
       },
       {
         title: 'Dictionary',
@@ -1293,24 +1320,13 @@ export const products: Product[] = [
         'The eternalexchangemod.com home page on a phone',
         'Playwright capture of https://eternalexchangemod.com/ at 390x844, 2x, 2026-10-26',
       ),
-      image(
-        'eternal-exchange',
-        'transmutation-table-gui.webp',
-        916,
-        788,
-        'none',
-        'artwork',
-        'The Transmutation Table interface texture that ships in the mod, shown at four times its size',
-        'repo src/main/resources/assets/projecte/textures/gui/transmute.png (229x197 drawn area of a 256x256 texture, byte-identical to ProjectE mc1.21.1), scaled 4x nearest-neighbor',
-        {
-          credit: {
-            text: 'Texture by MidnightLightning for Equivalent Exchange 2, used in ProjectE with the EE2 creator’s permission',
-            href: 'https://github.com/sinkillerj/ProjectE/blob/mc1.21.1/README.md',
-          },
-        },
-      ),
     ],
   },
+  // Describes what topchoicerealtyny.com serves: branch fleet/recover-local-migration
+  // at 2a92bec (open PR #1, not merged). A clean build of that commit reproduces the
+  // live index.html, index-bsDzy4H7.js and index-DKQi0Pci.css byte for byte, and the
+  // live headers, 405 handling and tcr_session cookie come from its vercel.json and
+  // api/ router. main (6ddd9249) is the older Express + MongoDB app and is not deployed.
   {
     id: 'top-choice-realty',
     name: 'Top Choice Realty',
@@ -1321,7 +1337,7 @@ export const products: Product[] = [
     overview: [
       'The public side lets home buyers filter the brokerage’s listings by keyword, neighborhood, price and bedrooms and send an inquiry that reaches the listing agent by email. Agents and an admin sign in to manage their own listings and customers.',
       'The React app talks to one Vercel function that routes every API path to its own module, over Supabase Postgres. Sessions are signed tokens in an httpOnly cookie, and every agent query is scoped to that agent’s own records.',
-      'Marking a listing sold opens a buyer form, and one database call closes the listing and links it to the new customer record. Inquiries are rate limited in the database, since serverless instances do not share memory.',
+      'Marking a listing sold opens a buyer form, and one database call closes the listing and links it to the new customer record. Inquiries are rate limited in the database, since serverless instances do not share memory. The live site runs this rewrite from a branch still in review, and the main branch keeps the earlier Express and MongoDB version.',
     ],
     features: [
       {
@@ -1356,6 +1372,7 @@ export const products: Product[] = [
       'Vite',
       'Tailwind',
       'TanStack Query',
+      'Node.js 22',
       'Vercel Functions',
       'Supabase Postgres',
     ],
@@ -1429,6 +1446,7 @@ export const products: Product[] = [
       {
         title: 'Text to book',
         body: 'The form writes the booking request and opens your messages app addressed to your barber.',
+        image: '/assets/products/signature-cuts/booking-send-mobile.webp',
       },
       {
         title: 'WhatsApp booking',
@@ -1638,6 +1656,24 @@ export interface RankedProduct {
   inputs: ProductRankInputs
 }
 
+/** The inputs that make up popularity in rankedProducts(). */
+export const RANKING_POPULARITY_INPUTS = [
+  'stars',
+  'forks',
+  'downloads',
+] as const satisfies readonly (keyof ProductRankInputs)[]
+
+/** The inputs that make up scope in rankedProducts(). */
+export const RANKING_SCOPE_INPUTS = [
+  'codeBytes',
+  'commits',
+  'contributors',
+  'platforms',
+] as const satisfies readonly (keyof ProductRankInputs)[]
+
+/** How rankedProducts() blends popularity and scope into the score. */
+export const RANKING_WEIGHTS = { popularity: 0.65, scope: 0.35 } as const
+
 export function rankInputs(product: Product): ProductRankInputs {
   const repo = productRepo(product)
   return {
@@ -1689,19 +1725,16 @@ export function rankedProducts(): RankedProduct[] {
 
   return rows
     .map(({ product, inputs }) => {
-      const popularity = mean(inputs, ['stars', 'forks', 'downloads'])
-      const scope = mean(inputs, [
-        'codeBytes',
-        'commits',
-        'contributors',
-        'platforms',
-      ])
+      const popularity = mean(inputs, [...RANKING_POPULARITY_INPUTS])
+      const scope = mean(inputs, [...RANKING_SCOPE_INPUTS])
       return {
         product,
         inputs,
         popularity,
         scope,
-        score: 0.65 * popularity + 0.35 * scope,
+        score:
+          RANKING_WEIGHTS.popularity * popularity +
+          RANKING_WEIGHTS.scope * scope,
       }
     })
     .sort(

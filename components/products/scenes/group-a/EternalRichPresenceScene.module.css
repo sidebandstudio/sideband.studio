@@ -1,0 +1,255 @@
+/* EternalRichPresence, one 12s loop. The still frame is 80%: the status on
+   Discord and both players on the same track at the same position. */
+
+.a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: var(--dur);
+  animation-delay: var(--at);
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-play-state: var(--play, paused);
+}
+
+/* The tray app polls the player. */
+.poll {
+  animation-name: poll;
+}
+@keyframes poll {
+  0%,
+  6%,
+  40%,
+  48%,
+  100% {
+    transform: none;
+  }
+  3%,
+  44% {
+    transform: scale(1.18);
+  }
+}
+
+/* Cover art goes up to the image host and comes back as a URL Discord can show. */
+.art {
+  animation-name: art;
+}
+@keyframes art {
+  0%,
+  5% {
+    opacity: 0;
+    transform: translate(-389px, -199px) scale(1.31);
+  }
+  7% {
+    opacity: 1;
+    transform: translate(-389px, -199px) scale(1.31);
+  }
+  15%,
+  18% {
+    opacity: 1;
+    transform: translate(-99px, -316px) scale(0.42);
+  }
+  26%,
+  93% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.cloud {
+  animation-name: cloud;
+}
+@keyframes cloud {
+  0%,
+  14%,
+  20%,
+  100% {
+    transform: none;
+  }
+  17% {
+    transform: scale(1.1);
+  }
+}
+
+/* Discord fills in the activity. */
+.activity {
+  animation-name: activity;
+}
+@keyframes activity {
+  0%,
+  24% {
+    opacity: 0;
+  }
+  29%,
+  93% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Progress runs at the song's position. Both bars share this timing. */
+.progress {
+  transform-origin: left center;
+  transform: scaleX(0.576);
+  animation-name: progress;
+}
+@keyframes progress {
+  0% {
+    transform: scaleX(0.08);
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: scaleX(0.576);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: scaleX(0.7);
+  }
+}
+
+/* A friend clicks Join. */
+.pointer {
+  animation-name: pointer;
+}
+@keyframes pointer {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translate(70px, 60px);
+  }
+  31% {
+    opacity: 1;
+    transform: translate(70px, 60px);
+  }
+  36% {
+    opacity: 1;
+    transform: none;
+  }
+  38% {
+    transform: scale(0.85);
+  }
+  40%,
+  93% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.press {
+  opacity: 0;
+  animation-name: press;
+}
+@keyframes press {
+  0%,
+  37%,
+  44%,
+  100% {
+    opacity: 0;
+  }
+  39% {
+    opacity: 0.9;
+  }
+}
+
+/* The join secret, an eternalrp:// link, reaches the friend's PC. */
+.link {
+  opacity: 0;
+  animation-name: link;
+}
+@keyframes link {
+  0%,
+  40% {
+    opacity: 0;
+    transform: none;
+  }
+  42% {
+    opacity: 1;
+    transform: none;
+    animation-timing-function: linear;
+  }
+  47% {
+    opacity: 1;
+    transform: translate(-120px, 52px);
+  }
+  52% {
+    opacity: 1;
+    transform: translate(-232px, -8px);
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translate(-232px, -8px);
+  }
+}
+
+/* The friend's player jumps to the same track at the same position. */
+.friend {
+  animation-name: friend;
+}
+@keyframes friend {
+  0%,
+  52% {
+    opacity: 0.32;
+  }
+  55%,
+  93% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0.32;
+  }
+}
+.friendArt {
+  animation-name: friendArt;
+}
+@keyframes friendArt {
+  0%,
+  52% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  55%,
+  93% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.friendProgress {
+  transform-origin: left center;
+  transform: scaleX(0.576);
+  animation-name: friendProgress;
+}
+@keyframes friendProgress {
+  0%,
+  52% {
+    transform: scaleX(0.3);
+  }
+  54% {
+    transform: scaleX(0.415);
+    animation-timing-function: linear;
+  }
+  80% {
+    transform: scaleX(0.576);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: scaleX(0.7);
+  }
+}

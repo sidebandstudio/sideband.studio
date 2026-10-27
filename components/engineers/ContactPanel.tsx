@@ -64,6 +64,14 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
       external: true,
     })
   }
+  if (contact.instagram) {
+    rows.push({
+      label: 'INSTAGRAM',
+      value: `@${contact.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/$/, '')}`,
+      href: contact.instagram,
+      external: true,
+    })
+  }
   if (contact.resume) {
     rows.push({
       label: 'RESUME',

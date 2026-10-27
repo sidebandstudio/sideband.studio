@@ -1,8 +1,13 @@
 import type { ProductImageCredit } from '@/lib/products'
+import { cx } from '@/components/ui/cx'
+
+const LINK =
+  'underline decoration-sideband-muted/60 underline-offset-[3px] transition-colors duration-hover ease-standard hover:text-sideband-text hover:decoration-sideband-text'
 
 /**
- * The attribution an image's source requires. `plain` drops the links, for
- * places that are already inside a link or hidden from assistive tech.
+ * The attribution an image's source requires: its text, and the license when
+ * it has one, each linked when the data has a link. `plain` drops the links,
+ * for places that are already inside a link or hidden from assistive tech.
  */
 export default function ImageCredit({
   credit,
@@ -14,20 +19,13 @@ export default function ImageCredit({
   plain?: boolean
 }) {
   return (
-    <p
-      className={className}
-      style={{
-        fontSize: 11,
-        lineHeight: 1.6,
-        color: 'var(--sideband-text-secondary)',
-      }}
-    >
+    <p className={cx('text-small text-sideband-muted', className)}>
       {credit.href && !plain ? (
         <a
           href={credit.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2 hover:text-sideband-text"
+          className={LINK}
         >
           {credit.text}
         </a>
@@ -42,7 +40,7 @@ export default function ImageCredit({
               href={credit.licenseHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-sideband-text"
+              className={LINK}
             >
               {credit.license}
             </a>

@@ -1,0 +1,295 @@
+/* Signature Cuts scene. Base styles are the still frame: 11:00 AM chosen,
+   Send via Text Message pressed, the text on the barber's phone, the iPhone
+   form of the link. */
+
+.slot {
+  animation-name: slot;
+}
+@keyframes slot {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translate(var(--sx), var(--sy));
+  }
+  7%,
+  11% {
+    opacity: 1;
+    transform: translate(var(--sx), var(--sy));
+  }
+  15% {
+    transform: translate(calc(var(--sx) * -0.06), calc(var(--sy) * -0.06));
+  }
+  17%,
+  90% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.slotText {
+  animation-name: slotText;
+}
+@keyframes slotText {
+  0%,
+  14% {
+    opacity: 0;
+  }
+  17%,
+  90% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.press {
+  animation-name: press;
+}
+@keyframes press {
+  0%,
+  22% {
+    opacity: 0;
+    transform: none;
+  }
+  24% {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+  27%,
+  90% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The form folds down into the text that leaves the phone. */
+.form {
+  transform-origin: center bottom;
+  animation-name: form;
+}
+@keyframes form {
+  0%,
+  27% {
+    opacity: 1;
+    transform: none;
+  }
+  32%,
+  58% {
+    opacity: 0.3;
+    transform: scaleY(0.96);
+  }
+  64%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fly {
+  opacity: 0;
+  animation-name: fly;
+}
+@keyframes fly {
+  0%,
+  30% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  32% {
+    opacity: 1;
+    transform: none;
+  }
+  37% {
+    transform: translate(46px, -37px);
+  }
+  42% {
+    transform: translate(79px, -119px);
+  }
+  47% {
+    transform: translate(113px, -201px);
+  }
+  51% {
+    opacity: 1;
+    transform: translate(175px, -238px);
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translate(195px, -238px) scale(0.6);
+  }
+}
+
+.flyH {
+  opacity: 0;
+  animation-name: flyH;
+}
+@keyframes flyH {
+  0%,
+  30% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  32% {
+    opacity: 1;
+    transform: none;
+  }
+  37% {
+    transform: translate(118px, -56px);
+  }
+  42% {
+    transform: translate(214px, -181px);
+  }
+  47% {
+    transform: translate(309px, -305px);
+  }
+  51% {
+    opacity: 1;
+    transform: translate(434px, -362px);
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translate(474px, -362px) scale(0.6);
+  }
+}
+
+.flyW {
+  opacity: 0;
+  animation-name: flyW;
+}
+@keyframes flyW {
+  0%,
+  66% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  68% {
+    opacity: 1;
+    transform: none;
+  }
+  72% {
+    transform: translate(87px, 26px);
+  }
+  76% {
+    transform: translate(176px, 84px);
+  }
+  80% {
+    transform: translate(284px, 142px);
+  }
+  84% {
+    opacity: 1;
+    transform: translate(434px, 168px);
+  }
+  86%,
+  100% {
+    opacity: 0;
+    transform: translate(474px, 168px) scale(0.6);
+  }
+}
+
+.land {
+  transform-origin: left top;
+  animation-name: land;
+}
+@keyframes land {
+  0%,
+  52% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  56%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Hero: the same link, written for Android. */
+.knob {
+  animation-name: knob;
+}
+@keyframes knob {
+  0%,
+  60% {
+    transform: none;
+  }
+  64%,
+  94% {
+    transform: translateX(152px);
+  }
+  98%,
+  100% {
+    transform: none;
+  }
+}
+
+.amp {
+  animation-name: amp;
+}
+@keyframes amp {
+  0%,
+  61% {
+    opacity: 1;
+  }
+  63%,
+  94% {
+    opacity: 0;
+  }
+  98%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.query {
+  animation-name: query;
+}
+@keyframes query {
+  0%,
+  61% {
+    opacity: 0;
+  }
+  63%,
+  94% {
+    opacity: 1;
+  }
+  98%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.wa {
+  animation-name: wa;
+}
+@keyframes wa {
+  0%,
+  84% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  87%,
+  94% {
+    opacity: 1;
+    transform: none;
+  }
+  98%,
+  100% {
+    opacity: 0;
+  }
+}

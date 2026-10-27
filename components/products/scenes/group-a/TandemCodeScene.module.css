@@ -1,0 +1,533 @@
+/* TandemCode, one 14s loop. The still frame is 86%: the function written
+   by both cursors, every test passed, Accepted. Timings are generated per
+   line from its length. */
+
+.a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: var(--dur);
+  animation-delay: var(--at);
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-play-state: var(--play, paused);
+}
+
+.type0 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type0;
+}
+@keyframes type0 {
+  0%,
+  2% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  11.65%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.type1 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type1;
+}
+@keyframes type1 {
+  0%,
+  12.15% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  15.48%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.type2 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type2;
+}
+@keyframes type2 {
+  0%,
+  15.98% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  26.37%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.type3 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type3;
+}
+@keyframes type3 {
+  0%,
+  26.87% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  35.03%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.type4 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type4;
+}
+@keyframes type4 {
+  0%,
+  35.53% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  45.92%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.type5 {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: type5;
+}
+@keyframes type5 {
+  0%,
+  46.42% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  50.5%,
+  92% {
+    transform: scaleX(0);
+  }
+  96%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.caretA {
+  animation-name: caretA;
+}
+@keyframes caretA {
+  0% {
+    transform: translate(-528px, -160px);
+  }
+  2% {
+    transform: translate(-528px, -160px);
+    animation-timing-function: linear;
+  }
+  11.65% {
+    transform: translate(-184.8px, -160px);
+  }
+  11.75% {
+    transform: translate(-184.8px, -160px);
+  }
+  12.15% {
+    transform: translate(-475.2px, -120px);
+    animation-timing-function: linear;
+  }
+  15.48% {
+    transform: translate(-356.4px, -120px);
+  }
+  35.13% {
+    transform: translate(-356.4px, -120px);
+  }
+  35.53% {
+    transform: translate(-369.6px, 0px);
+    animation-timing-function: linear;
+  }
+  45.92% {
+    transform: translate(0px, 0px);
+  }
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: translate(-528px, -160px);
+  }
+}
+
+.caretB {
+  animation-name: caretB;
+}
+@keyframes caretB {
+  0% {
+    transform: translate(-198px, -120px);
+  }
+  15.98% {
+    transform: translate(-198px, -120px);
+    animation-timing-function: linear;
+  }
+  26.37% {
+    transform: translate(171.6px, -120px);
+  }
+  26.47% {
+    transform: translate(171.6px, -120px);
+  }
+  26.87% {
+    transform: translate(-145.2px, -80px);
+    animation-timing-function: linear;
+  }
+  35.03% {
+    transform: translate(145.2px, -80px);
+  }
+  46.02% {
+    transform: translate(145.2px, -80px);
+  }
+  46.42% {
+    transform: translate(-145.2px, 0px);
+    animation-timing-function: linear;
+  }
+  50.5% {
+    transform: translate(0px, 0px);
+  }
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: translate(-198px, -120px);
+  }
+}
+
+/* Run: the code goes to a sandbox with no network and a read-only disk. */
+.run {
+  animation-name: run;
+}
+@keyframes run {
+  0%,
+  51%,
+  56%,
+  100% {
+    transform: none;
+  }
+  53.5% {
+    transform: scale(0.92);
+  }
+}
+.runFill {
+  opacity: 0;
+  animation-name: runFill;
+}
+@keyframes runFill {
+  0%,
+  51%,
+  58%,
+  100% {
+    opacity: 0;
+  }
+  53% {
+    opacity: 1;
+  }
+}
+.pulse {
+  opacity: 0;
+  animation-name: pulse;
+}
+@keyframes pulse {
+  0%,
+  53% {
+    opacity: 0;
+    transform: none;
+  }
+  55% {
+    opacity: 1;
+    transform: none;
+  }
+  61%,
+  100% {
+    opacity: 0;
+    transform: translateY(380px);
+  }
+}
+
+.pass0 {
+  animation-name: pass0;
+}
+@keyframes pass0 {
+  0%,
+  61% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  63%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.pass1 {
+  animation-name: pass1;
+}
+@keyframes pass1 {
+  0%,
+  63.5% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  65.5%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.pass2 {
+  animation-name: pass2;
+}
+@keyframes pass2 {
+  0%,
+  66% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  68%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.pass3 {
+  animation-name: pass3;
+}
+@keyframes pass3 {
+  0%,
+  68.5% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  70.5%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.pass4 {
+  animation-name: pass4;
+}
+@keyframes pass4 {
+  0%,
+  71% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  73%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.accepted {
+  animation-name: accepted;
+}
+@keyframes accepted {
+  0%,
+  74% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  77%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* Hero: the relay only forwards each update between the two browsers. */
+.down,
+.up {
+  opacity: 0;
+}
+
+.down {
+  animation-name: down;
+}
+@keyframes down {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  3% {
+    opacity: 0;
+    transform: none;
+  }
+  4% {
+    opacity: 1;
+    transform: none;
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(460px);
+  }
+  11% {
+    opacity: 0;
+    transform: translateY(460px);
+  }
+  12.15% {
+    opacity: 0;
+    transform: none;
+  }
+  13.15% {
+    opacity: 1;
+    transform: none;
+  }
+  19.15% {
+    opacity: 1;
+    transform: translateY(460px);
+  }
+  20.15% {
+    opacity: 0;
+    transform: translateY(460px);
+  }
+  36.53% {
+    opacity: 0;
+    transform: none;
+  }
+  37.53% {
+    opacity: 1;
+    transform: none;
+  }
+  43.53% {
+    opacity: 1;
+    transform: translateY(460px);
+  }
+  44.53% {
+    opacity: 0;
+    transform: translateY(460px);
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.up {
+  animation-name: up;
+}
+@keyframes up {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  16.98% {
+    opacity: 0;
+    transform: none;
+  }
+  17.98% {
+    opacity: 1;
+    transform: none;
+  }
+  23.98% {
+    opacity: 1;
+    transform: translateY(-460px);
+  }
+  24.98% {
+    opacity: 0;
+    transform: translateY(-460px);
+  }
+  26.87% {
+    opacity: 0;
+    transform: none;
+  }
+  27.87% {
+    opacity: 1;
+    transform: none;
+  }
+  33.87% {
+    opacity: 1;
+    transform: translateY(-460px);
+  }
+  34.87% {
+    opacity: 0;
+    transform: translateY(-460px);
+  }
+  46.42% {
+    opacity: 0;
+    transform: none;
+  }
+  47.42% {
+    opacity: 1;
+    transform: none;
+  }
+  53.42% {
+    opacity: 1;
+    transform: translateY(-460px);
+  }
+  54.42% {
+    opacity: 0;
+    transform: translateY(-460px);
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}

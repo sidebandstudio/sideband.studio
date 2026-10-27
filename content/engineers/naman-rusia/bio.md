@@ -1,6 +1,6 @@
 # Naman Rusia
 
-**Co-Founder · Sideband**
+**Founding Engineer · Sideband**
 
 > "I like Building, Iterating and shipping software to effect impact"
 
@@ -20,7 +20,7 @@ Portfolio: https://www.namanrusia.dev · GitHub: [@naman0r](https://github.com/n
 
 ## Now
 
-- **Co-Founder at Sideband** since Aug 2026
+- **Founding Engineer at Sideband** since Aug 2026
 - **Director of Software, TAMID at Northeastern** since Jul 2026
 - **Software Developer, Code4Community** on Blue Hill Observatory since Sep 2026
 - B.S. Computer Science & Business Administration at **Northeastern University**, expected May 2028
@@ -31,7 +31,7 @@ Portfolio: https://www.namanrusia.dev · GitHub: [@naman0r](https://github.com/n
 
 ## Experience
 
-### Sideband · Co-Founder
+### Sideband · Founding Engineer
 
 **Boston, MA · Aug 2026 – Present**
 
