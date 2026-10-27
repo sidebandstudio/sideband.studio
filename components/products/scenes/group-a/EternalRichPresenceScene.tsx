@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties } from 'react'
 import type { SceneProps } from '..'
 import { cx } from '@/components/ui/cx'
 import { SceneStage, SceneSvg } from './Stage'
@@ -8,306 +8,387 @@ import s from './EternalRichPresenceScene.module.css'
 /*
  * EternalRichPresence puts the song playing in Apple Music on your Discord
  * profile. The tray app polls the player, uploads the cover art to an image
- * host, and sets a Listening activity with a progress bar and a Join button.
- * A friend clicks Join, Discord hands their copy of the app an eternalrp://
- * link, and their player (here Spotify) starts the same track at the same
- * position, so both bars move together.
+ * host, and sets a Listening activity with the title, the artist and a
+ * progress bar. In the hero a friend presses Ask to Join, Discord hands their
+ * copy of the app an eternalrp:// link, and their Spotify starts the same
+ * track at the same position. The track is the one in the product's real
+ * profile capture.
  */
 
 const DURATION = 12
 const STILL = 0.8
 
-/** Cover art, drawn at the origin at 84×84. */
-function Art() {
+const TITLE = 'Man On The Moon'
+const ARTIST = 'Kid Cudi'
+
+/** Abstract cover art, a crescent moon on a dark square, drawn at the origin. */
+function Cover({ size }: { size: number }) {
+  const k = size / 100
   return (
     <>
-      <rect width={84} height={84} rx={8} className={u.accDim} />
-      <circle
-        cx={42}
-        cy={42}
-        r={24}
-        className={cx(u.none, u.accLine)}
-        strokeWidth={5}
-      />
-      <circle cx={42} cy={42} r={5} className={u.acc} />
+      <rect width={size} height={size} rx={8 * k} className={s.coverBg} />
+      <circle cx={50 * k} cy={52 * k} r={27 * k} className={u.acc} />
+      <circle cx={63 * k} cy={43 * k} r={24 * k} className={s.coverBg} />
+      <circle cx={24 * k} cy={24 * k} r={2.5 * k} className={u.ink2} />
+      <circle cx={80 * k} cy={78 * k} r={2 * k} className={u.ink2} />
     </>
   )
 }
 
-/** A desktop player window with its art, title, artist and progress. */
-function Player({
-  y,
-  art,
-  progressClass,
-}: {
-  y: number
-  art: ReactNode
-  progressClass: string
-}) {
+/** The tray app's icon, equalizer bars on the accent, drawn at the origin. */
+function Tray({ size }: { size: number }) {
+  const k = size / 40
   return (
-    <>
-      <rect x={40} y={y} width={330} height={150} rx={16} className={u.s2} />
-      <rect
-        x={60}
-        y={y + 20}
-        width={110}
-        height={110}
-        rx={10}
-        className={u.s3}
-      />
-      {art}
-      <rect
-        x={190}
-        y={y + 40}
-        width={112}
-        height={14}
-        rx={7}
-        className={u.ink2}
-      />
-      <rect
-        x={190}
-        y={y + 64}
-        width={80}
-        height={12}
-        rx={6}
-        className={u.muted}
-      />
-      <rect
-        x={190}
-        y={y + 110}
-        width={160}
-        height={6}
-        rx={3}
-        className={u.s3}
-      />
-      <rect
-        x={190}
-        y={y + 110}
-        width={160}
-        height={6}
-        rx={3}
-        className={cx(u.acc, s.a, progressClass)}
-      />
-    </>
-  )
-}
-
-function Core({ hero }: { hero: boolean }) {
-  return (
-    <g>
-      {/* Your PC: Apple Music and the tray app watching it */}
-      <Player
-        y={86}
-        progressClass={s.progress}
-        art={
-          <g transform="translate(60 106) scale(1.31)">
-            <Art />
-          </g>
-        }
-      />
-      <g className={cx(s.a, s.poll)}>
+    <g className={cx(s.a, s.poll)}>
+      <rect width={size} height={size} rx={10 * k} className={u.acc} />
+      {[0, 1, 2, 3].map((i) => (
         <rect
-          x={318}
-          y={100}
-          width={38}
-          height={38}
-          rx={10}
-          className={u.acc}
+          key={i}
+          x={(9 + i * 6.5) * k}
+          y={[13, 9, 16, 11][i] * k}
+          width={3.5 * k}
+          height={[14, 22, 8, 18][i] * k}
+          rx={1.75 * k}
+          className={u.ink}
         />
-        {[0, 1, 2, 3].map((i) => (
-          <rect
-            key={i}
-            x={326 + i * 6.5}
-            y={[112, 108, 116, 110][i]}
-            width={3.5}
-            height={[14, 22, 8, 18][i]}
-            rx={1.75}
-            className={u.ink}
-          />
-        ))}
-      </g>
-
-      {/* The image host */}
-      <g className={cx(s.a, s.cloud)}>
-        <path
-          d="M 378 62 a 16 16 0 0 1 2 -32 a 24 24 0 0 1 44 -4 a 18 18 0 0 1 10 36 Z"
-          className={u.s3}
-        />
-      </g>
-
-      {/* Discord profile */}
-      <rect x={440} y={70} width={320} height={460} rx={18} className={u.s2} />
-      <path
-        d="M 440 166 V 88 a 18 18 0 0 1 18 -18 H 742 a 18 18 0 0 1 18 18 V 166 Z"
-        className={u.accDim}
-      />
-      <circle
-        cx={496}
-        cy={166}
-        r={38}
-        className={cx(u.s3, u.surfaceLine)}
-        strokeWidth={8}
-      />
-      <rect x={462} y={222} width={130} height={16} rx={8} className={u.ink} />
-      <rect x={462} y={248} width={90} height={12} rx={6} className={u.muted} />
-      <text x={462} y={300} fontSize={23} className={cx(u.sans, u.ink2)}>
-        Listening to Apple Music
-      </text>
-      <rect x={462} y={318} width={84} height={84} rx={8} className={u.s3} />
-      <g className={cx(s.a, s.activity)}>
-        <rect
-          x={562}
-          y={330}
-          width={150}
-          height={14}
-          rx={7}
-          className={u.ink2}
-        />
-        <rect
-          x={562}
-          y={354}
-          width={104}
-          height={12}
-          rx={6}
-          className={u.muted}
-        />
-        <rect x={562} y={390} width={176} height={6} rx={3} className={u.s3} />
-        <rect
-          x={562}
-          y={390}
-          width={176}
-          height={6}
-          rx={3}
-          className={cx(u.acc, s.a, s.progress)}
-        />
-      </g>
-      <g transform="translate(462 318)">
-        <g className={cx(s.a, s.art)}>
-          <Art />
-        </g>
-      </g>
-      <rect x={462} y={432} width={276} height={48} rx={8} className={u.s3} />
-      <rect
-        x={462}
-        y={432}
-        width={276}
-        height={48}
-        rx={8}
-        className={cx(u.acc, s.a, s.press)}
-      />
-      <text
-        x={600}
-        y={464}
-        textAnchor="middle"
-        fontSize={23}
-        className={cx(u.sans, u.ink)}
-      >
-        Join
-      </text>
-      <g transform="translate(652 452)">
-        <g className={cx(s.a, s.pointer)}>
-          <path
-            d="M 0 0 L 0 30 L 8 23 L 14 36 L 20 33 L 14 21 L 25 21 Z"
-            className={cx(u.ink, u.surfaceLine)}
-            strokeWidth={2.5}
-            strokeLinejoin="round"
-          />
-        </g>
-      </g>
-
-      {/* The friend's PC, which joins */}
-      <path
-        d="M 600 480 Q 520 560 372 472"
-        className={cx(u.none, u.line)}
-        strokeWidth={2}
-        strokeDasharray="4 8"
-      />
-      {!hero && (
-        <text
-          x={498}
-          y={572}
-          textAnchor="middle"
-          fontSize={22}
-          className={cx(u.mono, u.muted)}
-        >
-          eternalrp://sync
-        </text>
-      )}
-      <circle cx={600} cy={480} r={7} className={cx(u.acc, s.a, s.link)} />
-      <g className={cx(s.a, s.friend)}>
-        <Player
-          y={364}
-          progressClass={s.friendProgress}
-          art={
-            <g transform="translate(60 384) scale(1.31)">
-              <g className={cx(s.a, s.friendArt)}>
-                <Art />
-              </g>
-            </g>
-          }
-        />
-      </g>
+      ))}
     </g>
   )
 }
 
-function Label({
-  x,
-  y,
-  children,
-  size = 24,
-}: {
-  x: number
-  y: number
-  children: string
-  size?: number
-}) {
+/** The image host the cover art goes up to, centred on its middle. */
+function Cloud({ x, y }: { x: number; y: number }) {
   return (
-    <text x={x} y={y} fontSize={size} className={cx(u.sans, u.muted)}>
-      {children}
-    </text>
+    <g transform={`translate(${x} ${y})`}>
+      <path
+        className={cx(u.s3, s.a, s.cloud)}
+        d="M -46 22 A 22 22 0 0 1 -30 -10 A 30 30 0 0 1 24 -14 A 24 24 0 0 1 46 22 Z"
+      />
+    </g>
   )
 }
 
+/**
+ * The Discord profile card, 434 wide, in its own units. The art slot holds
+ * the uploaded cover, which flies in from the player (CSS variables set the
+ * route). With `join` it adds the Ask to Join button and a friend's pointer.
+ */
+function Profile({ art, join }: { art: CSSProperties; join?: boolean }) {
+  const h = join ? 546 : 460
+  return (
+    <>
+      <rect width={434} height={h} rx={18} className={u.s2} />
+      <path
+        d="M 0 80 V 18 a 18 18 0 0 1 18 -18 H 416 a 18 18 0 0 1 18 18 V 80 Z"
+        className={s.blurple}
+      />
+      <circle
+        cx={66}
+        cy={80}
+        r={40}
+        className={cx(u.s3, u.surfaceLine)}
+        strokeWidth={8}
+      />
+      <circle cx={66} cy={70} r={14} className={u.muted} />
+      <path d="M 40 108 a 26 22 0 0 1 52 0 Z" className={u.muted} />
+      <circle
+        cx={96}
+        cy={110}
+        r={11}
+        className={cx(s.online, u.surfaceLine)}
+        strokeWidth={6}
+      />
+      <text x={22} y={166} fontSize={36} className={cx(u.sans, u.ink)}>
+        aldobuildstuff
+      </text>
+      <line x1={22} y1={192} x2={412} y2={192} className={u.line} />
+
+      {/* The activity fills in once the cover art has a URL */}
+      <text
+        x={22}
+        y={240}
+        fontSize={36}
+        className={cx(u.sans, u.ink2, s.a, s.head)}
+      >
+        Listening to Apple Music
+      </text>
+      <text
+        x={22}
+        y={290}
+        fontSize={36}
+        className={cx(u.sans, u.ink, s.a, s.song)}
+      >
+        {TITLE}
+      </text>
+      <g transform="translate(22 314)">
+        <g className={cx(s.a, s.art)} style={art}>
+          <Cover size={120} />
+        </g>
+      </g>
+      <g className={cx(s.a, s.row)}>
+        <text x={160} y={352} fontSize={36} className={cx(u.sans, u.ink2)}>
+          {ARTIST}
+        </text>
+        <rect x={160} y={372} width={252} height={8} rx={4} className={u.s3} />
+        <rect
+          x={160}
+          y={372}
+          width={252}
+          height={8}
+          rx={4}
+          className={cx(u.ink, s.a, s.progress)}
+        />
+        <text x={160} y={424} fontSize={36} className={cx(u.mono, u.muted)}>
+          1:21
+        </text>
+        <text
+          x={412}
+          y={424}
+          textAnchor="end"
+          fontSize={36}
+          className={cx(u.mono, u.muted)}
+        >
+          3:27
+        </text>
+      </g>
+
+      {join && (
+        <>
+          <rect
+            x={22}
+            y={460}
+            width={390}
+            height={60}
+            rx={10}
+            className={u.s3}
+          />
+          <rect
+            x={22}
+            y={460}
+            width={390}
+            height={60}
+            rx={10}
+            className={cx(s.blurple, s.a, s.press)}
+          />
+          <text
+            x={217}
+            y={502}
+            textAnchor="middle"
+            fontSize={36}
+            className={cx(u.sans, u.ink)}
+          >
+            Ask to Join
+          </text>
+          <g transform="translate(342 486)">
+            <g className={cx(s.a, s.pointer)}>
+              <path
+                d="M 0 0 L 0 30 L 8 23 L 14 36 L 20 33 L 14 21 L 25 21 Z"
+                className={cx(u.ink, u.surfaceLine)}
+                strokeWidth={2.5}
+                strokeLinejoin="round"
+              />
+            </g>
+          </g>
+        </>
+      )}
+    </>
+  )
+}
+
+/** The card's player: a tall window with the art over the title. */
+function StackPlayer() {
+  return (
+    <>
+      <rect width={324} height={370} rx={16} className={u.s2} />
+      <g transform="translate(72 24)">
+        <Cover size={180} />
+      </g>
+      <g transform="translate(270 22)">
+        <Tray size={40} />
+      </g>
+      <text
+        x={162}
+        y={256}
+        textAnchor="middle"
+        fontSize={36}
+        className={cx(u.sans, u.ink)}
+      >
+        {TITLE}
+      </text>
+      <text
+        x={162}
+        y={298}
+        textAnchor="middle"
+        fontSize={36}
+        className={cx(u.sans, u.muted)}
+      >
+        {ARTIST}
+      </text>
+      <rect x={26} y={328} width={272} height={8} rx={4} className={u.s3} />
+      <rect
+        x={26}
+        y={328}
+        width={272}
+        height={8}
+        rx={4}
+        className={cx(u.acc, s.a, s.progress)}
+      />
+    </>
+  )
+}
+
+/** The hero's player: a wide window with the art beside the title. */
+function RowPlayer({ friend }: { friend?: boolean }) {
+  return (
+    <>
+      <rect width={560} height={200} rx={18} className={u.s2} />
+      <rect x={24} y={24} width={152} height={152} rx={12} className={u.s3} />
+      {friend && (
+        <g className={cx(s.a, s.idle)}>
+          <rect
+            x={200}
+            y={56}
+            width={180}
+            height={18}
+            rx={9}
+            className={u.s3}
+          />
+          <rect
+            x={200}
+            y={104}
+            width={120}
+            height={18}
+            rx={9}
+            className={u.s3}
+          />
+        </g>
+      )}
+      <g className={friend ? cx(s.a, s.friend) : undefined}>
+        <g transform="translate(24 24)">
+          <Cover size={152} />
+        </g>
+        <text x={200} y={82} fontSize={38} className={cx(u.sans, u.ink)}>
+          {TITLE}
+        </text>
+        <text x={200} y={130} fontSize={38} className={cx(u.sans, u.muted)}>
+          {ARTIST}
+        </text>
+      </g>
+      <rect x={200} y={158} width={336} height={8} rx={4} className={u.s3} />
+      <rect
+        x={200}
+        y={158}
+        width={336}
+        height={8}
+        rx={4}
+        className={cx(u.acc, s.a, friend ? s.friendProgress : s.progress)}
+      />
+    </>
+  )
+}
+
+/** Route of the flying cover art, in the profile's own units. */
+function route(
+  from: [number, number, number],
+  host: [number, number, number],
+): CSSProperties {
+  return {
+    '--from': `translate(${from[0]}px, ${from[1]}px) scale(${from[2]})`,
+    '--host': `translate(${host[0]}px, ${host[1]}px) scale(${host[2]})`,
+  } as CSSProperties
+}
+
 function Card() {
+  // Player art centre (176, 254), cloud (345, 36), profile slot (434, 444).
   return (
     <SceneSvg frame="card" duration={DURATION} still={STILL}>
-      <Core hero={false} />
-      <Label x={40} y={70}>
-        Apple Music
-      </Label>
-      <Label x={40} y={548}>
-        Spotify, a friend’s PC
-      </Label>
+      <path
+        d="M 300 140 Q 300 60 322 46"
+        className={cx(u.none, u.accLineDim)}
+        strokeWidth={3}
+        strokeDasharray="2 9"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 386 40 Q 430 36 452 70"
+        className={cx(u.none, s.blurpleLine)}
+        strokeWidth={3}
+        strokeDasharray="2 9"
+        strokeLinecap="round"
+      />
+      <Cloud x={345} y={40} />
+      <g transform="translate(14 140)">
+        <StackPlayer />
+      </g>
+      <g transform="translate(352 70)">
+        <Profile art={route([-258, -190, 1.5], [-89, -408, 0.35])} />
+      </g>
     </SceneSvg>
   )
 }
 
 function Hero() {
-  // Core at 1.25×: x 40–760 maps to 350–1250, y 18–572 maps to 154–846.
+  // The profile is drawn at 1.15×. Player art centre (250, 300), cloud
+  // (825, 150), profile slot (1034, 580): routes are in profile units.
   return (
     <SceneSvg frame="hero" duration={DURATION} still={STILL}>
-      <g transform="translate(300 131) scale(1.25)">
-        <Core hero />
-      </g>
-      <Label x={350} y={218} size={26}>
+      <text x={150} y={176} fontSize={38} className={cx(u.sans, u.muted)}>
         Apple Music
-      </Label>
-      <Label x={350} y={818} size={26}>
-        Spotify, a friend’s PC
-      </Label>
-      <text x={862} y={182} fontSize={22} className={cx(u.mono, u.muted)}>
-        litterbox.catbox.moe
       </text>
+      <g transform="translate(662 136)">
+        <Tray size={48} />
+      </g>
+      <path
+        d="M 718 160 Q 748 150 772 154"
+        className={cx(u.none, u.accLineDim)}
+        strokeWidth={3}
+        strokeDasharray="2 9"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 878 150 Q 930 140 960 150"
+        className={cx(u.none, s.blurpleLine)}
+        strokeWidth={3}
+        strokeDasharray="2 9"
+        strokeLinecap="round"
+      />
+      <Cloud x={825} y={154} />
       <text
-        x={922}
-        y={884}
+        x={825}
+        y={96}
         textAnchor="middle"
-        fontSize={22}
+        fontSize={38}
         className={cx(u.mono, u.muted)}
       >
-        eternalrp://sync?track=…&amp;artist=…&amp;pos=…
+        litterbox.catbox.moe
       </text>
+      <g transform="translate(150 200)">
+        <RowPlayer />
+      </g>
+
+      <text x={150} y={616} fontSize={38} className={cx(u.sans, u.muted)}>
+        Spotify, a friend’s PC
+      </text>
+      <g transform="translate(150 640)">
+        <RowPlayer friend />
+      </g>
+
+      {/* Ask to Join hands the friend's app an eternalrp:// link */}
+      <path
+        d="M 965 714 Q 850 790 712 760"
+        className={cx(u.none, s.blurpleLine)}
+        strokeWidth={3}
+        strokeDasharray="2 9"
+        strokeLinecap="round"
+      />
+      <circle cx={965} cy={714} r={9} className={cx(s.blurple, s.a, s.link)} />
+      <text x={740} y={880} fontSize={38} className={cx(u.mono, u.muted)}>
+        eternalrp://sync
+      </text>
+
+      <g transform="translate(940 150) scale(1.15)">
+        <Profile join art={route([-682, -244, 1.1], [-182, -374, 0.35])} />
+      </g>
     </SceneSvg>
   )
 }
