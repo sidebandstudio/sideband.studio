@@ -3,7 +3,7 @@
 import type { CSSProperties } from 'react'
 import { cx } from '@/components/ui/cx'
 import type { SceneProps } from '../..'
-import { Stage, a, C } from '../Stage'
+import { Framings, Stage, a, C } from '../Stage'
 import m from './scene.module.css'
 
 /**
@@ -16,7 +16,7 @@ import m from './scene.module.css'
  * statuses (Active, Pending, Sold, email sent) are the app's own.
  */
 export default function TopChoiceRealtyScene({ variant }: SceneProps) {
-  return variant === 'hero' ? <Hero /> : <Card />
+  return <Framings variant={variant} card={<Card />} hero={<Hero />} />
 }
 
 /** The brokerage's gold house, as on its site and favicon. */

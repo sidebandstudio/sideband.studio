@@ -3,7 +3,7 @@
 import { useId, type CSSProperties } from 'react'
 import { cx } from '@/components/ui/cx'
 import type { SceneProps } from '../..'
-import { Stage, a, mono, C } from '../Stage'
+import { Framings, Stage, a, mono, C } from '../Stage'
 import m from './scene.module.css'
 
 /**
@@ -17,7 +17,7 @@ import m from './scene.module.css'
  * the lines composeMessage() writes.
  */
 export default function SignatureCutsScene({ variant }: SceneProps) {
-  return variant === 'hero' ? <Hero /> : <Card />
+  return <Framings variant={variant} card={<Card />} hero={<Hero />} />
 }
 
 /**
