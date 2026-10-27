@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://sideband.studio'
 
+/** The studio's Discord server, linked from the footer and the contact page. */
+export const DISCORD_URL = 'https://discord.gg/zq3qqSdwgG'
+
 export interface SocialImage {
   url: string
   width: number

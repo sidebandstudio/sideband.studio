@@ -1,16 +1,18 @@
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
-import { GitHubIcon } from '@/components/ui/Icons'
+import { DiscordIcon, GitHubIcon } from '@/components/ui/Icons'
 import { siteCredits } from '@/lib/credits'
 import { engineers } from '@/lib/engineers'
+import { DISCORD_URL } from '@/lib/metadata'
 import { productsByRank } from '@/lib/products'
 
 interface FooterLink {
   href: string
   label: ReactNode
   external?: boolean
+  icon?: ComponentType<{ size?: number }>
 }
 
 const columns: { title: string; links: FooterLink[] }[] = [
@@ -58,6 +60,13 @@ const columns: { title: string; links: FooterLink[] }[] = [
         href: 'https://github.com/sidebandstudio',
         label: 'GitHub',
         external: true,
+        icon: GitHubIcon,
+      },
+      {
+        href: DISCORD_URL,
+        label: 'Discord',
+        external: true,
+        icon: DiscordIcon,
       },
     ],
   },
@@ -116,7 +125,7 @@ export default function Footer() {
                           ? { target: '_blank', rel: 'noopener noreferrer' }
                           : {})}
                       >
-                        {l.external && <GitHubIcon size={14} />}
+                        {l.icon && <l.icon size={14} />}
                         {l.label}
                       </a>
                     )}

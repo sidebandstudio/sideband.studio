@@ -6,6 +6,7 @@ import {
   products,
   productsByRank,
 } from '../lib/products'
+import { DISCORD_URL } from '../lib/metadata'
 import { focusOnScreen, visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
@@ -388,4 +389,18 @@ test('the footer credits open by keyboard and list each credit with its license'
   await expect
     .poll(() => credits.evaluate((d: HTMLDetailsElement) => d.open))
     .toBe(false)
+})
+
+test('the footer and the contact page link the studio Discord server', async ({
+  page,
+}) => {
+  await visit(page, '/contact')
+  const footerLink = page
+    .getByRole('contentinfo')
+    .getByRole('link', { name: 'Discord' })
+  await expect(footerLink).toHaveAttribute('href', DISCORD_URL)
+  await expect(footerLink).toHaveAttribute('target', '_blank')
+  await expect(
+    page.locator('main').locator(`a[href="${DISCORD_URL}"]`),
+  ).toHaveCount(1)
 })
