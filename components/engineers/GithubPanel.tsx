@@ -133,7 +133,11 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
             unoptimized
             className="h-16 w-16 rounded-full bg-sideband-surface-2"
           />
-          <div className="min-w-0 flex-1">
+          {/* The handle may break after github.com/ (a long one is wider
+              than this column on a phone), and the column is never narrower
+              than that, so on the narrowest screens it drops under the
+              avatar instead. */}
+          <div className="flex-1">
             <p className="text-lead font-medium text-sideband-text">
               {gh.name ?? gh.login}
             </p>
@@ -144,11 +148,18 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
               className="group mt-0.5 inline-flex items-center gap-1.5 text-small text-sideband-text-secondary transition-colors duration-hover hover:text-sideband-text"
             >
               <GitHubIcon size={14} />
-              github.com/{gh.login}
-              <ArrowUpRightIcon
-                size={12}
-                className="transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              />
+              <span>
+                github.com/
+                <wbr />
+                {/* The arrow stays on the handle's last line, beside it. */}
+                <span className="whitespace-nowrap">
+                  {gh.login}
+                  <ArrowUpRightIcon
+                    size={12}
+                    className="ml-1.5 inline align-[-0.08em] transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </span>
+              </span>
             </a>
           </div>
         </div>
