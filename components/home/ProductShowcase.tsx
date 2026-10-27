@@ -59,8 +59,8 @@ export default function ProductShowcase({
         lede={`Each score is ${ranking.popularityPercent} popularity (${ranking.popularityInputs}) and ${ranking.scopePercent} scope (${ranking.scopeInputs}), with GitHub figures synced ${syncedOn}.`}
       />
 
-      <ol className="mt-14 grid gap-x-6 gap-y-16 lg:grid-cols-2">
-        <Reveal as="li" className="lg:col-span-2">
+      <ol className="mt-14 grid gap-x-6 gap-y-16 md:grid-cols-2">
+        <Reveal as="li" className="md:col-span-2">
           <Featured product={first} />
         </Reveal>
         {pair.map((p, i) => (
@@ -225,14 +225,14 @@ function Row({ product }: { product: ShowcaseProduct }) {
           </span>
           <span className="truncate">{product.category}</span>
         </span>
-        <span className="text-small text-sideband-muted sm:hidden">
+        <span className="text-small text-sideband-muted lg:hidden">
           <span className="tabular-nums text-sideband-text">
             {product.figure.value}
           </span>{' '}
           {product.figure.label}
         </span>
       </span>
-      <span className="hidden shrink-0 flex-col items-end gap-0.5 text-right sm:flex">
+      <span className="hidden shrink-0 flex-col items-end gap-0.5 text-right lg:flex">
         <span className="text-body tabular-nums text-sideband-text">
           {product.figure.value}
         </span>
