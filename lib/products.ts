@@ -9,6 +9,21 @@ export type ProductStatus = 'LIVE' | 'IN DEVELOPMENT'
 
 export type ProductDevice = 'desktop' | 'mobile' | 'ipad' | 'none'
 
+/**
+ * What an image is. `screenshot` is a capture of the real product or its site,
+ * `artwork` is made art (icons, logos, wallpapers, textures, comparison graphics),
+ * `photo` is a photograph.
+ */
+export type ProductImageKind = 'screenshot' | 'artwork' | 'photo'
+
+/** Attribution that an image's source requires or names. */
+export interface ProductImageCredit {
+  text: string
+  href?: string
+  license?: string
+  licenseHref?: string
+}
+
 export interface ProductImage {
   src: string
   alt: string
@@ -17,8 +32,11 @@ export interface ProductImage {
   height: number
   /** What the image shows: a desktop window or page, a phone, an iPad, or a plain image. */
   device: ProductDevice
+  kind: ProductImageKind
   /** Where the original came from: a repo path, a URL, or a capture. */
   source: string
+  /** Shown with the image wherever it appears. */
+  credit?: ProductImageCredit
 }
 
 export interface ProductFeature {
@@ -56,6 +74,11 @@ export interface Product {
   /** Credit for the code or idea this product builds on. */
   origin: string | null
   links: ProductLinks
+  /**
+   * What the repo's LICENSE file says, read by hand, for a license GitHub
+   * cannot identify (snapshot license NOASSERTION). productLicense() uses it.
+   */
+  licenseNote?: string
   /** `owner/name` key into the GitHub snapshot. */
   repo: string
   /** The repo the product is developed in, when `repo` is Sideband's fork of it. Ranking reads this one. */
@@ -75,17 +98,29 @@ function image(
   width: number,
   height: number,
   device: ProductDevice,
+  kind: ProductImageKind,
   alt: string,
   source: string,
+  extra: Pick<ProductImage, 'credit'> = {},
 ): ProductImage {
   return {
+    ...extra,
     src: `${ASSETS}/${product}/${file}`,
     alt,
     width,
     height,
     device,
+    kind,
     source,
   }
+}
+
+/** The Eternal2x demos use Hero footage. Credit from the Eternal2x README "Credits". */
+const HERO_CREDIT: ProductImageCredit = {
+  text: 'Footage from Hero by the Blender Foundation, edited by Eternal2x',
+  href: 'https://studio.blender.org/projects/hero/',
+  license: 'CC BY 4.0',
+  licenseHref: 'https://creativecommons.org/licenses/by/4.0/',
 }
 
 export const products: Product[] = [
@@ -170,6 +205,7 @@ export const products: Product[] = [
       256,
       256,
       'none',
+      'artwork',
       'EternalMonitor icon',
       'repo docs/assets/icon.png',
     ),
@@ -180,6 +216,7 @@ export const products: Product[] = [
         2080,
         1233,
         'desktop',
+        'screenshot',
         'The EternalMonitor Windows app streaming to an iPad Pro over USB',
         'repo docs/assets/hero-pc@2x.webp (egui snapshot render with fixture stats)',
       ),
@@ -189,6 +226,7 @@ export const products: Product[] = [
         1032,
         1498,
         'ipad',
+        'screenshot',
         'The EternalMonitor iPad app connect screen with QR scan, PC search and USB options',
         'repo docs/assets/ipad-app.webp',
       ),
@@ -198,6 +236,7 @@ export const products: Product[] = [
         2080,
         1095,
         'desktop',
+        'screenshot',
         'The Windows app Performance page with capture, encode and send rates',
         'repo docs/assets/host-performance@2x.webp',
       ),
@@ -207,6 +246,7 @@ export const products: Product[] = [
         2420,
         1668,
         'ipad',
+        'screenshot',
         'iPad settings for touch controls, the Command key and Apple Pencil drawing mode',
         'repo docs/assets/ipad-settings@2x.webp',
       ),
@@ -216,6 +256,7 @@ export const products: Product[] = [
         1668,
         2420,
         'ipad',
+        'screenshot',
         'The iPad pairing sheet asking for the six-digit code from the PC',
         'repo docs/assets/ipad-pairing@2x.webp',
       ),
@@ -225,6 +266,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The eternalmonitor.dev home page',
         'Playwright capture of https://eternalmonitor.dev/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -234,6 +276,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The eternalmonitor.dev home page on a phone',
         'Playwright capture of https://eternalmonitor.dev/ at 390x844, 2x, 2026-10-26',
       ),
@@ -243,6 +286,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The EternalMonitor download page with the Windows installer and the iPad beta',
         'Playwright capture of https://eternalmonitor.dev/download.html at 1440x900, 2x, 2026-10-26',
       ),
@@ -324,6 +368,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'EternalRichPresence icon',
       'https://eternalrichpresence.dev/favicon.svg, rasterized at 512px',
     ),
@@ -334,6 +379,7 @@ export const products: Product[] = [
         759,
         495,
         'none',
+        'screenshot',
         'A Discord profile showing EternalRichPresence with cover art, track, artist and Ask to Join',
         'Earlier Sideband site capture public/assets/EternalRichPresence/EternalRichPresenceDiscordProfileView.png (pre 2.0 "Playing" style)',
       ),
@@ -343,6 +389,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The eternalrichpresence.dev home page',
         'Playwright capture of https://eternalrichpresence.dev/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -352,6 +399,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The eternalrichpresence.dev home page on a phone',
         'Playwright capture of https://eternalrichpresence.dev/ at 390x844, 2x, 2026-10-26',
       ),
@@ -361,6 +409,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The EternalRichPresence setup guide',
         'Playwright capture of https://eternalrichpresence.dev/setup at 1440x900, 2x, 2026-10-26',
       ),
@@ -441,6 +490,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'Exerly app icon',
       'repo apps/ios/Exerly/Assets.xcassets/AppIcon.appiconset/AppIcon.png, resized to 512px',
     ),
@@ -451,6 +501,7 @@ export const products: Product[] = [
         1170,
         2532,
         'mobile',
+        'screenshot',
         'The Exerly iPhone Program screen with measured expenditure and macro targets',
         'repo docs/ios-handoff-evidence/nutrition-program.png',
       ),
@@ -460,6 +511,7 @@ export const products: Product[] = [
         1170,
         2532,
         'mobile',
+        'screenshot',
         'The Exerly iPhone weight trend chart with scale readings and weekly rate',
         'repo docs/ios-handoff-evidence/progress-weight.png',
       ),
@@ -469,6 +521,7 @@ export const products: Product[] = [
         1170,
         2532,
         'mobile',
+        'screenshot',
         'The Exerly iPhone diary with breakfast, lunch, dinner and snacks',
         'repo docs/ios-handoff-evidence/diary-yesterday.png',
       ),
@@ -478,6 +531,7 @@ export const products: Product[] = [
         1206,
         2622,
         'mobile',
+        'screenshot',
         'An Exerly food detail screen with quantity, meal and nutrition facts',
         'repo brag-output/composition/assets/ui/phone-portion.png',
       ),
@@ -487,6 +541,7 @@ export const products: Product[] = [
         1206,
         2622,
         'mobile',
+        'screenshot',
         'The Exerly log food search with recent foods',
         'repo brag-output/composition/assets/ui/phone-recents.png',
       ),
@@ -496,6 +551,7 @@ export const products: Product[] = [
         1280,
         1539,
         'desktop',
+        'screenshot',
         'The Exerly web dashboard weight and measurements page',
         'repo docs/production-evidence/weight-web/weight-desktop.png',
       ),
@@ -505,6 +561,7 @@ export const products: Product[] = [
         1280,
         1101,
         'desktop',
+        'screenshot',
         'The Exerly web setup step that reviews daily calorie and macro targets',
         'repo docs/production-evidence/setup-web/setup-review-desktop.png',
       ),
@@ -514,6 +571,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The exerlyfitness.com landing page',
         'Playwright capture of https://exerlyfitness.com/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -523,6 +581,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The exerlyfitness.com landing page on a phone',
         'Playwright capture of https://exerlyfitness.com/ at 390x844, 2x, 2026-10-26',
       ),
@@ -608,6 +667,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'TandemCode mascot: two pixel creatures sharing a laptop',
       'repo apps/web/public/mascot.png',
     ),
@@ -618,6 +678,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The TandemCode home page with two cursors typing in a shared editor',
         'Playwright capture of https://www.tandemcode.space/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -627,6 +688,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The TandemCode home page on a phone',
         'Playwright capture of https://www.tandemcode.space/ at 390x844, 2x, 2026-10-26',
       ),
@@ -636,6 +698,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The TandemCode about page',
         'Playwright capture of https://www.tandemcode.space/about at 1440x900, 2x, 2026-10-26',
       ),
@@ -706,16 +769,38 @@ export const products: Product[] = [
       128,
       128,
       'none',
+      'artwork',
       'Better Canvas icon',
       'repo icons/icon-128.png',
     ),
     images: [
       image(
         'better-canvas',
+        'settings-themes.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The Better Canvas settings page with its sample Canvas preview and the theme gallery',
+        'Playwright capture of chrome-extension://<id>/src/options/options.html with the unpacked extension (repo 3ba9169, v3.3.2) loaded in Chromium, 1440x900, 2x, 2026-10-26',
+      ),
+      image(
+        'better-canvas',
+        'settings-theme-preview.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'Better Canvas previewing the Forest Reverie theme on its sample Canvas dashboard',
+        'Playwright capture of the same settings page after picking Forest Reverie in the theme gallery, 1440x900, 2x, 2026-10-26',
+      ),
+      image(
+        'better-canvas',
         'theme-anime-night.webp',
         1536,
         1024,
         'none',
+        'artwork',
         'The Anime Night theme wallpaper that ships with Better Canvas',
         'repo src/assets/themes/anime-night-wallpaper.webp (theme artwork, made with an image model per docs/artwork-prompts.txt)',
       ),
@@ -725,6 +810,7 @@ export const products: Product[] = [
         1536,
         1024,
         'none',
+        'artwork',
         'The Anime Garden theme wallpaper that ships with Better Canvas',
         'repo src/assets/themes/anime-garden-wallpaper.webp (theme artwork, made with an image model per docs/artwork-prompts.txt)',
       ),
@@ -806,6 +892,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'Eternal2x neon E2x logo',
       'repo public/logo/Eternal 2x logo 01.png, center crop to square',
     ),
@@ -816,8 +903,10 @@ export const products: Product[] = [
         1600,
         861,
         'desktop',
+        'screenshot',
         'DaVinci Resolve Studio with the Eternal2x panel after a render, the smoothed clip on the track above the original',
         'repo docs/assets/demo/resolve.jpg',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -825,8 +914,10 @@ export const products: Product[] = [
         1200,
         760,
         'none',
+        'artwork',
         'Six frames of a walk as drawn on 2s compared with Eternal2x and its new in-betweens',
-        'repo docs/assets/demo/frames.jpg (footage from Hero by the Blender Foundation, CC BY 4.0)',
+        'repo docs/assets/demo/frames.jpg',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -834,8 +925,10 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The eternal2x.com home page with the before and after comparison',
         'Playwright capture of https://eternal2x.com/ at 1440x900, 2x, 2026-10-26',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -843,8 +936,10 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The eternal2x.com home page on a phone',
         'Playwright capture of https://eternal2x.com/ at 390x844, 2x, 2026-10-26',
+        { credit: HERO_CREDIT },
       ),
     ],
   },
@@ -907,6 +1002,8 @@ export const products: Product[] = [
       store:
         'https://chromewebstore.google.com/detail/eternal-summary/cpdeianknlpdhlbfdgckdcgfglbhkjbf',
     },
+    // LICENSE: "Eternal Summary License", copyright Ali Tleis, personal and educational use only.
+    licenseNote: 'Eternal Summary License, all rights reserved',
     repo: 'sidebandstudio/Eternal-Summary',
     accentColor: '#7B8CFF',
     icon: image(
@@ -915,6 +1012,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'Eternal Summary icon',
       'repo icons/icon-512.png',
     ),
@@ -925,6 +1023,7 @@ export const products: Product[] = [
         2720,
         1720,
         'desktop',
+        'screenshot',
         'The Eternal Summary panel beside an article with a summary, a verdict and numbered sources',
         'repo docs/shots/panel.png',
       ),
@@ -934,6 +1033,7 @@ export const products: Product[] = [
         2720,
         1720,
         'desktop',
+        'screenshot',
         'Eternal Summary in bullets mode',
         'repo docs/shots/bullets.png',
       ),
@@ -943,6 +1043,7 @@ export const products: Product[] = [
         2720,
         1720,
         'desktop',
+        'screenshot',
         'A follow-up question thread in the Eternal Summary panel',
         'repo docs/shots/chat.png',
       ),
@@ -952,6 +1053,7 @@ export const products: Product[] = [
         2720,
         1720,
         'desktop',
+        'screenshot',
         'An Eternal Summary card anchored to a highlighted passage',
         'repo docs/shots/selection.png',
       ),
@@ -961,6 +1063,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The Eternal Summary site',
         'Playwright capture of https://sidebandstudio.github.io/Eternal-Summary/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -970,6 +1073,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The Eternal Summary site on a phone',
         'Playwright capture of https://sidebandstudio.github.io/Eternal-Summary/ at 390x844, 2x, 2026-10-26',
       ),
@@ -1036,13 +1140,16 @@ export const products: Product[] = [
     version: '0.3.0',
     yearStarted: 2026,
     engineers: ['ali-younes'],
-    origin: 'Built on Handy by CJ Pais (MIT).',
+    origin:
+      'Built on Handy, an MIT-licensed app by CJ Pais. hushtype itself is proprietary.',
     links: {
       site: 'https://hushtype.vercel.app/',
       repo: 'https://github.com/sidebandstudio/hushtype',
       upstream: 'https://github.com/cjpais/Handy',
       download: 'https://hushtype.vercel.app/#install',
     },
+    // LICENSE: "proprietary and confidential", copyright Ali Younes (Sideband Studio).
+    licenseNote: 'Proprietary, all rights reserved',
     repo: 'sidebandstudio/hushtype',
     accentColor: '#B2C8A6',
     icon: image(
@@ -1051,6 +1158,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'hushtype app icon',
       'repo website/brand/icon-512.png',
     ),
@@ -1061,6 +1169,7 @@ export const products: Product[] = [
         1092,
         872,
         'desktop',
+        'screenshot',
         'hushtype dictation settings in dark mode with the Option-Space shortcut',
         'repo website/images/app-dark.png',
       ),
@@ -1070,6 +1179,7 @@ export const products: Product[] = [
         1092,
         972,
         'desktop',
+        'screenshot',
         'hushtype mode settings listing Messaging, Email, Code and Default',
         'repo website/images/app-light.png',
       ),
@@ -1079,6 +1189,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The hushtype site with its dictation demo',
         'Playwright capture of https://hushtype.vercel.app/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -1088,6 +1199,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The hushtype site on a phone',
         'Playwright capture of https://hushtype.vercel.app/ at 390x844, 2x, 2026-10-26',
       ),
@@ -1156,6 +1268,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'EternalExchange mark',
       'https://eternalexchangemod.com/assets/favicon.svg, rasterized at 512px',
     ),
@@ -1166,6 +1279,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The eternalexchangemod.com home page with a list of EMC values',
         'Playwright capture of https://eternalexchangemod.com/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -1175,8 +1289,25 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The eternalexchangemod.com home page on a phone',
         'Playwright capture of https://eternalexchangemod.com/ at 390x844, 2x, 2026-10-26',
+      ),
+      image(
+        'eternal-exchange',
+        'transmutation-table-gui.webp',
+        916,
+        788,
+        'none',
+        'artwork',
+        'The Transmutation Table interface texture that ships in the mod, shown at four times its size',
+        'repo src/main/resources/assets/projecte/textures/gui/transmute.png (229x197 drawn area of a 256x256 texture, byte-identical to ProjectE mc1.21.1), scaled 4x nearest-neighbor',
+        {
+          credit: {
+            text: 'Texture by MidnightLightning for Equivalent Exchange 2, used in ProjectE with the EE2 creator’s permission',
+            href: 'https://github.com/sinkillerj/ProjectE/blob/mc1.21.1/README.md',
+          },
+        },
       ),
     ],
   },
@@ -1245,6 +1376,7 @@ export const products: Product[] = [
       512,
       512,
       'none',
+      'artwork',
       'Top Choice Realty LLC logo',
       'repo apps/web/src/assets/topchoicerealtypfp.jpg, resized to 512px',
     ),
@@ -1255,6 +1387,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The Top Choice Realty home page',
         'Playwright capture of https://topchoicerealtyny.com/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -1264,6 +1397,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The Top Choice Realty home page on a phone',
         'Playwright capture of https://topchoicerealtyny.com/ at 390x844, 2x, 2026-10-26',
       ),
@@ -1273,6 +1407,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The Top Choice Realty agent login',
         'Playwright capture of https://topchoicerealtyny.com/login at 1440x900, 2x, 2026-10-26',
       ),
@@ -1348,6 +1483,7 @@ export const products: Product[] = [
         2880,
         1800,
         'desktop',
+        'screenshot',
         'The Signature Cuts 413 home page',
         'Playwright capture of https://signaturecutschicopee.com/ at 1440x900, 2x, 2026-10-26',
       ),
@@ -1357,6 +1493,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The Signature Cuts 413 home page on a phone',
         'Playwright capture of https://signaturecutschicopee.com/ at 390x844, 2x, 2026-10-26',
       ),
@@ -1366,6 +1503,7 @@ export const products: Product[] = [
         780,
         1688,
         'mobile',
+        'screenshot',
         'The booking form with a time picked and the WhatsApp and text message send buttons',
         'Playwright capture of the #booking form on https://signaturecutschicopee.com/ after filling it, 390x844, 2x, 2026-10-26',
       ),
@@ -1375,6 +1513,7 @@ export const products: Product[] = [
         1206,
         1207,
         'none',
+        'photo',
         'The Signature Barber Shop storefront in Chicopee',
         'repo public/images/Store-images/StoreFront.jpg',
       ),
@@ -1396,6 +1535,88 @@ export function productRepo(product: Product): GithubRepo {
     )
   }
   return repo
+}
+
+/**
+ * OSI-approved licenses, by SPDX id as GitHub reports them. Only these count
+ * as open source. https://opensource.org/licenses
+ */
+const OSI_APPROVED = new Set([
+  '0BSD',
+  'AFL-3.0',
+  'AGPL-3.0',
+  'Apache-2.0',
+  'Artistic-2.0',
+  'BSD-2-Clause',
+  'BSD-3-Clause',
+  'BSL-1.0',
+  'ECL-2.0',
+  'EPL-1.0',
+  'EPL-2.0',
+  'EUPL-1.2',
+  'GPL-2.0',
+  'GPL-3.0',
+  'ISC',
+  'LGPL-2.1',
+  'LGPL-3.0',
+  'MIT',
+  'MPL-2.0',
+  'MS-PL',
+  'MS-RL',
+  'OSL-3.0',
+  'Unlicense',
+  'UPL-1.0',
+  'Zlib',
+])
+
+export interface ProductLicense {
+  /** SPDX id, or null when GitHub cannot identify the license or there is none. */
+  spdx: string | null
+  name: string
+  openSource: boolean
+  /** The LICENSE file on GitHub, or null when the repo has none. */
+  url: string | null
+}
+
+/**
+ * The license of the product's own repo (`repo`, not the upstream), from the
+ * snapshot's detected license and LICENSE file. Server-side: reads the snapshot.
+ *
+ * - An identified OSI-approved license is open source.
+ * - A LICENSE file GitHub cannot identify (NOASSERTION) is not, and its name
+ *   comes from `licenseNote`, read from the file.
+ * - No LICENSE file means all rights reserved.
+ */
+export function productLicense(product: Product): ProductLicense {
+  const repo = getRepo(product.repo)
+  if (!repo) {
+    throw new Error(
+      `${product.repo} is missing from lib/data/github.json. Run npm run sync:github.`,
+    )
+  }
+  const url = repo.licenseFile?.url ?? null
+  if (!repo.licenseFile) {
+    return {
+      spdx: null,
+      name: 'No license, all rights reserved',
+      openSource: false,
+      url,
+    }
+  }
+  if (!repo.license || repo.license === 'NOASSERTION') {
+    if (!product.licenseNote) {
+      throw new Error(
+        `${product.repo} has a LICENSE file GitHub cannot identify. Read it and set licenseNote on ${product.id}.`,
+      )
+    }
+    return { spdx: null, name: product.licenseNote, openSource: false, url }
+  }
+  return {
+    spdx: repo.license,
+    name: repo.licenseName ?? repo.license,
+    openSource: OSI_APPROVED.has(repo.license),
+    url,
+  }
 }
 
 export interface ProductRankInputs {

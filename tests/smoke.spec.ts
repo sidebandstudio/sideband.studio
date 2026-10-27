@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { products } from '../lib/products'
+import { productLicense, products } from '../lib/products'
 
 test('homepage renders and primary navigation reaches products', async ({
   page,
@@ -59,6 +59,22 @@ for (const product of products) {
     ).toBeVisible()
   })
 }
+
+test('home Open source section lists only OSI-licensed product repos', async ({
+  page,
+}) => {
+  expect(
+    productLicense(products.find((p) => p.id === 'hushtype')!),
+  ).toMatchObject({ openSource: false })
+  await page.goto('/')
+  const section = page.locator('#open-source')
+  for (const product of products) {
+    const path = product.links.repo!.replace('https://github.com/', '')
+    await expect(section.getByRole('link', { name: path })).toHaveCount(
+      productLicense(product).openSource ? 1 : 0,
+    )
+  }
+})
 
 test('engineers index lists all founders and links to a dossier', async ({
   page,

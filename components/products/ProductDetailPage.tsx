@@ -7,6 +7,7 @@ import Reveal from '@/components/ui/Reveal'
 import Badge from '@/components/ui/Badge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import Eyebrow from '@/components/ui/Eyebrow'
+import ImageCredit from '@/components/products/ImageCredit'
 import {
   BrowserFrame,
   IPadFrame,
@@ -86,8 +87,17 @@ function GalleryItem({
           letterSpacing: '0.04em',
         }}
       >
+        {item.kind !== 'screenshot' && (
+          <span style={{ color: 'var(--sideband-text-secondary)' }}>
+            {item.kind === 'photo' ? 'Photo' : 'Artwork'}
+            {' · '}
+          </span>
+        )}
         {item.alt}
       </p>
+      {item.credit && (
+        <ImageCredit credit={item.credit} className="mt-1 px-1" />
+      )}
     </div>
   )
 }
@@ -370,7 +380,9 @@ export default function ProductDetailPage({
                 marginTop: 8,
               }}
             >
-              Real screenshots of the product and its site.
+              {product.images.every((img) => img.kind === 'screenshot')
+                ? 'Real screenshots of the product and its site.'
+                : 'Screenshots of the product and its site, with photos and artwork labelled.'}
             </p>
           </Reveal>
           <div

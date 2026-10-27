@@ -2,16 +2,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Reveal from '@/components/ui/Reveal'
 import type { FeaturedProject } from '@/lib/engineers'
-import { getProductById } from '@/lib/products'
+import { getProductById, type ProductImage } from '@/lib/products'
+import ImageCredit from '@/components/products/ImageCredit'
 
-/** Projects with a productId reuse that product's desktop screenshot. */
-function coverFor(project: FeaturedProject): string | null {
+/** Projects with a productId reuse that product's widest screenshot. */
+function coverFor(project: FeaturedProject): ProductImage | null {
   if (!project.productId) return null
   const product = getProductById(project.productId)
   if (!product) return null
   return (
-    product.images.find((img) => img.device === 'desktop') ?? product.images[0]
-  ).src
+    product.images.find(
+      (img) => img.kind === 'screenshot' && img.device === 'desktop',
+    ) ?? product.images[0]
+  )
 }
 
 interface FeaturedProjectsProps {
@@ -42,7 +45,7 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
       {cover && (
         <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
           <Image
-            src={cover}
+            src={cover.src}
             alt=""
             aria-hidden
             fill
@@ -50,6 +53,13 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sideband-surface/70 to-transparent" />
+          {cover.credit && (
+            <ImageCredit
+              credit={cover.credit}
+              plain
+              className="absolute bottom-1.5 left-2 right-2"
+            />
+          )}
         </div>
       )}
 

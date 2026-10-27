@@ -87,6 +87,18 @@ async function rest(path) {
   }
 }
 
+/** The repo's LICENSE file as GitHub detects it, or null when there is none. */
+async function licenseFile(key) {
+  const res = await fetch(`https://api.github.com/repos/${key}/license`, {
+    headers: HEADERS,
+  })
+  if (res.status === 404) return null
+  if (!res.ok)
+    fail(`GET /repos/${key}/license ${res.status}: ${await res.text()}`)
+  const body = await res.json()
+  return { path: body.path, url: body.html_url }
+}
+
 /** Repo keys (`owner/name`) declared in lib/products.ts. */
 function productRepoKeys() {
   const src = readFileSync(join(ROOT, 'lib/products.ts'), 'utf8')
@@ -180,6 +192,8 @@ async function syncRepos(keys) {
         ? { date: newest.publishedAt, tag: newest.tagName, url: newest.url }
         : null,
       license: r.licenseInfo?.spdxId ?? null,
+      licenseFile: await licenseFile(key),
+      licenseName: r.licenseInfo?.name ?? null,
       name: r.name,
       openIssues: r.issues.totalCount,
       parent: r.parent?.nameWithOwner ?? null,
