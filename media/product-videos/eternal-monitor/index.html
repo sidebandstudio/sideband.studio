@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1200" />
+    <title>EternalMonitor product loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --accent: #e8ff47; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      /* One soft light from above (the site's spotlight backdrop) and a little floor shade. */
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 38%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* PC monitor. The screen is the Stream page's own 2080x1233 aspect. */
+      #pc { position: absolute; left: 232px; top: 306px; width: 1032px; }
+      .pc-body {
+        position: relative; z-index: 1; width: 1032px; height: 625px; padding: 16px;
+        border-radius: 20px; background: var(--surface-2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .pc-screen { position: relative; width: 1000px; height: 593px; border-radius: 8px; overflow: hidden; background: #0a0a0a; }
+      .pc-neck { width: 132px; height: 92px; margin: -6px auto 0; background: linear-gradient(180deg, #141417 0%, #1d1d21 100%); }
+      .pc-base { width: 330px; height: 14px; margin: 0 auto; border-radius: 7px; background: var(--surface-3); }
+
+      /* iPad, drawn landscape at the 2420x1668 screen aspect. Portrait is #ipad-turn at -90deg. */
+      #ipad { position: absolute; left: 1046px; top: 612px; width: 664px; height: 471px; z-index: 2; }
+      #ipad-turn { position: absolute; inset: 0; }
+      .ipad-body {
+        position: absolute; inset: 0; padding: 22px; border-radius: 40px; background: var(--surface-2);
+        box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.07), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .ipad-screen { position: relative; width: 620px; height: 427px; border-radius: 18px; overflow: hidden; background: #000; }
+      /* The connect screen is a portrait capture: turned +90deg here, it reads upright while the body is at -90deg. */
+      .ipad-connect-turn { position: absolute; left: 96.5px; top: -96.5px; width: 427px; height: 620px; transform: rotate(90deg); }
+      #ipad-connect, #ipad-connect img { display: block; width: 100%; height: 100%; }
+      /* Mirror shows the PC picture whole, with black bars, as the app's Fit setting does. */
+      .ipad-mirror { position: absolute; inset: 0; display: flex; align-items: center; }
+      #mirror-slide { position: relative; width: 620px; height: 367.7px; }
+
+      .pic { position: absolute; inset: 0; }
+      .pic img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+      /* A touch on the iPad, and the click it becomes on the PC. */
+      .touch { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+      .touch-dot { position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.42); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7); }
+      .touch-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.8); }
+      .click { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; box-shadow: inset 0 0 0 3px var(--accent); }
+
+      #caps { position: absolute; left: 0; right: 0; top: 112px; height: 100px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; color: var(--ink);
+        font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1200">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="pc">
+          <div class="pc-body">
+            <div class="pc-screen">
+              <div class="pic">
+                <img id="pc-stream" src="assets/img/host-stream.webp" alt="" />
+                <img id="pc-perf" src="assets/img/host-performance-padded.webp" alt="" />
+              </div>
+              <div id="pc-click-perf" class="click" style="left: 75px; top: 136.5px"></div>
+              <div id="pc-click-stream" class="click" style="left: 75px; top: 98px"></div>
+            </div>
+          </div>
+          <div class="pc-neck"></div>
+          <div class="pc-base"></div>
+        </div>
+
+        <div id="ipad" data-layout-allow-overflow>
+          <!-- Turns about its own centre. The centre travels only because the camera and #ipad move it. -->
+          <div id="ipad-turn" data-layout-allow-orbit>
+            <div class="ipad-body">
+              <div class="ipad-screen">
+                <div class="ipad-mirror">
+                  <div id="mirror-slide">
+                    <div class="pic">
+                      <img id="ipad-stream" src="assets/img/host-stream-mirror.webp" alt="" />
+                      <img id="ipad-perf" src="assets/img/host-performance-padded-mirror.webp" alt="" />
+                    </div>
+                    <div id="touch-perf" class="touch" style="left: 46.5px; top: 84.7px"><div class="touch-ring"></div><div class="touch-dot"></div></div>
+                    <div id="touch-stream" class="touch" style="left: 46.5px; top: 60.9px"><div class="touch-ring"></div><div class="touch-dot"></div></div>
+                  </div>
+                </div>
+                <div class="ipad-connect-turn">
+                  <div id="ipad-connect"><img src="assets/img/ipad-connect.webp" alt="" /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="caps">
+        <div id="cap-1" class="cap">Mirror or second screen</div>
+        <div id="cap-2" class="cap">Touch, keyboard and trackpad</div>
+        <div id="cap-3" class="cap">Encoded on your graphics card</div>
+      </div>
+    </div>
+
+    <script>
+      // Authored constants only, no layout reads at tween time.
+      const PC_CENTER_X = 212; // shift that centres the PC alone in frame
+      const IPAD_HIDDEN_Y = 520; // the iPad waits below frame, and leaves to the same spot
+      const IPAD_PORTRAIT_Y = -48; // portrait sits higher so its foot clears the frame edge
+
+      // Rest state at t=0. The timeline returns every channel to it by t=12, so the loop has no seam.
+      gsap.set("#camera", { x: 0, y: 0, scale: 1 });
+      gsap.set("#pc", { x: PC_CENTER_X });
+      gsap.set("#ipad", { y: IPAD_HIDDEN_Y, opacity: 0 });
+      gsap.set("#ipad-turn", { rotation: -90 });
+      gsap.set("#ipad-connect", { opacity: 1 });
+      gsap.set("#mirror-slide", { xPercent: -24, opacity: 0 });
+      gsap.set(["#pc-perf", "#ipad-perf"], { opacity: 0 });
+      gsap.set([".touch", ".click"], { opacity: 0, scale: 0.6 });
+      gsap.set(".touch-ring", { scale: 1, opacity: 0 });
+
+      const tl = gsap.timeline({ paused: true });
+      const capIn = (id, at) => tl.fromTo(id, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, at);
+      const capOut = (id, at) => tl.to(id, { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, at);
+      const cam = (v, at, duration, ease) => tl.to("#camera", { ...v, duration, ease }, at);
+
+      // A touch on an item in the iPad's mirrored picture, clicked on the PC a beat later, then both pages change.
+      function tap(touch, click, at, pcImg, ipadImg, show) {
+        tl.to(touch, { opacity: 1, scale: 1, duration: 0.22, ease: "power2.out" }, at)
+          .to(touch, { scale: 0.84, duration: 0.1, ease: "power2.in" }, at + 0.24)
+          .fromTo(`${touch} .touch-ring`, { scale: 1, opacity: 0.9 }, { scale: 2.3, opacity: 0, duration: 0.48, ease: "power2.out", immediateRender: false }, at + 0.32)
+          .to(touch, { opacity: 0, scale: 1, duration: 0.25, ease: "power1.in" }, at + 0.46)
+          .fromTo(click, { opacity: 1, scale: 0.5 }, { opacity: 0, scale: 1.6, duration: 0.52, ease: "power2.out", immediateRender: false }, at + 0.38)
+          .to(pcImg, { opacity: show, duration: 0.1, ease: "none" }, at + 0.4)
+          .to(ipadImg, { opacity: show, duration: 0.1, ease: "none" }, at + 0.5);
+      }
+
+      // Beat 1 (0 to 4.4s): the iPad joins the PC, turns to landscape and shows the PC's picture.
+      tl.to("#pc", { x: 0, duration: 1.15, ease: "power2.inOut" }, 0.25)
+        .to("#ipad", { y: IPAD_PORTRAIT_Y, opacity: 1, duration: 1.05, ease: "expo.out" }, 0.4);
+      capIn("#cap-1", 0.7);
+      tl.to("#ipad-turn", { rotation: 0, duration: 0.85, ease: "power3.inOut" }, 1.65)
+        .to("#ipad", { y: 0, duration: 0.85, ease: "power3.inOut" }, 1.65)
+        .to("#ipad-connect", { opacity: 0, duration: 0.3, ease: "power1.in" }, 1.85)
+        .to("#mirror-slide", { xPercent: 0, opacity: 1, duration: 0.8, ease: "power4.out" }, 2.15);
+      cam({ scale: 1.025 }, 2.3, 1.8, "sine.inOut");
+      capOut("#cap-1", 4.05);
+
+      // Beat 2 (4.2 to 7.5s): a touch on Performance in the iPad picture switches the PC, then the iPad follows.
+      cam({ scale: 1.12, x: -120, y: -40 }, 4.15, 1.1, "power3.inOut");
+      capIn("#cap-2", 4.55);
+      tap("#touch-perf", "#pc-click-perf", 5.26, "#pc-perf", "#ipad-perf", 1);
+      cam({ scale: 1.1, x: -104, y: -32 }, 5.6, 1.6, "sine.inOut");
+      capOut("#cap-2", 7.2);
+
+      // Beat 3 (7.25 to 12s): the PC's Performance page, a touch back to Stream, and back to rest.
+      cam({ scale: 1.22, x: 146, y: 90 }, 7.25, 1.2, "power3.inOut");
+      capIn("#cap-3", 7.65);
+      cam({ scale: 1.19, x: 140, y: 84 }, 8.45, 1.1, "sine.inOut");
+      capOut("#cap-3", 9.6);
+      cam({ scale: 1, x: 0, y: 0 }, 9.6, 0.95, "power3.inOut");
+      tap("#touch-stream", "#pc-click-stream", 10.13, "#pc-perf", "#ipad-perf", 0);
+      tl.to("#ipad", { y: IPAD_HIDDEN_Y, opacity: 0, duration: 0.7, ease: "power2.in" }, 10.92)
+        .to("#pc", { x: PC_CENTER_X, duration: 1.0, ease: "power2.inOut" }, 10.85)
+        // The iPad is out of sight now, so its inner parts go back to their t=0 state.
+        .set("#ipad-turn", { rotation: -90 }, 11.7)
+        .set("#ipad-connect", { opacity: 1 }, 11.7)
+        .set("#mirror-slide", { xPercent: -24, opacity: 0 }, 11.7);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

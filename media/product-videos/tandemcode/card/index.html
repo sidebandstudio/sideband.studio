@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>TandemCode card loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --muted: #8f8e98; --accent: #f97316; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1440px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+      #light { position: absolute; inset: 0; background: radial-gradient(60% 55% at 50% 45%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%); }
+
+      /* The hero's browser window on the tandemcode.space homepage, sized so the address reads on a 360 px card. */
+      #win { position: absolute; left: 40px; top: 190px; width: 1360px; border-radius: 18px 18px 0 0; overflow: hidden; background: var(--surface-2); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.06), 0 50px 100px -40px rgba(0, 0, 0, 0.9); }
+      .bar { position: relative; height: 80px; display: flex; align-items: center; padding: 0 26px; gap: 11px; }
+      .dot { width: 15px; height: 15px; border-radius: 50%; background: var(--surface-3); }
+      .url { position: absolute; left: 50%; top: 13px; width: 470px; height: 54px; margin-left: -235px; border-radius: 12px; background: #131316; color: #d8d7de; font-size: 38px; line-height: 54px; text-align: center; letter-spacing: 0.005em; }
+      .page { position: relative; width: 1360px; height: 830px; overflow: hidden; background: #0a0a0c; }
+      #pg { position: absolute; left: 0; top: 0; width: 1440px; height: 1200px; transform-origin: 0 0; }
+      #pg img { position: absolute; left: 0; top: 0; width: 1440px; height: 1200px; display: block; }
+      #demo { position: absolute; left: 256px; top: 624px; width: 928px; height: 480px; display: block; }
+
+      #cap {
+        position: absolute; left: 0; right: 0; top: 60px; text-align: center; color: var(--ink);
+        font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="card" data-start="0" data-duration="8" data-width="1440" data-height="1080">
+      <div id="light"></div>
+      <div id="win" data-layout-allow-overflow>
+        <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url" data-layout-ignore>tandemcode.space</div></div>
+        <div class="page">
+          <div id="pg">
+            <img src="assets/img/tc-site-home-1440x1200.webp" alt="" />
+            <!-- The page's own demo from 12.0 s of its cycle: ACCEPTED, the wrap at 1.5 s, then typing at real speed. -->
+            <video id="demo" class="clip" src="assets/video/tc-site-demo-card.mp4" muted playsinline data-start="0" data-duration="8" data-track-index="1"></video>
+          </div>
+        </div>
+      </div>
+      <div id="cap">Shared editor</div>
+    </div>
+
+    <script>
+      const W = 1360;
+      const view = (z, cx, top) => ({ scale: z, x: W / 2 - cx * z, y: -top * z });
+      const REST = view(W / 1440, 720, 0); // the homepage headline above the demo
+      const CODE = view(2.8, 495, 754); // the editor's lines and both cursors
+
+      // The two ends are 8 s of the page's demo apart (four caret pulses) with the page at rest, so they match.
+      gsap.set("#pg", REST);
+
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#pg", { ...CODE, duration: 1.1, ease: "power3.inOut" }, 1.1)
+        .fromTo("#cap", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out", immediateRender: false }, 1.6)
+        .to("#pg", { ...view(2.9, 500, 758), duration: 4.25, ease: "sine.inOut" }, 2.2)
+        .to("#cap", { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, 6.4)
+        .to("#pg", { ...REST, duration: 1.1, ease: "power3.inOut" }, 6.5);
+
+      window.__timelines["card"] = tl;
+    </script>
+  </body>
+</html>

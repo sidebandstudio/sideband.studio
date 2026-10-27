@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1200" />
+    <title>Eternal2x product loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --accent: #7c6fef; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 40%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* The "As drawn" row of the frames comparison (1200x760, real Eternal2x output frames) at 1.1x, cut into its cells. */
+      #frames { position: absolute; left: 300px; top: 484px; width: 1320px; height: 434px; }
+      /* The image's own ground is #0e0e0e, so the panel behind the cells matches it. */
+      #frames-bg { position: absolute; left: -28px; top: -24px; width: 1376px; height: 480px; border-radius: 18px; background: #0e0e0e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
+      .crop { position: absolute; overflow: hidden; }
+      .crop img { position: absolute; display: block; width: 1320px; height: 836px; max-width: none; }
+      .scan { position: absolute; top: 52.8px; width: 4px; height: 334.4px; margin-left: -2px; border-radius: 2px; background: var(--accent); box-shadow: 0 0 24px 4px rgba(124, 111, 239, 0.55); }
+
+      /* Two viewers play the comparison's frames in order: the drawn row beside the Eternal2x row, at 2.4x. */
+      .viewer { position: absolute; top: 296px; width: 393.6px; height: 715.2px; border-radius: 10px; overflow: hidden; background: #0e0e0e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
+      .viewer .cell { position: absolute; inset: 0; overflow: hidden; }
+      .viewer .cell img { display: block; width: 100%; height: 100%; }
+      #view-drawn { left: 506px; }
+      #view-e2x { left: 1020px; box-shadow: 0 0 0 3px var(--accent), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
+      .vlabel { position: absolute; top: 0; width: 560px; margin-left: -280px; text-align: center; color: var(--ink); font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0; }
+      #label-drawn { left: 703px; }
+      #label-e2x { left: 1217px; color: var(--accent); }
+
+      /* Monitor with the real Resolve Studio screenshot (1600x861) at 0.775x. */
+      #pc { position: absolute; left: 324px; top: 330px; width: 1272px; }
+      .pc-body {
+        position: relative; z-index: 1; width: 1272px; height: 699px; padding: 16px;
+        border-radius: 20px; background: var(--surface-2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .pc-screen { position: relative; width: 1240px; height: 667px; border-radius: 8px; overflow: hidden; background: #000; }
+      .pc-screen img { display: block; width: 100%; height: 100%; }
+      .pc-neck { width: 150px; height: 92px; margin: -6px auto 0; background: linear-gradient(180deg, #141417 0%, #1d1d21 100%); }
+      .pc-base { width: 380px; height: 14px; margin: 0 auto; border-radius: 7px; background: var(--surface-3); }
+      .click { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; box-shadow: inset 0 0 0 3px var(--accent); }
+      .ring { position: absolute; border-radius: 6px; box-shadow: inset 0 0 0 3px var(--accent); }
+
+      #caps { position: absolute; left: 0; right: 0; top: 112px; height: 100px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; color: var(--ink);
+        font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1200">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="frames" data-layout-allow-overflow><div id="frames-bg"></div></div>
+        <div id="view-drawn" class="viewer"></div>
+        <div id="view-e2x" class="viewer"></div>
+
+        <div id="pc">
+          <div class="pc-body">
+            <div class="pc-screen">
+              <img src="assets/img/resolve-panel.webp" alt="" />
+              <div id="click-smooth" class="click" style="left: 210px; top: 351px"></div>
+              <div id="ring-v2" class="ring" style="left: 355px; top: 493px; width: 206px; height: 36px"></div>
+              <div id="ring-panel" class="ring" style="left: 62px; top: 386px; width: 294px; height: 38px"></div>
+            </div>
+          </div>
+          <div class="pc-neck"></div>
+          <div class="pc-base"></div>
+        </div>
+      </div>
+
+      <div id="caps">
+        <div id="cap-1" class="cap">Find the real drawings</div>
+        <div id="label-drawn" class="vlabel">As drawn</div>
+        <div id="label-e2x" class="vlabel">Eternal2x</div>
+        <div id="cap-3" class="cap">Lands above the original</div>
+      </div>
+    </div>
+
+    <script>
+      // Authored constants only, no layout reads at tween time.
+      const G = 1.1; // comparison image px to frame px in the row
+      const PITCH = 178; // cell pitch in image px
+      const STEP = 0.25; // each frame shows for 0.25 s, about a sixth of real speed
+      const CYCLE = 1.75; // six frames, the last held one step longer, then the walk plays again
+      const frames = document.getElementById("frames");
+
+      // One element per region of the image, positioned where it sits in the image.
+      function crop(id, x, y, w, h) {
+        const el = document.createElement("div");
+        el.id = id;
+        el.className = "crop";
+        Object.assign(el.style, { left: x * G + "px", top: y * G + "px", width: w * G + "px", height: h * G + "px" });
+        const img = document.createElement("img");
+        img.src = "assets/img/frames-compare.webp";
+        img.alt = "";
+        Object.assign(img.style, { left: -x * G + "px", top: -y * G + "px" });
+        el.appendChild(img);
+        frames.appendChild(el);
+      }
+      crop("heads", 120, 0, 1080, 46);
+      crop("label-top", 0, 46, 124, 348);
+      for (let i = 0; i < 6; i++) crop(`top-${i}`, 124 + i * PITCH, 46, PITCH, 348);
+      const scan = document.createElement("div");
+      scan.className = "scan";
+      scan.id = "scan";
+      frames.appendChild(scan);
+
+      // Each viewer stacks its row's six cells. Only one shows at a time.
+      function viewer(id, row) {
+        const host = document.getElementById(id);
+        for (let i = 0; i < 6; i++) {
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          cell.id = `${id}-${i}`;
+          const img = document.createElement("img");
+          img.src = `assets/img/cells/${row}-${i}.webp`; // the cell's inside, cut from frames-compare.webp
+          img.alt = "";
+          cell.appendChild(img);
+          host.appendChild(cell);
+        }
+      }
+      viewer("view-drawn", "top");
+      viewer("view-e2x", "bottom");
+      const cells = (k) => [`#view-drawn-${k}`, `#view-e2x-${k}`];
+      const allCells = [0, 1, 2, 3, 4, 5].flatMap(cells);
+      const held = [1, 3, 5].map((i) => `#top-${i}`);
+
+      // Rest state at t=0. The timeline returns every channel to it by t=12, so the loop has no seam.
+      gsap.set("#camera", { x: 0, y: 0, scale: 1 });
+      gsap.set("#frames", { opacity: 1, y: 0, scale: 1 });
+      gsap.set(held, { opacity: 1 });
+      gsap.set("#scan", { x: 128 * G, opacity: 0 });
+      gsap.set(".viewer", { opacity: 0, y: 40, scale: 0.96 });
+      gsap.set(allCells, { opacity: 0 });
+      gsap.set(cells(0), { opacity: 1 });
+      gsap.set("#pc", { y: 700, opacity: 0 });
+      gsap.set(["#click-smooth", "#ring-v2", "#ring-panel"], { opacity: 0, scale: 0.6 });
+
+      const tl = gsap.timeline({ paused: true });
+      const capIn = (id, at) => tl.fromTo(id, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, at);
+      const capOut = (id, at) => tl.to(id, { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, at);
+      const cam = (v, at, duration, ease) => tl.to("#camera", { ...v, duration, ease }, at);
+      // One pass of the walk from `at`: frame k shows from at + k * STEP until the next pass.
+      function play(at) {
+        for (let k = 1; k < 6; k++) tl.set(allCells, { opacity: 0 }, at + k * STEP).set(cells(k), { opacity: 1 }, at + k * STEP);
+        tl.set(allCells, { opacity: 0 }, at + CYCLE).set(cells(0), { opacity: 1 }, at + CYCLE);
+      }
+
+      // Beat 1 (0 to 4.2s): a scan reads the drawn frames. Each held frame is a repeat of the drawing before it, so it greys out.
+      capIn("#cap-1", 0.7);
+      tl.to("#scan", { opacity: 1, duration: 0.2, ease: "none" }, 0.9)
+        .to("#scan", { x: 1188 * G, duration: 2.0, ease: "none" }, 0.9)
+        .to("#scan", { opacity: 0, duration: 0.25, ease: "none" }, 2.85);
+      held.forEach((sel, k) => tl.to(sel, { opacity: 0.28, duration: 0.4, ease: "power2.out" }, 0.9 + ((306 + k * 2 * PITCH - 128) / 1060) * 2.0 + 0.2));
+      cam({ scale: 1.025 }, 1.0, 3.0, "sine.inOut");
+      capOut("#cap-1", 4.05);
+
+      // Beat 2 (4.2 to 8.5s): the drawn frames play beside the Eternal2x frames. The drawn walk holds every other frame, the Eternal2x walk moves on every frame.
+      cam({ scale: 1 }, 4.1, 0.6, "power2.inOut");
+      tl.to("#frames", { opacity: 0, y: -40, scale: 0.96, duration: 0.45, ease: "power2.in" }, 4.1)
+        .to(".viewer", { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "expo.out" }, 4.4);
+      capIn("#label-drawn", 4.5);
+      capIn("#label-e2x", 4.6);
+      play(5.0);
+      play(5.0 + CYCLE);
+      capOut("#label-drawn", 8.2);
+      capOut("#label-e2x", 8.2);
+      tl.to(".viewer", { opacity: 0, y: -30, scale: 0.97, duration: 0.4, ease: "power2.in" }, 8.25)
+        .set(held, { opacity: 1 }, 8.7)
+        .set("#scan", { x: 128 * G }, 8.7)
+        .set(".viewer", { y: 40, scale: 0.96 }, 8.7);
+
+      // Beat 3 (8.5 to 12s): in Resolve, Smooth Clip puts the rebuilt clip on V2, the track above the original.
+      tl.to("#pc", { y: 0, opacity: 1, duration: 1.0, ease: "expo.out" }, 8.5);
+      capIn("#cap-3", 8.7);
+      cam({ scale: 1.2, x: 210, y: -40 }, 9.15, 1.0, "power3.inOut");
+      tl.to("#click-smooth", { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" }, 9.75)
+        .fromTo("#click-smooth", { scale: 0.5 }, { opacity: 0, scale: 1.6, duration: 0.5, ease: "power2.out", immediateRender: false }, 9.95)
+        .to("#ring-panel", { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 10.1)
+        .to("#ring-v2", { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, 10.35);
+      cam({ scale: 1.185, x: 200, y: -36 }, 10.15, 0.75, "sine.inOut");
+      capOut("#cap-3", 10.9);
+      tl.to(["#ring-panel", "#ring-v2"], { opacity: 0, duration: 0.25, ease: "power1.in" }, 10.9);
+      cam({ scale: 1, x: 0, y: 0 }, 10.9, 0.8, "power3.inOut");
+      tl.to("#pc", { y: 700, opacity: 0, duration: 0.5, ease: "power2.in" }, 11.0)
+        .fromTo("#frames", { opacity: 0, y: 40, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "expo.out", immediateRender: false }, 11.3)
+        .set(["#click-smooth", "#ring-v2", "#ring-panel"], { scale: 0.6 }, 11.6);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

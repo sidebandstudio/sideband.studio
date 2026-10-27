@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>EternalRichPresence card loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --accent: #ff6b7d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1440px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 45%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 62% 62%; }
+
+      /* PC monitor with the real Windows capture of EternalRichPresence in host mode: the banner and startup lines
+         only, with the folder path on the starting line covered in the terminal's own background. */
+      #pc { position: absolute; left: 24px; top: 318px; width: 752px; }
+      .pc-body {
+        position: relative; z-index: 1; width: 752px; height: 423px; padding: 16px;
+        border-radius: 18px; background: var(--surface-2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .pc-screen { position: relative; width: 720px; height: 391px; border-radius: 7px; overflow: hidden; background: #0c0c0c; }
+      /* Rows 140 to 404, columns 2 to 757 of the capture at 0.95x, kept at their original place on screen. */
+      .pc-screen img { position: absolute; left: 1.9px; top: 133px; display: block; width: 718.2px; height: 252px; }
+      .pc-neck { width: 104px; height: 76px; margin: -6px auto 0; background: linear-gradient(180deg, #141417 0%, #1d1d21 100%); }
+      .pc-base { width: 250px; height: 12px; margin: 0 auto; border-radius: 6px; background: var(--surface-3); }
+
+      /* The real Discord profile with the presence (758x488 crop at 1.1x). */
+      #dc {
+        position: absolute; left: 546px; top: 404px; width: 834px; height: 537px; z-index: 3; border-radius: 18px; overflow: hidden;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      #dc img { display: block; width: 100%; height: 100%; }
+
+      .ring { position: absolute; border-radius: 10px; box-shadow: inset 0 0 0 3px var(--accent); }
+      #link { position: absolute; z-index: 2; height: 3px; border-radius: 2px; background: var(--accent); transform-origin: 0 50%; }
+      #link-dot { position: absolute; left: 0; top: -5.5px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 18px 4px rgba(255, 107, 125, 0.55); }
+
+      #cap { position: absolute; left: 0; right: 0; top: 92px; text-align: center; color: var(--ink); font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="card" data-start="0" data-duration="7" data-width="1440" data-height="1080">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="pc">
+          <div class="pc-body">
+            <div class="pc-screen">
+              <img src="assets/img/terminal-host-status.webp" alt="" />
+              <div id="ring-rpc" class="ring" style="left: 0; top: 363px; width: 176px; height: 25px; border-radius: 5px"></div>
+            </div>
+          </div>
+          <div class="pc-neck"></div>
+          <div class="pc-base"></div>
+        </div>
+
+        <div id="link" data-layout-allow-overflow><div id="link-dot"></div></div>
+
+        <div id="dc" data-layout-allow-overflow>
+          <img src="assets/img/discord-profile-crop.webp" alt="" />
+          <div id="ring-presence" class="ring" style="left: 34px; top: 310px; width: 766px; height: 218px; border-radius: 14px"></div>
+          <div id="ring-cover" class="ring" style="left: 42px; top: 353px; width: 122px; height: 110px"></div>
+        </div>
+      </div>
+
+      <div id="cap">Listening status on Discord</div>
+    </div>
+
+    <script>
+      // Authored constants only. The link runs from the end of "Connected to Discord RPC" to the presence box.
+      const A = { x: 24 + 16 + 173, y: 318 + 16 + 376 };
+      const B = { x: 546 + 34, y: 404 + 410 };
+      const LINK_LEN = Math.hypot(B.x - A.x, B.y - A.y);
+      const LINK_ANGLE = (Math.atan2(B.y - A.y, B.x - A.x) * 180) / Math.PI;
+
+      // Rest state at t=0, restored by t=7.
+      gsap.set("#camera", { scale: 1 });
+      gsap.set("#link", { left: A.x, top: A.y - 1.5, width: LINK_LEN, rotation: LINK_ANGLE, scaleX: 0 });
+      gsap.set("#link-dot", { x: 0, opacity: 0 });
+      gsap.set(".ring", { opacity: 0, scale: 1 });
+
+      const tl = gsap.timeline({ paused: true });
+      const ringIn = (id, at) => tl.fromTo(id, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.34, ease: "power3.out", immediateRender: false }, at);
+      const ringOut = (id, at) => tl.to(id, { opacity: 0, duration: 0.25, ease: "power1.in" }, at);
+
+      // The tray app connects to Discord RPC, and the presence fills in with the real cover.
+      ringIn("#ring-rpc", 0.4);
+      tl.to("#link", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 0.85)
+        .to("#link-dot", { opacity: 1, duration: 0.12, ease: "none" }, 1.35)
+        .to("#link-dot", { x: LINK_LEN, duration: 0.55, ease: "power1.inOut" }, 1.35)
+        .to("#link-dot", { opacity: 0, duration: 0.15, ease: "none" }, 1.8)
+        .to("#camera", { scale: 1.03, duration: 3.6, ease: "sine.inOut" }, 0.6);
+      ringIn("#ring-presence", 1.9);
+      ringOut("#ring-presence", 3.1);
+      ringIn("#ring-cover", 3.25);
+      tl.fromTo("#ring-cover", { scale: 1 }, { scale: 1.05, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 4.0);
+      // Back to rest.
+      ringOut("#ring-cover", 4.9);
+      ringOut("#ring-rpc", 4.9);
+      tl.to("#link", { scaleX: 0, duration: 0.45, ease: "power2.in" }, 5.1)
+        .to("#camera", { scale: 1, duration: 1.6, ease: "sine.inOut" }, 4.7)
+        .set("#link-dot", { x: 0 }, 6.4);
+
+      window.__timelines["card"] = tl;
+    </script>
+  </body>
+</html>

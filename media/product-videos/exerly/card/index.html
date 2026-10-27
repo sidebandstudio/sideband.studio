@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>Exerly card loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --ink: #f3f2ef; --accent: #8b5cf6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1440px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+      #light {
+        position: absolute; inset: 0;
+        background: radial-gradient(60% 55% at 50% 42%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%);
+      }
+
+      /* The hero's iPhone at 1.7x: the screen is 680x1479, so only a band of it fits and the phone travels. */
+      #phone { position: absolute; left: 356px; top: 0; width: 728px; height: 1527px; }
+      .ph-body {
+        position: absolute; inset: 0; padding: 24px; border-radius: 112px; background: var(--surface-2);
+        box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.07), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .ph-scale { position: relative; width: 680px; height: 1479px; border-radius: 88px; overflow: hidden; background: #000; }
+      .ph-screen { position: absolute; left: 0; top: 0; width: 400px; height: 870px; transform: scale(1.7); transform-origin: 0 0; overflow: hidden; }
+      .scr { position: absolute; inset: 0; }
+      .scr img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .mark { position: absolute; border-radius: 12px; box-shadow: 0 0 0 3px var(--accent); }
+
+      /* The caption sits on the ground colour, the phone rises out of it. */
+      #fade { position: absolute; left: 0; right: 0; top: 0; height: 300px; background: linear-gradient(180deg, var(--ground) 0px, var(--ground) 150px, rgba(11, 11, 13, 0) 300px); }
+      #cap {
+        position: absolute; left: 0; right: 0; top: 62px; text-align: center; color: var(--ink);
+        font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="card" data-start="0" data-duration="8" data-width="1440" data-height="1080">
+      <div id="light"></div>
+      <div id="phone" data-layout-allow-overflow>
+        <div class="ph-body">
+          <div class="ph-scale">
+            <div class="ph-screen">
+              <div id="s-progress" class="scr"><img src="assets/img/ios-progress-weight.webp" alt="" /></div>
+              <div id="s-program" class="scr"><img src="assets/img/ios-program-expenditure.webp" alt="" /></div>
+              <div id="mark-trend" class="mark" style="left: 19px; top: 325px; width: 362px; height: 398px"></div>
+              <div id="mark-measured" class="mark" style="left: 19px; top: 170px; width: 362px; height: 326px"></div>
+              <div id="mark-checkin" class="mark" style="left: 30px; top: 697px; width: 340px; height: 44px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="fade"></div>
+      <div id="cap">Measured expenditure</div>
+    </div>
+
+    <script>
+      // Phone y that puts screen row Y at frame y f: f - 24 - Y * 1.7. Below the caption f is 250.
+      const rowAt = (Y, f = 250) => f - 24 - Y * 1.7;
+
+      // Rest state at t=0 is the weight trend. Every channel is back here by t=8.
+      gsap.set("#phone", { y: rowAt(150, 120) });
+      gsap.set("#fade", { opacity: 0 });
+      gsap.set("#s-progress", { xPercent: 0 });
+      gsap.set("#s-program", { xPercent: 100 });
+      gsap.set(".mark", { opacity: 0, scale: 1.04 });
+
+      const tl = gsap.timeline({ paused: true });
+      const markIn = (id, at) => tl.to(id, { opacity: 1, scale: 1, duration: 0.45, ease: "expo.out" }, at);
+      const markOut = (id, at) => tl.to(id, { opacity: 0, duration: 0.3, ease: "power1.in" }, at);
+
+      // The trend: scale readings as dots, the trend line through them.
+      tl.to("#phone", { y: rowAt(250, 120), duration: 2.0, ease: "sine.inOut" }, 0.1);
+      markIn("#mark-trend", 1.0);
+      markOut("#mark-trend", 2.35);
+
+      // The Program screen: what the trend and the food log measure, and the target it sets next.
+      tl.to("#s-progress", { xPercent: -100, duration: 0.6, ease: "power3.inOut" }, 2.6)
+        .to("#s-program", { xPercent: 0, duration: 0.6, ease: "power3.inOut" }, 2.6)
+        .to("#phone", { y: rowAt(150), duration: 0.6, ease: "power3.inOut" }, 2.6)
+        .to("#fade", { opacity: 1, duration: 0.5, ease: "power1.inOut" }, 2.7)
+        .fromTo("#cap", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, 2.95);
+      markIn("#mark-measured", 3.35);
+      markOut("#mark-measured", 4.75);
+      tl.to("#phone", { y: rowAt(262), duration: 1.1, ease: "power2.inOut" }, 4.7);
+      markIn("#mark-checkin", 5.35);
+      markOut("#mark-checkin", 6.95);
+      tl.to("#cap", { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, 7.0)
+        .to("#s-program", { xPercent: 100, duration: 0.6, ease: "power3.inOut" }, 7.25)
+        .to("#s-progress", { xPercent: 0, duration: 0.6, ease: "power3.inOut" }, 7.25)
+        .to("#phone", { y: rowAt(150, 120), duration: 0.65, ease: "power3.inOut" }, 7.25)
+        .to("#fade", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 7.2);
+
+      window.__timelines["card"] = tl;
+    </script>
+  </body>
+</html>
