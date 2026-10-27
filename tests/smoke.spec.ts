@@ -152,6 +152,14 @@ test('mobile menu works from the keyboard', async ({ page }) => {
       () => getComputedStyle(document.documentElement).overflow,
     ),
   ).toBe('hidden')
+  // The page behind the menu is out of reach for screen readers too.
+  const inert = () =>
+    page.evaluate(() =>
+      ['main', 'footer', 'a[href="#main"]'].map(
+        (sel) => (document.querySelector(sel) as HTMLElement).inert,
+      ),
+    )
+  expect(await inert()).toEqual([true, true, true])
 
   // Tab and Shift+Tab stay inside the bar and the open menu.
   for (let i = 0; i < 10; i++) {
@@ -168,6 +176,7 @@ test('mobile menu works from the keyboard', async ({ page }) => {
   await page.keyboard.press('Escape')
   await expect(menu).toBeHidden()
   await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+  expect(await inert()).toEqual([false, false, false])
   expect(
     await page.evaluate(
       () => getComputedStyle(document.documentElement).overflow,

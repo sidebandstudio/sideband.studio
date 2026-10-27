@@ -52,13 +52,25 @@ export default function Navbar() {
     setOpen(false)
   }, [pathname])
 
-  // While open: lock page scroll, move focus into the menu, keep Tab inside
-  // the bar and menu, close on Escape or when the viewport grows past mobile.
+  // While open: lock page scroll, make the page behind the menu inert (out of
+  // reach for Tab and screen readers), move focus into the menu, keep Tab
+  // inside the bar and menu, close on Escape or when the viewport grows past
+  // mobile.
   useEffect(() => {
     if (!open) return
     const root = document.documentElement
     const prevOverflow = root.style.overflow
     root.style.overflow = 'hidden'
+    // Body siblings of the bar: skip link, main, footer. Next's route
+    // announcer stays live so the next page title is still read out.
+    const covered = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        el !== barRef.current &&
+        !el.inert &&
+        !['SCRIPT', 'NEXT-ROUTE-ANNOUNCER'].includes(el.tagName),
+    )
+    covered.forEach((el) => (el.inert = true))
     menuRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus()
 
     const onKey = (e: KeyboardEvent) => {
@@ -94,6 +106,7 @@ export default function Navbar() {
     mq.addEventListener('change', onWide)
     return () => {
       root.style.overflow = prevOverflow
+      covered.forEach((el) => (el.inert = false))
       document.removeEventListener('keydown', onKey)
       mq.removeEventListener('change', onWide)
     }
