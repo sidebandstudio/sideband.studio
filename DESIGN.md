@@ -193,8 +193,9 @@ Example section:
   Under reduced motion it renders a complete still frame. Transform and opacity only, no filters
   animated per frame, no more than about 40 moving nodes.
 - Accessibility: the stage is `aria-hidden`. The page names the product in text next to it.
-- When no scene is registered, `ProductScene` shows the product's icon under a soft accent light on
-  the dot grid. It is a finished fallback, not a placeholder.
+- When no scene is registered, `ProductScene` shows the product's icon centred on the dot grid with
+  one short flat bar in the product accent beneath it. No light or glow. It is a finished fallback,
+  not a placeholder.
 
 ## Do and don't
 
