@@ -15,6 +15,7 @@ import {
   formatBytes,
   formatCount,
   numberWord,
+  rankingMethod,
   syncedLabel,
   type RankingSummary,
 } from '@/lib/products-view'
@@ -50,10 +51,10 @@ export default function ProductIndex({ summary }: { summary: RankingSummary }) {
               <>
                 {capitalize(numberWord(total))} products,
                 <br />
-                ranked by use
+                ranked on GitHub
               </>
             }
-            lede={`Ordered by how much each one is used, then by how much there is to it. Every figure on this page comes from GitHub, synced ${syncedLabel}.`}
+            lede={`Each product's score blends its popularity and its scope, both read from its GitHub repository. Every figure on this page was synced from GitHub on ${syncedLabel}.`}
             className="lg:col-span-7"
           />
           <Reveal trigger="mount" delay={280} className="lg:col-span-5">
@@ -68,9 +69,11 @@ export default function ProductIndex({ summary }: { summary: RankingSummary }) {
                 How the order is computed
               </h2>
               <p className="mt-4 text-body text-sideband-text-secondary">
-                Popularity is 65% of the score: stars, forks and release
-                downloads. Scope is the other 35%: code size, commits,
-                contributors and platforms.
+                Popularity is {rankingMethod.popularityInputs}, weighted{' '}
+                {rankingMethod.popularityPercent}. Scope is{' '}
+                {rankingMethod.scopeInputs}, weighted{' '}
+                {rankingMethod.scopePercent}. Stars and downloads show interest
+                in a project. They do not count its users.
               </p>
               <ArrowLink href="#ranking" className="mt-6 text-small">
                 Every input, product by product
@@ -130,10 +133,10 @@ export default function ProductIndex({ summary }: { summary: RankingSummary }) {
               Each figure is scaled as log10(1 + x) and divided by the largest
               value across all {numberWord(total)} products, so a handful of
               stars still counts and one large repo does not flatten the rest.
-              Popularity is the mean of stars, forks and downloads. Scope is the
-              mean of code size, commits, contributors and platforms. The score
-              is 0.65 times popularity plus 0.35 times scope, and ties go to the
-              name.
+              Popularity is the mean of {rankingMethod.popularityInputs}. Scope
+              is the mean of {rankingMethod.scopeInputs}. The score is{' '}
+              {rankingMethod.popularityWeight} times popularity plus{' '}
+              {rankingMethod.scopeWeight} times scope, and ties go to the name.
             </p>
             <p className="text-body text-sideband-text-secondary">
               Code size counts every byte in a repo, including code a product

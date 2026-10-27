@@ -1638,6 +1638,24 @@ export interface RankedProduct {
   inputs: ProductRankInputs
 }
 
+/** The inputs that make up popularity in rankedProducts(). */
+export const RANKING_POPULARITY_INPUTS = [
+  'stars',
+  'forks',
+  'downloads',
+] as const satisfies readonly (keyof ProductRankInputs)[]
+
+/** The inputs that make up scope in rankedProducts(). */
+export const RANKING_SCOPE_INPUTS = [
+  'codeBytes',
+  'commits',
+  'contributors',
+  'platforms',
+] as const satisfies readonly (keyof ProductRankInputs)[]
+
+/** How rankedProducts() blends popularity and scope into the score. */
+export const RANKING_WEIGHTS = { popularity: 0.65, scope: 0.35 } as const
+
 export function rankInputs(product: Product): ProductRankInputs {
   const repo = productRepo(product)
   return {
@@ -1689,19 +1707,16 @@ export function rankedProducts(): RankedProduct[] {
 
   return rows
     .map(({ product, inputs }) => {
-      const popularity = mean(inputs, ['stars', 'forks', 'downloads'])
-      const scope = mean(inputs, [
-        'codeBytes',
-        'commits',
-        'contributors',
-        'platforms',
-      ])
+      const popularity = mean(inputs, [...RANKING_POPULARITY_INPUTS])
+      const scope = mean(inputs, [...RANKING_SCOPE_INPUTS])
       return {
         product,
         inputs,
         popularity,
         scope,
-        score: 0.65 * popularity + 0.35 * scope,
+        score:
+          RANKING_WEIGHTS.popularity * popularity +
+          RANKING_WEIGHTS.scope * scope,
       }
     })
     .sort(

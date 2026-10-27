@@ -8,6 +8,10 @@ import {
   productLicense,
   productRepo,
   rankedProducts,
+  RANKING_POPULARITY_INPUTS,
+  RANKING_SCOPE_INPUTS,
+  RANKING_WEIGHTS,
+  type ProductRankInputs,
   type Product,
   type ProductImage,
   type ProductImageKind,
@@ -288,4 +292,37 @@ export function rankingSummary(): RankingSummary {
     downloads: sum((r) => r.inputs.downloads),
     commits: sum((r) => r.inputs.commits),
   }
+}
+
+/** "a, b and c". */
+export function listText(items: readonly string[]) {
+  return items.length < 2
+    ? (items[0] ?? '')
+    : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
+}
+
+/** What each ranking input measures, in words. */
+const INPUT_LABEL: Record<keyof ProductRankInputs, string> = {
+  stars: 'GitHub stars',
+  forks: 'forks',
+  downloads: 'release downloads',
+  codeBytes: 'code size',
+  commits: 'commits',
+  contributors: 'contributors',
+  platforms: 'platforms',
+}
+
+/**
+ * The ranking formula from lib/products.ts in words and figures, so the
+ * prose that explains it cannot drift from the code that computes it.
+ */
+export const rankingMethod = {
+  popularityInputs: listText(
+    RANKING_POPULARITY_INPUTS.map((k) => INPUT_LABEL[k]),
+  ),
+  scopeInputs: listText(RANKING_SCOPE_INPUTS.map((k) => INPUT_LABEL[k])),
+  popularityWeight: RANKING_WEIGHTS.popularity,
+  scopeWeight: RANKING_WEIGHTS.scope,
+  popularityPercent: `${Math.round(RANKING_WEIGHTS.popularity * 100)}%`,
+  scopePercent: `${Math.round(RANKING_WEIGHTS.scope * 100)}%`,
 }
