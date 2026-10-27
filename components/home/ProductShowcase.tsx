@@ -9,8 +9,17 @@ import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
+import { SignatureCutsMark } from '@/components/products/scenes/group-b/signature-cuts/Scene'
 import { getProductById } from '@/lib/products'
 import type { HomeData, ShowcaseProduct } from '@/lib/home-data'
+
+/**
+ * Marks the scene builders drew for products that ship no icon, so a ranked
+ * row shows the product's own mark rather than a bare accent bar.
+ */
+const MARKS: Partial<Record<string, typeof SignatureCutsMark>> = {
+  'signature-cuts': SignatureCutsMark,
+}
 
 /** Covers the whole card with the title link, so the card is one target. */
 const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
@@ -170,6 +179,7 @@ function Card({ product }: { product: ShowcaseProduct }) {
 
 function Row({ product }: { product: ShowcaseProduct }) {
   const accent = getProductById(product.id)?.accentColor
+  const Mark = MARKS[product.id]
   return (
     <Link
       href={`/products/${product.id}`}
@@ -189,7 +199,13 @@ function Row({ product }: { product: ShowcaseProduct }) {
           style={accent ? productAccentStyle(accent) : undefined}
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[22%] bg-sideband-surface-3"
         >
-          <span className="block h-1 w-5 rounded-full bg-product" />
+          {Mark ? (
+            <svg viewBox="0 0 44 44" className="h-11 w-11">
+              <Mark x={0} y={0} size={44} />
+            </svg>
+          ) : (
+            <span className="block h-1 w-5 rounded-full bg-product" />
+          )}
         </span>
       )}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
