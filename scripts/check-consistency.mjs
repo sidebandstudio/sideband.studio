@@ -98,6 +98,14 @@ const FACTS = [
     re: /\b([a-z]+)[- ](?:engineers?|person|people|friends?)\b/gi,
   },
   {
+    // "Now there are five of us". "One of us" means a single member, not a
+    // head count, so it is skipped.
+    label: 'founder count',
+    expected: engineerCount,
+    prose: true,
+    re: /\b(?!one\b)([a-z]+) of us\b/gi,
+  },
+  {
     label: 'total product count',
     expected: productCount,
     re: /\b([a-z]+) products?\b/gi,
