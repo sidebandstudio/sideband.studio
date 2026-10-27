@@ -15,7 +15,11 @@ export default function Home() {
         engineerCount={data.engineerCount}
         syncedOn={data.syncedOn}
       />
-      <ProductShowcase products={data.showcase} />
+      <ProductShowcase
+        products={data.showcase}
+        ranking={data.ranking}
+        syncedOn={data.syncedOn}
+      />
       <Team team={data.team} />
       <OpenSource
         repos={data.openRepos}

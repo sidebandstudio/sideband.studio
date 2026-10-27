@@ -10,7 +10,7 @@ import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
 import { getProductById } from '@/lib/products'
-import type { ShowcaseProduct } from '@/lib/home-data'
+import type { HomeData, ShowcaseProduct } from '@/lib/home-data'
 
 /** Covers the whole card with the title link, so the card is one target. */
 const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
@@ -18,13 +18,18 @@ const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
 /**
  * The ranked products: the first one large with its hero scene, the next two
  * as scene cards, and the rest as a compact ranked list. Every product links
- * to its page. The full ranking with its inputs lives on /products.
+ * to its page. The order is the GitHub ranking from lib/products.ts, whose
+ * weights and inputs the lede reads. The full table lives on /products.
  */
 export default function ProductShowcase({
   products,
+  ranking,
+  syncedOn,
 }: {
   /** In ranked order, from the server. */
   products: ShowcaseProduct[]
+  ranking: HomeData['ranking']
+  syncedOn: string
 }) {
   const [first, ...rest] = products
   const pair = rest.slice(0, 2)
@@ -37,12 +42,12 @@ export default function ProductShowcase({
         eyebrow="Products"
         title={
           <>
-            Ranked by use,
+            Our products,
             <br />
-            then by size.
+            ranked on GitHub.
           </>
         }
-        lede="Stars, forks and release downloads decide the order, then code, commits and platforms. Here is the top of the list."
+        lede={`Each score is ${ranking.popularityPercent} popularity (${ranking.popularityInputs}) and ${ranking.scopePercent} scope (${ranking.scopeInputs}), with GitHub figures synced ${syncedOn}.`}
       />
 
       <ol className="mt-14 grid gap-x-6 gap-y-16 lg:grid-cols-2">
@@ -60,7 +65,7 @@ export default function ProductShowcase({
         <h3 className="text-lead font-medium text-sideband-text">
           And the rest of the list
         </h3>
-        <ArrowLink href="/products">
+        <ArrowLink href="/products#ranking">
           The full ranking and how it is scored
         </ArrowLink>
       </div>

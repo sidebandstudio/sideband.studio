@@ -12,6 +12,7 @@ import {
   type ProductImageCredit,
   type ProductStatus,
 } from '@/lib/products'
+import { rankingMethod } from '@/lib/products-view'
 
 const WORDS = [
   'zero',
@@ -336,6 +337,7 @@ export function getHomeData() {
     openRepos,
     studioFacts,
     org: { url: githubOrg.url, login: githubOrg.login },
+    ranking: rankingMethod,
   }
 }
 

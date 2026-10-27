@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { productLicense, productsByRank } from '../lib/products'
+import {
+  productLicense,
+  productsByRank,
+  RANKING_WEIGHTS,
+} from '../lib/products'
 import { countWord } from '../lib/home-data'
 
 const ranked = productsByRank()
@@ -46,7 +50,24 @@ test('the products section links every product in ranked order', async ({
   expect(hrefs).toEqual(ranked.map((p) => `/products/${p.id}`))
   await expect(
     section.getByRole('link', { name: /full ranking/ }),
-  ).toHaveAttribute('href', '/products')
+  ).toHaveAttribute('href', '/products#ranking')
+})
+
+test('the products section describes the GitHub ranking with its weights', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const section = page.locator('#products')
+  await expect(section.locator('h2')).toContainText('ranked on GitHub')
+  await expect(section).toContainText(
+    `${Math.round(RANKING_WEIGHTS.popularity * 100)}% popularity`,
+  )
+  await expect(section).toContainText(
+    `${Math.round(RANKING_WEIGHTS.scope * 100)}% scope`,
+  )
+  await expect(page.locator('main')).not.toContainText(
+    /by use|most used|order of use/i,
+  )
 })
 
 for (const product of ranked) {
