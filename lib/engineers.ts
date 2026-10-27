@@ -1883,7 +1883,7 @@ export const engineers: Engineer[] = [
     longBio: [
       'David studies Computer Science and Business Administration at Northeastern, with a concentration in Corporate Innovation, and graduates in December 2027. Home base is split between Boston, San Francisco and Warsaw. He is an AI infrastructure researcher at Northeastern’s HPC Research Lab, where he builds cross-vendor GPU training and runtime diagnosis systems on the Explorer cluster at MGHPCC.',
       'Most of what he has shipped is a version of the same problem: profiling a system until the bottleneck shows itself, then optimizing the code around it. At Mosaiq Software he replaced a 5-second polling loop with a WebSocket transport that updates in 120 ms. At Summit Partners he cut deployment time 70%. With GPUBridge he made a 1 GB all-reduce across NVIDIA and AMD GPUs 2.7x faster. He is also a software engineer on Pawtograder, Northeastern’s coding and grading platform.',
-      'In 2024 he founded Hercules Holdings, the venture studio behind EternalTap, a wallet-native transit fare platform, and CrediMax, a card-rewards app. In 2026 he won 1st place among 250+ participants at the Microsoft x Northeastern AI Hackathon with HuskyClaw. He won the Massachusetts state wrestling title more than once in high school and still wrestles at Northeastern. He speaks English, Polish and Russian and has been to 23 countries.',
+      'Outside Sideband, in 2024 he founded Hercules Holdings, his own venture studio behind EternalTap, a wallet-native transit fare platform, and CrediMax, a card-rewards app. In 2026 he won 1st place among 250+ participants at the Microsoft x Northeastern AI Hackathon with HuskyClaw. He won the Massachusetts state wrestling title more than once in high school and still wrestles at Northeastern. He speaks English, Polish and Russian and has been to 23 countries.',
     ],
     portrait: {
       src: '/assets/engineers/david-czartoryski/portrait.webp',
@@ -1991,11 +1991,11 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'The venture studio and holding company behind his govtech fare platform, his consumer fintech app and the AI tooling for his commerce brands. It has had employees and interns.',
+          'His own venture studio and holding company, separate from Sideband. It is behind his govtech fare platform, his consumer fintech app and the AI tooling for his commerce brands, and by his account it has had employees and interns.',
         highlights: [
-          'EternalTap: a wallet-native fare platform for universities and transit agencies, built with a cofounder, with a conditional contract covering 22,000+ riders',
-          'CrediMax: aggregates credit cards through Plaid and surfaces the best card at checkout. He negotiated seed terms with venture firms and senior American Express leadership, then walked away from the round',
-          'An autonomous storefront builder that drove $180K in revenue across the brands, and an ad creative pipeline that takes production from days to 6 minutes',
+          'EternalTap, his own venture and not a Sideband product: a wallet-native fare platform for universities and transit agencies, built with a cofounder. He reports a conditional contract covering 22,000+ riders',
+          'CrediMax, his own venture: aggregates credit cards through Plaid and surfaces the best card at checkout. He says he negotiated seed terms with venture firms and senior American Express leadership, then walked away from the round',
+          'The creative engine, his own venture: an autonomous storefront builder and an ad creative pipeline for his commerce brands. He reports $180K in revenue across the brands and ad production cut from days to 6 minutes',
         ],
       },
       {
@@ -2174,9 +2174,8 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalTap',
-        featured: true,
         blurb:
-          'A wallet-native fare platform for universities and transit agencies. It verifies rider eligibility against a university roster, prices MBTA fare rules and issues a signed Apple Wallet pass. He wrote the eligibility engine across 9 MBTA reduced and free fare categories, the rider web app and the native SwiftUI app. A conditional contract covers 22,000+ riders.',
+          'His own venture under Hercules Holdings, not a Sideband product. A wallet-native fare platform for universities and transit agencies: it verifies rider eligibility against a university roster, prices MBTA fare rules and issues a signed Apple Wallet pass. He wrote the eligibility engine across 9 MBTA reduced and free fare categories, the rider web app and the native SwiftUI app, and reports a conditional contract covering 22,000+ riders.',
         role: 'Built with a cofounder',
         tech: [
           'Next.js',
@@ -2190,9 +2189,8 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'CrediMax',
-        featured: true,
         blurb:
-          'Aggregates your credit cards through Plaid and tells you which one to tap at checkout. Built solo end to end: a SwiftUI app with widgets, Live Activities and an Apple Watch complication, a FastAPI and Postgres backend on Plaid’s production environment, and a Claude advisor grounded in card and transfer-partner data.',
+          'His own venture under Hercules Holdings, outside Sideband. Aggregates your credit cards through Plaid and tells you which one to tap at checkout. Built solo end to end: a SwiftUI app with widgets, Live Activities and an Apple Watch complication, a FastAPI and Postgres backend on Plaid’s production environment, and a Claude advisor grounded in card and transfer-partner data.',
         href: 'https://credimax.app/',
         role: 'Solo',
         tech: [
@@ -2208,9 +2206,8 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'The creative engine',
-        featured: true,
         blurb:
-          'The software behind his commerce brands: an autonomous storefront builder that regenerates each shop and tunes it against live sales, and an ad creative pipeline that takes production from days to 6 minutes. $180K in revenue across the brands.',
+          'His own venture under Hercules Holdings, outside Sideband: the software behind his commerce brands. An autonomous storefront builder regenerates each shop and tunes it against live sales, and an ad creative pipeline takes production from days to 6 minutes by his account. He reports $180K in revenue across the brands.',
         tech: [
           'Python',
           'FastAPI',

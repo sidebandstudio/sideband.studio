@@ -23,7 +23,7 @@ Portfolio: https://davidczartoryski.com · GitHub: [@DavidCzartoryski](https://g
 - **Founding Engineer at Sideband** since Oct 2026
 - **AI Infrastructure Researcher, Northeastern University HPC Research Lab** since Oct 2026, on the Explorer cluster at MGHPCC
 - **Software Engineer, Pawtograder** since Sep 2026
-- **Founder & CEO, Hercules Holdings** since 2024
+- **Founder & CEO, Hercules Holdings**, his own venture studio outside Sideband, since 2024
 - B.S. Computer Science & Business Administration at **Northeastern University**, concentration in Corporate Innovation, expected Dec 2027
 - Open to new-grad software engineering roles starting after December 2027, private equity and venture roles, and front-office finance
 - Based in **Boston, MA**, with home bases in San Francisco and Warsaw too
@@ -61,11 +61,11 @@ Joined the studio in October 2026 as its fifth founding engineer.
 
 **Boston, MA · 2024 – Present**
 
-The venture studio and holding company behind his govtech fare platform, his consumer fintech app and the AI tooling for his commerce brands. It has had employees and interns.
+His own venture studio and holding company, separate from Sideband. It is behind his govtech fare platform, his consumer fintech app and the AI tooling for his commerce brands, and by his account it has had employees and interns. The figures below are his own, from https://davidczartoryski.com/#cargo and https://davidczartoryski.com/recruiter/.
 
-- **EternalTap**: a wallet-native fare platform for universities and transit agencies, built with a cofounder. A conditional contract covers 22,000+ riders.
-- **CrediMax** ([credimax.app](https://credimax.app/)): aggregates credit cards through Plaid and surfaces the best card at checkout. He negotiated seed terms with venture firms and senior American Express leadership, then walked away from the round.
-- **The creative engine**: an autonomous storefront builder that drove $180K in revenue across the brands, and an ad creative pipeline that takes production from days to 6 minutes
+- **EternalTap** (his venture, not a Sideband product): a wallet-native fare platform for universities and transit agencies, built with a cofounder. He reports a conditional contract covering 22,000+ riders.
+- **CrediMax** ([credimax.app](https://credimax.app/)): aggregates credit cards through Plaid and surfaces the best card at checkout. He says he negotiated seed terms with venture firms and senior American Express leadership, then walked away from the round.
+- **The creative engine**: an autonomous storefront builder and an ad creative pipeline for his commerce brands. He reports $180K in revenue across the brands and ad production cut from days to 6 minutes.
 
 ### Mosaiq Software · Full-Stack Software Engineer
 
@@ -107,9 +107,9 @@ The venture studio and holding company behind his govtech fare platform, his con
 ## Projects
 
 - **Artemis and GPUBridge** · [GPUBridge](https://github.com/DavidCzartoryski/gpubridge) is an open-source PyTorch backend that joins NVIDIA and AMD GPUs in one training job. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression. [Artemis](https://davidczartoryski.com/Artemis/), in development, finds the GPU, link or host that slowed a running job and can rebalance work.
-- **EternalTap** · wallet-native transit fare platform, built with a cofounder. Sold to universities and agencies, so there is no public site.
-- **CrediMax** · [credimax.app](https://credimax.app/). Tells you which card to tap at checkout. Built solo.
-- **The creative engine** · storefront builder and ad creative pipeline for his commerce brands
+- **EternalTap** · his own Hercules Holdings venture, not a Sideband product. Wallet-native transit fare platform, built with a cofounder. Sold to universities and agencies, so there is no public site.
+- **CrediMax** · his own Hercules Holdings venture. [credimax.app](https://credimax.app/). Tells you which card to tap at checkout. Built solo.
+- **The creative engine** · his own Hercules Holdings venture: storefront builder and ad creative pipeline for his commerce brands
 - **HuskyClaw** · agentic assistant for Northeastern students, 1st place at AI Builder Blitz. [20-second demo](https://whoisaldo.github.io/huskyclaw-demo/).
 - **inbox-triage** · [repo](https://github.com/DavidCzartoryski/inbox-triage). An email agent for students job-hunting. It never deletes.
 - **SixthDegree** · local-first Claude agent that maps who you know. Private.
