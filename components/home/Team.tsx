@@ -45,14 +45,14 @@ export default function Team({ team }: { team: TeamMember[] }) {
 
 function Member({ member: m }: { member: TeamMember }) {
   return (
-    <article className="group relative grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-4 rounded-panel p-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:grid-cols-[6rem_minmax(0,1fr)] md:items-start md:gap-x-6 md:gap-y-3 md:p-4 lg:grid-cols-[8rem_minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] lg:items-center lg:gap-x-8">
+    <article className="group relative grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-4 rounded-panel p-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:grid-cols-[6rem_minmax(0,1fr)] md:items-start md:gap-x-6 md:gap-y-3 md:p-4 lg:grid-cols-[9rem_minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] lg:items-center lg:gap-x-8">
       <div className="relative aspect-square overflow-hidden rounded-inner bg-sideband-surface-3 md:row-span-3 lg:row-span-1">
         {m.portrait ? (
           <Image
             src={m.portrait.src}
             alt={`Portrait of ${m.name}`}
             fill
-            sizes="(min-width: 1024px) 128px, (min-width: 768px) 96px, 72px"
+            sizes="(min-width: 1024px) 144px, (min-width: 768px) 96px, 72px"
             className="object-cover object-top transition-transform duration-ui ease-out group-hover:scale-[1.03]"
           />
         ) : (
