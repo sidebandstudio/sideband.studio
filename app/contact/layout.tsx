@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Contact · Sideband',
   description:
-    'Get in touch with the founders of Sideband. We read every message.',
+    'Get in touch with the founding engineers of Sideband. We read every message.',
 }
 
 export default function ContactLayout({

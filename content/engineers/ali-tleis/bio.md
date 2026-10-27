@@ -51,7 +51,7 @@ One of five founding engineers at an independent software studio.
 
 - Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion
 - Builds the Python and Lua pipeline behind Eternal2x, a DaVinci Resolve plugin, and contributes to Eternal Summary and EternalMonitor
-- Built the engineer roster from structured data, with a profile for each founder and links between products and the people who build them
+- Built the engineer roster from structured data, with a profile for each founding engineer and links between products and the people who build them
 - Added Playwright checks and a shared copy-style check in CI, and helped move the live site and product links through the 2026 rebrand from Eternal Reverse to Sideband
 
 ### Top Choice Realty · Frontend Developer Intern
