@@ -99,34 +99,36 @@ export default function AboutPage() {
         className="!pt-32"
         backdrop={<Backdrop variant="bands" />}
       >
-        <SectionHeading
-          as="h1"
-          id="about-title"
-          trigger="mount"
-          title={`${count} founding engineers`}
-          lede={`One studio. Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.products} products so far, ${facts.live} of them live and ${facts.inDevelopment} in development.`}
-          actions={
-            <>
-              <Button href="/products" size="lg">
-                See the products
-              </Button>
-              <Button href="/engineers" variant="secondary" size="lg">
-                Meet the engineers
-              </Button>
-            </>
-          }
-        />
-        <Reveal trigger="mount" delay={280}>
-          <dl className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 xl:grid-cols-6">
-            {stats.map((s) => (
-              <Stat key={s.label} value={s.value} label={s.label} />
-            ))}
-          </dl>
-          <p className="mt-8 text-small text-sideband-muted">
-            Counts from the product list and the GitHub snapshot synced{' '}
-            {syncedLabel}.
-          </p>
-        </Reveal>
+        <div className="grid gap-24 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-end lg:gap-20">
+          <SectionHeading
+            as="h1"
+            id="about-title"
+            trigger="mount"
+            title={`${count} founding engineers`}
+            lede={`One studio. Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.products} products so far, ${facts.live} of them live and ${facts.inDevelopment} in development.`}
+            actions={
+              <>
+                <Button href="/products" size="lg">
+                  See the products
+                </Button>
+                <Button href="/engineers" variant="secondary" size="lg">
+                  Meet the engineers
+                </Button>
+              </>
+            }
+          />
+          <Reveal trigger="mount" delay={280}>
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-2">
+              {stats.map((s) => (
+                <Stat key={s.label} value={s.value} label={s.label} />
+              ))}
+            </dl>
+            <p className="mt-8 text-small text-sideband-muted">
+              Counts from the product list and the GitHub snapshot synced{' '}
+              {syncedLabel}.
+            </p>
+          </Reveal>
+        </div>
       </Section>
 
       <Section labelledBy="people-title" className="!pt-0">
@@ -172,7 +174,7 @@ export default function AboutPage() {
                 <p className="mt-1 text-small text-sideband-muted">
                   {e.contact.location}
                 </p>
-                <p className="mt-3 text-small text-sideband-text-secondary">
+                <p className="mt-3 text-body text-sideband-text">
                   {made.length > 0
                     ? `Builds ${listJoin(made.map((p) => p.name))}`
                     : e.shortBio}
@@ -232,18 +234,24 @@ export default function AboutPage() {
                         e.text
                       )}
                       {e.products && (
-                        <ul className="mt-3 flex flex-wrap gap-2">
-                          {e.products.map((p) => (
-                            <li key={p.id}>
+                        <>
+                          {' '}
+                          {e.products.map((p, i, all) => (
+                            <span key={p.id}>
                               <Link
                                 href={`/products/${p.id}`}
-                                className="inline-flex h-8 items-center rounded-full bg-sideband-surface-2 px-3.5 text-small text-sideband-text transition-colors duration-hover hover:bg-sideband-surface-3"
+                                className="underline decoration-sideband-border-strong underline-offset-4 transition-colors duration-hover hover:decoration-sideband-text"
                               >
                                 {p.name}
                               </Link>
-                            </li>
+                              {i < all.length - 2
+                                ? ', '
+                                : i === all.length - 2
+                                  ? ' and '
+                                  : '.'}
+                            </span>
                           ))}
-                        </ul>
+                        </>
                       )}
                     </div>
                   </li>
@@ -288,7 +296,7 @@ export default function AboutPage() {
                       {product.category}
                     </span>
                   </span>
-                  <span className="mt-1 block text-small text-sideband-text-secondary">
+                  <span className="mt-1 block text-body text-sideband-text">
                     {product.tagline}
                   </span>
                   <span className="mt-1 block text-small text-sideband-muted">
