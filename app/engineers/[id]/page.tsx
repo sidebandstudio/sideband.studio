@@ -78,7 +78,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
     words?.blocks.find((b) => b.type === 'list')?.items.length ?? 0
   const links = publishedLinks(engineer)
   const groups = groupExperience(engineer.experience ?? [])
-  const projects = groupProjects(engineer.projects)
+  const projects = groupProjects(engineer)
   const projectCount = engineer.projects?.length ?? 0
   const parts = [
     projects.studio.length > 0 &&
