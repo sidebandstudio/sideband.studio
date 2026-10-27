@@ -142,6 +142,78 @@ test('leaving a product page with the viewer open releases the scroll lock', asy
     .toBeGreaterThan(0)
 })
 
+/**
+ * The rendered text of every match stays inside the viewport, and the first
+ * one does not overlap `avoid`. Text boxes are measured with a Range because
+ * a heading's own box can be narrower than the word that spills out of it.
+ */
+async function textFits(
+  page: import('@playwright/test').Page,
+  selector: string,
+  avoid?: string,
+) {
+  return page.evaluate(
+    ({ selector, avoid }) => {
+      const problems: string[] = []
+      const boxes = Array.from(document.querySelectorAll(selector)).map(
+        (el) => {
+          const range = document.createRange()
+          range.selectNodeContents(el)
+          const rects = Array.from(range.getClientRects())
+          return {
+            text: el.textContent,
+            left: Math.min(...rects.map((r) => r.left)),
+            right: Math.max(...rects.map((r) => r.right)),
+            top: Math.min(...rects.map((r) => r.top)),
+            bottom: Math.max(...rects.map((r) => r.bottom)),
+          }
+        },
+      )
+      for (const b of boxes) {
+        if (b.left < 0 || b.right > window.innerWidth)
+          problems.push(`${b.text} spans ${b.left}-${b.right}`)
+      }
+      const other = avoid ? document.querySelector(avoid) : null
+      if (other && boxes[0]) {
+        const a = other.getBoundingClientRect()
+        const t = boxes[0]
+        if (
+          t.left < a.right &&
+          t.right > a.left &&
+          t.top < a.bottom &&
+          t.bottom > a.top
+        )
+          problems.push(`${t.text} overlaps ${avoid}`)
+      }
+      return problems
+    },
+    { selector, avoid },
+  )
+}
+
+for (const product of products) {
+  test(`${product.id}: hero title fits and clears the actions at 360, 390, 1440`, async ({
+    page,
+  }) => {
+    for (const width of [360, 390, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(`/products/${product.id}`)
+      expect(
+        await textFits(page, 'h1', '[data-product-actions]'),
+        `at ${width}`,
+      ).toEqual([])
+    }
+  })
+}
+
+test('products index names fit at 360, 768, 1440', async ({ page }) => {
+  for (const width of [360, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/products')
+    expect(await textFits(page, 'h1, article h2'), `at ${width}`).toEqual([])
+  }
+})
+
 const WIDTHS = [390, 768, 1440, 1920]
 
 for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {

@@ -28,6 +28,7 @@ import {
   type ProductFacts,
 } from '@/lib/products-view'
 import ProductGallery from './ProductGallery'
+import ProductName from './ProductName'
 
 interface ProductDetailProps {
   ranked: RankedProduct
@@ -245,27 +246,25 @@ function Hero({
         </nav>
       </Reveal>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div className="lg:col-span-7">
-          <Reveal trigger="mount" delay={70}>
-            <p className="text-small font-medium text-sideband-text-secondary">
-              {product.category}
-            </p>
-          </Reveal>
-          <Reveal trigger="mount" delay={140}>
-            <h1
-              id="product-title"
-              className="mt-4 text-display text-sideband-text"
-            >
-              {product.name}
-            </h1>
-          </Reveal>
-          <Reveal trigger="mount" delay={210}>
-            <p className="mt-6 max-w-prose text-lead text-sideband-text-secondary">
-              {product.tagline}
-            </p>
-          </Reveal>
-        </div>
+      <Reveal trigger="mount" delay={70} className="mt-10">
+        <p className="text-small font-medium text-sideband-text-secondary">
+          {product.category}
+        </p>
+      </Reveal>
+      {/* The name gets the full width on its own row, so nothing can sit
+          beside it, and wraps only between the words of a camel-case name. */}
+      <Reveal trigger="mount" delay={140}>
+        <h1 id="product-title" className="mt-4 text-display text-sideband-text">
+          <ProductName name={product.name} />
+        </h1>
+      </Reveal>
+
+      <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-10">
+        <Reveal trigger="mount" delay={210} className="lg:col-span-7">
+          <p className="max-w-prose text-lead text-sideband-text-secondary">
+            {product.tagline}
+          </p>
+        </Reveal>
         <Reveal trigger="mount" delay={280} className="lg:col-span-5">
           <ul className="flex flex-wrap gap-2">
             <li>
@@ -581,7 +580,7 @@ function Neighbours({
                     {label}, ranked {r.rank}
                   </span>
                   <span className="text-lead font-medium text-sideband-text">
-                    {r.product.name}
+                    <ProductName name={r.product.name} />
                   </span>
                   <span className="text-small text-sideband-text-secondary">
                     {r.product.tagline}

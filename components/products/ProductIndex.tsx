@@ -8,6 +8,7 @@ import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
+import ProductName from './ProductName'
 import type { ProductRankInputs, RankedProduct } from '@/lib/products'
 import {
   capitalize,
@@ -290,7 +291,7 @@ function Name({ r, size }: { r: RankedProduct; size: 'head' | 'lead' }) {
         href={`/products/${r.product.id}`}
         className="underline decoration-transparent decoration-1 underline-offset-[0.15em] transition-colors duration-hover hover:decoration-sideband-text"
       >
-        {r.product.name}
+        <ProductName name={r.product.name} />
       </Link>
     </h2>
   )
