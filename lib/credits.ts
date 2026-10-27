@@ -9,7 +9,7 @@ import {
 
 export interface CreditEntry {
   credit: ProductImageCredit
-  /** Where it applies, one line per product, such as "Eternal2x: 4 artwork images and both product videos". */
+  /** Where it applies, one line per product, such as "Upflow2x: 4 artwork images and both product videos". */
   uses: string[]
 }
 

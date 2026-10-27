@@ -18,8 +18,8 @@ const PAGES = [
     .map((e) => `/engineers/${e.id}`),
 ]
 
-const eternal2x = products.find((p) => p.id === 'eternal2x')!
-const CREDIT = eternal2x.video.card.credit!.text
+const upflow2x = products.find((p) => p.id === 'upflow2x')!
+const CREDIT = upflow2x.video.card.credit!.text
 
 const VIDEOS = '[data-product-video]'
 
@@ -178,8 +178,8 @@ for (const path of PAGES) {
       expect(v.text, label).not.toContain(CREDIT)
     }
 
-    // Wherever Eternal2x's video appears, the footer credits its footage.
-    if (videos.some((v) => v.sources[0].src.includes('/eternal2x/')))
+    // Wherever Upflow2x's video appears, the footer credits its footage.
+    if (videos.some((v) => v.sources[0].src.includes('/upflow2x/')))
       await expect(
         page.locator('footer details#credits').getByText(CREDIT),
       ).toBeAttached()
@@ -231,7 +231,7 @@ for (const path of PAGES) {
   })
 }
 
-for (const path of ['/', '/products', `/products/${eternal2x.id}`]) {
+for (const path of ['/', '/products', `/products/${upflow2x.id}`]) {
   test(`${path} under reduced motion: posters only, nothing plays`, async ({
     page,
   }) => {

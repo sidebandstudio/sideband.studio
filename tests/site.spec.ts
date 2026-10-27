@@ -20,8 +20,8 @@ import {
 
 const SITE = 'https://sideband.studio'
 
-/** The one credited source on the site: Eternal2x's Hero footage. */
-const HERO_CREDIT = products.find((p) => p.id === 'eternal2x')!.video.card
+/** The one credited source on the site: Upflow2x's Hero footage. */
+const HERO_CREDIT = products.find((p) => p.id === 'upflow2x')!.video.card
   .credit!
 
 const ROUTES = [
@@ -129,7 +129,7 @@ for (const route of ROUTES) {
       await expect(page.locator('h1')).toHaveCount(1)
 
       // The footer ends with the media credits, closed until opened, and they
-      // list the Eternal2x footage credit with its license.
+      // list the Upflow2x footage credit with its license.
       const credits = page.locator('footer details#credits')
       await expect(credits).toHaveCount(1)
       expect(await credits.evaluate((d: HTMLDetailsElement) => d.open)).toBe(

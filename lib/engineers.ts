@@ -779,11 +779,11 @@ export const engineers: Engineer[] = [
     role: 'Founding Engineer',
     githubLogin: 'Alitleis123',
     shortBio:
-      'Web Application Developer at MIT Lincoln Laboratory, where he owns the internal AI search 4,500+ engineers use. Builds Eternal2x at Sideband.',
+      'Web Application Developer at MIT Lincoln Laboratory, where he owns the internal AI search 4,500+ engineers use. Builds Upflow2x at Sideband.',
     longBio: [
       'Ali studies Computer Science and Sociology at Northeastern and lives in Greater Boston. He is on a seven-month co-op at MIT Lincoln Laboratory, where he owns the Laboratory’s internal AI search from the technical proposal to the production release. Its hybrid search and reranking cut query latency 70% and model tokens per request 40%.',
-      'Outside work he builds tools for problems he hits himself. He edits anime and shows in After Effects and DaVinci Resolve for 12.7K followers on TikTok, and Eternal2x exists because every interpolator he tried smeared the held frames in his edits. On EternalMonitor he owns AMD GPU support, from the AMF encoder to the software fallback.',
-      'At Sideband he owns the studio site and product pages and builds the Python and Lua pipeline behind Eternal2x. Away from a screen he lifts. He speaks Arabic and English, and at Northeastern he is in the Video Editing Club and the Arab Student Association.',
+      'Outside work he builds tools for problems he hits himself. He edits anime and shows in After Effects and DaVinci Resolve for 12.7K followers on TikTok, and Upflow2x, first released as Eternal2x, exists because every interpolator he tried smeared the held frames in his edits. On EternalMonitor he owns AMD GPU support, from the AMF encoder to the software fallback.',
+      'At Sideband he owns the studio site and product pages and builds the Python and Lua pipeline behind Upflow2x. Away from a screen he lifts. He speaks Arabic and English, and at Northeastern he is in the Video Editing Club and the Arab Student Association.',
     ],
     portrait: {
       src: '/assets/engineers/ali-tleis/portrait.jpg',
@@ -847,7 +847,7 @@ export const engineers: Engineer[] = [
           'One of five founding engineers at an independent software studio. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
         highlights: [
           'Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript and Tailwind CSS',
-          'Builds the Python and Lua pipeline behind Eternal2x, and built Eternal Summary and Better Canvas',
+          'Builds the Python and Lua pipeline behind Upflow2x, and built Eternal Summary and Better Canvas',
           'Built the engineer roster from structured data, with links between products and the people who build them',
           'Added Playwright checks and a shared copy-style check in CI, and moved the live site and product links through the 2026 rebrand from Eternal Reverse to Sideband',
         ],
@@ -1001,14 +1001,14 @@ export const engineers: Engineer[] = [
     ],
     projects: [
       {
-        name: 'Eternal2x',
+        name: 'Upflow2x',
         featured: true,
         blurb:
           'DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then draws the missing in-betweens with the RIFE network on ONNX Runtime.',
-        href: '/products/eternal2x',
+        href: '/products/upflow2x',
         internal: true,
-        productId: 'eternal2x',
-        repo: 'https://github.com/sidebandstudio/Eternal2x.com',
+        productId: 'upflow2x',
+        repo: 'https://github.com/sidebandstudio/Upflow2x',
         role: 'Creator',
         tech: [
           'Python',

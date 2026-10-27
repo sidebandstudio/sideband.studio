@@ -180,7 +180,7 @@ function image(
   }
 }
 
-/** The Eternal2x demos use Hero footage. Credit from the Eternal2x README "Credits". */
+/** The Upflow2x demos use Hero footage. Credit from the Upflow2x README "Credits". */
 const HERO_CREDIT: ProductImageCredit = {
   text: 'Footage from Hero by the Blender Foundation, edited by Eternal2x',
   href: 'https://studio.blender.org/projects/hero/',
@@ -915,14 +915,14 @@ export const products: Product[] = [
     ],
   },
   {
-    id: 'eternal2x',
-    name: 'Eternal2x',
+    id: 'upflow2x',
+    name: 'Upflow2x',
     category: 'Video plugin',
     tagline: 'Smooth 2x for hand-drawn animation in DaVinci Resolve.',
     description:
-      'Eternal2x is a DaVinci Resolve Studio plugin that finds the real drawings in animation held on 2s or 3s and draws the missing in-betweens with the RIFE network. The rebuilt clip keeps its length and timing, gets a 2x upscale and lands on the track above the original.',
+      'Upflow2x is a DaVinci Resolve Studio plugin that finds the real drawings in animation held on 2s or 3s and draws the missing in-betweens with the RIFE network. The rebuilt clip keeps its length and timing, gets a 2x upscale and lands on the track above the original.',
     overview: [
-      'Hand-drawn animation often holds each drawing for two or three frames. Eternal2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
+      'Hand-drawn animation often holds each drawing for two or three frames. Upflow2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
       'A Lua panel inside Resolve starts a Python worker in the background. OpenCV scores every frame against the last new drawing with a tile-based difference, so a blink still counts as new, and works out whether the clip is on 1s, 2s or 3s. It refuses live action and clips already on 1s.',
       'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
     ],
@@ -934,7 +934,7 @@ export const products: Product[] = [
       {
         title: 'Drawn in-betweens',
         body: 'The RIFE network draws each missing frame, on the GPU on Windows.',
-        image: '/assets/products/eternal2x/frames-compare.webp',
+        image: '/assets/products/upflow2x/frames-compare.webp',
       },
       {
         title: 'Timing stays put',
@@ -951,7 +951,7 @@ export const products: Product[] = [
       {
         title: 'Lands above the original',
         body: 'The render goes on the track above the source clip, and Show Original flips between the two.',
-        image: '/assets/products/eternal2x/resolve-panel.webp',
+        image: '/assets/products/upflow2x/resolve-panel.webp',
       },
       {
         title: 'Grainy source mode',
@@ -979,15 +979,15 @@ export const products: Product[] = [
     engineers: ['ali-tleis'],
     origin: null,
     links: {
-      site: 'https://eternal2x.com/',
-      repo: 'https://github.com/sidebandstudio/Eternal2x.com',
-      download: 'https://eternal2x.com/download.html',
-      docs: 'https://eternal2x.com/help.html',
+      site: 'https://upflow2x.com/',
+      repo: 'https://github.com/sidebandstudio/Upflow2x',
+      download: 'https://upflow2x.com/download.html',
+      docs: 'https://upflow2x.com/help.html',
     },
-    repo: 'sidebandstudio/Eternal2x.com',
+    repo: 'sidebandstudio/Upflow2x',
     accentColor: '#7C6FEF',
     icon: image(
-      'eternal2x',
+      'upflow2x',
       'icon.webp',
       512,
       512,
@@ -997,12 +997,12 @@ export const products: Product[] = [
       'repo public/logo/Eternal 2x logo 01.png, center crop to square',
     ),
     video: {
-      hero: videoCut('eternal2x', 'hero', 12, { credit: HERO_CREDIT }),
-      card: videoCut('eternal2x', 'card', 7, { credit: HERO_CREDIT }),
+      hero: videoCut('upflow2x', 'hero', 12, { credit: HERO_CREDIT }),
+      card: videoCut('upflow2x', 'card', 7, { credit: HERO_CREDIT }),
     },
     images: [
       image(
-        'eternal2x',
+        'upflow2x',
         'resolve-panel.webp',
         1600,
         861,
@@ -1013,7 +1013,7 @@ export const products: Product[] = [
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'frames-compare.webp',
         1200,
         760,
@@ -1024,7 +1024,7 @@ export const products: Product[] = [
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'site-home-desktop.webp',
         2880,
         1800,
@@ -1035,7 +1035,7 @@ export const products: Product[] = [
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'site-home-mobile.webp',
         780,
         1688,

@@ -197,7 +197,7 @@ UI, never drawn or faked UI. Artwork (`kind: 'artwork'`) appears only as what it
 Every product has a silent looping video in two cuts, rendered with HyperFrames (sources and how to
 render them: `media/product-videos/README.md`). `lib/products.ts` records each cut as
 `product.video.hero` and `product.video.card` (`mp4`, `webm`, `poster`, size, `durationSeconds`, and
-`credit` when the video shows credited material, as Eternal2x's Hero footage does).
+`credit` when the video shows credited material, as Upflow2x's Hero footage does).
 
 `<ProductVideo video cut priority? sizes? lift? link? />` in
 `components/products/ProductVideo.tsx` is the only way to show one.

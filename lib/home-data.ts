@@ -168,7 +168,7 @@ const BUILDS: Record<string, string> = {
   'ali-younes':
     'Wrote the Rust host and Swift iPad client behind EternalMonitor, and the SwiftUI app and Node API behind Exerly Fitness.',
   'ali-tleis':
-    'Builds the Python and Lua pipeline behind Eternal2x and owns AMD GPU support on EternalMonitor.',
+    'Builds the Python and Lua pipeline behind Upflow2x and owns AMD GPU support on EternalMonitor.',
   'karan-anand':
     'Works on systems design: architecture and technical planning for the product lineup.',
   'naman-rusia':

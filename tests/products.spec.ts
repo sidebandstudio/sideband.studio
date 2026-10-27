@@ -82,8 +82,18 @@ for (const product of products) {
   })
 }
 
+test('the old Eternal2x product URL redirects to Upflow2x for good', async ({
+  request,
+}) => {
+  const response = await request.get('/products/eternal2x', {
+    maxRedirects: 0,
+  })
+  expect(response.status()).toBe(308)
+  expect(response.headers().location).toBe('/products/upflow2x')
+})
+
 test('the image viewer works by keyboard', async ({ page }) => {
-  const product = products.find((p) => p.id === 'eternal2x')!
+  const product = products.find((p) => p.id === 'upflow2x')!
   const [first, second] = product.images
   await visit(page, `/products/${product.id}`)
 
@@ -234,7 +244,7 @@ for (const viewport of [
   }) => {
     test.setTimeout(120000)
     await page.setViewportSize(viewport)
-    for (const id of ['eternal2x', 'eternal-monitor', 'exerly']) {
+    for (const id of ['upflow2x', 'eternal-monitor', 'exerly']) {
       const product = products.find((p) => p.id === id)!
       await visit(page, `/products/${id}`)
       const triggers = page.getByRole('button', { name: /^View larger:/ })

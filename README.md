@@ -53,7 +53,7 @@ Products are listed in `lib/products.ts` and ranked on the site by a score that 
 - **Exerly Fitness**: food, weight and training targets that adapt to your real data
 - **TandemCode**: practice coding interview problems with a partner
 - **Better Canvas**: a darker, better organized Canvas for students
-- **Eternal2x**: smooth 2x for hand-drawn animation in DaVinci Resolve
+- **Upflow2x** (formerly Eternal2x): smooth 2x for hand-drawn animation in DaVinci Resolve
 - **Eternal Summary**: summarize the page you are reading, with sources you can check
 - **hushtype**: hold a key, speak, and the text appears where you type (Mac)
 - **EternalExchange**: equivalent exchange alchemy for Minecraft 1.21.1 on Fabric

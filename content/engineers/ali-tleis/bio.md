@@ -2,7 +2,7 @@
 
 **Founding Engineer · Sideband**
 
-> "Outside work I build tools for problems I hit myself. Eternal2x exists because every interpolator I tried smeared the held frames in my anime edits."
+> "Outside work I build tools for problems I hit myself. Eternal2x [now Upflow2x] exists because every interpolator I tried smeared the held frames in my anime edits."
 
 Portfolio: https://alitleis.dev · GitHub: [@Alitleis123](https://github.com/Alitleis123)
 
@@ -12,7 +12,7 @@ Portfolio: https://alitleis.dev · GitHub: [@Alitleis123](https://github.com/Ali
 
 - "I study CS and Sociology at Northeastern, and I'm based in Greater Boston."
 - "I own the Laboratory's internal AI search, used by 4,500+ engineers, from the technical proposal to the production release."
-- "I combined my love for CS with my love for editing and video production to build Eternal2x."
+- "I combined my love for CS with my love for editing and video production to build Eternal2x [now Upflow2x]."
 - On EternalMonitor: "My part is AMD support, end to end."
 - "I build the studio site and product pages in Next.js, and develop products across desktop, browser and web."
 - "Away from a screen, I lift. I speak Arabic and English, and at Northeastern I'm in the Video Editing Club and the Arab Student Association."
@@ -50,7 +50,7 @@ Seven-month co-op. Owns the Laboratory's internal AI search, used by 4,500+ engi
 One of five founding engineers at an independent software studio.
 
 - Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript and Tailwind CSS
-- Builds the Python and Lua pipeline behind Eternal2x, a DaVinci Resolve plugin, and contributes to Eternal Summary and EternalMonitor
+- Builds the Python and Lua pipeline behind Upflow2x, a DaVinci Resolve plugin, and contributes to Eternal Summary and EternalMonitor
 - Built the engineer roster from structured data, with a profile for each founding engineer and links between products and the people who build them
 - Added Playwright checks and a shared copy-style check in CI, and helped move the live site and product links through the 2026 rebrand from Eternal Reverse to Sideband
 
@@ -88,7 +88,7 @@ Activities: Video Editing Club · Arab Student Association
 
 ## Projects
 
-- **[Eternal2x](/products/eternal2x)** · DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then draws the missing in-betweens with the RIFE network on ONNX Runtime.
+- **[Upflow2x](/products/upflow2x)** · DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then draws the missing in-betweens with the RIFE network on ONNX Runtime.
 - **[Eternal Summary](/products/eternal-summary)** · Chrome extension that summarizes the page you are reading, explains what you highlight, and answers follow-ups in a rail beside the article.
 - **[EternalMonitor](/products/eternal-monitor)** · Open-source contributor who owns AMD GPU support: Rust and FFmpeg AMF H.264 and HEVC encoding, keyframe recovery and the software fallback.
 - **Exerly Fitness** · On his portfolio. A fitness app from the studio. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.

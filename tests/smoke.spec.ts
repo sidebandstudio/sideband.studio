@@ -32,12 +32,10 @@ test('homepage preview tabs switch the visible product screenshot', async ({
     'EternalMonitor',
   )
 
-  await tabs.getByRole('tab', { name: 'Eternal2x' }).click()
-  await expect(tabs.getByRole('tab', { selected: true })).toHaveText(
-    'Eternal2x',
-  )
+  await tabs.getByRole('tab', { name: 'Upflow2x' }).click()
+  await expect(tabs.getByRole('tab', { selected: true })).toHaveText('Upflow2x')
   await expect(
-    page.getByRole('tabpanel', { name: 'Eternal2x' }).getByRole('img'),
+    page.getByRole('tabpanel', { name: 'Upflow2x' }).getByRole('img'),
   ).toBeVisible()
 })
 
@@ -348,7 +346,7 @@ test('stats skip the count-up when reduced motion is turned on after load', asyn
 test('the footer credits open by keyboard and list each credit with its license', async ({
   page,
 }) => {
-  const credit = products.find((p) => p.id === 'eternal2x')!.video.card.credit!
+  const credit = products.find((p) => p.id === 'upflow2x')!.video.card.credit!
   await visit(page, '/about')
   const credits = page.locator('footer details#credits')
   const summary = credits.locator('summary')
@@ -364,7 +362,7 @@ test('the footer credits open by keyboard and list each credit with its license'
   await expect(
     credits.getByRole('link', { name: credit.license! }),
   ).toHaveAttribute('href', credit.licenseHref!)
-  await expect(credits).toContainText('Eternal2x: ')
+  await expect(credits).toContainText('Upflow2x: ')
   await expect(credits).toContainText('both product videos')
   await page.keyboard.press('Space')
   await expect
