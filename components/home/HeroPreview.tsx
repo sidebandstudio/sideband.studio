@@ -26,25 +26,30 @@ const WINDOW_SHADOW = 'shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]' // taste-skil
 /**
  * A window onto the top-ranked products: one tab per product, a real
  * screenshot behind each, and a caption with its key number and a link to its
- * page. Tabs page on their own while the window is on screen, the tab is
- * visible and motion is allowed. Hovering, focusing or picking a tab hands
- * control to the visitor. Items arrive from the server in ranked order.
+ * page. Tabs page on their own while the window is on screen, the browser
+ * tab is visible and motion is allowed, and the Pause button beside the tabs
+ * stops and restarts them. Hovering or focusing the window holds the current
+ * product, and picking a tab pauses. Under reduced motion it never pages and
+ * the button is not shown. Items arrive from the server in ranked order.
  */
 export default function HeroPreview({ items }: { items: HeroItem[] }) {
   const count = items.length
   const [active, setActive] = useState(0)
   const [paging, setPaging] = useState(false)
   const [cycle, setCycle] = useState(0)
+  const [playing, setPlaying] = useState(true)
   const frameRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const listRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
   const state = useRef({
     visible: false,
     hovered: false,
     focused: false,
-    userControlled: false,
+    playing: true,
   })
   const timer = useRef<ReturnType<typeof setTimeout>>()
+  const reschedule = useRef<() => void>()
 
   useEffect(() => {
     const frame = frameRef.current
@@ -59,7 +64,7 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
       s.visible &&
       !s.hovered &&
       !s.focused &&
-      !s.userControlled &&
+      s.playing &&
       document.visibilityState === 'visible' &&
       !reducedMotion.matches
 
@@ -86,28 +91,34 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
     )
     observer.observe(frame)
 
+    // The Pause button is the one part of the window that does not hold the
+    // product, so pressing Play starts paging at once.
+    const holds = (node: EventTarget | null) =>
+      node instanceof Node &&
+      frame.contains(node) &&
+      !toggleRef.current?.contains(node)
     const on = (type: string, fn: (e: Event) => void) =>
       frame.addEventListener(type, fn, opts)
-    on('pointerenter', (e) => {
+    on('pointerover', (e) => {
       if ((e as PointerEvent).pointerType !== 'mouse') return
-      s.hovered = true
+      s.hovered = holds(e.target)
       schedule()
     })
     on('pointerleave', () => {
       s.hovered = false
       schedule()
     })
-    on('focusin', () => {
-      s.focused = true
+    on('focusin', (e) => {
+      s.focused = holds(e.target)
       schedule()
     })
     on('focusout', (e) => {
-      const next = (e as FocusEvent).relatedTarget
-      s.focused = next instanceof Node && frame.contains(next)
+      s.focused = holds((e as FocusEvent).relatedTarget)
       schedule()
     })
     document.addEventListener('visibilitychange', schedule, opts)
     reducedMotion.addEventListener('change', schedule, opts)
+    reschedule.current = schedule
 
     return () => {
       events.abort()
@@ -127,10 +138,14 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
     list.scrollTo({ left: tab.offsetLeft - 8 })
   }, [active])
 
+  function setPlay(next: boolean) {
+    state.current.playing = next
+    setPlaying(next)
+    reschedule.current?.()
+  }
+
   function pick(i: number) {
-    state.current.userControlled = true
-    if (timer.current !== undefined) clearTimeout(timer.current)
-    setPaging(false)
+    setPlay(false)
     setActive(i)
   }
 
@@ -155,56 +170,82 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
         WINDOW_SHADOW,
       )}
     >
-      <div
-        ref={listRef}
-        role="tablist"
-        aria-label="Products"
-        onKeyDown={onKeyDown}
-        className={cx(
-          'relative -mx-2 flex gap-1 overflow-x-auto px-2 pb-2 md:-mx-3 md:px-3 md:pb-3',
-          styles.scroller,
-        )}
-      >
-        {items.map((item, i) => {
-          const selected = i === active
-          return (
-            <button
-              key={item.id}
-              ref={(el) => {
-                tabRefs.current[i] = el
-              }}
-              type="button"
-              role="tab"
-              id={`preview-tab-${item.id}`}
-              aria-selected={selected}
-              aria-controls={`preview-panel-${item.id}`}
-              tabIndex={selected ? 0 : -1}
-              onClick={() => pick(i)}
-              className={cx(
-                'relative flex h-10 shrink-0 items-center gap-2 overflow-hidden rounded-full pl-2 pr-4 text-small font-medium transition-colors duration-hover ease-standard',
-                selected
-                  ? 'bg-sideband-surface-3 text-sideband-text'
-                  : 'text-sideband-text-secondary hover:bg-sideband-surface-2 hover:text-sideband-text',
-              )}
-            >
-              <Image
-                src={item.icon}
-                alt=""
-                width={48}
-                height={48}
-                className="h-6 w-6 rounded-[22%]"
-              />
-              {item.name}
-              {selected && paging && (
-                <span
-                  key={cycle}
-                  aria-hidden="true"
-                  className={styles.progress}
+      <div className="flex items-center gap-2 pb-2 md:pb-3">
+        <div
+          ref={listRef}
+          role="tablist"
+          aria-label="Products"
+          onKeyDown={onKeyDown}
+          className={cx(
+            'relative flex min-w-0 flex-1 gap-1 overflow-x-auto',
+            styles.scroller,
+          )}
+        >
+          {items.map((item, i) => {
+            const selected = i === active
+            return (
+              <button
+                key={item.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el
+                }}
+                type="button"
+                role="tab"
+                id={`preview-tab-${item.id}`}
+                aria-selected={selected}
+                aria-controls={`preview-panel-${item.id}`}
+                tabIndex={selected ? 0 : -1}
+                onClick={() => pick(i)}
+                className={cx(
+                  'relative flex h-10 shrink-0 items-center gap-2 overflow-hidden rounded-full pl-2 pr-4 text-small font-medium transition-colors duration-hover ease-standard',
+                  selected
+                    ? 'bg-sideband-surface-3 text-sideband-text'
+                    : 'text-sideband-text-secondary hover:bg-sideband-surface-2 hover:text-sideband-text',
+                )}
+              >
+                <Image
+                  src={item.icon}
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="h-6 w-6 rounded-[22%]"
                 />
-              )}
-            </button>
-          )
-        })}
+                {item.name}
+                {selected && paging && (
+                  <span
+                    key={cycle}
+                    aria-hidden="true"
+                    className={styles.progress}
+                  />
+                )}
+              </button>
+            )
+          })}
+        </div>
+        <button
+          ref={toggleRef}
+          type="button"
+          onClick={() => setPlay(!playing)}
+          aria-label={
+            playing ? 'Pause the product preview' : 'Play the product preview'
+          }
+          className="flex h-10 shrink-0 items-center gap-2 rounded-full bg-sideband-surface-2 pl-3 pr-4 text-small font-medium text-sideband-text-secondary transition-colors duration-hover ease-standard hover:bg-sideband-surface-3 hover:text-sideband-text motion-reduce:hidden"
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            width={14}
+            height={14}
+            fill="currentColor"
+          >
+            {playing ? (
+              <path d="M4 2.5h2.5v11H4zM9.5 2.5H12v11H9.5z" />
+            ) : (
+              <path d="M4.5 2.2 13.5 8l-9 5.8z" />
+            )}
+          </svg>
+          {playing ? 'Pause' : 'Play'}
+        </button>
       </div>
 
       <div className="grid">

@@ -212,7 +212,10 @@ test('under reduced motion every section is visible and complete', async ({
     .evaluateAll((els) => els.map((e) => e.textContent))
   expect(shown).toEqual(finals)
 
-  // The preview does not page on its own.
+  // The preview does not page on its own and offers no Pause button.
+  await expect(
+    page.getByRole('button', { name: /the product preview/ }),
+  ).toBeHidden()
   const tabs = page.getByRole('tablist', { name: 'Products' })
   await page.waitForTimeout(6500)
   await expect(tabs.getByRole('tab', { selected: true })).toHaveText(
@@ -295,3 +298,47 @@ for (const [width, height] of [
       .toBe(true)
   })
 }
+
+test('the pause button stops and restarts the preview', async ({ page }) => {
+  test.setTimeout(60000)
+  await page.goto('/')
+  const tabs = page.getByRole('tablist', { name: 'Products' })
+  const selected = () => tabs.getByRole('tab', { selected: true }).textContent()
+  // Bring the whole window on screen, below the navbar.
+  await tabs.evaluate((el) =>
+    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 96),
+  )
+  await page.mouse.move(0, 0)
+
+  // It pages on its own while on screen.
+  const first = await selected()
+  await expect.poll(selected, { timeout: 9000 }).not.toBe(first)
+
+  const pause = page.getByRole('button', { name: 'Pause the product preview' })
+  await expect(pause).toBeVisible()
+  await expect(pause).toHaveText('Pause')
+  await pause.click()
+  const play = page.getByRole('button', { name: 'Play the product preview' })
+  await expect(play).toHaveText('Play')
+  const held = await selected()
+  await page.waitForTimeout(7000)
+  expect(await selected()).toBe(held)
+
+  // Play from the keyboard starts it again.
+  await play.focus()
+  await page.keyboard.press('Enter')
+  await expect(pause).toBeVisible()
+  await expect.poll(selected, { timeout: 9000 }).not.toBe(held)
+})
+
+test('the preview does not page while it is off screen', async ({ page }) => {
+  test.setTimeout(30000)
+  await page.goto('/')
+  const tabs = page.getByRole('tablist', { name: 'Products' })
+  await page.locator('#open-source').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(7000)
+  await expect(tabs.getByRole('tab').first()).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+})
