@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import {
   productLicense,
+  productRepo,
   productsByRank,
   RANKING_WEIGHTS,
 } from '../lib/products'
@@ -366,4 +367,67 @@ test('the preview does not page while it is off screen', async ({ page }) => {
     'aria-selected',
     'true',
   )
+})
+
+/** A row of a product page's Repository panel, whitespace collapsed. */
+async function repositoryRow(page: Page, label: string) {
+  const text = await page
+    .locator('dl > div')
+    .filter({ has: page.locator('dt', { hasText: label }) })
+    .locator('dd')
+    .first()
+    .textContent()
+  return text!.replace(/\s+/g, ' ').trim()
+}
+
+test('release and last-push dates read the same on the home page and the product page', async ({
+  page,
+}) => {
+  const open = ranked.filter((p) => productLicense(p).openSource)
+  const latest = ranked
+    .filter((p) => productRepo(p).latestRelease)
+    .sort((a, b) =>
+      productRepo(b).latestRelease!.date.localeCompare(
+        productRepo(a).latestRelease!.date,
+      ),
+    )[0]
+  const checked = ranked.filter(
+    (p) =>
+      open.includes(p) ||
+      p === latest ||
+      (ranked.indexOf(p) < 3 && productRepo(p).latestRelease),
+  )
+  expect(checked.length).toBeGreaterThan(0)
+
+  const shown = new Map<string, { release: string | null; push: string }>()
+  for (const p of checked) {
+    await visit(page, `/products/${p.id}`)
+    const release = productRepo(p).latestRelease
+      ? (await repositoryRow(page, 'Latest release')).replace(/^.*?, /, '')
+      : null
+    shown.set(p.id, { release, push: await repositoryRow(page, 'Last push') })
+  }
+
+  await visit(page, '/')
+  const main = page.getByRole('main')
+  for (const p of checked) {
+    const { release, push } = shown.get(p.id)!
+    const tag = productRepo(p).latestRelease?.tag
+    if (ranked.indexOf(p) < 3 && release)
+      await expect(
+        page
+          .locator('#products article')
+          .filter({ has: page.locator(`a[href="/products/${p.id}"]`) }),
+      ).toContainText(`${tag} released ${release}`)
+    if (p === latest)
+      await expect(main).toContainText(
+        `Latest release, ${p.name} on ${release}`,
+      )
+    if (open.includes(p)) {
+      const row = page
+        .getByRole('list', { name: 'Open-source repositories' })
+        .locator(`a[href="${p.links.repo}"]`)
+      await expect(row).toContainText(`Last push ${push}`)
+    }
+  }
 })

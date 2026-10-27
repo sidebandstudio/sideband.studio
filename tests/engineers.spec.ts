@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
+import { formatDate } from '../lib/format'
 import { getGithubUser } from '../lib/github'
 import { productRepo, products } from '../lib/products'
 import { visit } from './helpers'
@@ -112,14 +113,7 @@ test('the contribution graph has an accessible summary and reads days by keyboar
   )
   await page.keyboard.press('Home')
   const first = user.contributions.weeks[0].days[0]
-  await expect(readout).toContainText(
-    new Date(`${first.date}T00:00:00Z`).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-      timeZone: 'UTC',
-    }),
-  )
+  await expect(readout).toContainText(formatDate(first.date))
 })
 
 test('on a phone the contribution graph keeps its labels legible and unclipped', async ({

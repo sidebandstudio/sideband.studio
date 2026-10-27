@@ -2,6 +2,7 @@
 // lib/engineers.ts and the GitHub snapshot. Server-only: it reads the snapshot,
 // so call it from app/page.tsx and pass the plain results to client components.
 import { engineers } from '@/lib/engineers'
+import { formatDate } from '@/lib/format'
 import { getGithubUser, getRepo, githubOrg, githubSyncedAt } from '@/lib/github'
 import {
   productLicense,
@@ -38,16 +39,6 @@ export function countWord(n: number, capital = false) {
 }
 
 const fmt = (n: number) => n.toLocaleString('en-US')
-
-/** Dates as the studio reads them, in Boston time. */
-export function formatDate(iso: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'America/New_York',
-  }).format(new Date(iso))
-}
 
 export interface Figure {
   value: string

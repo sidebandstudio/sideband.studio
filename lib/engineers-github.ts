@@ -8,6 +8,7 @@ import {
   type GithubUser,
 } from '@/lib/github'
 import { engineers, type Engineer } from '@/lib/engineers'
+import { formatDate } from '@/lib/format'
 
 export interface CalendarDay {
   date: string
@@ -164,32 +165,8 @@ export function weeklyTotals(weeks: CalendarWeek[]): number[] {
   return weeks.map((w) => w.reduce((sum, d) => sum + d.count, 0))
 }
 
-const dayFormat = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-  timeZone: 'UTC',
-})
-const monthFormat = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  year: 'numeric',
-  timeZone: 'UTC',
-})
-
-/** "Oct 27, 2026". Accepts a date (2026-10-27) or a timestamp. */
-export function formatDay(iso: string): string {
-  return dayFormat.format(
-    new Date(iso.length === 10 ? `${iso}T00:00:00Z` : iso),
-  )
-}
-
-/** "Feb 2024". */
-export function formatMonth(iso: string): string {
-  return monthFormat.format(new Date(iso))
-}
-
 /** The date the snapshot was taken, as shown next to every GitHub figure. */
-export const syncedLabel = formatDay(githubSyncedAt)
+export const syncedLabel = formatDate(githubSyncedAt)
 
 /** Whole years between the account's creation and the snapshot, e.g. "2 years". */
 export function accountAge(createdAt: string): string {

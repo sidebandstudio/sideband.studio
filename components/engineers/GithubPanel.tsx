@@ -4,12 +4,11 @@ import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
 import {
   accountAge,
   formatCount,
-  formatDay,
-  formatMonth,
   syncedLabel,
   type EngineerGithub,
   type LanguageShare,
 } from '@/lib/engineers-github'
+import { formatDate, formatMonth } from '@/lib/format'
 import { cx } from '@/components/ui/cx'
 import ContributionGraph from './ContributionGraph'
 import ShowAll from './ShowAll'
@@ -177,11 +176,11 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
             className="mt-1.5 max-w-prose text-small text-sideband-muted"
           >
             {formatCount(s.total)} contributions in the last year, from{' '}
-            {formatDay(s.firstDay)} to {formatDay(s.lastDay)}. Active on{' '}
+            {formatDate(s.firstDay)} to {formatDate(s.lastDay)}. Active on{' '}
             {formatCount(s.activeDays)} days, with a longest streak of{' '}
             {s.longestStreak} {s.longestStreak === 1 ? 'day' : 'days'}
             {s.busiest
-              ? ` and a busiest day of ${formatCount(s.busiest.count)} on ${formatDay(s.busiest.date)}`
+              ? ` and a busiest day of ${formatCount(s.busiest.count)} on ${formatDate(s.busiest.date)}`
               : ''}
             .
           </p>

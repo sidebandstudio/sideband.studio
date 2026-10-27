@@ -8,6 +8,7 @@ import {
   type KeyboardEvent,
 } from 'react'
 import type { CalendarWeek } from '@/lib/engineers-github'
+import { formatDate, formatMonthName } from '@/lib/format'
 import { cx } from '@/components/ui/cx'
 
 interface ContributionGraphProps {
@@ -35,22 +36,10 @@ const FILL = {
   FOURTH_QUARTILE: 'var(--graph-accent)',
 } as const
 
-const longDay = new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-  timeZone: 'UTC',
-})
-const shortMonth = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  timeZone: 'UTC',
-})
-
 const toDate = (iso: string) => new Date(`${iso}T00:00:00Z`)
 
 function describe(count: number, date: string) {
-  const day = longDay.format(toDate(date))
+  const day = formatDate(date)
   if (count === 0) return `No contributions on ${day}`
   return `${count.toLocaleString('en-US')} ${count === 1 ? 'contribution' : 'contributions'} on ${day}`
 }
@@ -107,7 +96,7 @@ export default function ContributionGraph({
   weeks.forEach((week, w) => {
     const first = week.find((d) => toDate(d.date).getUTCDate() <= 7)
     if (!first) return
-    const label = shortMonth.format(toDate(first.date))
+    const label = formatMonthName(first.date)
     const prev = months[months.length - 1]
     if (prev && prev.label === label) return
     if (prev && w - prev.w < 3) months.pop()

@@ -1,11 +1,11 @@
 import Reveal from '@/components/ui/Reveal'
 import {
   formatCount,
-  formatDay,
   syncedLabel,
   type CalendarWeek,
   type ContributionSummary,
 } from '@/lib/engineers-github'
+import { formatDate } from '@/lib/format'
 import ContributionGraph from './ContributionGraph'
 
 interface TeamActivityProps {
@@ -31,12 +31,12 @@ export default function TeamActivity({
             className="max-w-prose text-small text-sideband-muted"
           >
             {formatCount(summary.total)} contributions across the team in the
-            last year, from {formatDay(summary.firstDay)} to{' '}
-            {formatDay(summary.lastDay)}. At least one of them contributed on{' '}
+            last year, from {formatDate(summary.firstDay)} to{' '}
+            {formatDate(summary.lastDay)}. At least one of them contributed on{' '}
             {formatCount(summary.activeDays)} of those days, with a longest run
             of {summary.longestStreak} days in a row
             {summary.busiest
-              ? ` and a busiest day of ${formatCount(summary.busiest.count)} on ${formatDay(summary.busiest.date)}`
+              ? ` and a busiest day of ${formatCount(summary.busiest.count)} on ${formatDate(summary.busiest.date)}`
               : ''}
             .
           </p>
