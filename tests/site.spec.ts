@@ -6,7 +6,7 @@ import {
 } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { products } from '../lib/products'
-import { ABORTED_PREFETCH, visit } from './helpers'
+import { ABORTED_PREFETCH, horizontalOverflow, visit } from './helpers'
 
 /**
  * Site-wide checks on every route: what the sitemap lists, what the pages
@@ -147,16 +147,12 @@ for (const route of ROUTES) {
         canonical(route),
       )
 
-      // No sideways scrolling. The body hides horizontal overflow, which
-      // would hide a page that is too wide, so it is released to measure.
-      const overflow = await page.evaluate(() => {
-        const html = document.documentElement
-        document.body.style.overflowX = 'visible'
-        const wide = html.scrollWidth - html.clientWidth
-        document.body.style.overflowX = ''
-        return wide
-      })
-      expect(overflow, 'horizontal overflow').toBeLessThanOrEqual(0)
+      // No sideways scrolling.
+      const { overflow, culprits } = await horizontalOverflow(page)
+      expect(
+        overflow,
+        ['horizontal overflow', ...culprits].join('\n'),
+      ).toBeLessThanOrEqual(0)
 
       // Every internal link resolves, and every anchor it names exists.
       const links = await page.locator('a[href]').evaluateAll((els) =>

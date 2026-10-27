@@ -7,7 +7,7 @@ import {
   RANKING_WEIGHTS,
 } from '../lib/products'
 import { countWord } from '../lib/home-data'
-import { visit } from './helpers'
+import { horizontalOverflow, visit } from './helpers'
 
 const ranked = productsByRank()
 
@@ -287,10 +287,8 @@ for (const width of [320, 360, 390, 480, 640, 768, 1024, 1440, 1920]) {
     await visit(page, '/')
     await page.evaluate(() => document.fonts.ready)
     expect(await headlineLines(page)).toBeLessThanOrEqual(2)
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - window.innerWidth,
-    )
-    expect(overflow).toBeLessThanOrEqual(0)
+    const { overflow, culprits } = await horizontalOverflow(page)
+    expect(overflow, culprits.join('\n')).toBeLessThanOrEqual(0)
   })
 }
 

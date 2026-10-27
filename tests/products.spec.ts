@@ -1,6 +1,12 @@
 import { test, expect } from '@playwright/test'
 import { products, productsByRank } from '../lib/products'
-import { visit, settle, nextFrame, ABORTED_PREFETCH } from './helpers'
+import {
+  visit,
+  settle,
+  nextFrame,
+  horizontalOverflow,
+  ABORTED_PREFETCH,
+} from './helpers'
 
 test('products index lists every product in ranked order', async ({ page }) => {
   await visit(page, '/products')
@@ -359,12 +365,11 @@ for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {
       for (const width of [loadWidth, ...resizes]) {
         await page.setViewportSize({ width, height: 900 })
         await nextFrame(page)
-        const overflow = await page.evaluate(
-          () => document.documentElement.scrollWidth - window.innerWidth,
-        )
-        expect(overflow, `horizontal overflow at ${width}`).toBeLessThanOrEqual(
-          0,
-        )
+        const { overflow, culprits } = await horizontalOverflow(page)
+        expect(
+          overflow,
+          [`horizontal overflow at ${width}`, ...culprits].join('\n'),
+        ).toBeLessThanOrEqual(0)
       }
       await page.evaluate(() =>
         window.scrollTo({
