@@ -175,8 +175,29 @@ test('open source lists exactly the OSI-licensed product repos', async ({
   const hrefs = await list
     .getByRole('link')
     .evaluateAll((links) => links.map((a) => a.getAttribute('href')))
-  expect(hrefs).toEqual(open.map((p) => p.links.repo))
+  expect(hrefs).toEqual(open.map((p) => productRepo(p).url))
   expect(open.some((p) => p.id === 'hushtype')).toBe(false)
+
+  // Each row's label, link and figures all come from one repo: the one the
+  // product's numbers are read from, as on its product page.
+  for (const p of open) {
+    const key = p.upstreamRepo ?? p.repo
+    const repo = productRepo(p)
+    expect(repo.url).toBe(`https://github.com/${key}`)
+    const row = list.locator(`a[href="${repo.url}"]`)
+    const label = await row.locator('span > span').first().textContent()
+    expect(label!.replace(/\s+/g, '')).toBe(key)
+    await expect(row).toContainText(`${repo.license} license`)
+    if (repo.primaryLanguage)
+      await expect(row).toContainText(repo.primaryLanguage)
+    await expect(row).toContainText(
+      `${repo.commits.toLocaleString('en-US')} commits`,
+    )
+    if (repo.stars > 0)
+      await expect(row).toContainText(
+        `${repo.stars.toLocaleString('en-US')} ${repo.stars === 1 ? 'star' : 'stars'}`,
+      )
+  }
   await expect(page.locator('#open-source h2')).toContainText(
     `${countWord(open.length, true)} of our products`,
   )
@@ -426,7 +447,7 @@ test('release and last-push dates read the same on the home page and the product
     if (open.includes(p)) {
       const row = page
         .getByRole('list', { name: 'Open-source repositories' })
-        .locator(`a[href="${p.links.repo}"]`)
+        .locator(`a[href="${productRepo(p).url}"]`)
       await expect(row).toContainText(`Last push ${push}`)
       // The same commit count the product page and the ranking read.
       await expect(row).toContainText(

@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { productLicense, products, productsByRank } from '../lib/products'
+import {
+  productLicense,
+  productRepo,
+  products,
+  productsByRank,
+} from '../lib/products'
 import { visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
@@ -70,9 +75,15 @@ test('home Open source section lists only OSI-licensed product repos', async ({
   await visit(page, '/')
   const section = page.locator('#open-source')
   for (const product of products) {
-    const path = product.links.repo!.replace('https://github.com/', '')
-    await expect(section.getByRole('link', { name: path })).toHaveCount(
-      productLicense(product).openSource ? 1 : 0,
+    // The row names, links and counts the repo the product's numbers come from.
+    const repo = productRepo(product)
+    const path = product.upstreamRepo ?? product.repo
+    const row = section.getByRole('link', { name: path })
+    await expect(row).toHaveCount(productLicense(product).openSource ? 1 : 0)
+    if (!productLicense(product).openSource) continue
+    await expect(row).toHaveAttribute('href', repo.url)
+    await expect(row).toContainText(
+      `${repo.commits.toLocaleString('en-US')} commits`,
     )
   }
 })

@@ -282,19 +282,20 @@ export function getHomeData() {
     }
   })
 
-  // Linked where the product page's source link goes, with the figures from
-  // the repo its numbers are read from (the ranking's repo).
+  // Each row names, links and counts one repo: the one the product's numbers
+  // are read from (the ranking's repo), as the product page's Repository
+  // panel does. Which products are open source still follows productLicense.
   const openRepos: OpenRepo[] = ranked.flatMap((p) => {
     const license = productLicense(p)
+    if (!license.openSource) return []
     const repo = productRepo(p)
-    if (!license.openSource || !p.links.repo) return []
     return [
       {
         id: p.id,
         name: p.name,
-        path: p.links.repo.replace('https://github.com/', ''),
-        href: p.links.repo,
-        license: license.spdx ?? license.name,
+        path: p.upstreamRepo ?? p.repo,
+        href: repo.url,
+        license: repo.license ?? license.spdx ?? license.name,
         language: repo.primaryLanguage,
         stars: repo.stars,
         commits: repo.commits,
