@@ -1,0 +1,55 @@
+/* Hardware outlines for product images. Sizes are in container query units
+   so a frame keeps its proportions at every width: the bezel and corner of a
+   phone at 160px wide match the same phone at 320px. */
+
+/* The wrapper is the size container, so the frame's own padding and corners
+   can be measured against its width (cqw never resolves against the element
+   that declares the container). */
+.container {
+  container-type: inline-size;
+}
+
+.frame {
+  background: var(--sideband-surface-2);
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A window or page on a display: a thin bezel at the panel radius. */
+.desktop {
+  padding: clamp(4px, 0.9cqw, 10px);
+  border-radius: 1.25rem;
+}
+
+.desktop img {
+  border-radius: 0.75rem;
+}
+
+.mobile {
+  padding: 3.6cqw;
+  border-radius: 15cqw;
+}
+
+.mobile img {
+  border-radius: 11.4cqw;
+}
+
+.ipad {
+  padding: 3.2cqw;
+  border-radius: 6.5cqw;
+}
+
+.ipad img {
+  border-radius: 3.6cqw;
+}
+
+/* Artwork and photos: the image itself at the panel radius, no hardware. */
+.none {
+  background: none;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
