@@ -42,6 +42,12 @@ export interface ProductImage {
 export interface ProductFeature {
   title: string
   body: string
+  /**
+   * `src` of one of the product's images that shows this feature, set only
+   * where the image was checked to show it. The product page sets the two
+   * side by side.
+   */
+  image?: string
 }
 
 export interface ProductLinks {
@@ -140,10 +146,12 @@ export const products: Product[] = [
       {
         title: 'Mirror or second screen',
         body: 'The iPad can copy your main screen or become an extra one that exists only while it is connected.',
+        image: '/assets/products/eternal-monitor/host-stream.webp',
       },
       {
         title: 'Wi-Fi or USB',
         body: 'Stream over your home network or plug in a cable, and unplugging falls back to Wi-Fi.',
+        image: '/assets/products/eternal-monitor/ipad-connect.webp',
       },
       {
         title: 'Apple Pencil as a real pen',
@@ -152,10 +160,12 @@ export const products: Product[] = [
       {
         title: 'Touch, keyboard and trackpad',
         body: 'Tap to click, two fingers to scroll, hold to right-click, and hardware keyboards work too.',
+        image: '/assets/products/eternal-monitor/ipad-settings.webp',
       },
       {
         title: 'Encoded on your graphics card',
         body: 'NVIDIA, AMD or Intel encode H.264 or HEVC at 30, 60, 90 or 120 frames per second.',
+        image: '/assets/products/eternal-monitor/host-performance.webp',
       },
       {
         title: 'Loss repair',
@@ -168,6 +178,7 @@ export const products: Product[] = [
       {
         title: 'Pair once',
         body: 'The first Wi-Fi connection takes a six-digit code or a QR scan, and USB needs no code.',
+        image: '/assets/products/eternal-monitor/ipad-pairing.webp',
       },
     ],
     platforms: [
@@ -312,6 +323,7 @@ export const products: Product[] = [
       {
         title: 'Live cover art',
         body: 'The real album artwork from Apple Music or Spotify appears on your status.',
+        image: '/assets/products/eternal-rich-presence/discord-profile.webp',
       },
       {
         title: 'Listen Along',
@@ -431,10 +443,12 @@ export const products: Product[] = [
       {
         title: 'Trend weight',
         body: 'Daily weigh-ins are smoothed into a trend line so progress is judged on the trend and not on single readings.',
+        image: '/assets/products/exerly/ios-progress-weight.webp',
       },
       {
         title: 'Measured expenditure',
         body: 'Exerly estimates what you burn from your food log and weight trend, then adjusts targets at weekly check-ins.',
+        image: '/assets/products/exerly/ios-program-expenditure.webp',
       },
       {
         title: 'Barcode and label logging',
@@ -603,6 +617,7 @@ export const products: Product[] = [
       {
         title: 'Shared editor',
         body: 'Two people edit one Monaco editor and see each other’s cursors live.',
+        image: '/assets/products/tandemcode/site-home-desktop.webp',
       },
       {
         title: 'Hidden tests',
@@ -724,6 +739,7 @@ export const products: Product[] = [
       {
         title: 'Theme packs',
         body: 'Themes change the wallpaper, course card art, panels, type and shapes together.',
+        image: '/assets/products/better-canvas/settings-theme-preview.webp',
       },
       {
         title: 'Photo search',
@@ -836,6 +852,7 @@ export const products: Product[] = [
       {
         title: 'Drawn in-betweens',
         body: 'The RIFE network draws each missing frame, on the GPU on Windows.',
+        image: '/assets/products/eternal2x/frames-compare.webp',
       },
       {
         title: 'Timing stays put',
@@ -852,6 +869,7 @@ export const products: Product[] = [
       {
         title: 'Lands above the original',
         body: 'The render goes on the track above the source clip, and Show Original flips between the two.',
+        image: '/assets/products/eternal2x/resolve-panel.webp',
       },
       {
         title: 'Grainy source mode',
@@ -963,10 +981,12 @@ export const products: Product[] = [
       {
         title: 'Four styles',
         body: 'Choose summary, bullets, key points or plain English, and each new style is added below the last.',
+        image: '/assets/products/eternal-summary/bullets-mode.webp',
       },
       {
         title: 'Worth reading verdict',
         body: 'The header shows reading time and says whether the page is worth reading, a skim or skippable, with the reason.',
+        image: '/assets/products/eternal-summary/panel-beside-article.webp',
       },
       {
         title: 'Clickable sources',
@@ -975,10 +995,12 @@ export const products: Product[] = [
       {
         title: 'Highlight to summarize',
         body: 'Select text and a Summarize button appears, opening a card that follows the passage as you scroll.',
+        image: '/assets/products/eternal-summary/selection-card.webp',
       },
       {
         title: 'Follow-up questions',
         body: 'Ask about the page in the same panel and the answer cites the page where it can.',
+        image: '/assets/products/eternal-summary/follow-up-chat.webp',
       },
       {
         title: 'Thirteen languages',
@@ -1095,6 +1117,7 @@ export const products: Product[] = [
       {
         title: 'Hold to talk',
         body: 'Hold Option-Space, speak, and release to paste the text at the cursor.',
+        image: '/assets/products/hushtype/app-dictation-dark.webp',
       },
       {
         title: 'Recognition on your Mac',
@@ -1111,6 +1134,7 @@ export const products: Product[] = [
       {
         title: 'Modes per app',
         body: 'Messaging, Email, Code and Default match by app or web address and change wording and style.',
+        image: '/assets/products/hushtype/app-modes-light.webp',
       },
       {
         title: 'Dictionary',
@@ -1225,6 +1249,7 @@ export const products: Product[] = [
       {
         title: 'Transmutation Table',
         body: 'Learn an item once, burn matter into EMC, and make any learned item back.',
+        image: '/assets/products/eternal-exchange/transmutation-table-gui.webp',
       },
       {
         title: 'Automation line',
@@ -1429,6 +1454,7 @@ export const products: Product[] = [
       {
         title: 'Text to book',
         body: 'The form writes the booking request and opens your messages app addressed to your barber.',
+        image: '/assets/products/signature-cuts/booking-send-mobile.webp',
       },
       {
         title: 'WhatsApp booking',

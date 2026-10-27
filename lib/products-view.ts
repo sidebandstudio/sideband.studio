@@ -13,6 +13,7 @@ import {
   RANKING_WEIGHTS,
   type ProductRankInputs,
   type Product,
+  type ProductFeature,
   type ProductImage,
   type ProductImageKind,
   type ProductLicense,
@@ -325,4 +326,70 @@ export const rankingMethod = {
   scopeWeight: RANKING_WEIGHTS.scope,
   popularityPercent: `${Math.round(RANKING_WEIGHTS.popularity * 100)}%`,
   scopePercent: `${Math.round(RANKING_WEIGHTS.scope * 100)}%`,
+}
+
+export interface StoryRow {
+  feature: ProductFeature
+  /** Index into product.images. */
+  image: number
+}
+
+export interface ProductStory {
+  /** The image shown right after the hero: the first screenshot. */
+  lead: number
+  /** The feature the lead image shows, when one is paired with it. */
+  leadFeature: ProductFeature | null
+  /** Other features paired with the image that shows them, in feature order. */
+  rows: StoryRow[]
+  /** Features no image shows. */
+  plain: ProductFeature[]
+  /** Images neither the lead nor paired with a feature, in data order. */
+  rest: number[]
+}
+
+/**
+ * How a product page tells its story, from the data alone: the lead image,
+ * the features that sit beside the image that shows them, the features that
+ * stand on their own, and the images left for the gallery. Fails the build if
+ * a feature names an image the product does not list, or two features share
+ * one image.
+ */
+export function productStory(product: Product): ProductStory {
+  const { images, features } = product
+  const indexOf = (src: string) => {
+    const i = images.findIndex((image) => image.src === src)
+    if (i === -1)
+      throw new Error(
+        `${product.id}: feature image ${src} is not one of the product's images.`,
+      )
+    return i
+  }
+  const used = new Set<number>()
+  const paired = features.flatMap((feature) => {
+    if (!feature.image) return []
+    const image = indexOf(feature.image)
+    if (used.has(image))
+      throw new Error(
+        `${product.id}: ${feature.image} is paired with more than one feature.`,
+      )
+    used.add(image)
+    return [{ feature, image }]
+  })
+
+  const first = images.findIndex((image) => image.kind === 'screenshot')
+  const lead = first === -1 ? 0 : first
+  const leadRow = paired.find((row) => row.image === lead)
+
+  return {
+    lead,
+    leadFeature: leadRow?.feature ?? null,
+    rows: paired.filter((row) => row !== leadRow),
+    plain: features.filter((feature) => !feature.image),
+    rest: images.map((_, i) => i).filter((i) => i !== lead && !used.has(i)),
+  }
+}
+
+/** Whether an image reads as landscape on the page. */
+export function isWideImage(image: ProductImage) {
+  return image.width / image.height >= 1.25
 }

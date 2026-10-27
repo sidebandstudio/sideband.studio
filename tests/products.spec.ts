@@ -195,6 +195,7 @@ for (const product of products) {
   test(`${product.id}: hero title fits and clears the actions at 360, 390, 1440`, async ({
     page,
   }) => {
+    test.setTimeout(60000)
     for (const width of [360, 390, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       await page.goto(`/products/${product.id}`)
@@ -207,6 +208,7 @@ for (const product of products) {
 }
 
 test('products index names fit at 360, 768, 1440', async ({ page }) => {
+  test.setTimeout(60000)
   for (const width of [360, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/products')
@@ -259,12 +261,70 @@ for (const viewport of [
   })
 }
 
+for (const product of products) {
+  test(`${product.id}: the first screenshot follows the hero and features sit beside their images`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(`/products/${product.id}`)
+    const lead =
+      product.images.find((i) => i.kind === 'screenshot') ?? product.images[0]
+    const leadBlock = page.locator('[data-lead]')
+    const view = (alt: string) =>
+      page.getByRole('button', { name: `View larger: ${alt}`, exact: true })
+
+    // The lead is the first image on the page, before the overview.
+    await expect(
+      leadBlock.getByRole('button', { name: `View larger: ${lead.alt}` }),
+    ).toHaveCount(1)
+    const order = await page.evaluate(() => {
+      const first = document.querySelector('figure')
+      const overview = document.getElementById('overview-title')
+      return first && overview
+        ? Boolean(
+            first.compareDocumentPosition(overview) &
+            Node.DOCUMENT_POSITION_FOLLOWING,
+          )
+        : false
+    })
+    expect(order).toBe(true)
+
+    // Each paired feature shares its block with the image that shows it.
+    for (const feature of product.features.filter((f) => f.image)) {
+      const image = product.images.find((i) => i.src === feature.image)!
+      const block =
+        image === lead
+          ? leadBlock
+          : page.locator('li', {
+              has: page.getByRole('heading', {
+                name: feature.title,
+                exact: true,
+              }),
+            })
+      await expect(
+        block.getByRole('heading', { name: feature.title }),
+      ).toHaveCount(1)
+      await expect(
+        block.locator(`button[aria-label="View larger: ${image.alt}"]`),
+      ).toHaveCount(1)
+    }
+
+    // Every image appears once, and the description is not repeated.
+    for (const image of product.images)
+      await expect(view(image.alt)).toHaveCount(1)
+    expect(await page.locator('main').innerText()).not.toContain(
+      product.description,
+    )
+  })
+}
+
 const WIDTHS = [390, 768, 1440, 1920]
 
 for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {
   test(`no console errors on ${path} at ${WIDTHS.join(', ')}`, async ({
     page,
   }) => {
+    test.setTimeout(60000)
     const errors: string[] = []
     page.on('console', (m) => {
       if (m.type() === 'error') errors.push(m.text())

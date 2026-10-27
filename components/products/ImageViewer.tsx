@@ -2,7 +2,9 @@
 
 import Image from 'next/image'
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useId,
   useRef,
@@ -14,7 +16,7 @@ import { cx } from '@/components/ui/cx'
 import { useIsoLayoutEffect } from '@/components/ui/motion'
 import DeviceFrame from './DeviceFrame'
 import ImageCredit from './ImageCredit'
-import styles from './ProductGallery.module.css'
+import styles from './ImageViewer.module.css'
 
 const KIND_LABEL: Record<ProductImageKind, string> = {
   screenshot: 'Screenshot',
@@ -22,29 +24,28 @@ const KIND_LABEL: Record<ProductImageKind, string> = {
   photo: 'Photo',
 }
 
-/** Landscape images sit in the wide band, phones, portraits and squares in the tall one. */
-function isWide(image: ProductImage) {
-  return image.width / image.height >= 1.25
+interface ViewerContext {
+  images: ProductImage[]
+  open: (index: number) => void
+  register: (index: number, el: HTMLButtonElement | null) => void
 }
 
-interface Item {
-  image: ProductImage
-  /** Position in the data, which is also the viewer's order. */
-  index: number
-}
+const Context = createContext<ViewerContext | null>(null)
 
 /**
- * Every image a product lists, each in its device frame and labelled by what
- * it is, with its credit. Any image opens in a large viewer that works by
- * keyboard: Enter opens it, the arrow keys step through, Escape closes and
- * focus returns to the image it came from.
+ * One large viewer for every image on a product page, wherever on the page
+ * the image sits. Enter opens it on the image in focus, the arrow keys step
+ * through the product's images in data order, Escape closes and focus returns
+ * to the image it came from.
  */
-export default function ProductGallery({
+export function ImageViewerProvider({
   images,
   productName,
+  children,
 }: {
   images: ProductImage[]
   productName: string
+  children: ReactNode
 }) {
   const [open, setOpen] = useState<number | null>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -52,15 +53,17 @@ export default function ProductGallery({
   const returnTo = useRef<number | null>(null)
   const titleId = useId()
 
-  const items = images.map((image, index) => ({ image, index }))
-  const wide = items.filter((i) => isWide(i.image))
-  const tall = items.filter((i) => !isWide(i.image))
-  const bands = isWide(images[0]) ? ['wide', 'tall'] : ['tall', 'wide']
-
-  const show = (index: number) => {
+  const show = useCallback((index: number) => {
     returnTo.current = index
     setOpen(index)
-  }
+  }, [])
+
+  const register = useCallback(
+    (index: number, el: HTMLButtonElement | null) => {
+      triggers.current[index] = el
+    },
+    [],
+  )
 
   const step = useCallback(
     (by: number) =>
@@ -116,8 +119,7 @@ export default function ProductGallery({
   }, [images, open])
 
   // Open and close the native modal dialog with the state, then size the
-  // image before the first paint. showModal() makes the rest of the page inert
-  // and moves focus inside.
+  // image before the first paint. showModal() makes the rest of the page inert.
   useIsoLayoutEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
@@ -148,17 +150,11 @@ export default function ProductGallery({
     }
   }, [isOpen])
 
-  const onClose = () => {
-    setOpen(null)
-    const index = returnTo.current
-    if (index !== null) triggers.current[index]?.focus()
-  }
-
   // Arrow keys step through while the viewer is open, wherever focus sits in
   // it (the scroll area can stop being focusable when an image fits).
   useEffect(() => {
     if (!isOpen) return
-    const onKey = (event: globalThis.KeyboardEvent) => {
+    const onKey = (event: KeyboardEvent) => {
       if (event.key === 'ArrowRight') {
         event.preventDefault()
         step(1)
@@ -171,63 +167,17 @@ export default function ProductGallery({
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen, step])
 
+  const onClose = () => {
+    setOpen(null)
+    const index = returnTo.current
+    if (index !== null) triggers.current[index]?.focus()
+  }
+
   const current = open === null ? null : images[open]
 
   return (
-    <>
-      <div className="flex flex-col gap-16 md:gap-20">
-        {bands.map((band) =>
-          band === 'wide'
-            ? wide.length > 0 && (
-                <ul
-                  key="wide"
-                  className="grid gap-x-6 gap-y-12 md:grid-cols-2"
-                  aria-label={`${productName} wide images`}
-                >
-                  {wide.map((item, i) => (
-                    <li
-                      key={item.image.src}
-                      className={cx(
-                        wide.length % 2 === 1 && i === 0 && 'md:col-span-2',
-                      )}
-                    >
-                      <Figure
-                        item={item}
-                        sizes={
-                          wide.length % 2 === 1 && i === 0
-                            ? '(min-width: 1440px) 1320px, 92vw'
-                            : '(min-width: 1440px) 650px, (min-width: 768px) 46vw, 92vw'
-                        }
-                        onOpen={show}
-                        triggerRef={(el) => (triggers.current[item.index] = el)}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )
-            : tall.length > 0 && (
-                <ul
-                  key="tall"
-                  className={styles.tall}
-                  aria-label={`${productName} tall images`}
-                >
-                  {tall.map((item) => (
-                    <li
-                      key={item.image.src}
-                      className={styles[`tall-${item.image.device}`]}
-                    >
-                      <Figure
-                        item={item}
-                        sizes="(min-width: 768px) 360px, 46vw"
-                        onOpen={show}
-                        triggerRef={(el) => (triggers.current[item.index] = el)}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ),
-        )}
-      </div>
+    <Context.Provider value={{ images, open: show, register }}>
+      {children}
 
       <dialog
         ref={dialogRef}
@@ -303,28 +253,39 @@ export default function ProductGallery({
           </div>
         )}
       </dialog>
-    </>
+    </Context.Provider>
   )
 }
 
-function Figure({
-  item,
+/**
+ * One of the product's images, by its index in the data, in its device frame
+ * and labelled by what it is, with its credit. Selecting it opens the viewer.
+ * Never shown wider than the image's natural size.
+ */
+export function ViewableImage({
+  index,
   sizes,
-  onOpen,
-  triggerRef,
+  className,
 }: {
-  item: Item
+  index: number
+  /** next/image `sizes` for the width this placement lays the image out at. */
   sizes: string
-  onOpen: (index: number) => void
-  triggerRef: (el: HTMLButtonElement | null) => void
+  className?: string
 }) {
-  const { image, index } = item
+  const context = useContext(Context)
+  if (!context) throw new Error('ViewableImage needs an ImageViewerProvider.')
+  const image = context.images[index]
+  const { register, open } = context
+
   return (
-    <figure className="flex flex-col gap-4">
+    <figure
+      className={cx('flex flex-col gap-4', className)}
+      style={{ maxWidth: image.width }}
+    >
       <button
-        ref={triggerRef}
+        ref={(el) => register(index, el)}
         type="button"
-        onClick={() => onOpen(index)}
+        onClick={() => open(index)}
         aria-label={`View larger: ${image.alt}`}
         className={cx(
           'group relative block w-full cursor-zoom-in text-left focus-visible:outline-offset-4',

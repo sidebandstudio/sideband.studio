@@ -13,21 +13,26 @@ import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
-import type { RankedProduct } from '@/lib/products'
+import type { Product, ProductFeature, RankedProduct } from '@/lib/products'
 import {
   formatBytes,
   formatCount,
   formatDate,
   imageSetCount,
   imageSetTitle,
+  isWideImage,
   productActions,
   productEngineers,
   productFacts,
+  productStory,
   syncedLabel,
   type ProductAction,
   type ProductFacts,
+  type ProductStory,
+  type StoryRow,
 } from '@/lib/products-view'
-import ProductGallery from './ProductGallery'
+import ImageGrid from './ImageGrid'
+import { ImageViewerProvider, ViewableImage } from './ImageViewer'
 import ProductName from './ProductName'
 
 interface ProductDetailProps {
@@ -37,7 +42,13 @@ interface ProductDetailProps {
   next: RankedProduct | null
 }
 
-/** The page for a single product. Every figure is read from lib/ at build time. */
+/**
+ * The page for a single product, told as a story from its own data: the
+ * hero, the first screenshot straight after it, the overview, each feature
+ * beside the image that shows it, the features no image shows, the images
+ * left over, and the GitHub numbers. Every figure is read from lib/ at build
+ * time.
+ */
 export default function ProductDetail({
   ranked,
   total,
@@ -47,151 +58,18 @@ export default function ProductDetail({
   const { product } = ranked
   const facts = productFacts(product)
   const actions = productActions(product)
-  const team = productEngineers(product)
+  const story = productStory(product)
 
   return (
     <div style={productAccentStyle(product.accentColor)}>
-      <Hero ranked={ranked} total={total} actions={actions} />
-
-      <Section labelledBy="overview-title">
-        <div className="grid gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <SectionHeading id="overview-title" title="Overview" />
-            <div className="mt-10 flex max-w-prose flex-col gap-6">
-              {product.overview.map((paragraph, i) => (
-                <Reveal key={i} delay={i * 70}>
-                  <p className="text-body text-sideband-text">{paragraph}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-          <Reveal className="lg:col-span-5" delay={140}>
-            <aside
-              aria-labelledby="glance-title"
-              className="rounded-panel bg-sideband-surface p-6 md:p-8"
-            >
-              <h3
-                id="glance-title"
-                className="text-lead font-medium text-sideband-text"
-              >
-                At a glance
-              </h3>
-              <dl className="mt-8 flex flex-col gap-7">
-                <Fact label="Platforms">
-                  <ul className="flex flex-col gap-1">
-                    {product.platforms.map((p) => (
-                      <li key={p}>{p}</li>
-                    ))}
-                  </ul>
-                </Fact>
-                <Fact label="Built with">
-                  <ul className="flex flex-wrap gap-2">
-                    {product.stack.map((s) => (
-                      <li key={s}>
-                        <Badge className="bg-sideband-surface-2">{s}</Badge>
-                      </li>
-                    ))}
-                  </ul>
-                </Fact>
-                <Fact label={team.length === 1 ? 'Engineer' : 'Engineers'}>
-                  <ul className="flex flex-col gap-3">
-                    {team.map((engineer) => (
-                      <li key={engineer.id}>
-                        <Link
-                          href={`/engineers/${engineer.id}`}
-                          className="group flex items-center gap-3"
-                        >
-                          {engineer.portrait ? (
-                            <Image
-                              src={engineer.portrait.src}
-                              alt=""
-                              width={engineer.portrait.width}
-                              height={engineer.portrait.height}
-                              sizes="40px"
-                              className="h-10 w-10 shrink-0 rounded-full object-cover"
-                            />
-                          ) : (
-                            <span
-                              aria-hidden="true"
-                              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sideband-surface-2 text-small"
-                            >
-                              {engineer.initials}
-                            </span>
-                          )}
-                          <span className="flex flex-col">
-                            <span className="text-sideband-text underline decoration-transparent underline-offset-4 transition-colors duration-hover group-hover:decoration-sideband-text">
-                              {engineer.name}
-                            </span>
-                            <span className="text-small text-sideband-muted">
-                              {engineer.role}
-                            </span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Fact>
-                <Fact label="Started">{product.yearStarted}</Fact>
-                {product.origin && (
-                  <Fact label="Credit">
-                    <p>{product.origin}</p>
-                    {product.links.upstream && (
-                      <ArrowLink
-                        href={product.links.upstream}
-                        external
-                        tone="muted"
-                        className="mt-2 text-small"
-                      >
-                        {product.links.upstream.replace(
-                          'https://github.com/',
-                          '',
-                        )}
-                      </ArrowLink>
-                    )}
-                  </Fact>
-                )}
-              </dl>
-            </aside>
-          </Reveal>
-        </div>
-      </Section>
-
-      <Section labelledBy="features-title">
-        <div className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <SectionHeading
-                id="features-title"
-                title="What it does"
-                lede={product.description}
-              />
-            </div>
-          </div>
-          <ul className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-8 lg:pt-2">
-            {product.features.map((feature, i) => (
-              <Reveal as="li" key={feature.title} delay={(i % 2) * 70}>
-                <h3 className="text-lead font-medium text-sideband-text">
-                  {feature.title}
-                </h3>
-                <p className="mt-3 text-body text-sideband-text-secondary">
-                  {feature.body}
-                </p>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </Section>
-
-      <Section labelledBy="images-title">
-        <SectionHeading
-          id="images-title"
-          title={imageSetTitle(product.images)}
-          lede={`${imageSetCount(product.images)} of ${product.name}.`}
-        />
-        <div className="mt-14">
-          <ProductGallery images={product.images} productName={product.name} />
-        </div>
-      </Section>
+      <ImageViewerProvider images={product.images} productName={product.name}>
+        <Hero ranked={ranked} total={total} actions={actions} story={story} />
+        <Overview product={product} />
+        <Story product={product} story={story} />
+        {story.rest.length > 0 && (
+          <MoreImages product={product} indexes={story.rest} />
+        )}
+      </ImageViewerProvider>
 
       <Numbers ranked={ranked} total={total} facts={facts} />
 
@@ -204,10 +82,12 @@ function Hero({
   ranked,
   total,
   actions,
+  story,
 }: {
   ranked: RankedProduct
   total: number
   actions: ProductAction[]
+  story: ProductStory
 }) {
   const { product } = ranked
   const [primary, ...rest] = actions
@@ -218,7 +98,7 @@ function Hero({
     <Section
       labelledBy="product-title"
       spacing="none"
-      className="pb-section pt-32 md:pt-40"
+      className="pb-[calc(theme(spacing.section)/2)] pt-32 md:pt-40"
       backdrop={
         <Backdrop
           variant="spotlight"
@@ -259,13 +139,15 @@ function Hero({
         </h1>
       </Reveal>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:gap-10">
-        <Reveal trigger="mount" delay={210} className="lg:col-span-7">
+      <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <Reveal
+          trigger="mount"
+          delay={210}
+          className="flex flex-col gap-8 lg:col-span-5"
+        >
           <p className="max-w-prose text-lead text-sideband-text-secondary">
             {product.tagline}
           </p>
-        </Reveal>
-        <Reveal trigger="mount" delay={280} className="lg:col-span-5">
           <ul className="flex flex-wrap gap-2">
             <li>
               <StatusBadge status={product.status} />
@@ -286,7 +168,7 @@ function Hero({
               </Badge>
             </li>
           </ul>
-          <div data-product-actions="" className="mt-8 flex flex-col gap-6">
+          <div data-product-actions="" className="flex flex-col gap-6">
             <div className="flex flex-wrap items-center gap-3">
               {primary && (
                 <Button
@@ -321,11 +203,359 @@ function Hero({
             )}
           </div>
         </Reveal>
+        <Reveal trigger="mount" delay={280} className="lg:col-span-7">
+          <ProductScene id={product.id} variant="hero" />
+        </Reveal>
       </div>
 
-      <Reveal trigger="mount" delay={350} className="mt-14 md:mt-16">
-        <ProductScene id={product.id} variant="hero" />
+      <Lead product={product} story={story} />
+    </Section>
+  )
+}
+
+/** Below this natural width a landscape lead sits beside its text instead of across the page. */
+const FULL_WIDTH_LEAD = 1100
+
+/**
+ * The product's first screenshot, straight after the hero, with the feature
+ * it shows when one is paired with it. A large landscape image runs the full
+ * width with the feature set beneath it. A smaller one, a phone or a portrait
+ * sits beside the feature.
+ */
+function Lead({ product, story }: { product: Product; story: ProductStory }) {
+  const image = product.images[story.lead]
+  const feature = story.leadFeature
+  const wide = isWideImage(image)
+
+  if (wide && image.width >= FULL_WIDTH_LEAD) {
+    return (
+      <div data-lead="" className="mt-16 md:mt-24">
+        <Reveal>
+          <ViewableImage
+            index={story.lead}
+            sizes="(min-width: 1440px) 1320px, 92vw"
+          />
+        </Reveal>
+        {feature && (
+          <Reveal className="mt-12 grid gap-4 lg:grid-cols-12 lg:gap-12">
+            <h2 className="text-head text-sideband-text lg:col-span-5">
+              {feature.title}
+            </h2>
+            <p className="text-lead text-sideband-text-secondary lg:col-span-6 lg:col-start-7">
+              {feature.body}
+            </p>
+          </Reveal>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      data-lead=""
+      className="mt-16 grid items-center gap-10 md:mt-24 md:grid-cols-12 md:gap-12"
+    >
+      <Reveal
+        className={cx(
+          !feature && 'md:col-span-12',
+          feature && wide && 'md:col-span-7',
+          !wide && 'mx-auto w-full max-w-[22rem]',
+          feature && !wide && 'md:col-span-5 lg:col-span-4 lg:col-start-2',
+        )}
+      >
+        <ViewableImage
+          index={story.lead}
+          sizes={
+            wide
+              ? '(min-width: 1440px) 760px, (min-width: 768px) 56vw, 92vw'
+              : '(min-width: 768px) 352px, 88vw'
+          }
+        />
       </Reveal>
+      {feature && (
+        <Reveal
+          delay={70}
+          className={cx(
+            'order-first md:order-none',
+            wide
+              ? 'md:col-span-5'
+              : 'md:col-span-7 lg:col-span-5 lg:col-start-7',
+          )}
+        >
+          <h2 className="text-head text-sideband-text">{feature.title}</h2>
+          <p className="mt-6 text-lead text-sideband-text-secondary">
+            {feature.body}
+          </p>
+        </Reveal>
+      )}
+    </div>
+  )
+}
+
+function Overview({ product }: { product: Product }) {
+  const team = productEngineers(product)
+  return (
+    <Section labelledBy="overview-title">
+      <div className="grid gap-16 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <SectionHeading id="overview-title" title="Overview" />
+          <div className="mt-10 flex max-w-prose flex-col gap-6">
+            {product.overview.map((paragraph, i) => (
+              <Reveal key={i} delay={i * 70}>
+                <p className="text-body text-sideband-text">{paragraph}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+        <Reveal className="lg:col-span-5" delay={140}>
+          <aside
+            aria-labelledby="glance-title"
+            className="rounded-panel bg-sideband-surface p-6 md:p-8"
+          >
+            <h3
+              id="glance-title"
+              className="text-lead font-medium text-sideband-text"
+            >
+              At a glance
+            </h3>
+            <dl className="mt-8 flex flex-col gap-7">
+              <Fact label="Platforms">
+                <ul className="flex flex-col gap-1">
+                  {product.platforms.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </Fact>
+              <Fact label="Built with">
+                <ul className="flex flex-wrap gap-2">
+                  {product.stack.map((s) => (
+                    <li key={s}>
+                      <Badge className="bg-sideband-surface-2">{s}</Badge>
+                    </li>
+                  ))}
+                </ul>
+              </Fact>
+              <Fact label={team.length === 1 ? 'Engineer' : 'Engineers'}>
+                <ul className="flex flex-col gap-3">
+                  {team.map((engineer) => (
+                    <li key={engineer.id}>
+                      <Link
+                        href={`/engineers/${engineer.id}`}
+                        className="group flex items-center gap-3"
+                      >
+                        {engineer.portrait ? (
+                          <Image
+                            src={engineer.portrait.src}
+                            alt=""
+                            width={engineer.portrait.width}
+                            height={engineer.portrait.height}
+                            sizes="40px"
+                            className="h-10 w-10 shrink-0 rounded-full object-cover"
+                          />
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sideband-surface-2 text-small"
+                          >
+                            {engineer.initials}
+                          </span>
+                        )}
+                        <span className="flex flex-col">
+                          <span className="text-sideband-text underline decoration-transparent underline-offset-4 transition-colors duration-hover group-hover:decoration-sideband-text">
+                            {engineer.name}
+                          </span>
+                          <span className="text-small text-sideband-muted">
+                            {engineer.role}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Fact>
+              <Fact label="Started">{product.yearStarted}</Fact>
+              {product.origin && (
+                <Fact label="Credit">
+                  <p>{product.origin}</p>
+                  {product.links.upstream && (
+                    <ArrowLink
+                      href={product.links.upstream}
+                      external
+                      tone="muted"
+                      className="mt-2 text-small"
+                    >
+                      {product.links.upstream.replace(
+                        'https://github.com/',
+                        '',
+                      )}
+                    </ArrowLink>
+                  )}
+                </Fact>
+              )}
+            </dl>
+          </aside>
+        </Reveal>
+      </div>
+    </Section>
+  )
+}
+
+/**
+ * The features: each one an image shows set beside that image, alternating
+ * sides, then the ones no image shows as a list. A product with no paired
+ * images is only the list.
+ */
+function Story({ product, story }: { product: Product; story: ProductStory }) {
+  const { rows, plain } = story
+  return (
+    <Section labelledBy="story-title">
+      <SectionHeading id="story-title" title="What it does" />
+      {rows.length > 0 && (
+        <ul className="mt-14 flex flex-col gap-20 md:gap-28">
+          {rows.map((row, i) => (
+            <StoryRowItem
+              key={row.feature.title}
+              product={product}
+              row={row}
+              flip={i % 2 === 1}
+            />
+          ))}
+        </ul>
+      )}
+      {plain.length > 0 && (
+        <div className={rows.length > 0 ? 'mt-24 md:mt-32' : 'mt-14'}>
+          {rows.length > 0 && (
+            <Reveal>
+              <h3 className="text-lead font-medium text-sideband-text">
+                Also in {product.name}
+              </h3>
+            </Reveal>
+          )}
+          <ul
+            className={cx(
+              'grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3',
+              rows.length > 0 && 'mt-10',
+            )}
+          >
+            {plain.map((feature, i) => (
+              <Reveal as="li" key={feature.title} delay={(i % 3) * 70}>
+                <FeatureTitle
+                  feature={feature}
+                  as={rows.length > 0 ? 'h4' : 'h3'}
+                />
+                <p className="mt-3 text-body text-sideband-text-secondary">
+                  {feature.body}
+                </p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      )}
+    </Section>
+  )
+}
+
+function FeatureTitle({
+  feature,
+  as: Tag,
+}: {
+  feature: ProductFeature
+  as: 'h3' | 'h4'
+}) {
+  return (
+    <Tag className="text-lead font-medium text-sideband-text">
+      {feature.title}
+    </Tag>
+  )
+}
+
+/** Grid placement for an image and its text, by image shape and side. */
+const ROW_LAYOUT = {
+  wide: {
+    image: 'lg:col-span-7',
+    text: 'lg:col-span-5',
+    imageFlip: 'lg:col-span-7 lg:col-start-6 lg:row-start-1',
+    textFlip: 'lg:col-span-5 lg:col-start-1 lg:row-start-1',
+  },
+  tall: {
+    image: 'lg:col-span-4 lg:col-start-2 lg:row-start-1',
+    text: 'lg:col-span-5 lg:col-start-7 lg:row-start-1',
+    imageFlip: 'lg:col-span-4 lg:col-start-8 lg:row-start-1',
+    textFlip: 'lg:col-span-5 lg:col-start-2 lg:row-start-1',
+  },
+}
+
+function StoryRowItem({
+  product,
+  row,
+  flip,
+}: {
+  product: Product
+  row: StoryRow
+  flip: boolean
+}) {
+  const image = product.images[row.image]
+  const shape = isWideImage(image) ? 'wide' : 'tall'
+  const layout = ROW_LAYOUT[shape]
+  return (
+    <li className="grid items-center gap-8 lg:grid-cols-12 lg:gap-x-12">
+      <Reveal
+        className={cx(
+          flip ? layout.imageFlip : layout.image,
+          shape === 'tall' &&
+            cx(
+              'mx-auto w-full lg:mx-0',
+              image.device === 'mobile' ? 'max-w-[20rem]' : 'max-w-[26rem]',
+            ),
+        )}
+      >
+        <ViewableImage
+          index={row.image}
+          sizes={
+            shape === 'wide'
+              ? '(min-width: 1440px) 760px, (min-width: 1024px) 55vw, 92vw'
+              : '(min-width: 1024px) 416px, 88vw'
+          }
+        />
+      </Reveal>
+      <Reveal
+        delay={70}
+        className={cx(
+          'order-first lg:order-none',
+          flip ? layout.textFlip : layout.text,
+        )}
+      >
+        <FeatureTitle feature={row.feature} as="h3" />
+        <p className="mt-4 text-body text-sideband-text">{row.feature.body}</p>
+      </Reveal>
+    </li>
+  )
+}
+
+/** The images neither the lead nor beside a feature. */
+function MoreImages({
+  product,
+  indexes,
+}: {
+  product: Product
+  indexes: number[]
+}) {
+  const images = indexes.map((i) => product.images[i])
+  const title = imageSetTitle(images)
+  return (
+    <Section labelledBy="images-title">
+      <SectionHeading
+        id="images-title"
+        title={`More ${title.charAt(0).toLowerCase()}${title.slice(1)}`}
+        lede={`${imageSetCount(images)} of ${product.name}.`}
+      />
+      <div className="mt-14">
+        <ImageGrid
+          images={product.images}
+          indexes={indexes}
+          label={`More images of ${product.name}`}
+        />
+      </div>
     </Section>
   )
 }
