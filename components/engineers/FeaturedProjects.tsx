@@ -6,9 +6,8 @@ import { getProductById } from '@/lib/products'
 
 /** Internal projects point at /products/<id>; reuse that product's cover art. */
 function coverFor(project: FeaturedProject): string | null {
-  if (!project.internal) return null
-  const id = project.href.split('/').filter(Boolean).pop()
-  return (id && getProductById(id)?.cardHero) || null
+  if (!project.productId) return null
+  return getProductById(project.productId)?.cardHero || null
 }
 
 interface FeaturedProjectsProps {
@@ -54,9 +53,15 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
         <h3 className="font-display text-[22px] leading-tight text-sideband-text">
           {project.name}
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
-          {project.internal ? 'OPEN →' : project.source ? 'SOURCE ↗' : 'LIVE ↗'}
-        </span>
+        {project.href && (
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
+            {project.internal
+              ? 'OPEN →'
+              : project.source
+                ? 'SOURCE ↗'
+                : 'LIVE ↗'}
+          </span>
+        )}
       </div>
       <p className="mt-3 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
         {project.blurb}
@@ -79,6 +84,9 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   const className =
     'group relative block border border-sideband-border bg-sideband-surface p-6 transition-all duration-300 hover:border-sideband-accent/60 hover:bg-sideband-surface-2'
 
+  if (!project.href) {
+    return <div className={className}>{inner}</div>
+  }
   if (project.internal) {
     return (
       <Link href={project.href} className={className}>
