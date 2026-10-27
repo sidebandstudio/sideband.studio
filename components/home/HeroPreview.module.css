@@ -1,11 +1,3 @@
-/* The tab strip scrolls sideways on a phone without showing a scrollbar. */
-.strip {
-  scrollbar-width: none;
-}
-.strip::-webkit-scrollbar {
-  display: none;
-}
-
 /* How long until the window pages to the next product. Only rendered while
    it is paging, so reduced motion never shows it. */
 .progress {

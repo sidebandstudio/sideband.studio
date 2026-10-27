@@ -106,12 +106,12 @@ function Featured({ product }: { product: ShowcaseProduct }) {
         className="transition-transform duration-ui ease-out group-hover:-translate-y-1 lg:col-span-7"
       />
       <div className="flex flex-col gap-5 lg:col-span-5">
-        <Meta product={product} />
         <h3 className="text-head text-sideband-text">
           <Link href={`/products/${product.id}`} className={STRETCH}>
             {product.name}
           </Link>
         </h3>
+        <Meta product={product} />
         <p className="text-lead text-sideband-text-secondary">
           {product.tagline}
         </p>
@@ -148,12 +148,12 @@ function Card({ product }: { product: ShowcaseProduct }) {
         className="transition-transform duration-ui ease-out group-hover:-translate-y-1"
       />
       <div className="flex flex-col gap-3">
-        <Meta product={product} />
         <h3 className="text-lead font-medium text-sideband-text">
           <Link href={`/products/${product.id}`} className={STRETCH}>
             {product.name}
           </Link>
         </h3>
+        <Meta product={product} />
         <p className="max-w-prose text-body text-sideband-text">
           {product.tagline}
         </p>

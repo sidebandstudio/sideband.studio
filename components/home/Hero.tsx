@@ -20,7 +20,7 @@ export default function Hero({
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden pb-section pt-32 md:pt-40"
+      className="relative isolate overflow-hidden pb-section pt-32 md:pt-36"
     >
       <Backdrop variant="spotlight" />
       <Container>

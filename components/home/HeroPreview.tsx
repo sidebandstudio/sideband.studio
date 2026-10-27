@@ -12,6 +12,9 @@ import styles from './HeroPreview.module.css'
 
 const PAGE_MS = 6000
 
+/** DESIGN.md: a product window floating over a backdrop is the one thing at rest that casts a shadow. */
+const WINDOW_SHADOW = 'shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]' // taste-skill-ignore
+
 /**
  * A window onto the top-ranked products: one tab per product, a real
  * screenshot behind each, and a caption with its key number and a link to its
@@ -25,7 +28,6 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
   const [paging, setPaging] = useState(false)
   const [cycle, setCycle] = useState(0)
   const frameRef = useRef<HTMLDivElement>(null)
-  const stripRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const state = useRef({
     visible: false,
@@ -105,17 +107,6 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
     }
   }, [count])
 
-  // Keep the active tab in view when the strip scrolls sideways on a phone.
-  useEffect(() => {
-    const strip = stripRef.current
-    const tab = tabRefs.current[active]
-    if (!strip || !tab || strip.scrollWidth <= strip.clientWidth) return
-    strip.scrollTo({
-      left: tab.offsetLeft - strip.clientWidth / 2 + tab.offsetWidth / 2,
-      behavior: 'smooth',
-    })
-  }, [active])
-
   function pick(i: number) {
     state.current.userControlled = true
     if (timer.current !== undefined) clearTimeout(timer.current)
@@ -138,14 +129,17 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
   return (
     <div
       ref={frameRef}
-      className="rounded-panel bg-sideband-surface p-2 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] md:p-3"
+      data-ui
+      className={cx(
+        'rounded-panel bg-sideband-surface p-2 md:p-3',
+        WINDOW_SHADOW,
+      )}
     >
       <div
-        ref={stripRef}
         role="tablist"
         aria-label="Products"
         onKeyDown={onKeyDown}
-        className={cx('flex gap-1 overflow-x-auto pb-2 md:pb-3', styles.strip)}
+        className="flex flex-wrap gap-1 pb-2 md:pb-3"
       >
         {items.map((item, i) => {
           const selected = i === active

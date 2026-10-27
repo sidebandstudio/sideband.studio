@@ -10,7 +10,6 @@ export default function FinalCta() {
       <SectionHeading
         id="cta-title"
         align="center"
-        eyebrow="Contact"
         title={
           <>
             Questions, bugs
