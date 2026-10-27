@@ -2002,7 +2002,6 @@ export const engineers: Engineer[] = [
         company: 'Mosaiq Software',
         companyUrl: 'https://github.com/mosaiq-software',
         logo: '/assets/logos/mosaiq.png',
-        logoOnDark: true,
         role: 'Full-Stack Software Engineer',
         location: 'Boston, MA',
         startDate: 'Jan 2026',
