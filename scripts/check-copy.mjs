@@ -34,7 +34,8 @@ const stripAllowed = (text) =>
 
 function checkChunk(file, line, text) {
   if (text.includes('—')) report(file, line, 'em dash in copy', text)
-  if (stripAllowed(text).includes(';')) report(file, line, 'semicolon in copy', text)
+  if (stripAllowed(text).includes(';'))
+    report(file, line, 'semicolon in copy', text)
 }
 
 function walk(dir) {
@@ -91,9 +92,15 @@ for (const dir of SCAN_DIRS) {
 }
 
 if (problems.length > 0) {
-  console.error(`Copy style check failed (${problems.length} problem${problems.length === 1 ? '' : 's'}):\n`)
+  console.error(
+    `Copy style check failed (${problems.length} problem${problems.length === 1 ? '' : 's'}):\n`,
+  )
   for (const p of problems) console.error(`  ${p}`)
-  console.error('\nUser-facing copy must not contain em dashes or semicolons. See PR.md -> Copy Style.')
+  console.error(
+    '\nUser-facing copy must not contain em dashes or semicolons. See PR.md -> Copy Style.',
+  )
   process.exit(1)
 }
-console.log(`Copy style OK: ${fileCount} files scanned, no em dashes or semicolons in user-facing text.`)
+console.log(
+  `Copy style OK: ${fileCount} files scanned, no em dashes or semicolons in user-facing text.`,
+)

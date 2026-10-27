@@ -5,31 +5,23 @@ import {
   GitHubIcon,
   RepoIcon,
 } from '@/components/ui/Icons'
-import { products } from '@/lib/products'
+import { productLicense, products } from '@/lib/products'
 
-const REPOS = [
-  ...products.flatMap((p) =>
-    p.github
-      ? [
-          {
-            id: p.id,
-            href: p.github,
-            path: p.github.replace('https://github.com/', ''),
-            lang: p.tags[0],
-            live: p.status === 'LIVE',
-          },
-        ]
-      : [],
-  ),
-  // The site you are reading is public too.
-  {
-    id: 'site',
-    href: 'https://github.com/sidebandstudio/sideband.studio',
-    path: 'sidebandstudio/sideband.studio',
-    lang: 'Next.js',
-    live: true,
-  },
-]
+/** Only products whose own repo carries an OSI-approved license. */
+const REPOS = products.flatMap((p) => {
+  const license = productLicense(p)
+  return license.openSource && p.links.repo
+    ? [
+        {
+          id: p.id,
+          href: p.links.repo,
+          path: p.links.repo.replace('https://github.com/', ''),
+          lang: p.stack[0],
+          live: p.status === 'LIVE',
+        },
+      ]
+    : []
+})
 
 const LIVE = products.filter((p) => p.status === 'LIVE').length
 
@@ -112,7 +104,7 @@ export default function OpenSource() {
 
             <div className="flex flex-col gap-[18px]">
               <div className="flex items-center gap-2 font-mono text-[11px] text-sideband-muted">
-                <span>{REPOS.length} public repos</span>
+                <span>{REPOS.length} open-source repos</span>
                 <span aria-hidden="true">&middot;</span>
                 <span>{LIVE} live products</span>
               </div>

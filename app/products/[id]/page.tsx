@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ProductDetailPage from '@/components/products/ProductDetailPage'
-import { getProductById, products } from '@/lib/products'
+import { getProductById, products, rankedProducts } from '@/lib/products'
 
 export function generateStaticParams() {
   return products.map((product) => ({
@@ -25,17 +25,17 @@ export function generateMetadata({
       title: `${product.name} · Sideband`,
       description: product.description,
       url: `/products/${product.id}`,
-      images: [{ url: product.cardHero }],
+      images: [{ url: product.images[0].src }],
     },
   }
 }
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = getProductById(params.id)
+  const ranked = rankedProducts().find((r) => r.product.id === params.id)
 
-  if (!product) {
+  if (!ranked) {
     notFound()
   }
 
-  return <ProductDetailPage product={product} />
+  return <ProductDetailPage ranked={ranked} />
 }

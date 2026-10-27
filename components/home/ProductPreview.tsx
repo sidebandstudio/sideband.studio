@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { products } from '@/lib/products'
+import type { Product } from '@/lib/products'
+import ImageCredit from '@/components/products/ImageCredit'
 
 const PAGE_MS = 6000
 
@@ -11,7 +12,23 @@ const PAGE_MS = 6000
  * Tabs advance on their own while the window is on screen. Hovering, focusing,
  * or picking a tab hands control to the visitor and the pager stays quiet.
  */
-export default function ProductPreview() {
+export default function ProductPreview({
+  products: ranked,
+}: {
+  /** Ranked products. The top six with an icon get a tab. */
+  products: Product[]
+}) {
+  const products = ranked
+    .filter((p) => p.icon)
+    .slice(0, 6)
+    .map((p) => ({
+      ...p,
+      preview:
+        p.images.find(
+          (img) => img.kind === 'screenshot' && img.device === 'desktop',
+        ) ?? p.images[0],
+    }))
+  const count = products.length
   const [active, setActive] = useState(0)
   const frameRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -47,7 +64,7 @@ export default function ProductPreview() {
       timer.current = setTimeout(() => {
         timer.current = undefined
         if (!canPage()) return
-        setActive((i) => (i + 1) % products.length)
+        setActive((i) => (i + 1) % count)
         schedule()
       }, PAGE_MS)
     }
@@ -89,7 +106,7 @@ export default function ProductPreview() {
       observer.disconnect()
       if (timer.current !== undefined) clearTimeout(timer.current)
     }
-  }, [])
+  }, [count])
 
   function pick(i: number) {
     state.current.userControlled = true
@@ -140,7 +157,7 @@ export default function ProductPreview() {
                 onClick={() => pick(i)}
                 className="hero-tab"
               >
-                <Image src={p.icon} alt="" width={28} height={28} />
+                <Image src={p.icon!.src} alt="" width={28} height={28} />
                 <span>{p.name}</span>
               </button>
             ))}
@@ -165,6 +182,13 @@ export default function ProductPreview() {
                 priority={i === 0}
                 quality={90}
               />
+              {p.preview.credit && (
+                <ImageCredit
+                  credit={p.preview.credit}
+                  plain
+                  className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5"
+                />
+              )}
             </div>
           ))}
         </div>

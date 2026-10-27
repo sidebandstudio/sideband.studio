@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { products } from '../lib/products'
+import { productLicense, products } from '../lib/products'
 
 test('homepage renders and primary navigation reaches products', async ({
   page,
@@ -48,6 +48,34 @@ test('product detail navigation works', async ({ page }) => {
   ).toBeVisible()
 })
 
+for (const product of products) {
+  test(`product page ${product.id} returns 200 and shows its name`, async ({
+    page,
+  }) => {
+    const res = await page.goto(`/products/${product.id}`)
+    expect(res?.status()).toBe(200)
+    await expect(
+      page.getByRole('heading', { level: 1, name: product.name }),
+    ).toBeVisible()
+  })
+}
+
+test('home Open source section lists only OSI-licensed product repos', async ({
+  page,
+}) => {
+  expect(
+    productLicense(products.find((p) => p.id === 'hushtype')!),
+  ).toMatchObject({ openSource: false })
+  await page.goto('/')
+  const section = page.locator('#open-source')
+  for (const product of products) {
+    const path = product.links.repo!.replace('https://github.com/', '')
+    await expect(section.getByRole('link', { name: path })).toHaveCount(
+      productLicense(product).openSource ? 1 : 0,
+    )
+  }
+})
+
 test('engineers index lists all founders and links to a dossier', async ({
   page,
 }) => {
@@ -79,11 +107,31 @@ test('engineer dossier renders exactly one h1 and the portrait', async ({
 test('every Sideband role shows the studio mark, not a monogram', async ({
   page,
 }) => {
-  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand']) {
+  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand', 'naman-rusia']) {
     await page.goto(`/engineers/${id}`)
     await expect(page.getByRole('img', { name: 'Sideband logo' })).toBeVisible()
   }
 })
+
+const ENGINEER_NAMES: Record<string, string> = {
+  'ali-younes': 'Ali Younes',
+  'ali-tleis': 'Ali Tleis',
+  'karan-anand': 'Karan Anand',
+  'naman-rusia': 'Naman Rusia',
+}
+
+for (const [id, name] of Object.entries(ENGINEER_NAMES)) {
+  test(`engineer dossier /engineers/${id} returns 200 and names ${name}`, async ({
+    page,
+  }) => {
+    const res = await page.goto(`/engineers/${id}`)
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      name.split(' ')[0],
+    )
+    await expect(page.getByText(name).first()).toBeVisible()
+  })
+}
 
 test('unknown engineer id returns a not-found page', async ({ page }) => {
   const res = await page.goto('/engineers/nobody')

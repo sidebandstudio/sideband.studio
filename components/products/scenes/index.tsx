@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import type { ComponentType, CSSProperties } from 'react'
-import { getProductById } from '@/lib/products'
+import { getProductById, type Product } from '@/lib/products'
 import { cx } from '@/components/ui/cx'
+import { scenesA } from './group-a'
+import { scenesB } from './group-b'
 
 /**
  * Product scenes: one hand-built, animated SVG per product, drawn in two
@@ -14,7 +16,10 @@ export interface SceneProps {
   variant: SceneVariant
 }
 
-export const scenes: Partial<Record<string, ComponentType<SceneProps>>> = {}
+export type SceneMap = Partial<Record<string, ComponentType<SceneProps>>>
+
+/** Scenes are drawn in two groups (group-a, group-b), each registering its own products. */
+export const scenes: SceneMap = { ...scenesA, ...scenesB }
 
 /** Sets --product-accent for everything inside, read by `bg-product`, `bg-product-dim` and scenes. */
 export function productAccentStyle(accent: string) {
@@ -56,7 +61,7 @@ export function ProductScene({ id, variant, className }: ProductSceneProps) {
       {Scene ? (
         <Scene variant={variant} />
       ) : (
-        <SceneFallback icon={product.icon} variant={variant} />
+        <SceneFallback product={product} variant={variant} />
       )}
     </div>
   )
@@ -65,12 +70,13 @@ export function ProductScene({ id, variant, className }: ProductSceneProps) {
 /**
  * The product's icon on the stage's dot grid, with one short flat bar in the
  * product accent beneath it. No light, no glow: the icon carries the identity.
+ * A product with no icon shows its name instead.
  */
 function SceneFallback({
-  icon,
+  product,
   variant,
 }: {
-  icon: string
+  product: Product
   variant: SceneVariant
 }) {
   const hero = variant === 'hero'
@@ -78,16 +84,22 @@ function SceneFallback({
     <>
       <div className="bd-grid scene-grid absolute inset-0 -z-10" />
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 md:gap-6">
-        <Image
-          src={icon}
-          alt=""
-          width={256}
-          height={256}
-          className={cx(
-            'rounded-[22%]',
-            hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-20 w-20',
-          )}
-        />
+        {product.icon ? (
+          <Image
+            src={product.icon.src}
+            alt=""
+            width={256}
+            height={256}
+            className={cx(
+              'rounded-[22%]',
+              hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-20 w-20',
+            )}
+          />
+        ) : (
+          <span className="text-lead font-medium text-sideband-text">
+            {product.name}
+          </span>
+        )}
         <span
           className={cx(
             'block h-1 rounded-full bg-product',

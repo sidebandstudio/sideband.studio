@@ -12,7 +12,7 @@ export default function FinalCta() {
         align="center"
         title={
           <>
-            Six products
+            Eleven products
             <br />
             and counting.
           </>

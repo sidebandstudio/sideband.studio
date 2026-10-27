@@ -2,13 +2,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Reveal from '@/components/ui/Reveal'
 import type { FeaturedProject } from '@/lib/engineers'
-import { getProductById } from '@/lib/products'
+import { getProductById, type ProductImage } from '@/lib/products'
+import ImageCredit from '@/components/products/ImageCredit'
 
-/** Internal projects point at /products/<id>; reuse that product's cover art. */
-function coverFor(project: FeaturedProject): string | null {
-  if (!project.internal) return null
-  const id = project.href.split('/').filter(Boolean).pop()
-  return (id && getProductById(id)?.cardHero) || null
+/** Projects with a productId reuse that product's widest screenshot. */
+function coverFor(project: FeaturedProject): ProductImage | null {
+  if (!project.productId) return null
+  const product = getProductById(project.productId)
+  if (!product) return null
+  return (
+    product.images.find(
+      (img) => img.kind === 'screenshot' && img.device === 'desktop',
+    ) ?? product.images[0]
+  )
 }
 
 interface FeaturedProjectsProps {
@@ -39,7 +45,7 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
       {cover && (
         <div className="relative mb-5 aspect-[16/9] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
           <Image
-            src={cover}
+            src={cover.src}
             alt=""
             aria-hidden
             fill
@@ -47,6 +53,13 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sideband-surface/70 to-transparent" />
+          {cover.credit && (
+            <ImageCredit
+              credit={cover.credit}
+              plain
+              className="absolute bottom-1.5 left-2 right-2"
+            />
+          )}
         </div>
       )}
 
@@ -54,9 +67,15 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
         <h3 className="font-display text-[22px] leading-tight text-sideband-text">
           {project.name}
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
-          {project.internal ? 'OPEN →' : project.source ? 'SOURCE ↗' : 'LIVE ↗'}
-        </span>
+        {project.href && (
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-sideband-muted transition-colors duration-200 group-hover:text-sideband-accent">
+            {project.internal
+              ? 'OPEN →'
+              : project.source
+                ? 'SOURCE ↗'
+                : 'LIVE ↗'}
+          </span>
+        )}
       </div>
       <p className="mt-3 font-mono text-[12px] leading-[1.75] text-sideband-text-secondary">
         {project.blurb}
@@ -79,6 +98,9 @@ function ProjectCard({ project }: { project: FeaturedProject }) {
   const className =
     'group relative block border border-sideband-border bg-sideband-surface p-6 transition-all duration-300 hover:border-sideband-accent/60 hover:bg-sideband-surface-2'
 
+  if (!project.href) {
+    return <div className={className}>{inner}</div>
+  }
   if (project.internal) {
     return (
       <Link href={project.href} className={className}>
