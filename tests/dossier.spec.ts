@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { visit } from './helpers'
+import { focusOnScreen, visit } from './helpers'
 
 const index = (page: import('@playwright/test').Page) =>
   page.getByRole('navigation', { name: 'Sections of this dossier' })
@@ -10,7 +10,7 @@ test('the section index jumps to a section by keyboard on desktop', async ({
 }) => {
   await visit(page, '/engineers/ali-younes', { waitUntil: 'networkidle' })
   const link = index(page).getByRole('link', { name: 'Experience' })
-  await link.focus()
+  await focusOnScreen(link)
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#experience$/)
 
@@ -36,11 +36,11 @@ test('on a phone the jump control opens and moves to a section by keyboard', asy
   })
   const summary = index(page).locator('summary')
   await expect(summary).toBeVisible()
-  await summary.focus()
+  await focusOnScreen(summary)
   await page.keyboard.press('Enter')
   const projects = index(page).getByRole('link', { name: 'Projects' })
   await expect(projects).toBeVisible()
-  await projects.focus()
+  await focusOnScreen(projects)
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#projects$/)
   await expect(page.locator('#projects-title')).toBeInViewport()

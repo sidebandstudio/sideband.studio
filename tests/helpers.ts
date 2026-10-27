@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 /**
  * Waits until a page has settled after a navigation: loaded, hydrated (React
@@ -28,6 +28,20 @@ export async function visit(
   const response = await page.goto(path, options)
   await settle(page)
   return response
+}
+
+/**
+ * Brings an element on screen, then focuses it, as a person does before
+ * pressing a key on it. The page scrolls smoothly (scroll-behavior on html),
+ * so focusing something off screen starts a scroll that is still running
+ * when the next key lands. A jump made then races that scroll and can stop
+ * where the focus scroll was headed instead of at its own target.
+ */
+export async function focusOnScreen(locator: Locator) {
+  await locator.evaluate((el) =>
+    el.scrollIntoView({ block: 'center', behavior: 'instant' }),
+  )
+  await locator.focus()
 }
 
 /** Lets layout catch up after a viewport change. */
