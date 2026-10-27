@@ -575,19 +575,11 @@ export const engineers: Engineer[] = [
       {
         name: 'Fade Empire',
         blurb:
-          'Booking site and iPhone barber app for a two-chair barbershop in Chicopee, MA. Slots are reserved by Postgres functions that refuse double bookings, with text reminders through Twilio and pushes to the barbers.',
+          'Booking site for a two-chair barbershop in Chicopee, MA, where Postgres functions reserve each slot and refuse double bookings. Its iPhone app for the barbers is in testing on TestFlight.',
         href: '/products/fade-empire',
         internal: true,
         productId: 'fade-empire',
-        tech: [
-          'JavaScript',
-          'Supabase',
-          'PostgreSQL',
-          'Deno',
-          'Twilio',
-          'SwiftUI',
-          'APNs',
-        ],
+        tech: ['JavaScript', 'Supabase', 'PostgreSQL', 'Deno', 'SwiftUI'],
       },
       {
         name: 'EternalExchange',

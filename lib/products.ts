@@ -1679,18 +1679,22 @@ export const products: Product[] = [
   // README, index.html, scripts/, supabase/ (migrations 0001-0022, three Edge
   // Functions), ios/ (project.yml, README) and docs/barber-app/CONTRACT.md, and
   // from the live site. Its GitHub description ("Static only website") predates
-  // the Supabase backend.
+  // the Supabase backend. What is live comes from the README's "Status on
+  // October 27, 2026" table (42d3e78): the site and database are live, the
+  // barber app is on TestFlight, push notifications are off (no APNs key) and
+  // reminder texts are off (send-reminders not deployed, no Twilio account).
   {
     id: 'fade-empire',
     name: 'Fade Empire',
     category: 'Barbershop booking',
-    tagline: 'Book a chair online, with an iPhone app for the barbers.',
+    tagline:
+      'Book a chair online. An iPhone app for the barbers is in testing.',
     description:
-      'The website and booking system of Fade Empire, a two-chair barbershop in Chicopee, Massachusetts. Customers pick a barber, a day and a 45-minute slot and get it on the spot. An iPhone app lets the barbers manage their chairs.',
+      'The website and booking system of Fade Empire, a two-chair barbershop in Chicopee, Massachusetts. Customers pick a barber, a day and a 45-minute slot and get it on the spot. An iPhone app for the barbers to manage their chairs is in testing on TestFlight.',
     overview: [
-      'The site is for the shop’s customers, mostly on phones, and the app is for its barbers and manager. A customer books, cancels or moves an appointment without calling, and can get a text reminder the day before.',
+      'The site is for the shop’s customers, mostly on phones. A customer books, cancels or moves an appointment without calling. The barber app, for the barbers and the manager, is in testing on TestFlight.',
       'The site is plain HTML, CSS and JavaScript modules on GitHub Pages, installable as an app. Bookings go through functions in Supabase Postgres that check the shop’s hours, the barber’s schedule and days off and set the price on the server, and the database refuses a second booking for a slot that is already taken. If the database cannot be reached, the request still reaches the barber by WhatsApp or text.',
-      'The SwiftUI barber app shows each barber their own schedule, lets them book walk-ins, mark no-shows and set days off, and sends a push for every booking, cancellation and move. The manager adds and edits barbers there, and the site follows without a deploy. Reminder texts go out hourly through Twilio from a scheduled Edge Function.',
+      'The SwiftUI barber app shows each barber their own schedule and lets them book walk-ins, mark no-shows and set days off. The manager adds and edits barbers there, and the site follows without a deploy. It is on TestFlight, not the App Store. Two parts are built but not live yet. Push notifications for bookings, cancellations and moves wait on an Apple push key. Reminder texts wait on their Edge Function being deployed with a Twilio account, though the booking form already asks for consent.',
     ],
     features: [
       {
@@ -1711,10 +1715,6 @@ export const products: Product[] = [
         body: 'Enter the phone you booked with to see your upcoming bookings, then cancel one or move it to a new time.',
       },
       {
-        title: 'Text reminders',
-        body: 'An opt-in text the day before the appointment, and another when the next cut is due about three weeks later.',
-      },
-      {
         title: 'The price list books',
         body: 'Every service on the price list is a button that picks it in the booking form.',
         image: '/assets/products/fade-empire/site-menu-desktop.webp',
@@ -1726,14 +1726,17 @@ export const products: Product[] = [
       },
       {
         title: 'Barber app for iPhone',
-        body: 'Each barber sees their own schedule, books walk-ins, marks no-shows, sets days off and gets a push for every booking.',
+        body: 'Each barber sees their own schedule, books walk-ins, marks no-shows and sets days off. In testing on TestFlight.',
       },
       {
         title: 'Booking links',
         body: 'Each barber shares a link that opens the form with them picked, and a service too if they choose one.',
       },
     ],
-    platforms: ['Web, installable on phones', 'iOS 17 or later (barber app)'],
+    platforms: [
+      'Web, installable on phones',
+      'iOS 17 or later (barber app, on TestFlight)',
+    ],
     stack: [
       'HTML',
       'CSS',
@@ -1742,10 +1745,8 @@ export const products: Product[] = [
       'PostgreSQL',
       'Deno',
       'TypeScript',
-      'Twilio',
       'Swift',
       'SwiftUI',
-      'APNs',
       'GitHub Pages',
     ],
     status: 'LIVE',
