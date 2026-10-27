@@ -8,8 +8,8 @@ the same site. Tokens live in `tailwind.config.ts` (colours, type, spacing, radi
 ## Direction
 
 A dark room with lit exhibits. The page is a near-black graphite ground. The things Sideband made
-(real screenshots and hand-built SVG product scenes) are the pictures, set one tone up with a large
-radius. Type is one grotesk, set large and quiet. Colour is held back: neutral ink and white pill
+(real screenshots, and silent product videos made from them) are the pictures, set one tone up with a
+large radius. Type is one grotesk, set large and quiet. Colour is held back: neutral ink and white pill
 buttons, the brand magenta on one or two things per screen. The Sideband mark's two offset tiles
 (magenta above, violet below) are the system's only ornament: the eyebrow glyph and the `bands`
 backdrop. Motion is short entrances and slow loops that follow the product, never decoration for its
@@ -52,7 +52,7 @@ Tailwind scale `sideband-*`, also emitted as `--sideband-*` CSS variables by the
 | Role       | Token                             | Value                       | Use                                                            |
 | ---------- | --------------------------------- | --------------------------- | -------------------------------------------------------------- |
 | Ground     | `sideband-black`                  | #0b0b0d                     | 70–90% of every screen                                         |
-| Surface 1  | `sideband-surface`                | #131316                     | Panels, scenes, `tone="surface"` sections, footer              |
+| Surface 1  | `sideband-surface`                | #131316                     | Panels, video frames, `tone="surface"` sections, footer        |
 | Surface 2  | `sideband-surface-2`              | #1b1b1f                     | Badges, secondary buttons, hover on surface 1                  |
 | Surface 3  | `sideband-surface-3`              | #25252a                     | Hover on surface 2, selected tab                               |
 | Ink        | `sideband-text`                   | #f3f2ef                     | Headings and running text                                      |
@@ -69,10 +69,10 @@ buttons. No raw hex in components; if a colour is missing, it is a token here fi
 
 **Per-product accent.** Each product's `accentColor` in `lib/products.ts` plugs in through one CSS
 variable. Wrap the product's region with `style={productAccentStyle(product.accentColor)}` (from
-`components/products/scenes`), then use `bg-product`, `text-product`, `bg-product-dim` (16% tint),
+`components/products/accent.ts`), then use `bg-product`, `text-product`, `bg-product-dim` (16% tint),
 `<Badge tone="product">`, or `<Backdrop variant="spotlight" tone="accent" colors={{ a: accent }} />`.
-`<ProductScene>` sets it for you. The product accent replaces the brand accent inside that region
-only; it never colours page headings or primary buttons.
+The product accent replaces the brand accent inside that region only; it never colours page headings
+or primary buttons.
 
 ## Space and layout
 
@@ -89,7 +89,7 @@ only; it never colours page headings or primary buttons.
 
 ## Radii, borders and elevation
 
-- `rounded-panel` (20px) for panels, scenes and screenshots. `rounded-inner` (12px) for media or
+- `rounded-panel` (20px) for panels, product videos and screenshots. `rounded-inner` (12px) for media or
   controls inside a panel. `rounded-full` for buttons, badges and nav pills. Nothing else.
 - Surfaces separate by tone steps, never by outlines. Do not nest a surface inside a surface.
 - Borders (`sideband-border`) only on form fields and inside product UI fragments.
@@ -115,11 +115,11 @@ Easings: `ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and lifts, `ea
 - **Scroll entrances.** Everything below the fold: `<Reveal delay={i * 70}>` rises 24px with opacity,
   once, staggered 70ms per sibling (`<SectionHeading>` does this for you). Content above the fold, with
   script off, or under reduced motion is simply visible.
-- **Ambient loops.** Only inside scenes and the `bands` backdrop. Use `useAmbient(ref)` from
+- **Ambient loops.** Only the product videos and the `bands` backdrop. Use `useAmbient(ref)` from
   `components/ui/motion.ts`: it sets `data-play="on"` only while the element is on screen, the tab is
   visible and motion is allowed. CSS loops use `animation-play-state: var(--play, paused)`; script
   loops read the returned boolean. Periods 6–20s, amplitudes small.
-- **Home preview.** The one loop outside scenes: the hero window (`components/home/HeroPreview.tsx`)
+- **Home preview.** The one other loop: the hero window (`components/home/HeroPreview.tsx`)
   pages to the next product every 6s while it is on screen, the tab is visible and motion is
   allowed. Hover or focus holds it, picking a tab stops it, and a visible Pause button stops and
   restarts it. Under reduced motion it never pages and the button is not shown.
@@ -176,40 +176,49 @@ Example section:
 </Section>
 ```
 
-## Product scenes
+## Product visuals
 
-`components/products/scenes/index.tsx` is the contract for the per-product animated SVG scenes.
+Product visuals are real: screenshots of the product or its site, and silent product videos made
+from those screenshots and from fresh captures of the live product. Never AI art posing as product
+UI, never drawn or faked UI. Artwork (`kind: 'artwork'`) appears only as what it is.
 
-- `type SceneVariant = 'card' | 'hero'`, `scenes: Partial<Record<productId, ComponentType<{ variant }>>>`,
-  `ProductScene({ id, variant, className })`, `productAccentStyle(accent)`.
-- `ProductScene` draws the stage: `rounded-panel bg-sideband-surface`, `overflow-hidden`, with
-  `--product-accent` set. A scene fills it (`absolute inset-0` or `h-full w-full`) and draws no
-  frame, radius or background of its own beyond the surface.
-- **card**: 4:3 at every width (about 420×315 at 1440 in a three-column grid, 350×263 on a phone).
-  Draw in `viewBox="0 0 800 600"`.
-- **hero**: 4:3 below `md`, 16:10 from `md` (up to 1400×875). Draw in `viewBox="0 0 1600 1000"`
-  with `preserveAspectRatio="xMidYMid slice"` and keep everything essential inside the centred
-  1334×1000 safe area, which is what remains at 4:3. While the hero stage is narrower than 480px (a
-  4:3 phone stage) it shows the card drawing instead, where the hero drawing's text would fall
-  under 12px (`SceneStage` in `group-a/Stage.tsx`, `Framings` in `group-b/Stage.tsx`).
-- Colour: the product accent (`var(--product-accent)`, or `color-mix` tints of it) for the one lit
-  element, `--sideband-surface-2/3` and `--sideband-text-secondary/muted` for structure, white at
-  low opacity for lines. No other hues.
-- Text inside a scene uses `--font-mono` or `--font-sans` with a font size of at least 36 units in
-  the card drawing and 38 in the hero, so it renders at 12px or more at every stage width
-  (`tests/scenes-legibility.spec.ts` measures it). Text that cannot meet that is left out.
-- Motion: a scene shows what the product does (frames streaming, a status updating, a summary
-  typing), as one loop of 6–20s. Gate it with `useAmbient` (pauses offscreen and in hidden tabs).
-  Under reduced motion it renders a complete still frame. Transform and opacity only, no filters
-  animated per frame, no more than about 40 moving nodes.
-- Accessibility: the stage is `aria-hidden`. The page names the product in text next to it.
-- When no scene is registered, `ProductScene` shows the product's icon centred on the dot grid with
-  one short flat bar in the product accent beneath it. No light or glow. It is a finished fallback,
-  not a placeholder.
+## Product videos
+
+Every product has a silent looping video in two cuts, rendered with HyperFrames (sources and how to
+render them: `media/product-videos/README.md`). `lib/products.ts` records each cut as
+`product.video.hero` and `product.video.card` (`mp4`, `webm`, `poster`, size, `durationSeconds`, and
+`credit` when the video shows credited material, as Eternal2x's Hero footage does).
+
+`<ProductVideo video cut priority? sizes? lift? link? plainCredit? />` in
+`components/products/ProductVideo.tsx` is the only way to show one.
+
+- **Where.** The hero cut on the product page's hero, the home showcase's first product and the
+  /products rank-1 entry. The card cut everywhere else: the home showcase cards, the other /products
+  entries, "More from Sideband" and the engineers' project cards.
+- **Frame.** `rounded-panel bg-sideband-surface`, `overflow-hidden`. card: 4:3 at every width. hero:
+  4:3 below `md` (the hero cut's centre 4:3 carries its story), 16:10 from `md`. The frame's size
+  never depends on the video, so nothing shifts.
+- **Poster first.** The poster is a `next/image` filling the frame, and stays the picture until the
+  video is playing, when the video fades in over it. On a product page the hero poster has
+  `priority`, so it is the largest paint.
+- **Loading.** `<video muted loop playsInline disablePictureInPicture>` with a WebM then an MP4
+  source. `preload="none"`, except the product page's own hero (`priority`), which preloads its
+  metadata. Nothing else downloads until the frame nears the viewport.
+- **Playback.** Plays only while on screen, the tab is visible and motion is allowed (`useAmbient`),
+  and pauses otherwise. Under reduced motion it never plays and only the poster shows, and turning
+  reduced motion on while one plays pauses it and brings the poster back.
+- **Accessibility.** The frame is `aria-hidden` with no controls and nothing focusable. The page
+  names the product in text beside it. In a list where the name already links, `link` makes the
+  frame a second link out of the tab order.
+- **Credit.** A cut's `credit` renders under the frame with `ImageCredit`, everywhere the video
+  appears. `plainCredit` drops its links inside another link.
+- **Budgets.** hero MP4 2.5 MB, WebM 1.5 MB. card MP4 1.2 MB, WebM 0.8 MB. 30 fps, no audio stream.
+  `npm run sync:videos` checks them. `tests/videos.spec.ts` covers all of the above.
 
 ## Do and don't
 
-- Do let the product be the picture: real screenshots on `rounded-panel`, scenes, nothing generic.
+- Do let the product be the picture: real screenshots and product videos on `rounded-panel`, nothing
+  generic.
 - Do keep one dominant thing per screen and give every section a heading.
 - Do take every figure from `lib/` or the synced GitHub snapshot.
 - Don't use eyebrows in tracked caps, `[ BRACKETS ]`, index numbers (01 / 02), or mono labels.
