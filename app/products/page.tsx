@@ -1,13 +1,22 @@
 import type { Metadata } from 'next'
-import ProductsShowcase from '@/components/products/ProductsShowcase'
-import { rankedProducts } from '@/lib/products'
+import ProductIndex from '@/components/products/ProductIndex'
+import { capitalize, numberWord, rankingSummary } from '@/lib/products-view'
 
-export default function ProductsPage() {
-  return <ProductsShowcase ranked={rankedProducts()} />
-}
+const summary = rankingSummary()
+
+const description = `${capitalize(numberWord(summary.ranked.length))} Sideband products ranked by use and scope from their GitHub numbers. ${capitalize(numberWord(summary.live))} live, ${numberWord(summary.inDevelopment)} in active development.`
 
 export const metadata: Metadata = {
   title: 'Products · Sideband',
-  description:
-    'Eleven products across desktop, mobile, browser, and the web. Eight live, three in active development.',
+  description,
+  alternates: { canonical: '/products' },
+  openGraph: {
+    title: 'Products · Sideband',
+    description,
+    url: '/products',
+  },
+}
+
+export default function ProductsPage() {
+  return <ProductIndex summary={summary} />
 }
