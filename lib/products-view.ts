@@ -1,0 +1,291 @@
+// Plain data for the products index and product pages, derived from
+// lib/products.ts and the GitHub snapshot. Server-side only: it reads the
+// snapshot, so import it from server components and pass the results down as
+// props. Never import it into a 'use client' file.
+import { engineers } from '@/lib/engineers'
+import { githubSyncedAt } from '@/lib/github'
+import {
+  productLicense,
+  productRepo,
+  rankedProducts,
+  type Product,
+  type ProductImage,
+  type ProductImageKind,
+  type ProductLicense,
+  type RankedProduct,
+} from '@/lib/products'
+
+const DATE = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+})
+
+/** "23 Oct 2026", in UTC so server and client agree, never split across lines. */
+export function formatDate(iso: string) {
+  return DATE.format(new Date(iso)).replace(/ /g, '\u00a0')
+}
+
+export function formatCount(n: number) {
+  return n.toLocaleString('en-US')
+}
+
+/** Code size in decimal units, as GitHub counts language bytes. */
+export function formatBytes(bytes: number) {
+  if (bytes >= 1e6) return `${(bytes / 1e6).toFixed(1)} MB`
+  return `${Math.round(bytes / 1e3)} KB`
+}
+
+const WORDS = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'eleven',
+  'twelve',
+  'thirteen',
+  'fourteen',
+  'fifteen',
+  'sixteen',
+  'seventeen',
+  'eighteen',
+  'nineteen',
+  'twenty',
+]
+
+/** A count as a word up to twenty, digits above. */
+export function numberWord(n: number) {
+  return WORDS[n] ?? String(n)
+}
+
+export function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+/** The snapshot date every figure on these pages comes from. */
+export const syncedLabel = formatDate(githubSyncedAt)
+
+export interface ContributorView {
+  login: string
+  avatarUrl: string
+  contributions: number
+  /** The engineer's page when the contributor is one of Sideband's engineers. */
+  href: string
+  internal: boolean
+}
+
+export interface LanguageView {
+  name: string
+  bytes: number
+  /** Share of the repo's code, 0 to 1. */
+  share: number
+}
+
+export interface ProductFacts {
+  /** `owner/name` of the repo the numbers come from. */
+  repoKey: string
+  repoUrl: string
+  /** True when the numbers come from the upstream repo the product is built in. */
+  readsUpstream: boolean
+  stars: number
+  forks: number
+  downloads: number
+  commits: number
+  codeBytes: number
+  releases: number
+  latestRelease: { tag: string; date: string; url: string } | null
+  languages: LanguageView[]
+  contributors: ContributorView[]
+  createdAt: string
+  pushedAt: string
+  license: ProductLicense
+}
+
+function engineerForLogin(login: string) {
+  return engineers.find(
+    (e) => e.githubLogin.toLowerCase() === login.toLowerCase(),
+  )
+}
+
+/** Up to four named languages, the rest grouped as Other. */
+function languageShares(languages: { name: string; bytes: number }[]) {
+  const total = languages.reduce((sum, l) => sum + l.bytes, 0)
+  if (total === 0) return []
+  const named = languages.slice(0, 4)
+  const rest = languages.slice(4).reduce((sum, l) => sum + l.bytes, 0)
+  const rows = rest > 0 ? [...named, { name: 'Other', bytes: rest }] : named
+  return rows.map((l) => ({ ...l, share: l.bytes / total }))
+}
+
+export function productFacts(product: Product): ProductFacts {
+  const repo = productRepo(product)
+  const repoKey = product.upstreamRepo ?? product.repo
+  return {
+    repoKey,
+    repoUrl: repo.url,
+    readsUpstream: Boolean(product.upstreamRepo),
+    stars: repo.stars,
+    forks: repo.forks,
+    downloads: repo.downloads,
+    commits: repo.commits,
+    codeBytes: repo.languages.reduce((sum, l) => sum + l.bytes, 0),
+    releases: repo.releases,
+    latestRelease: repo.latestRelease,
+    languages: languageShares(repo.languages),
+    contributors: repo.contributors.map((c) => {
+      const engineer = engineerForLogin(c.login)
+      return {
+        login: c.login,
+        avatarUrl: c.avatarUrl,
+        contributions: c.contributions,
+        href: engineer
+          ? `/engineers/${engineer.id}`
+          : `https://github.com/${c.login}`,
+        internal: Boolean(engineer),
+      }
+    }),
+    createdAt: repo.createdAt,
+    pushedAt: repo.pushedAt,
+    license: productLicense(product),
+  }
+}
+
+export interface ProductAction {
+  kind: 'download' | 'store' | 'site' | 'docs' | 'repo'
+  href: string
+  label: string
+}
+
+function hostOf(url: string) {
+  return new URL(url).hostname.replace(/^www\./, '')
+}
+
+function storeLabel(url: string) {
+  const host = hostOf(url)
+  if (host === 'testflight.apple.com') return 'Join the TestFlight beta'
+  if (host === 'chromewebstore.google.com') return 'Add from Chrome Web Store'
+  if (host === 'apps.apple.com') return 'View on the App Store'
+  return 'Get it from the store'
+}
+
+function downloadLabel(url: string) {
+  return hostOf(url) === 'github.com' ? 'Download from GitHub' : 'Download'
+}
+
+/**
+ * Every action the product's links allow, the one to take first at the top:
+ * a download, then a store listing, then the site, then the source.
+ */
+export function productActions(product: Product): ProductAction[] {
+  const { links } = product
+  const actions: ProductAction[] = []
+  if (links.download)
+    actions.push({
+      kind: 'download',
+      href: links.download,
+      label: downloadLabel(links.download),
+    })
+  if (links.store)
+    actions.push({
+      kind: 'store',
+      href: links.store,
+      label: storeLabel(links.store),
+    })
+  if (links.site)
+    actions.push({ kind: 'site', href: links.site, label: 'Visit the site' })
+  if (links.docs)
+    actions.push({ kind: 'docs', href: links.docs, label: 'Read the docs' })
+  if (links.repo)
+    actions.push({ kind: 'repo', href: links.repo, label: 'Source on GitHub' })
+  return actions
+}
+
+/** The product's engineers, in the order the data lists them. */
+export function productEngineers(product: Product) {
+  return product.engineers.flatMap((id) => {
+    const engineer = engineers.find((e) => e.id === id)
+    return engineer ? [engineer] : []
+  })
+}
+
+const KIND_SINGULAR: Record<ProductImageKind, string> = {
+  screenshot: 'screenshot',
+  artwork: 'piece of artwork',
+  photo: 'photo',
+}
+
+const KIND_PLURAL: Record<ProductImageKind, string> = {
+  screenshot: 'screenshots',
+  artwork: 'pieces of artwork',
+  photo: 'photos',
+}
+
+const KIND_ORDER: ProductImageKind[] = ['screenshot', 'artwork', 'photo']
+
+/**
+ * A heading for a set of images that names what is in it: "Screenshots" only
+ * when every image is one, otherwise each kind present.
+ */
+export function imageSetTitle(images: ProductImage[]) {
+  const kinds = KIND_ORDER.filter((k) => images.some((i) => i.kind === k))
+  const names = kinds.map((k) => {
+    if (k === 'screenshot') return 'screenshots'
+    if (k === 'artwork') return 'artwork'
+    return images.filter((i) => i.kind === 'photo').length === 1
+      ? 'a photo'
+      : 'photos'
+  })
+  const title =
+    names.length === 1
+      ? names[0]
+      : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+  return capitalize(title)
+}
+
+/** "6 screenshots, 1 piece of artwork and 1 photo". */
+export function imageSetCount(images: ProductImage[]) {
+  const parts = KIND_ORDER.flatMap((k) => {
+    const n = images.filter((i) => i.kind === k).length
+    if (n === 0) return []
+    return [`${n} ${n === 1 ? KIND_SINGULAR[k] : KIND_PLURAL[k]}`]
+  })
+  return parts.length === 1
+    ? parts[0]
+    : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`
+}
+
+export interface RankingSummary {
+  ranked: RankedProduct[]
+  live: number
+  inDevelopment: number
+  openSource: number
+  stars: number
+  downloads: number
+  commits: number
+}
+
+/** The ranked list and totals across it, for the products index. */
+export function rankingSummary(): RankingSummary {
+  const ranked = rankedProducts()
+  const sum = (pick: (r: RankedProduct) => number) =>
+    ranked.reduce((total, r) => total + pick(r), 0)
+  return {
+    ranked,
+    live: ranked.filter((r) => r.product.status === 'LIVE').length,
+    inDevelopment: ranked.filter((r) => r.product.status === 'IN DEVELOPMENT')
+      .length,
+    openSource: ranked.filter((r) => productLicense(r.product).openSource)
+      .length,
+    stars: sum((r) => r.inputs.stars),
+    downloads: sum((r) => r.inputs.downloads),
+    commits: sum((r) => r.inputs.commits),
+  }
+}
