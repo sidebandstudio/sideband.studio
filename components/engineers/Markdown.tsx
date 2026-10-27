@@ -60,10 +60,14 @@ export function InlineText({ content }: { content: Inline[] }) {
 export function Blocks({
   blocks,
   className,
+  listId,
 }: {
   blocks: Block[]
   className?: string
+  /** Id for the first list, so a disclosure can shorten it. */
+  listId?: string
 }) {
+  const firstList = blocks.findIndex((b) => b.type === 'list')
   return (
     <div className={cx('space-y-5 text-body text-sideband-text', className)}>
       {blocks.map((block, i) => {
@@ -88,7 +92,11 @@ export function Blocks({
             )
           case 'list':
             return (
-              <ul key={i} className="space-y-3">
+              <ul
+                key={i}
+                id={i === firstList ? listId : undefined}
+                className="space-y-3"
+              >
                 {block.items.map((item, j) => (
                   <li key={j} className="flex gap-3">
                     <span

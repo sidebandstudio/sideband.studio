@@ -2,12 +2,13 @@ import Badge from '@/components/ui/Badge'
 import Reveal from '@/components/ui/Reveal'
 import type { EducationEntry, SkillGroup } from '@/lib/engineers'
 import CompanyMark from './CompanyMark'
+import ShowAll from './ShowAll'
 
 /** Short items read as tags. Sentence-length ones read as a list, so they wrap. */
-function ItemList({ items }: { items: string[] }) {
+function ItemList({ items, id }: { items: string[]; id?: string }) {
   if (items.every((item) => item.length <= 32))
     return (
-      <ul className="mt-3 flex flex-wrap gap-2">
+      <ul id={id} className="mt-3 flex flex-wrap gap-2">
         {items.map((item) => (
           <li key={item}>
             <Badge>{item}</Badge>
@@ -16,7 +17,7 @@ function ItemList({ items }: { items: string[] }) {
       </ul>
     )
   return (
-    <ul className="mt-3 space-y-2 text-small text-sideband-text">
+    <ul id={id} className="mt-3 space-y-2 text-small text-sideband-text">
       {items.map((item) => (
         <li key={item} className="flex gap-3">
           <span
@@ -30,10 +31,12 @@ function ItemList({ items }: { items: string[] }) {
   )
 }
 
+const courseworkId = (i: number) => `education-${i}-coursework`
+
 export function Education({ entries }: { entries: EducationEntry[] }) {
   return (
     <ul className="space-y-12">
-      {entries.map((e) => (
+      {entries.map((e, i) => (
         <Reveal as="li" key={e.school}>
           <div className="flex flex-wrap items-start gap-5">
             <CompanyMark name={e.school} logo={e.logo} onDark={e.logoOnDark} />
@@ -52,7 +55,15 @@ export function Education({ entries }: { entries: EducationEntry[] }) {
               <h4 className="text-small font-medium text-sideband-text-secondary">
                 Coursework
               </h4>
-              <ItemList items={e.coursework} />
+              <ItemList items={e.coursework} id={courseworkId(i)} />
+              {e.coursework.length > 4 && (
+                <ShowAll
+                  targets={[{ id: courseworkId(i), keep: 4 }]}
+                  total={e.coursework.length}
+                  noun="courses"
+                  className="mt-4"
+                />
+              )}
             </div>
           )}
           {e.activities && e.activities.length > 0 && (
@@ -70,9 +81,15 @@ export function Education({ entries }: { entries: EducationEntry[] }) {
 }
 
 /** Skills in the person's own groups, in their own order. */
-export function Skills({ groups }: { groups: SkillGroup[] }) {
+export function Skills({
+  groups,
+  listId,
+}: {
+  groups: SkillGroup[]
+  listId?: string
+}) {
   return (
-    <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+    <dl id={listId} className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
       {groups.map((g) => (
         <div key={g.category}>
           <dt className="text-small font-medium text-sideband-text-secondary">

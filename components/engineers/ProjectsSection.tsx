@@ -8,6 +8,7 @@ import { cx } from '@/components/ui/cx'
 import { ProductScene } from '@/components/products/scenes'
 import type { FeaturedProject } from '@/lib/engineers'
 import type { ProjectGroups } from '@/lib/engineers-view'
+import type { CollapseTarget } from './ShowAll'
 
 function Tech({ items }: { items?: string[] }) {
   if (!items || items.length === 0) return null
@@ -45,22 +46,53 @@ function ProjectLinks({ project }: { project: FeaturedProject }) {
   )
 }
 
+const ORDER = ['studio', 'featured', 'ventures', 'other'] as const
+
+/**
+ * What a phone shows of the projects before "Show all": the first `budget`
+ * projects in page order. Lists past the budget are shortened, and groups
+ * after it are hidden whole, heading included.
+ */
+export function collapseProjects(
+  groups: ProjectGroups,
+  idPrefix: string,
+  budget: number,
+): CollapseTarget[] {
+  const targets: CollapseTarget[] = []
+  let left = budget
+  for (const key of ORDER) {
+    const n = groups[key].length
+    if (n === 0) continue
+    if (left === 0) targets.push({ id: `${idPrefix}-${key}-group`, keep: 0 })
+    else if (n > left)
+      targets.push({ id: `${idPrefix}-${key}-list`, keep: left })
+    left = Math.max(0, left - n)
+  }
+  return targets
+}
+
 export default function ProjectsSection({
   groups,
   first,
+  idPrefix,
 }: {
   groups: ProjectGroups
   first: string
+  /** Prefixes the ids of each group and list, for collapseProjects. */
+  idPrefix: string
 }) {
   const { studio, featured, ventures, other } = groups
   return (
     <div className="space-y-20">
       {studio.length > 0 && (
-        <div>
+        <div id={`${idPrefix}-studio-group`}>
           <h3 className="text-lead font-medium text-sideband-text">
             At Sideband
           </h3>
-          <ul className="mt-8 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          <ul
+            id={`${idPrefix}-studio-list`}
+            className="mt-8 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {studio.map(({ project, product }, i) => (
               <Reveal
                 as="li"
@@ -115,11 +147,14 @@ export default function ProjectsSection({
       )}
 
       {featured.length > 0 && (
-        <div>
+        <div id={`${idPrefix}-featured-group`}>
           <h3 className="text-lead font-medium text-sideband-text">
             Featured on {first}&apos;s site
           </h3>
-          <ul className="mt-8 grid gap-6 md:grid-cols-2">
+          <ul
+            id={`${idPrefix}-featured-list`}
+            className="mt-8 grid gap-6 md:grid-cols-2"
+          >
             {featured.map((project, i) => (
               <Reveal
                 as="li"
@@ -163,7 +198,7 @@ export default function ProjectsSection({
       )}
 
       {ventures.length > 0 && (
-        <div>
+        <div id={`${idPrefix}-ventures-group`}>
           <h3 className="text-lead font-medium text-sideband-text">
             {first}&apos;s own ventures, outside Sideband
           </h3>
@@ -171,7 +206,10 @@ export default function ProjectsSection({
             Companies {first} runs outside the studio. They are not Sideband
             products, and their figures are as {first} reports them.
           </p>
-          <ul className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <ul
+            id={`${idPrefix}-ventures-list`}
+            className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+          >
             {ventures.map((project, i) => (
               <Reveal
                 as="li"
@@ -207,11 +245,14 @@ export default function ProjectsSection({
       )}
 
       {other.length > 0 && (
-        <div>
+        <div id={`${idPrefix}-other-group`}>
           <h3 className="text-lead font-medium text-sideband-text">
             Other work
           </h3>
-          <ul className="mt-8 grid gap-x-10 gap-y-3 lg:grid-cols-2">
+          <ul
+            id={`${idPrefix}-other-list`}
+            className="mt-8 grid gap-x-10 gap-y-3 lg:grid-cols-2"
+          >
             {other.map((project) => (
               <li
                 key={project.name}

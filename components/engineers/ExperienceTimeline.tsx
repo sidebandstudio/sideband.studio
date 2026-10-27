@@ -10,6 +10,7 @@ import {
   type ExperienceGroup,
 } from '@/lib/engineers-view'
 import CompanyMark from './CompanyMark'
+import type { CollapseTarget } from './ShowAll'
 
 function RoleStatus({ role }: { role: ExperienceEntry }) {
   if (!role.current && !role.upcoming) return null
@@ -31,13 +32,22 @@ function Role({
   role,
   nested,
   group,
+  omit,
+  detailsId,
 }: {
   role: ExperienceEntry
   nested: boolean
   /** The group's name, so a role under another company name says which. */
   group: string
+  /** Names whose highlights are told elsewhere on the page. */
+  omit: string[]
+  /** Id of the highlights and tools, which a phone shows on request. */
+  detailsId?: string
 }) {
   const stints = periods(role)
+  const highlights = (role.highlights ?? []).filter(
+    (h) => !omit.some((name) => h.startsWith(name)),
+  )
   return (
     <div className={cx(nested && 'relative pl-7')}>
       {nested && (
@@ -80,30 +90,56 @@ function Role({
       <p className="mt-4 max-w-prose text-body text-sideband-text">
         {role.summary}
       </p>
-      {role.highlights && role.highlights.length > 0 && (
-        <ul className="mt-4 max-w-prose space-y-2.5 text-body text-sideband-text-secondary">
-          {role.highlights.map((h) => (
-            <li key={h} className="flex gap-3">
-              <span
-                aria-hidden="true"
-                className="mt-[0.7em] block h-1 w-1 shrink-0 rounded-full bg-sideband-muted"
-              />
-              <span>{h}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-      {role.skills && role.skills.length > 0 && (
-        <ul aria-label="Tools" className="mt-5 flex flex-wrap gap-2">
-          {role.skills.map((s) => (
-            <li key={s}>
-              <Badge>{s}</Badge>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div id={detailsId}>
+        {highlights.length > 0 && (
+          <ul className="mt-4 max-w-prose space-y-2.5 text-body text-sideband-text-secondary">
+            {highlights.map((h) => (
+              <li key={h} className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-[0.7em] block h-1 w-1 shrink-0 rounded-full bg-sideband-muted"
+                />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {role.skills && role.skills.length > 0 && (
+          <ul aria-label="Tools" className="mt-5 flex flex-wrap gap-2">
+            {role.skills.map((s) => (
+              <li key={s}>
+                <Badge>{s}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   )
+}
+
+const roleDetailsId = (listId: string, group: number, role: number) =>
+  `${listId}-${group}-${role}-details`
+
+/**
+ * What a phone shows of the history before "Show all": the first `keep`
+ * organisations with each role's title, dates and summary. Their highlights
+ * and tools, and every later organisation, wait for the button.
+ */
+export function collapseExperience(
+  groups: ExperienceGroup[],
+  listId: string,
+  keep: number,
+): CollapseTarget[] {
+  return [
+    ...groups.slice(0, keep).flatMap((g, gi) =>
+      g.roles.map((_, ri) => ({
+        id: roleDetailsId(listId, gi, ri),
+        keep: 0,
+      })),
+    ),
+    ...(groups.length > keep ? [{ id: listId, keep }] : []),
+  ]
 }
 
 /**
@@ -112,12 +148,20 @@ function Role({
  */
 export default function ExperienceTimeline({
   groups,
+  listId,
+  omitHighlights = [],
 }: {
   groups: ExperienceGroup[]
+  listId?: string
+  /**
+   * Highlights that start with one of these names are left out, because the
+   * page tells them in full elsewhere (a venture's own project card).
+   */
+  omitHighlights?: string[]
 }) {
   return (
-    <ol className="space-y-6">
-      {groups.map((group) => {
+    <ol id={listId} className="space-y-6">
+      {groups.map((group, gi) => {
         const many = group.roles.length > 1
         return (
           <Reveal
@@ -164,12 +208,14 @@ export default function ExperienceTimeline({
                   : '',
               )}
             >
-              {group.roles.map((role) => (
+              {group.roles.map((role, ri) => (
                 <Role
+                  detailsId={listId && roleDetailsId(listId, gi, ri)}
                   key={`${role.role}-${role.startDate}`}
                   role={role}
                   nested={many}
                   group={group.company}
+                  omit={omitHighlights}
                 />
               ))}
             </div>

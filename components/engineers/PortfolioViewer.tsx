@@ -48,7 +48,7 @@ function Frames({ page, first }: { page: PortfolioPage; first: string }) {
           Desktop, 1440 pixels wide
         </figcaption>
       </figure>
-      <figure className="mx-auto w-[min(15rem,70%)] lg:w-[16rem]">
+      <figure className="mx-auto w-[min(11rem,55%)] sm:w-[min(15rem,70%)] lg:w-[16rem]">
         <div
           data-ui
           className="overflow-hidden rounded-[2.25rem] bg-sideband-surface-2 p-2"

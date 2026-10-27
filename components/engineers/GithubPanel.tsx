@@ -12,6 +12,8 @@ import {
 } from '@/lib/engineers-github'
 import { cx } from '@/components/ui/cx'
 import ContributionGraph from './ContributionGraph'
+import ShowAll from './ShowAll'
+import { listJoin } from '@/lib/engineers-view'
 
 /** Language shares from the accent down to grey, largest first. */
 const SHADES = [100, 72, 50, 34, 22, 14]
@@ -97,6 +99,13 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
   const s = gh.summary
   const summaryId = `gh-${gh.login}-summary`
   const hasPinned = gh.pinned.length > 0
+  const pinnedId = `gh-${gh.login}-pinned`
+  const moreId = `gh-${gh.login}-more`
+  const more = [
+    gh.languages.length > 0 && 'languages',
+    gh.organizations.length > 0 && 'organizations',
+    hasPinned && 'pinned repositories',
+  ].filter(Boolean) as string[]
   const hasSide = gh.languages.length > 0 || gh.organizations.length > 0
   const stats = [
     { label: 'Contributions, last year', value: formatCount(s.total) },
@@ -144,11 +153,6 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
             </a>
           </div>
         </div>
-        {gh.bio && (
-          <p className="mt-5 max-w-prose text-body text-sideband-text-secondary">
-            {gh.bio}
-          </p>
-        )}
 
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
           {stats.map((stat) => (
@@ -192,6 +196,7 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
       </div>
 
       <div
+        id={moreId}
         className={cx(
           'grid gap-6',
           hasPinned && hasSide && 'lg:grid-cols-[1fr_1.4fr]',
@@ -249,7 +254,7 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
             <h3 className="text-body font-medium text-sideband-text">
               Pinned repositories
             </h3>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+            <ul id={pinnedId} className="mt-6 grid gap-3 sm:grid-cols-2">
               {gh.pinned.map((repo) => (
                 <li key={repo.nameWithOwner}>
                   <a
@@ -280,6 +285,15 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
           </div>
         )}
       </div>
+
+      {more.length > 0 && (
+        <ShowAll
+          targets={[{ id: moreId, keep: 0 }]}
+          total={0}
+          noun={more.join(', ')}
+          label={`Show ${listJoin(more)}`}
+        />
+      )}
 
       <p className="text-small text-sideband-muted">
         From the GitHub snapshot synced on {syncedLabel}. Contributions are the

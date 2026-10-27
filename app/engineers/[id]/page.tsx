@@ -9,18 +9,25 @@ import Reveal from '@/components/ui/Reveal'
 import Badge from '@/components/ui/Badge'
 import ArrowLink from '@/components/ui/ArrowLink'
 import { ArrowRightIcon, ArrowUpRightIcon } from '@/components/ui/Icons'
-import ExperienceTimeline from '@/components/engineers/ExperienceTimeline'
+import ExperienceTimeline, {
+  collapseExperience,
+} from '@/components/engineers/ExperienceTimeline'
 import GithubPanel from '@/components/engineers/GithubPanel'
 import PortfolioViewer from '@/components/engineers/PortfolioViewer'
 import ProjectsSection from '@/components/engineers/ProjectsSection'
 import LifeGallery from '@/components/engineers/LifeGallery'
 import { Education, Skills } from '@/components/engineers/EducationSkills'
 import { Blocks, InlineText } from '@/components/engineers/Markdown'
+import SectionIndex from '@/components/engineers/SectionIndex'
+import ShowAll from '@/components/engineers/ShowAll'
+import { collapseProjects } from '@/components/engineers/ProjectsSection'
+import { dossierText } from '@/lib/engineers-dossier'
 import { engineers, getEngineerById, getOtherEngineer } from '@/lib/engineers'
 import { engineerGithub } from '@/lib/engineers-github'
-import { bioSection, readBio } from '@/lib/engineers-bio'
+import { readBio } from '@/lib/engineers-bio'
 import { imageSizes } from '@/lib/engineers-media'
 import {
+  capitalize,
   countWord,
   firstName,
   groupExperience,
@@ -61,62 +68,61 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
   const first = firstName(engineer)
   const gh = engineerGithub(engineer)
   const bio = readBio(engineer.id)
-  const words = bio?.sections.find((s) => /^in \w+ words$/i.test(s.title))
-  const now = bioSection(bio, 'Now')
-  const offDuty = bioSection(bio, 'Off duty')
+  const text = dossierText(engineer, bio)
+  const { words, offDuty } = text
+  const wordCount =
+    words?.blocks.find((b) => b.type === 'list')?.items.length ?? 0
   const links = publishedLinks(engineer)
   const groups = groupExperience(engineer.experience ?? [])
   const projects = groupProjects(engineer.projects)
   const projectCount = engineer.projects?.length ?? 0
-  const order = [
-    projects.studio.length > 0 && 'Sideband products',
-    projects.featured.length > 0 && `the work ${first}'s own site features`,
-    projects.ventures.length > 0 && `${first}'s own ventures`,
-    projects.other.length > 0 && 'everything else',
+  const parts = [
+    projects.studio.length > 0 &&
+      `${projects.studio.length} ${projects.studio.length === 1 ? 'is a Sideband product' : 'are Sideband products'}`,
+    projects.featured.length > 0 &&
+      `${projects.featured.length} ${projects.featured.length === 1 ? 'is' : 'are'} featured on ${first}'s own site`,
+    projects.ventures.length > 0 &&
+      `${projects.ventures.length} ${projects.ventures.length === 1 ? 'is a venture' : 'are ventures'} ${first} runs outside Sideband`,
+    projects.other.length > 0 && `${projects.other.length} more follow`,
   ].filter(Boolean) as string[]
-  const projectsLede = `All ${projectCount} of ${first}'s projects${
-    order.length > 1
-      ? `: ${order[0]} first, then ${order.slice(1).join(', then ')}.`
-      : '.'
-  }`
+  const projectsLede = `${projectCount} ${projectCount === 1 ? 'project' : 'projects'}. ${capitalize(listJoin(parts))}.`
   const lifestyle = engineer.lifestyle ?? []
   const next = getOtherEngineer(engineer.id)
-
-  // A portrait smaller than its column leaves room under it for the Now list.
-  const nowBeside = (engineer.portrait?.width ?? 0) < 416
-  const nowBlock = now && (
-    <Reveal trigger="mount" delay={280}>
-      <h2 className="text-body font-medium text-sideband-text">Now</h2>
-      <Blocks
-        blocks={now.blocks}
-        className={
-          nowBeside
-            ? 'mt-4 [&_li]:text-small [&_li]:text-sideband-text-secondary [&_ul]:space-y-3'
-            : 'mt-4 [&_li]:text-small [&_li]:text-sideband-text-secondary [&_ul]:grid [&_ul]:gap-x-8 [&_ul]:space-y-0 [&_ul]:gap-y-3 sm:[&_ul]:grid-cols-2'
-        }
-      />
-    </Reveal>
-  )
+  const projectTargets = collapseProjects(projects, 'projects', 1)
+  const roleCount = groups.reduce((n, g) => n + g.roles.length, 0)
 
   const meta = [
     { label: 'Based in', value: engineer.contact.location },
     { label: 'Availability', value: engineer.availability },
-    {
-      label: 'Speaks',
-      value: engineer.spokenLanguages && listJoin(engineer.spokenLanguages),
-    },
+    { label: 'Speaks', value: text.speaks && listJoin(text.speaks) },
   ].filter((m): m is { label: string; value: string } => Boolean(m.value))
 
   const interests =
-    engineer.interests && engineer.interests.length > 0 ? (
+    text.interests.length > 0 ? (
       <ul aria-label="Interests" className="flex flex-wrap gap-2">
-        {engineer.interests.map((i) => (
+        {text.interests.map((i) => (
           <li key={i}>
             <Badge>{i}</Badge>
           </li>
         ))}
       </ul>
     ) : null
+  const hasOffDuty = Boolean(offDuty || interests)
+
+  const hasEducation =
+    (engineer.education?.length ?? 0) > 0 || (engineer.skills?.length ?? 0) > 0
+  const index = [
+    gh && { id: 'github', label: 'GitHub' },
+    engineer.portfolio && { id: 'site', label: 'Own site' },
+    { id: 'about', label: `About ${first}` },
+    groups.length > 0 && { id: 'experience', label: 'Experience' },
+    projectCount > 0 && { id: 'projects', label: 'Projects' },
+    hasEducation && {
+      id: 'education',
+      label: (engineer.education?.length ?? 0) > 0 ? 'Education' : 'Skills',
+    },
+    lifestyle.length > 0 && { id: 'off-duty', label: 'Off duty' },
+  ].filter(Boolean) as { id: string; label: string }[]
 
   return (
     <>
@@ -185,7 +191,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
 
               <Reveal trigger="mount" delay={350}>
                 <h2 className="sr-only">Links</h2>
-                <ul className="mt-10 grid gap-2 sm:grid-cols-2">
+                <ul className="mt-10 grid grid-cols-2 gap-2">
                   {links.map((l) => (
                     <li key={l.label} className="min-w-0">
                       <a
@@ -193,9 +199,9 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                         {...(l.external
                           ? { target: '_blank', rel: 'noopener noreferrer' }
                           : {})}
-                        className="group flex h-full items-center gap-4 rounded-inner bg-sideband-surface px-4 py-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2"
+                        className="group flex h-full flex-wrap items-center gap-x-2 gap-y-0.5 rounded-inner bg-sideband-surface px-4 py-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 sm:flex-nowrap sm:gap-4"
                       >
-                        <span className="w-[4.75rem] shrink-0 text-small text-sideband-muted">
+                        <span className="w-full shrink-0 text-small text-sideband-muted sm:w-[4.75rem]">
                           {l.label}
                         </span>
                         <span className="min-w-0 flex-1 truncate text-small text-sideband-text">
@@ -217,7 +223,6 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                   ))}
                 </ul>
               </Reveal>
-              {now && !nowBeside && <div className="mt-12">{nowBlock}</div>}
             </div>
 
             <div className="flex flex-col gap-10">
@@ -239,19 +244,24 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                           }
                         : undefined
                     }
-                    className="aspect-[4/5] w-full rounded-panel bg-sideband-surface object-cover sm:max-w-[26rem]"
+                    className="aspect-[4/5] w-full max-w-[14rem] rounded-panel bg-sideband-surface object-cover sm:max-w-[26rem]"
                   />
                 </Reveal>
               )}
-              {now && nowBeside && nowBlock}
             </div>
           </div>
         </Container>
       </section>
 
+      <SectionIndex items={index} />
+
       {/* GitHub */}
       {gh && (
-        <Section labelledBy="github-title" className="!pt-0">
+        <Section
+          id="github"
+          labelledBy="github-title"
+          className="!pt-16 scroll-mt-16"
+        >
           <SectionHeading
             id="github-title"
             title="On GitHub"
@@ -265,7 +275,11 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
 
       {/* Portfolio */}
       {engineer.portfolio && (
-        <Section labelledBy="portfolio-title">
+        <Section
+          id="site"
+          labelledBy="portfolio-title"
+          className="scroll-mt-16"
+        >
           <SectionHeading
             id="portfolio-title"
             title={`${first}'s own site`}
@@ -290,7 +304,12 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
       )}
 
       {/* Bio */}
-      <Section labelledBy="bio-title" tone="surface">
+      <Section
+        id="about"
+        labelledBy="bio-title"
+        tone="surface"
+        className="scroll-mt-16"
+      >
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal>
@@ -299,11 +318,23 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
               </h2>
             </Reveal>
             <Reveal delay={70}>
-              <div className="mt-10 max-w-prose space-y-5 text-body text-sideband-text">
+              <div
+                id="about-text"
+                className="mt-10 max-w-prose space-y-5 text-body text-sideband-text"
+              >
                 {engineer.longBio.map((p) => (
                   <p key={p.slice(0, 40)}>{p}</p>
                 ))}
               </div>
+              {engineer.longBio.length > 2 && (
+                <ShowAll
+                  targets={[{ id: 'about-text', keep: 2 }]}
+                  total={engineer.longBio.length}
+                  noun="paragraphs"
+                  label={`Read the rest about ${first}`}
+                  className="mt-6"
+                />
+              )}
             </Reveal>
           </div>
           <div className="flex flex-col gap-12">
@@ -321,19 +352,30 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                 </h3>
                 <Blocks
                   blocks={words.blocks}
+                  listId="words-list"
                   className="mt-4 text-sideband-text-secondary"
                 />
+                {wordCount > 2 && (
+                  <ShowAll
+                    targets={[{ id: 'words-list', keep: 2 }]}
+                    total={wordCount}
+                    noun="quotes"
+                    className="mt-6"
+                  />
+                )}
               </Reveal>
             )}
-            {offDuty && lifestyle.length === 0 && (
+            {hasOffDuty && lifestyle.length === 0 && (
               <Reveal delay={210}>
                 <h3 className="text-body font-medium text-sideband-text">
                   Off duty
                 </h3>
-                <Blocks
-                  blocks={offDuty.blocks}
-                  className="mt-4 text-sideband-text-secondary"
-                />
+                {offDuty && (
+                  <Blocks
+                    blocks={offDuty.blocks}
+                    className="mt-4 text-sideband-text-secondary"
+                  />
+                )}
                 {interests && <div className="mt-5">{interests}</div>}
               </Reveal>
             )}
@@ -343,36 +385,73 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
 
       {/* Experience */}
       {groups.length > 0 && (
-        <Section labelledBy="experience-title">
+        <Section
+          id="experience"
+          labelledBy="experience-title"
+          className="scroll-mt-16"
+        >
           <SectionHeading
             id="experience-title"
             title="Experience"
-            lede={`${groups.reduce((n, g) => n + g.roles.length, 0)} roles at ${groups.length} ${groups.length === 1 ? 'organization' : 'organizations'}, newest first.`}
+            lede={`${roleCount} roles at ${groups.length} ${groups.length === 1 ? 'organization' : 'organizations'}, newest first.`}
           />
           <div className="mt-14">
-            <ExperienceTimeline groups={groups} />
+            <ExperienceTimeline
+              groups={groups}
+              listId="experience-list"
+              omitHighlights={text.ventureNames}
+            />
+            {groups.length > 0 && (
+              <ShowAll
+                targets={collapseExperience(groups, 'experience-list', 2)}
+                total={groups.length}
+                noun="organizations"
+                label={`Show the full history, all ${roleCount} roles`}
+                className="mt-8"
+              />
+            )}
           </div>
         </Section>
       )}
 
       {/* Projects */}
       {projectCount > 0 && (
-        <Section labelledBy="projects-title">
+        <Section
+          id="projects"
+          labelledBy="projects-title"
+          className="scroll-mt-16"
+        >
           <SectionHeading
             id="projects-title"
             title="Projects"
             lede={projectsLede}
           />
           <div className="mt-14">
-            <ProjectsSection groups={projects} first={first} />
+            <ProjectsSection
+              groups={projects}
+              first={first}
+              idPrefix="projects"
+            />
+            {projectTargets.length > 0 && (
+              <ShowAll
+                targets={projectTargets}
+                total={projectCount}
+                noun="projects"
+                className="mt-10"
+              />
+            )}
           </div>
         </Section>
       )}
 
       {/* Education and skills */}
-      {((engineer.education?.length ?? 0) > 0 ||
-        (engineer.skills?.length ?? 0) > 0) && (
-        <Section labelledBy="education-title" tone="surface">
+      {hasEducation && (
+        <Section
+          id="education"
+          labelledBy="education-title"
+          tone="surface"
+          className="scroll-mt-16"
+        >
           <div className="grid gap-24 lg:grid-cols-2 lg:gap-20">
             {engineer.education && engineer.education.length > 0 && (
               <div className="min-w-0">
@@ -392,11 +471,26 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
             {engineer.skills && engineer.skills.length > 0 && (
               <div className="min-w-0">
                 <Reveal>
-                  <h2 className="text-head text-sideband-text">Skills</h2>
+                  <h2
+                    id={
+                      engineer.education?.length ? undefined : 'education-title'
+                    }
+                    className="text-head text-sideband-text"
+                  >
+                    Skills
+                  </h2>
                 </Reveal>
                 <Reveal delay={70} className="mt-10">
-                  <Skills groups={engineer.skills} />
+                  <Skills groups={engineer.skills} listId="skills-list" />
                 </Reveal>
+                {engineer.skills.length > 1 && (
+                  <ShowAll
+                    targets={[{ id: 'skills-list', keep: 1 }]}
+                    total={engineer.skills.length}
+                    noun="skill groups"
+                    className="mt-8"
+                  />
+                )}
               </div>
             )}
           </div>
@@ -405,7 +499,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
 
       {/* Off duty, with photos */}
       {lifestyle.length > 0 && (
-        <Section labelledBy="life-title">
+        <Section id="off-duty" labelledBy="life-title" className="scroll-mt-16">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
             <Reveal>
               <h2 id="life-title" className="text-head text-sideband-text">
@@ -426,7 +520,16 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
             <LifeGallery
               images={lifestyle}
               sizes={imageSizes(lifestyle.map((l) => l.src))}
+              listId="life-list"
             />
+            {lifestyle.length > 1 && (
+              <ShowAll
+                targets={[{ id: 'life-list', keep: 1 }]}
+                total={lifestyle.length}
+                noun="photos"
+                className="mt-4"
+              />
+            )}
           </div>
         </Section>
       )}

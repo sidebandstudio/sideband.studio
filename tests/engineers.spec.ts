@@ -69,6 +69,12 @@ for (const engineer of engineers) {
     for (const href of hrefs) {
       if (href.startsWith('mailto:'))
         expect(href).toMatch(/^mailto:[^\s@]+@[^\s@]+\.[^\s@]+/)
+      else if (href.startsWith('#'))
+        // In-page links, such as the section index, point at a real id.
+        expect(
+          await page.locator(`[id="${href.slice(1)}"]`).count(),
+          href,
+        ).toBe(1)
       else if (href.startsWith('/')) internal.add(href.split('#')[0])
       else expect(() => new URL(href)).not.toThrow()
       if (/^https?:/.test(href)) expect(href).toMatch(/^https:\/\//)

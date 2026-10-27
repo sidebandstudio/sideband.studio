@@ -6,13 +6,15 @@ import type { LifestyleImage } from '@/lib/engineers'
 export default function LifeGallery({
   images,
   sizes,
+  listId,
 }: {
   images: LifestyleImage[]
   /** Real pixel size of each file, keyed by src. */
   sizes: Record<string, { width: number; height: number }>
+  listId?: string
 }) {
   return (
-    <ul className="columns-1 gap-6 sm:columns-2 lg:columns-3">
+    <ul id={listId} className="columns-1 gap-6 sm:columns-2 lg:columns-3">
       {images.map((img, i) => {
         const size = sizes[img.src] ?? { width: 1400, height: 1050 }
         return (
