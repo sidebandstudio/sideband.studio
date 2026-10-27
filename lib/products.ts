@@ -79,6 +79,12 @@ export interface ProductLinks {
   docs?: string
 }
 
+export interface ProductClient {
+  name: string
+  location?: string
+  url?: string
+}
+
 export interface Product {
   id: string
   name: string
@@ -99,6 +105,11 @@ export interface Product {
   /** Credit for the code or idea this product builds on. */
   origin: string | null
   links: ProductLinks
+  /**
+   * The business a client app was built for, from that business's own site.
+   * Absent for Sideband's own products.
+   */
+  client?: ProductClient
   /**
    * What the repo's LICENSE file says, read by hand, for a license GitHub
    * cannot identify (snapshot license NOASSERTION). productLicense() uses it.
@@ -1589,6 +1600,13 @@ export const products: Product[] = [
     links: {
       site: 'https://signaturecutschicopee.com/',
       repo: 'https://github.com/whoisaldo/SignatureCuts',
+    },
+    // The shop's own name and town, from its site's title and schema.org
+    // BarberShop data (1889 Memorial Dr, Chicopee).
+    client: {
+      name: 'Signature Cuts 413',
+      location: 'Chicopee, Massachusetts',
+      url: 'https://signaturecutschicopee.com/',
     },
     repo: 'whoisaldo/SignatureCuts',
     accentColor: '#D4C5B0',

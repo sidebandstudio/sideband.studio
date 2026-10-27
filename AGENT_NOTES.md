@@ -53,6 +53,7 @@ If a future change breaks the build, fix that before pushing.
 - All app image sources should resolve from `public/`
 - Existing project assets live under `public/assets/...`: `products/<id>/`, `engineers/<id>/`, `logos/`, `sideband/`
 - Product images are labelled by `kind` (`screenshot`, `artwork`, `photo`) and captioned that way. Artwork is never called a screenshot. An image's or video cut's `credit` (author, link, license) stays in `lib/products.ts` as the source of truth, and is not shown inline. `lib/credits.ts` gathers every unique credit on the server, with the products and media it applies to, and the footer lists them in a collapsed `<details id="credits">` at the bottom of every page (Ali's call: keep credits such as the Blender Foundation footage aside). `source` records where the file came from.
+- **Client apps.** A product built for a client business sets `client: { name, location?, url? }` in `lib/products.ts`, taken from the business's own site. `ClientBadge` ("Client app for <name>") sits beside its `StatusBadge` everywhere the status shows, and its product page says in one line who it was built for. Client apps stay in the ranking as computed. Signature Cuts 413 and Fade Empire are client apps.
 - A product's `icon` is its own icon or logo. Signature Cuts ships none, so its icon is a monogram drawn by Sideband (`public/assets/products/signature-cuts/mark.svg`, rasterized to `icon.webp`), and its `source` says so.
 
 ## Design System

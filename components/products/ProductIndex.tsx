@@ -5,6 +5,7 @@ import Reveal from '@/components/ui/Reveal'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Stat from '@/components/ui/Stat'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
 import { productAccentStyle } from '@/components/products/accent'
@@ -170,6 +171,7 @@ function RankLine({ r, total }: { r: RankedProduct; total: number }) {
         score {r.score.toFixed(2)}
       </p>
       <StatusBadge status={r.product.status} />
+      <ClientBadge client={r.product.client} />
     </div>
   )
 }

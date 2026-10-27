@@ -5,6 +5,7 @@ import Badge from '@/components/ui/Badge'
 import Reveal from '@/components/ui/Reveal'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
@@ -106,6 +107,7 @@ function Meta({ product }: { product: ShowcaseProduct }) {
   return (
     <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-small text-sideband-text-secondary">
       <StatusBadge status={product.status} />
+      <ClientBadge client={product.client} />
       {product.category}
     </p>
   )

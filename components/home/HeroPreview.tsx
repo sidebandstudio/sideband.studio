@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
@@ -278,6 +279,7 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
                   <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-body font-medium text-sideband-text">
                     {item.name}
                     <StatusBadge status={item.status} />
+                    <ClientBadge client={item.client} />
                   </p>
                   <p className="text-small text-sideband-text-secondary">
                     {item.category}
