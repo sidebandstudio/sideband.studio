@@ -38,6 +38,9 @@ Five sizes. Nothing else on new pages.
 | `text-small`   | 14px               | 1.45                 | Labels, badges, nav, footer, captions            |
 
 Headlines fit in two lines at every width. Author the line break (`<br />`) when it matters.
+One exception to the 44px floor: the home headline (`h1.title` in `components/home/Hero.module.css`)
+shrinks with the viewport below about 400px, to about 35px at 320px, so it stays on two lines.
+`tests/home.spec.ts` checks two lines from 320 to 1920px.
 Left-aligned by default. Centre at most one moment per page (usually the closing call to action).
 Numbers that align get `tabular-nums`.
 
@@ -116,6 +119,10 @@ Easings: `ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and lifts, `ea
   `components/ui/motion.ts`: it sets `data-play="on"` only while the element is on screen, the tab is
   visible and motion is allowed. CSS loops use `animation-play-state: var(--play, paused)`; script
   loops read the returned boolean. Periods 6–20s, amplitudes small.
+- **Home preview.** The one loop outside scenes: the hero window (`components/home/HeroPreview.tsx`)
+  pages to the next product every 6s while it is on screen, the tab is visible and motion is
+  allowed. Hover or focus holds it, picking a tab stops it, and a visible Pause button stops and
+  restarts it. Under reduced motion it never pages and the button is not shown.
 - **Hover and press.** Buttons scale to 0.97 on press. Linked cards lift their picture 4px
   (`group-hover:-translate-y-1`). Arrows step 4px (`ArrowLink`). Surfaces lift one tone. Never
   change font weight on hover.
@@ -182,11 +189,15 @@ Example section:
   Draw in `viewBox="0 0 800 600"`.
 - **hero**: 4:3 below `md`, 16:10 from `md` (up to 1400×875). Draw in `viewBox="0 0 1600 1000"`
   with `preserveAspectRatio="xMidYMid slice"` and keep everything essential inside the centred
-  1334×1000 safe area, which is what remains at 4:3.
+  1334×1000 safe area, which is what remains at 4:3. While the hero stage is narrower than 480px (a
+  4:3 phone stage) it shows the card drawing instead, where the hero drawing's text would fall
+  under 12px (`SceneStage` in `group-a/Stage.tsx`, `Framings` in `group-b/Stage.tsx`).
 - Colour: the product accent (`var(--product-accent)`, or `color-mix` tints of it) for the one lit
   element, `--sideband-surface-2/3` and `--sideband-text-secondary/muted` for structure, white at
-  low opacity for lines. No other hues. Text inside a scene uses `--font-mono` or `--font-sans` at
-  `text-small` equivalents and must be legible at card size or left out.
+  low opacity for lines. No other hues.
+- Text inside a scene uses `--font-mono` or `--font-sans` with a font size of at least 36 units in
+  the card drawing and 38 in the hero, so it renders at 12px or more at every stage width
+  (`tests/scenes-legibility.spec.ts` measures it). Text that cannot meet that is left out.
 - Motion: a scene shows what the product does (frames streaming, a status updating, a summary
   typing), as one loop of 6–20s. Gate it with `useAmbient` (pauses offscreen and in hidden tabs).
   Under reduced motion it renders a complete still frame. Transform and opacity only, no filters
