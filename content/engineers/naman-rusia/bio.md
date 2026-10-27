@@ -122,12 +122,26 @@ Coursework: Foundations of Artificial Intelligence · Object-Oriented Design · 
 - **[TandemCode](https://www.tandemcode.space/)** · Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes. FastAPI and Postgres on AWS Lightsail, React 19 frontend.
 - **[Dockmaster](https://trydockmaster.vercel.app/)** · Know what's running on your Mac and your homelab: stray dev servers, repos, worktrees and coding agents.
 - **[Canvas Buddy](https://trycanvasbuddy.vercel.app/)** · Ask questions about your Canvas classes from a small terminal app, with cited sources from a read-only MCP server. `brew install naman0r/tap/canvas-buddy`
+  Other work:
+
 - **[Peel](https://github.com/naman0r/Peel)** · macOS menu bar app that turns anything on screen into a draggable artifact.
 - **[Open Brain](https://github.com/naman0r/open-brain-mcp)** · Memory for his AI systems, an MCP server over a git-backed markdown vault.
 - **[Git Interviewer](https://pypi.org/project/git-interviewer/)** · A pre-commit hook that interviews you about your code before letting you commit.
 - **[Axiom AI](https://www.axiomai.space)** · AI student productivity platform that started as EduGenie.
 - **[Clash Royale RL Bot](https://github.com/naman0r/CS4100-CR-bot)** · Tabular Q-learning agent that plays Clash Royale.
 - **[MindfulMomentum](https://mindfulmomentum.vercel.app/)** · Habits and productivity web app with a Chrome extension.
+- **[Market Sentiment Visualizer](https://github.com/naman0r/market-sentiment-visualizer)** · One 0 to 100 fear and greed score from VIX, the put/call ratio and sector breadth.
+- **[Resume-Tex](https://github.com/naman0r/resume-tex)** · Google ADK agent that tailors a LaTeX resume to a job description.
+- **[NUtrition](https://nutrition-oasis.vercel.app/)** · Northeastern dining hall macro tracker, built at Oasis.
+- **[AMA Automator](https://github.com/TamidNu/AMA-Automator)** · Automates TAMID's ask-me-anything process on Slack.
+- **[TaNews](https://github.com/IpDaniel/tanews/tree/naman)** · Full-stack news platform with admin and user roles.
+- **[StudyBuddy](https://github.com/Arshayp/studybuddy-2)** · Connects university students to form study groups.
+- **[BackBuddy](https://github.com/naman0r/backbuddy-app)** · Posture-correcting chair attachment with a React Native app over Bluetooth, built at Forge.
+- **[MindMapr](https://github.com/naman0r/MindMapr)** · AI study tool that turns notes into visualizations.
+- **[Car2Drvr](https://car2drvr-finhacks.firebaseapp.com/)** · Recommends which car to buy, with a price range.
+- **[Personal Website v1](https://namanrusia.netlify.app/)** · His first portfolio.
+- **[DoNow!](https://chromewebstore.google.com/detail/donow-to-do-list/ledniccgbjopheokhlcpaajlblopaegf)** · To-do list as a Chrome extension.
+- **[Foresight](https://foresight-tamid.vercel.app)** · Real-time pricing for boutique hotels, from his TAMID tech lead role.
 
 All 20 of his projects, each with its own write-up, are at [namanrusia.dev/projects](https://www.namanrusia.dev/projects).
 

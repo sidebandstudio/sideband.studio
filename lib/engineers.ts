@@ -62,6 +62,8 @@ export interface FeaturedProject {
   productId?: string
   /** The person's part, when the project is a team effort. */
   role?: string
+  /** Featured on the person's own portfolio. The rest is their other work. */
+  featured?: boolean
   tech?: string[]
 }
 
@@ -471,6 +473,7 @@ export const engineers: Engineer[] = [
     projects: [
       {
         name: 'EternalMonitor',
+        featured: true,
         blurb:
           'Turns an iPad into a second display for Windows, mirrored or extended, over Wi-Fi or USB. Ali wrote the Rust host and the SwiftUI iPad client, with hardware H.264 encode and decode end to end.',
         href: '/products/eternal-monitor',
@@ -482,6 +485,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Exerly Fitness',
+        featured: true,
         blurb:
           'Fitness app with a React 19 web app, a Node and Express API, an AI coach, and a native SwiftUI iOS client that is built and waiting on App Store review.',
         href: '/products/exerly',
@@ -502,6 +506,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalRichPresence',
+        featured: true,
         blurb:
           'Windows tray app that puts Apple Music and Spotify on your Discord profile, with live cover art and a Listen Along feature built on raw named pipes.',
         href: '/products/eternal-rich-presence',
@@ -512,6 +517,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Signature Cuts 413',
+        featured: true,
         blurb:
           'Marketing and booking site for a barbershop in Chicopee, MA. Next.js 14 static export with a WhatsApp booking flow, built free of charge.',
         href: '/products/signature-cuts',
@@ -522,6 +528,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalExchange',
+        featured: true,
         blurb:
           'A 39K-line Minecraft alchemy mod for Fabric 1.21.1. A spin-off of ProjectE with a recipe-graph solver that prices every item in the game at world load.',
         href: 'https://eternalexchangemod.com',
@@ -530,6 +537,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Moops Bookstore',
+        featured: true,
         blurb:
           'Social reading tracker with shelves, reviews, clubs and a streak counter, on a MongoDB backend with the Google Books catalogue behind search.',
         href: 'https://moopsbooks.com',
@@ -544,6 +552,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Real-Time Face Analytics',
+        featured: true,
         blurb:
           'Face, emotion, age and gender detection that runs entirely in the browser with TensorFlow.js. No frames leave the device.',
         href: 'https://whoisaldo.github.io/real-time-face-analytics/',
@@ -558,6 +567,47 @@ export const engineers: Engineer[] = [
         source: true,
         repo: 'https://github.com/whoisaldo/BetterAppleMusic',
         tech: ['TypeScript', 'Electron', 'React'],
+      },
+      {
+        name: 'Top Choice Realty listings tool',
+        blurb: 'Cross-referencing tool for real estate property listing data.',
+        href: 'https://github.com/sidebandstudio/topchoicerealty',
+        source: true,
+        repo: 'https://github.com/sidebandstudio/topchoicerealty',
+        tech: ['TypeScript', 'React'],
+      },
+      {
+        name: 'CS3520 · C++',
+        blurb:
+          'Course work in C++: nested containers, Makefiles, GDB and CLI formatting.',
+        href: 'https://github.com/whoisaldo/CS3520-Summer-2025',
+        source: true,
+        repo: 'https://github.com/whoisaldo/CS3520-Summer-2025',
+        tech: ['C++', 'GDB', 'Makefile'],
+      },
+      {
+        name: 'Password Generator',
+        blurb: 'Configurable password generator across Java and Swift.',
+        href: 'https://github.com/whoisaldo/Password-Generator',
+        source: true,
+        repo: 'https://github.com/whoisaldo/Password-Generator',
+        tech: ['Java', 'Swift'],
+      },
+      {
+        name: 'Grade Calculator',
+        blurb: 'Weighted grade calculator with a simple desktop UI.',
+        href: 'https://github.com/whoisaldo/Grade-Calculator',
+        source: true,
+        repo: 'https://github.com/whoisaldo/Grade-Calculator',
+        tech: ['Java'],
+      },
+      {
+        name: 'Lua-Roblox-Commands',
+        blurb: 'Quick utility commands for Roblox game development.',
+        href: 'https://github.com/whoisaldo/Lua-Roblox-Commands',
+        source: true,
+        repo: 'https://github.com/whoisaldo/Lua-Roblox-Commands',
+        tech: ['Lua', 'Roblox'],
       },
     ],
     portfolio: {
@@ -853,6 +903,7 @@ export const engineers: Engineer[] = [
     projects: [
       {
         name: 'Eternal2x',
+        featured: true,
         blurb:
           'DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then rebuilds the motion between them with optical flow.',
         href: '/products/eternal2x',
@@ -864,6 +915,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Eternal Summary',
+        featured: true,
         blurb:
           'Chrome extension that summarizes the page you are reading, explains what you highlight, and answers follow-ups in a rail beside the article.',
         href: '/products/eternal-summary',
@@ -875,6 +927,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalMonitor',
+        featured: true,
         blurb:
           'iPad as a second screen for Windows. Ali owns its AMD GPU support end to end: Rust and FFmpeg AMF H.264 and HEVC encoding, keyframe recovery and the software fallback.',
         href: '/products/eternal-monitor',
@@ -883,6 +936,26 @@ export const engineers: Engineer[] = [
         repo: 'https://github.com/sidebandstudio/EternalMonitor',
         role: 'Contributor · AMD GPU support',
         tech: ['Rust', 'FFmpeg', 'AMF', 'H.264', 'HEVC'],
+      },
+      {
+        name: 'Exerly Fitness',
+        featured: true,
+        blurb:
+          'Fitness app built at Sideband. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.',
+        href: '/products/exerly',
+        internal: true,
+        productId: 'exerly',
+        repo: 'https://github.com/sidebandstudio/Exerly-Fitness',
+        tech: [
+          'SwiftUI',
+          'HealthKit',
+          'React',
+          'TypeScript',
+          'Node.js',
+          'Express',
+          'PostgreSQL',
+          'Gemini',
+        ],
       },
       {
         name: 'Better Canvas',
@@ -919,6 +992,14 @@ export const engineers: Engineer[] = [
         source: true,
         repo: 'https://github.com/Alitleis123/CalorieCalculator',
         tech: ['React', 'Vite'],
+      },
+      {
+        name: 'CS3520 Coursework',
+        blurb: 'C++ coursework from his Summer 1 semester at Northeastern.',
+        href: 'https://github.com/Alitleis123/CS3520-Summer-2025',
+        source: true,
+        repo: 'https://github.com/Alitleis123/CS3520-Summer-2025',
+        tech: ['C++'],
       },
     ],
     portfolio: {
@@ -1044,6 +1125,7 @@ export const engineers: Engineer[] = [
     projects: [
       {
         name: 'Staged',
+        featured: true,
         blurb:
           'AI-powered resume builder he co-founded and built: live preview, PDF export, Claude-powered bullet polish, summary generation, job-description optimization and Stripe subscription billing.',
         role: 'Co-Founder & Full-Stack Developer',
@@ -1051,6 +1133,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Exercise Tracker',
+        featured: true,
         blurb:
           'Java fitness tracker built for a University of Manitoba course: user profiles, follow feeds, activity logging and stack-based route finding around obstacles on a grid map, persisted to JSON.',
         href: 'https://github.com/Karan4248/Exercise-Tracker',
@@ -1060,6 +1143,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Automatic Food Ordering System',
+        featured: true,
         blurb:
           'Team-built voice and chat food ordering app. Karan cut AI response latency on the ordering path with a local parser for simple orders and concurrent extraction, and fixed cart item parsing.',
         href: 'https://github.com/minhkhoily29/Automatic-Food-Ordering-System',
@@ -1070,6 +1154,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Personal Portfolio',
+        featured: true,
         blurb:
           'His personal site, built from scratch with React and React Router and deployed on GitHub Pages through GitHub Actions.',
         href: 'https://karan4248.github.io/Portfolio/',
@@ -1448,6 +1533,7 @@ export const engineers: Engineer[] = [
     projects: [
       {
         name: 'TandemCode',
+        featured: true,
         blurb:
           'Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes.',
         href: 'https://www.tandemcode.space/',
@@ -1465,6 +1551,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Dockmaster',
+        featured: true,
         blurb:
           'Local dev dashboard for your Mac and homelab: finds stray dev servers, repos and worktrees, watches coding agents, and manages remote Macs over SSH.',
         href: 'https://trydockmaster.vercel.app/',
@@ -1473,6 +1560,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Canvas Buddy',
+        featured: true,
         blurb:
           'Small terminal app that answers questions about your Canvas classes with cited sources, through a read-only MCP server over SQLite full-text search. Installs with Homebrew.',
         href: 'https://trycanvasbuddy.vercel.app/',
@@ -1546,6 +1634,99 @@ export const engineers: Engineer[] = [
         href: 'https://mindfulmomentum.vercel.app/',
         repo: 'https://github.com/naman0r/MindfulMomentum',
         tech: ['React', 'Flask', 'Supabase', 'Chrome Extension API'],
+      },
+      {
+        name: 'Market Sentiment Visualizer',
+        blurb:
+          'A weather forecast for market psychology: one 0 to 100 fear and greed score from VIX, the put/call ratio, sector breadth and a fear and greed proxy, refreshed every 15 minutes in market hours.',
+        href: 'https://github.com/naman0r/market-sentiment-visualizer',
+        source: true,
+        repo: 'https://github.com/naman0r/market-sentiment-visualizer',
+        tech: ['React', 'Vite', 'FastAPI', 'Python', 'yfinance'],
+      },
+      {
+        name: 'Resume-Tex',
+        blurb:
+          'Google ADK agent that generates a tailored LaTeX resume from a job description, a context file and your template, editing only the experience and projects sections.',
+        href: 'https://github.com/naman0r/resume-tex',
+        source: true,
+        repo: 'https://github.com/naman0r/resume-tex',
+        tech: ['Python', 'Google ADK', 'Gemini', 'LaTeX'],
+      },
+      {
+        name: 'AMA Automator',
+        blurb:
+          'Internal tool that automates TAMID at Northeastern’s ask-me-anything process on Slack, with auth and a Slack agent built on webhooks.',
+        href: 'https://github.com/TamidNu/AMA-Automator',
+        source: true,
+        repo: 'https://github.com/TamidNu/AMA-Automator',
+        tech: ['Supabase', 'React', 'Flask', 'Slack webhooks'],
+      },
+      {
+        name: 'TaNews',
+        blurb:
+          'Full-stack news platform with posting, reading and liking, and separate admin and user roles.',
+        href: 'https://github.com/IpDaniel/tanews/tree/naman',
+        source: true,
+        repo: 'https://github.com/IpDaniel/tanews',
+        tech: ['Docker', 'Flask', 'React', 'TypeScript', 'MySQL'],
+      },
+      {
+        name: 'StudyBuddy',
+        blurb:
+          'Connects university students with each other to form study groups.',
+        href: 'https://github.com/Arshayp/studybuddy-2',
+        source: true,
+        repo: 'https://github.com/Arshayp/studybuddy-2',
+        tech: ['Streamlit', 'MySQL', 'Docker', 'Flask'],
+      },
+      {
+        name: 'BackBuddy',
+        blurb:
+          'A chair attachment with pressure sensors and inflatable bladders that nudges you back into good posture, paired with a React Native app over Bluetooth.',
+        href: 'https://github.com/naman0r/backbuddy-app',
+        source: true,
+        repo: 'https://github.com/naman0r/backbuddy-app',
+        role: 'Software lead, Team BackBuddy at Forge',
+        tech: [
+          'React Native',
+          'Expo',
+          'Arduino',
+          'Bluetooth HC-05',
+          'Firebase',
+        ],
+      },
+      {
+        name: 'MindMapr',
+        blurb:
+          'AI study tool that turns students’ notes into easy-to-understand visualizations, with authentication and a MongoDB database.',
+        href: 'https://github.com/naman0r/MindMapr',
+        source: true,
+        repo: 'https://github.com/naman0r/MindMapr',
+        tech: ['MongoDB'],
+      },
+      {
+        name: 'Car2Drvr',
+        blurb:
+          'Recommends which car to buy based on your needs, with a price range so you do not overpay.',
+        href: 'https://car2drvr-finhacks.firebaseapp.com/',
+        repo: 'https://github.com/somshrivastava/car2drvr',
+        tech: ['React', 'Firebase', 'Flask'],
+      },
+      {
+        name: 'Personal Website v1',
+        blurb:
+          'His first portfolio, an interactive React site with a lot of animation.',
+        href: 'https://namanrusia.netlify.app/',
+        tech: ['React', 'Framer Motion', 'GSAP', 'PrimeReact', 'JavaScript'],
+      },
+      {
+        name: 'DoNow!',
+        blurb:
+          'A simple to-do list that lives in a Chrome extension, published on the Chrome Web Store.',
+        href: 'https://chromewebstore.google.com/detail/donow-to-do-list/ledniccgbjopheokhlcpaajlblopaegf',
+        repo: 'https://github.com/naman0r/doNow_chrome_extension',
+        tech: ['HTML', 'CSS', 'JavaScript'],
       },
     ],
     portfolio: {

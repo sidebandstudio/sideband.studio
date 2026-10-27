@@ -91,10 +91,15 @@ Activities: Video Editing Club · Arab Student Association
 - **[Eternal2x](/products/eternal2x)** · DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then rebuilds the motion between them with optical flow. "Anime holds each drawing for two or three frames, so Eternal2x finds the real drawings first and rebuilds the frames between them with optical flow."
 - **[Eternal Summary](/products/eternal-summary)** · Chrome extension that summarizes the page you are reading, explains what you highlight, and answers follow-ups in a rail beside the article.
 - **[EternalMonitor](/products/eternal-monitor)** · Open-source contributor who owns AMD GPU support: Rust and FFmpeg AMF H.264 and HEVC encoding, keyframe recovery and the software fallback.
+- **[Exerly Fitness](/products/exerly)** · Fitness app built at Sideband. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.
+
+Other work:
+
 - **[Better Canvas](https://github.com/sidebandstudio/Better-Canvas)** · Canvas LMS customizer for Chrome and Firefox with skins, a kanban planner, Pomodoro, GPA and rubric predictors, and a command palette. Local only, no accounts, no telemetry.
 - **[NEU Academic Calendar → ICS](https://github.com/Alitleis123/neu-academic-calendar-ics)** · Checks the registrar every Monday and republishes Northeastern's academic calendar as subscribable .ics feeds.
 - **Top Choice Realty Platform** · Next.js client intake and agent dashboards on Express APIs, with role-based access, MongoDB Atlas and Azure Blob Storage.
 - **[CalorieCalculator](https://github.com/Alitleis123/CalorieCalculator)** · Mifflin-St Jeor for BMR, an activity multiplier for TDEE, then a goal adjustment.
+- **[CS3520 Coursework](https://github.com/Alitleis123/CS3520-Summer-2025)** · C++ coursework from his Summer 1 semester at Northeastern.
 
 ---
 
