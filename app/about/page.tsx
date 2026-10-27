@@ -12,7 +12,12 @@ import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
 import { rankedProducts } from '@/lib/products'
 import { formatCount, syncedLabel } from '@/lib/engineers-github'
-import { capitalize, countWord, productsBy } from '@/lib/engineers-view'
+import {
+  capitalize,
+  countWord,
+  listJoin,
+  productsBy,
+} from '@/lib/engineers-view'
 import {
   sidebandRole,
   studioFacts,
@@ -20,10 +25,18 @@ import {
 } from '@/lib/engineers-studio'
 
 const count = capitalize(countWord(engineers.length))
+const foundedYear = studioTimeline()[0]?.year
+
+/** Columns for the people grid, so every row is full for the team's size. */
+const PEOPLE_COLUMNS: Record<number, string> = {
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
+  5: 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5',
+  6: 'sm:grid-cols-2 lg:grid-cols-3',
+}
 
 export const metadata: Metadata = {
   title: 'About · Sideband',
-  description: `Sideband is an independent software studio in Boston, founded in 2025 as Eternal Reverse. ${count} engineers build and ship its products.`,
+  description: `Sideband is an independent software studio in Boston, founded in ${foundedYear} as Eternal Reverse. ${count} founding engineers build and ship its products.`,
 }
 
 export default function AboutPage() {
@@ -39,7 +52,7 @@ export default function AboutPage() {
     new Set(
       engineers
         .map((e) => e.contact.location?.replace(/^Greater /, ''))
-        .filter(Boolean),
+        .filter((c): c is string => Boolean(c)),
     ),
   )
 
@@ -71,7 +84,7 @@ export default function AboutPage() {
     },
     {
       title: 'Built for a need we had',
-      body: 'Eternal2x exists because every frame interpolator Ali Tleis tried smeared the held frames in anime edits. EternalMonitor exists because Ali Younes would not pay $40 for an iPad display app that lagged.',
+      body: 'Eternal2x exists because every frame interpolator Ali Tleis tried smeared the held frames in his anime edits. It finds the real drawings and draws only the missing in-betweens.',
     },
     {
       title: 'A place to learn',
@@ -90,9 +103,8 @@ export default function AboutPage() {
           as="h1"
           id="about-title"
           trigger="mount"
-          eyebrow="About Sideband"
-          title={`${count} engineers, one studio`}
-          lede={`Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.products} products so far, ${facts.live} of them live and ${facts.inDevelopment} in development.`}
+          title={`${count} founding engineers`}
+          lede={`One studio. Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.products} products so far, ${facts.live} of them live and ${facts.inDevelopment} in development.`}
           actions={
             <>
               <Button href="/products" size="lg">
@@ -121,16 +133,18 @@ export default function AboutPage() {
         <SectionHeading
           id="people-title"
           title="Who builds it"
-          lede={`Students and working engineers in ${cities.join(' and ')}, each with a full dossier of their work.`}
+          lede={`Students and working engineers in ${listJoin(cities)}, each with a full dossier of their work.`}
         />
-        <ul className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <ul
+          className={`mt-14 grid gap-x-6 gap-y-12 ${PEOPLE_COLUMNS[engineers.length] ?? 'sm:grid-cols-2 lg:grid-cols-3'}`}
+        >
           {engineers.map((e, i) => {
             const made = productsBy(e.id)
             return (
               <Reveal
                 as="li"
                 key={e.id}
-                delay={(i % 4) * 70}
+                delay={(i % 5) * 70}
                 className="group relative"
               >
                 {e.portrait && (
@@ -160,8 +174,8 @@ export default function AboutPage() {
                 </p>
                 <p className="mt-3 text-small text-sideband-text-secondary">
                   {made.length > 0
-                    ? `Builds ${made.map((p) => p.name).join(', ')}`
-                    : 'Systems design for the product lineup'}
+                    ? `Builds ${listJoin(made.map((p) => p.name))}`
+                    : e.shortBio}
                 </p>
               </Reveal>
             )
