@@ -623,9 +623,10 @@ export const engineers: Engineer[] = [
           'TypeScript',
           'React',
           'Vite',
-          'Express',
-          'MongoDB',
           'Tailwind CSS',
+          'TanStack Query',
+          'Vercel Functions',
+          'Supabase Postgres',
         ],
       },
       {
