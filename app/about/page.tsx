@@ -12,6 +12,7 @@ import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
 import { pageMetadata } from '@/lib/metadata'
 import { rankedProducts } from '@/lib/products'
+import { rankingMethod } from '@/lib/products-view'
 import { formatCount, syncedLabel } from '@/lib/engineers-github'
 import {
   capitalize,
@@ -269,7 +270,7 @@ export default function AboutPage() {
         <SectionHeading
           id="shipped-title"
           title="What we have shipped"
-          lede={`All ${facts.products} products, ranked by use first (stars, forks and downloads) and then by scope (code, commits, contributors and platforms).`}
+          lede={`All ${facts.products} products, ranked by a score that is ${rankingMethod.popularityPercent} popularity (${rankingMethod.popularityInputs}) and ${rankingMethod.scopePercent} scope (${rankingMethod.scopeInputs}).`}
           actions={<Button href="/products">All products</Button>}
         />
         <ol className="mt-14 grid gap-3 lg:grid-cols-2">
