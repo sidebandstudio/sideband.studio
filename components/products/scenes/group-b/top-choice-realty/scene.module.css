@@ -1,0 +1,292 @@
+/* Top Choice Realty scene. Base styles are the still frame: the inquiry
+   emailed, the listing Sold, its buyer in the customer book, and the two
+   records joined. */
+
+.mail {
+  animation-name: mail;
+}
+@keyframes mail {
+  0%,
+  5% {
+    opacity: 0;
+    transform: none;
+  }
+  7% {
+    opacity: 1;
+    transform: none;
+  }
+  13% {
+    transform: translate(calc(var(--tx) * 0.4), calc(var(--ty) * 0.78));
+  }
+  19% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) scale(0.8);
+  }
+  21%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.8);
+  }
+}
+
+.inbox {
+  animation-name: inbox;
+}
+@keyframes inbox {
+  0%,
+  19% {
+    opacity: 0;
+  }
+  22%,
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.sent {
+  animation-name: sent;
+}
+@keyframes sent {
+  0%,
+  21% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  25%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.active {
+  animation-name: active;
+}
+@keyframes active {
+  0%,
+  28% {
+    opacity: 1;
+  }
+  30%,
+  96% {
+    opacity: 0;
+  }
+  99%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.sold {
+  transform-origin: left center;
+  animation-name: sold;
+}
+@keyframes sold {
+  0%,
+  28% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  31%,
+  96% {
+    opacity: 1;
+    transform: none;
+  }
+  99%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The buyer form opens on Sold, then becomes the customer row. */
+.sheet {
+  animation-name: sheet;
+}
+@keyframes sheet {
+  0%,
+  32% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  36%,
+  44% {
+    opacity: 1;
+    transform: none;
+  }
+  52% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) scale(0.7);
+  }
+  54%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0.7);
+  }
+}
+
+.row {
+  animation-name: row;
+}
+@keyframes row {
+  0%,
+  51% {
+    opacity: 0;
+  }
+  54%,
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.link {
+  animation-name: link;
+}
+@keyframes link {
+  0%,
+  54% {
+    opacity: 0;
+  }
+  58%,
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.soldTo {
+  animation-name: soldTo;
+}
+@keyframes soldTo {
+  0%,
+  56% {
+    opacity: 0;
+  }
+  60%,
+  92% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* A pulse runs each way along the link: listing to customer, and back. */
+.pulse {
+  animation-name: pulse;
+}
+@keyframes pulse {
+  0%,
+  59% {
+    opacity: 0;
+    transform: none;
+  }
+  60% {
+    opacity: 1;
+    transform: none;
+  }
+  64% {
+    transform: translate(38px, 0);
+  }
+  66% {
+    transform: translate(38px, 23px);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(74px, 23px);
+  }
+  72%,
+  75% {
+    opacity: 0;
+    transform: translate(74px, 23px);
+  }
+  76% {
+    opacity: 1;
+    transform: translate(74px, 23px);
+  }
+  80% {
+    transform: translate(38px, 23px);
+  }
+  82% {
+    transform: translate(38px, 0);
+  }
+  86% {
+    opacity: 1;
+    transform: none;
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.pulseH {
+  animation-name: pulseH;
+}
+@keyframes pulseH {
+  0%,
+  59% {
+    opacity: 0;
+    transform: none;
+  }
+  60% {
+    opacity: 1;
+    transform: none;
+  }
+  62% {
+    transform: translate(0, 60px);
+  }
+  68% {
+    transform: translate(580px, 60px);
+  }
+  71% {
+    transform: translate(580px, -73px);
+  }
+  72% {
+    opacity: 1;
+    transform: translate(612px, -73px);
+  }
+  74%,
+  75% {
+    opacity: 0;
+    transform: translate(612px, -73px);
+  }
+  76% {
+    opacity: 1;
+    transform: translate(612px, -73px);
+  }
+  77% {
+    transform: translate(580px, -73px);
+  }
+  80% {
+    transform: translate(580px, 60px);
+  }
+  86% {
+    transform: translate(0, 60px);
+  }
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
