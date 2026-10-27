@@ -204,9 +204,13 @@ function Hero({
             )}
           </div>
         </Reveal>
-        <Reveal trigger="mount" delay={280} className="lg:col-span-7">
-          <ProductVideo video={product.video.hero} cut="hero" priority />
-        </Reveal>
+        {/* No entrance: the poster paints at once, so it is the largest paint. */}
+        <ProductVideo
+          video={product.video.hero}
+          cut="hero"
+          priority
+          className="lg:col-span-7"
+        />
       </div>
 
       <Lead product={product} story={story} />

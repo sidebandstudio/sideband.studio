@@ -111,7 +111,9 @@ Easings: `ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and lifts, `ea
 (0.2, 0, 0, 1) for state changes, `ease-in-out` (0.65, 0, 0.35, 1) for ambient loops.
 
 - **Page load.** The first screen plays once: `<Reveal trigger="mount" delay={i * 70}>` (pure CSS
-  `[data-rise]`, runs before hydration). Eyebrow, title, lede, actions, then the picture.
+  `[data-rise]`, runs before hydration). Eyebrow, title, lede, actions, then the picture. A product
+  page's hero video is the exception: it does not rise, so its poster paints at once as the page's
+  largest paint.
 - **Scroll entrances.** Everything below the fold: `<Reveal delay={i * 70}>` rises 24px with opacity,
   once, staggered 70ms per sibling (`<SectionHeading>` does this for you). Content above the fold, with
   script off, or under reduced motion is simply visible.
