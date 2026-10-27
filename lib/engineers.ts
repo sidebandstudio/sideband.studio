@@ -82,6 +82,8 @@ export interface FeaturedProject {
   role?: string
   /** Featured on the person's own portfolio. The rest is their other work. */
   featured?: boolean
+  /** The person's own venture, run outside Sideband. Shown apart from their other work. */
+  venture?: boolean
   tech?: string[]
 }
 
@@ -1948,7 +1950,7 @@ export const engineers: Engineer[] = [
         endDate: 'Present',
         current: true,
         emphasis: true,
-        summary: 'One of the studio’s five founding engineers.',
+        summary: 'Joined the studio as one of its founding engineers.',
       },
       {
         company: 'Northeastern University HPC Research Lab',
@@ -2197,6 +2199,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalTap',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, not a Sideband product. A wallet-native fare platform for universities and transit agencies: it verifies rider eligibility against a university roster, prices MBTA fare rules and issues a signed Apple Wallet pass. He wrote the eligibility engine across 9 MBTA reduced and free fare categories, the rider web app and the native SwiftUI app, and reports a conditional contract covering 22,000+ riders.',
         role: 'Built with a cofounder',
@@ -2212,6 +2215,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'CrediMax',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, outside Sideband. Aggregates your credit cards through Plaid and tells you which one to tap at checkout. Built solo end to end: a SwiftUI app with widgets, Live Activities and an Apple Watch complication, a FastAPI and Postgres backend on Plaid’s production environment, and a Claude advisor grounded in card and transfer-partner data.',
         href: 'https://credimax.app/',
@@ -2229,6 +2233,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'The creative engine',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, outside Sideband: the software behind his commerce brands. An autonomous storefront builder regenerates each shop and tunes it against live sales, and an ad creative pipeline takes production from days to 6 minutes by his account. He reports $180K in revenue across the brands.',
         tech: [

@@ -227,9 +227,9 @@ export interface ProjectGroups {
   other: FeaturedProject[]
 }
 
-/** The data words a person's own venture "His own venture ..." in its blurb. */
+/** A venture the person runs outside Sideband, as the data marks it. */
 export function isOwnVenture(project: FeaturedProject): boolean {
-  return /^\w+ own venture\b/i.test(project.blurb)
+  return project.venture === true
 }
 
 /** Splits a person's projects: Sideband products first, then their featured work, their own ventures, then the rest. */
