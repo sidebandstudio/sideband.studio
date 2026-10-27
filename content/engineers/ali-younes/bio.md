@@ -107,6 +107,7 @@ Coursework: Data Structures & Algorithms · Object-Oriented Design · Systems Pr
 - **[Exerly Fitness](/products/exerly)** · React 19 web app, Node/Express API, an AI coach, and a native SwiftUI iOS client waiting on App Store review.
 - **[EternalRichPresence](/products/eternal-rich-presence)** · Windows tray app that puts Apple Music and Spotify on your Discord profile, with a Listen Along feature built on raw named pipes.
 - **[Signature Cuts 413](/products/signature-cuts)** · Marketing and booking site for a Chicopee barbershop, built free of charge.
+- **[Fade Empire](/products/fade-empire)** · Booking site and iPhone barber app for a Chicopee barbershop, with race-safe Postgres booking, text reminders and push notifications.
 - **[EternalExchange](/products/eternal-exchange)** · A 39K-line Minecraft alchemy mod for Fabric 1.21.1 with a recipe-graph solver that prices every item at world load. Written up in [Porting ProjectE to Fabric](https://aliyounes.dev/blog/porting-projecte-to-fabric).
 - **[hushtype](/products/hushtype)** · Menu bar dictation app for the Mac, built on the open-source Handy. Hold Option-Space, speak and release, and the text is pasted at the cursor.
 - **[Moops Bookstore](https://moopsbooks.com)** · Social reading tracker with shelves, reviews, clubs and a streak counter.

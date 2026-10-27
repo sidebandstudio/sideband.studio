@@ -15,7 +15,7 @@
       }
     ],
     "name": "Sideband Studio",
-    "publicRepos": 13,
+    "publicRepos": 14,
     "url": "https://github.com/sidebandstudio"
   },
   "repos": {
@@ -267,7 +267,7 @@
       "createdAt": "2026-07-08T20:28:03Z",
       "defaultBranch": "main",
       "description": "Equivalent-exchange alchemy for Fabric (MC 1.21.1): EMC values for everything, transmutation, condensers, collectors, matter tools & gem armor. An EternalReverse.dev project.",
-      "downloads": 33,
+      "downloads": 34,
       "forks": 0,
       "homepage": "https://eternalexchangemod.com",
       "isFork": false,
@@ -309,7 +309,7 @@
       "watchers": 0
     },
     "sidebandstudio/EternalMonitor": {
-      "commits": 469,
+      "commits": 470,
       "contributors": [
         {
           "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?v=4",
@@ -325,7 +325,7 @@
       "createdAt": "2026-04-02T23:43:30Z",
       "defaultBranch": "main",
       "description": "Use your iPad as a second screen for Windows. Mirror or extend over Wi-Fi or USB, with touch, keyboard, Apple Pencil and PC audio.",
-      "downloads": 1710,
+      "downloads": 1715,
       "forks": 10,
       "homepage": "https://eternalmonitor.dev/",
       "isFork": false,
@@ -383,7 +383,7 @@
       "openIssues": 0,
       "parent": null,
       "primaryLanguage": "Rust",
-      "pushedAt": "2026-10-27T17:35:26Z",
+      "pushedAt": "2026-10-27T18:01:55Z",
       "releases": 8,
       "stars": 182,
       "topics": [
@@ -473,6 +473,72 @@
       "stars": 0,
       "topics": [],
       "url": "https://github.com/sidebandstudio/Exerly-Fitness",
+      "watchers": 0
+    },
+    "sidebandstudio/FadeEmpire": {
+      "commits": 237,
+      "contributors": [
+        {
+          "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?v=4",
+          "contributions": 237,
+          "login": "whoisaldo"
+        }
+      ],
+      "createdAt": "2025-10-23T21:31:00Z",
+      "defaultBranch": "main",
+      "description": "Static only website to avoid backend hosting costs. Completed free of charge for a local barbershop :)",
+      "downloads": 0,
+      "forks": 0,
+      "homepage": "https://chicopeefadeempire.com/",
+      "isFork": false,
+      "isPrivate": false,
+      "languages": [
+        {
+          "bytes": 548121,
+          "name": "JavaScript"
+        },
+        {
+          "bytes": 385036,
+          "name": "PLpgSQL"
+        },
+        {
+          "bytes": 367054,
+          "name": "Swift"
+        },
+        {
+          "bytes": 90156,
+          "name": "CSS"
+        },
+        {
+          "bytes": 87047,
+          "name": "TypeScript"
+        },
+        {
+          "bytes": 81481,
+          "name": "HTML"
+        },
+        {
+          "bytes": 68670,
+          "name": "Shell"
+        },
+        {
+          "bytes": 20629,
+          "name": "Python"
+        }
+      ],
+      "latestRelease": null,
+      "license": null,
+      "licenseFile": null,
+      "licenseName": null,
+      "name": "FadeEmpire",
+      "openIssues": 0,
+      "parent": null,
+      "primaryLanguage": "JavaScript",
+      "pushedAt": "2026-10-21T15:46:37Z",
+      "releases": 0,
+      "stars": 0,
+      "topics": [],
+      "url": "https://github.com/sidebandstudio/FadeEmpire",
       "watchers": 0
     },
     "sidebandstudio/TandemCode": {
@@ -787,7 +853,7 @@
       "watchers": 0
     }
   },
-  "syncedAt": "2026-10-27T17:54:38.733Z",
+  "syncedAt": "2026-10-27T18:25:05.675Z",
   "users": {
     "Alitleis123": {
       "avatarUrl": "https://avatars.githubusercontent.com/u/194432566?u=3567178a714548ed93442b0d0b00026cdf07887d&v=4",
@@ -795,7 +861,7 @@
       "blog": "alitleis.dev",
       "company": null,
       "contributions": {
-        "total": 1224,
+        "total": 1250,
         "weeks": [
           {
             "days": [
@@ -2890,9 +2956,9 @@
                 "level": "FOURTH_QUARTILE"
               },
               {
-                "count": 54,
+                "count": 80,
                 "date": "2026-10-27",
-                "level": "THIRD_QUARTILE"
+                "level": "FOURTH_QUARTILE"
               }
             ],
             "firstDay": "2026-10-25"
@@ -2997,7 +3063,7 @@
       "blog": null,
       "company": null,
       "contributions": {
-        "total": 1793,
+        "total": 1798,
         "weeks": [
           {
             "days": [
@@ -5092,7 +5158,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 25,
+                "count": 30,
                 "date": "2026-10-27",
                 "level": "FIRST_QUARTILE"
               }
@@ -9597,7 +9663,7 @@
       "blog": "https://Aliyounes.dev",
       "company": "@aws ",
       "contributions": {
-        "total": 3984,
+        "total": 3985,
         "weeks": [
           {
             "days": [
@@ -11692,7 +11758,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 24,
+                "count": 25,
                 "date": "2026-10-27",
                 "level": "FIRST_QUARTILE"
               }
@@ -11706,40 +11772,28 @@
       "following": 15,
       "languages": [
         {
-          "bytes": 4607259,
-          "name": "JavaScript"
-        },
-        {
-          "bytes": 4100450,
+          "bytes": 4079821,
           "name": "Python"
         },
         {
-          "bytes": 1575701,
+          "bytes": 4059138,
+          "name": "JavaScript"
+        },
+        {
+          "bytes": 1494220,
           "name": "HTML"
         },
         {
-          "bytes": 488948,
+          "bytes": 401901,
           "name": "TypeScript"
-        },
-        {
-          "bytes": 385036,
-          "name": "PLpgSQL"
-        },
-        {
-          "bytes": 367054,
-          "name": "Swift"
-        },
-        {
-          "bytes": 276422,
-          "name": "CSS"
         },
         {
           "bytes": 238039,
           "name": "C++"
         },
         {
-          "bytes": 78169,
-          "name": "Shell"
+          "bytes": 186266,
+          "name": "CSS"
         },
         {
           "bytes": 39708,
@@ -11756,6 +11810,10 @@
         {
           "bytes": 13475,
           "name": "Jinja"
+        },
+        {
+          "bytes": 9499,
+          "name": "Shell"
         },
         {
           "bytes": 6907,
@@ -11823,7 +11881,7 @@
           "url": "https://github.com/whoisaldo/Portfolio"
         }
       ],
-      "publicRepos": 29,
+      "publicRepos": 28,
       "stars": 3,
       "twitter": null,
       "url": "https://github.com/whoisaldo"

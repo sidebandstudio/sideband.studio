@@ -10,6 +10,7 @@ import Reveal from '@/components/ui/Reveal'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Stat from '@/components/ui/Stat'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
 import { productAccentStyle } from '@/components/products/accent'
@@ -149,10 +150,36 @@ function Hero({
           <p className="max-w-prose text-lead text-sideband-text-secondary">
             {product.tagline}
           </p>
+          {product.client && (
+            <p
+              data-product-client=""
+              className="-mt-4 max-w-prose text-body text-sideband-text"
+            >
+              Built for{' '}
+              {product.client.url ? (
+                <a
+                  href={product.client.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-sideband-muted underline-offset-4 transition-colors duration-hover hover:decoration-current"
+                >
+                  {product.client.name}
+                </a>
+              ) : (
+                product.client.name
+              )}
+              {product.client.location && ` in ${product.client.location}`}.
+            </p>
+          )}
           <ul className="flex flex-wrap gap-2">
             <li>
               <StatusBadge status={product.status} />
             </li>
+            {product.client && (
+              <li>
+                <ClientBadge client={product.client} />
+              </li>
+            )}
             {product.version && (
               <li>
                 <Badge>{product.version}</Badge>

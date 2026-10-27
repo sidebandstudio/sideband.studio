@@ -7,6 +7,7 @@ import Reveal from '@/components/ui/Reveal'
 import Backdrop from '@/components/ui/Backdrop'
 import Button from '@/components/ui/Button'
 import Stat from '@/components/ui/Stat'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
@@ -310,7 +311,8 @@ export default function AboutPage() {
                       .join(', ')}
                   </span>
                 </span>
-                <span className="hidden shrink-0 sm:block">
+                <span className="hidden shrink-0 flex-wrap justify-end gap-2 sm:flex">
+                  <ClientBadge client={product.client} />
                   <StatusBadge status={product.status} />
                 </span>
                 <ArrowRightIcon

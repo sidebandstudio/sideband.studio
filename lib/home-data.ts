@@ -11,6 +11,7 @@ import {
   type Product,
   type ProductImage,
   type ProductImageKind,
+  type ProductClient,
   type ProductStatus,
 } from '@/lib/products'
 import { rankingMethod } from '@/lib/products-view'
@@ -101,6 +102,7 @@ export interface HeroItem {
   name: string
   category: string
   status: ProductStatus
+  client: ProductClient | null
   icon: string
   shot: {
     src: string
@@ -126,6 +128,7 @@ export interface ShowcaseProduct {
   tagline: string
   description: string
   status: ProductStatus
+  client: ProductClient | null
   icon: string | null
   platforms: string[]
   facts: string[]
@@ -234,6 +237,7 @@ export function getHomeData() {
         name: p.name,
         category: p.category,
         status: p.status,
+        client: p.client ?? null,
         icon: p.icon!.src,
         shot: {
           src: shot.src,
@@ -253,6 +257,7 @@ export function getHomeData() {
     tagline: p.tagline,
     description: p.description,
     status: p.status,
+    client: p.client ?? null,
     icon: p.icon?.src ?? null,
     platforms: p.platforms,
     facts: productFacts(p),
