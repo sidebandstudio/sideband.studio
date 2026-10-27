@@ -254,17 +254,32 @@ test('footer links every product, in rank order, and every engineer', async ({
 }) => {
   await visit(page, '/about')
   const footer = page.getByRole('contentinfo')
-  await expect(
-    footer.getByRole('navigation', { name: 'Products' }).getByRole('link'),
-  ).toHaveText(productsByRank().map((p) => p.name))
-  await expect(
-    footer.getByRole('navigation', { name: 'Engineers' }).getByRole('link'),
-  ).toHaveCount(engineers.length)
-  // Activate by keyboard once the link is on screen: a pointer click can land
-  // while smooth scrolling is still moving the footer and miss the link.
-  await focusOnScreen(footer.getByRole('link', { name: products[0].name }))
-  await page.keyboard.press('Enter')
-  await expect(page).toHaveURL(new RegExp(`/products/${products[0].id}$`))
+  const productLinks = footer
+    .getByRole('navigation', { name: 'Products' })
+    .getByRole('link')
+  await expect(productLinks).toHaveText(productsByRank().map((p) => p.name))
+  expect(
+    await productLinks.evaluateAll((links) =>
+      links.map((a) => new URL((a as HTMLAnchorElement).href).pathname),
+    ),
+  ).toEqual(productsByRank().map((p) => `/products/${p.id}`))
+  const engineerLinks = footer
+    .getByRole('navigation', { name: 'Engineers' })
+    .getByRole('link')
+  await expect(engineerLinks).toHaveCount(engineers.length)
+  expect(
+    await engineerLinks.evaluateAll((links) =>
+      links.map((a) => new URL((a as HTMLAnchorElement).href).pathname),
+    ),
+  ).toEqual(engineers.map((e) => `/engineers/${e.id}`))
+  // Follow the first link by address rather than by a client-side transition,
+  // whose timing on a loaded CI runner made this test flaky.
+  const first = productsByRank()[0]
+  const res = await page.goto(`/products/${first.id}`)
+  expect(res?.status()).toBe(200)
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    first.name.replace(/\s+/g, ' '),
+  )
 })
 
 test('choosing the current page in the mobile menu returns focus to the toggle', async ({
