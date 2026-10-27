@@ -16,11 +16,12 @@ const timeline = [
     year: '2025',
     event: 'Exerly iOS enters active development (SwiftUI + HealthKit)',
   },
-  { year: '2025', event: 'Ali Tleis joins as Co-Founder' },
   { year: '2025', event: 'Signature Cuts 413 launches' },
+  { year: '2026', event: 'Ali Tleis joins as Co-Founder' },
   { year: '2026', event: 'Eternal2x ships: DaVinci Resolve smart upscale' },
   { year: '2026', event: 'Eternal Summary ships: MV3 Chrome extension' },
   { year: '2026', event: 'Karan Anand joins as Co-Founder' },
+  { year: '2026', event: 'Naman Rusia joins as Co-Founder' },
   { year: '2026', event: '→  What comes next' },
 ]
 
