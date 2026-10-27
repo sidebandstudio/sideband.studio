@@ -20,6 +20,10 @@ import {
 
 const SITE = 'https://sideband.studio'
 
+/** The one credited source on the site: Upflow2x's Hero footage. */
+const HERO_CREDIT = products.find((p) => p.id === 'upflow2x')!.video.card
+  .credit!
+
 const ROUTES = [
   '/',
   '/products',
@@ -123,6 +127,19 @@ for (const route of ROUTES) {
       await page.evaluate(() => document.fonts.ready)
 
       await expect(page.locator('h1')).toHaveCount(1)
+
+      // The footer ends with the media credits, closed until opened, and they
+      // list the Upflow2x footage credit with its license.
+      const credits = page.locator('footer details#credits')
+      await expect(credits).toHaveCount(1)
+      expect(await credits.evaluate((d: HTMLDetailsElement) => d.open)).toBe(
+        false,
+      )
+      await expect(credits.locator('summary')).toHaveText('Credits')
+      await expect(credits.getByText(HERO_CREDIT.text)).toBeAttached()
+      await expect(
+        credits.locator(`a[href="${HERO_CREDIT.licenseHref}"]`),
+      ).toHaveText(HERO_CREDIT.license!)
 
       // Metadata: specific title and description, canonical URL on the real
       // site, and social images that exist.
@@ -307,7 +324,7 @@ for (const route of ROUTES) {
           const el = n.parentElement
           if (!text || !el || el.closest('script, style, noscript')) continue
           // Hidden from everyone by design: an unselected tab's panel, and the
-          // pictures (scene stages), whose stills tests/scenes-*.spec.ts check.
+          // product videos, which tests/videos.spec.ts checks.
           if (el.closest('[aria-hidden="true"]')) continue
           if (el.getClientRects().length === 0) continue
           if (getComputedStyle(el).visibility !== 'visible') {

@@ -1,6 +1,6 @@
 # Sideband
 
-Sideband is an independent software studio founded in Boston, MA. Five founding engineers building display streaming, media pipelines, fitness software, and web products. This repo is the studio site, [sideband.studio](https://sideband.studio): every product with its screenshots, an animated scene and its GitHub figures, a dossier for each founding engineer, and the studio's About and Contact pages.
+Sideband is an independent software studio founded in Boston, MA. Five founding engineers building display streaming, media pipelines, fitness software, and web products. This repo is the studio site, [sideband.studio](https://sideband.studio): every product with its screenshots, a short product video and its GitHub figures, a dossier for each founding engineer, and the studio's About and Contact pages.
 
 ## Getting Started
 
@@ -28,17 +28,17 @@ app/                   → Pages (App Router), sitemap.ts, robots.ts, icon.png
 components/
   layout/              → Navbar, Footer
   home/                → Home page sections
-  products/            → Products index, product page, image viewer
-    scenes/            → One animated SVG scene per product
+  products/            → Products index, product page, product video, image viewer
   engineers/           → Engineer cards and dossier sections
   contact/             → Contact form
   ui/                  → Design system primitives
 content/engineers/     → Long-form dossier text, one bio.md per engineer
 lib/                   → Products, engineers, page data, metadata
+media/product-videos/  → HyperFrames sources of the product videos (not served)
   data/github.json     → Committed GitHub snapshot
 scripts/               → Checks, GitHub sync, screenshots
 styles/globals.css     → Base styles, motion and backdrops
-public/assets/         → Product, engineer and company images
+public/assets/         → Product, engineer and company images, product videos
 tests/                 → Playwright specs
 ```
 
@@ -53,7 +53,7 @@ Products are listed in `lib/products.ts` and ranked on the site by a score that 
 - **Exerly Fitness**: food, weight and training targets that adapt to your real data
 - **TandemCode**: practice coding interview problems with a partner
 - **Better Canvas**: a darker, better organized Canvas for students
-- **Eternal2x**: smooth 2x for hand-drawn animation in DaVinci Resolve
+- **Upflow2x** (formerly Eternal2x): smooth 2x for hand-drawn animation in DaVinci Resolve
 - **Eternal Summary**: summarize the page you are reading, with sources you can check
 - **hushtype**: hold a key, speak, and the text appears where you type (Mac)
 - **EternalExchange**: equivalent exchange alchemy for Minecraft 1.21.1 on Fabric
@@ -61,6 +61,10 @@ Products are listed in `lib/products.ts` and ranked on the site by a score that 
 - **Signature Cuts 413**: book a barber by text message, no app needed
 
 Products shipped before the rebrand keep their Eternal-prefixed names. They are separate product brands with their own domains.
+
+## Product Videos
+
+Each product has a short silent video, made with HyperFrames from its real screenshots and captures, in a 16:10 hero cut and a 4:3 card cut, each as WebM, MP4 and a poster in `public/assets/products/<id>/video/`. The site shows them with `components/products/ProductVideo.tsx`, which plays a video only while it is on screen and shows the poster alone under reduced motion. The HyperFrames sources live in `media/product-videos/`, whose README explains how to render and encode a cut. `npm run sync:videos -- <folder>` copies freshly encoded files in, checks them, and updates their durations in `lib/products.ts`.
 
 ## GitHub Data
 
@@ -79,7 +83,7 @@ npx tsc --noEmit
 npx prettier --check .
 npm run check:consistency   # counts in prose match lib/ data
 npm run check:copy          # no em dashes or semicolons in user-facing copy
-npx playwright test         # site-wide crawl, pages, scenes, accessibility
+npx playwright test         # site-wide crawl, pages, videos, accessibility
 npm run check:links         # after a build: every external link answers (needs the network, not in CI)
 ```
 

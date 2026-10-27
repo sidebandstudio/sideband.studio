@@ -10,7 +10,6 @@ import {
   productsByRank,
   type Product,
   type ProductImage,
-  type ProductImageCredit,
   type ProductImageKind,
   type ProductStatus,
 } from '@/lib/products'
@@ -109,7 +108,6 @@ export interface HeroItem {
     width: number
     height: number
     kind: ProductImageKind
-    credit?: ProductImageCredit
   }
   figure: Figure
 }
@@ -133,6 +131,7 @@ export interface ShowcaseProduct {
   facts: string[]
   figure: Figure
   site: { href: string; label: string } | null
+  video: Product['video']
 }
 
 /** A product after the featured three: enough for a chip that links to it. */
@@ -142,7 +141,7 @@ export interface MoreProduct {
   icon: string | null
 }
 
-/** How many ranked products the home page features with their scenes. */
+/** How many ranked products the home page features with their videos. */
 const FEATURED = 3
 
 // ---- Team ----
@@ -169,7 +168,7 @@ const BUILDS: Record<string, string> = {
   'ali-younes':
     'Wrote the Rust host and Swift iPad client behind EternalMonitor, and the SwiftUI app and Node API behind Exerly Fitness.',
   'ali-tleis':
-    'Builds the Python and Lua pipeline behind Eternal2x and owns AMD GPU support on EternalMonitor.',
+    'Builds the Python and Lua pipeline behind Upflow2x and owns AMD GPU support on EternalMonitor.',
   'karan-anand':
     'Works on systems design: architecture and technical planning for the product lineup.',
   'naman-rusia':
@@ -242,7 +241,6 @@ export function getHomeData() {
           width: shot.width,
           height: shot.height,
           kind: shot.kind,
-          ...(shot.credit ? { credit: shot.credit } : {}),
         },
         figure: keyFigure(p),
       }
@@ -262,6 +260,7 @@ export function getHomeData() {
     site: p.links.site
       ? { href: p.links.site, label: siteLabel(p.links.site) }
       : null,
+    video: p.video,
   }))
 
   const team: TeamMember[] = engineers.map((e) => {

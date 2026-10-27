@@ -177,21 +177,6 @@ body::after {
   transform: scaleY(-1);
 }
 
-/* The dot grid of a ProductScene fallback, faded evenly to the stage edges
-   around the centred icon. */
-.scene-grid {
-  mask-image: radial-gradient(
-    ellipse 60% 70% at 50% 50%,
-    black 20%,
-    transparent 80%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 60% 70% at 50% 50%,
-    black 20%,
-    transparent 80%
-  );
-}
-
 /* The signature: the mark's two offset tiles as flat fields of colour at
    low strength. Upper tile in --band-a, lower in
    --band-b. */

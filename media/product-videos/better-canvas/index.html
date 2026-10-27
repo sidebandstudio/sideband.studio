@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1200" />
+    <title>Better Canvas product loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --muted: #8f8e98; --accent: #f93d54; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      /* One soft light from above (the site's spotlight backdrop) and a little floor shade. */
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 38%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* A browser window around the extension's real settings page, captured at 1440x900 CSS px and shown at 0.92x. */
+      #win { position: absolute; left: 298px; top: 250px; width: 1325px; border-radius: 16px; overflow: hidden; background: var(--surface-2); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.06), 0 50px 100px -40px rgba(0, 0, 0, 0.9); }
+      .bar { position: relative; height: 44px; display: flex; align-items: center; padding: 0 20px; gap: 9px; }
+      .dot { width: 13px; height: 13px; border-radius: 50%; background: var(--surface-3); }
+      .viewport { position: relative; width: 1325px; height: 828px; overflow: hidden; background: #fff; }
+      /* Everything inside is in the page's own CSS px. */
+      .page { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; transform: scale(0.92); transform-origin: 0 0; }
+      .state { position: absolute; inset: 0; display: block; width: 1440px; height: 900px; }
+
+      /* Pointer and click, drawn as graphics in the product accent. */
+      #cursor { position: absolute; left: 0; top: 0; width: 30px; height: 30px; z-index: 5; }
+      #cursor svg { display: block; width: 30px; height: 30px; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
+      .click { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; box-shadow: inset 0 0 0 3px var(--accent); z-index: 4; }
+
+      #caps { position: absolute; left: 0; right: 0; top: 112px; height: 100px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; color: var(--ink);
+        font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1200">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="win" data-layout-allow-overflow>
+          <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <div class="viewport">
+            <div class="page">
+              <img id="st-light" class="state" src="assets/img/bc-light-appearance.webp" alt="" />
+              <img id="st-dark" class="state" src="assets/img/bc-dark-appearance.webp" alt="" />
+              <img id="st-themes" class="state" src="assets/img/bc-dark-themes.webp" alt="" />
+              <img id="st-forest" class="state" src="assets/img/bc-dark-forest.webp" alt="" />
+              <img id="st-sakura" class="state" src="assets/img/bc-dark-sakura.webp" alt="" />
+              <div id="click-dark" class="click" style="left: 1000px; top: 364px"></div>
+              <div id="click-themes" class="click" style="left: 217px; top: 191px"></div>
+              <div id="click-forest" class="click" style="left: 1004px; top: 640px"></div>
+              <div id="click-sakura" class="click" style="left: 1268px; top: 640px"></div>
+              <div id="click-appearance" class="click" style="left: 304px; top: 191px"></div>
+              <div id="click-light" class="click" style="left: 926px; top: 364px"></div>
+              <div id="cursor">
+                <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M4 2 L4 24 L9.6 18.8 L13.4 27.4 L17.2 25.8 L13.5 17.4 L21 17.2 Z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="caps">
+        <div id="cap-1" class="cap">Dark mode</div>
+        <div id="cap-2" class="cap">Theme packs</div>
+        <div id="cap-3" class="cap">Preview a look, then make it yours.</div>
+      </div>
+    </div>
+
+    <script>
+      // Authored constants only. A page point (cx, cy) sits at frame (298 + 0.92 cx, 294 + 0.92 cy).
+      // zoom() centres page x cx and keeps the window's top edge at y 210, under the caption band.
+      const zoom = (s, cx) => ({ scale: s, x: -s * (298 + 0.92 * cx - 960), y: -390 + 350 * s });
+      const REST = { x: 1090, y: 440 }; // where the pointer waits, and returns to
+
+      // Rest state at t=0: Appearance in light mode. The timeline returns every channel to it by t=12.
+      gsap.set("#camera", { x: 0, y: 0, scale: 1 });
+      gsap.set(["#st-dark", "#st-themes", "#st-forest", "#st-sakura"], { opacity: 0 });
+      gsap.set("#cursor", { x: REST.x, y: REST.y });
+      gsap.set(".click", { opacity: 0, scale: 0.5 });
+
+      const tl = gsap.timeline({ paused: true });
+      const capIn = (id, at) => tl.fromTo(id, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, at);
+      const capOut = (id, at) => tl.to(id, { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, at);
+      const cam = (v, at, duration, ease) => tl.to("#camera", { ...v, duration, ease }, at);
+      // The pointer travels to a control and clicks it. The page answers 0.1s later.
+      function click(id, x, y, at, travel, show, hide) {
+        tl.to("#cursor", { x, y, duration: travel, ease: "power3.inOut" }, at - travel)
+          .to("#cursor", { scale: 0.86, duration: 0.08, ease: "power2.in", transformOrigin: "4px 2px" }, at)
+          .to("#cursor", { scale: 1, duration: 0.14, ease: "power2.out" }, at + 0.08)
+          .fromTo(id, { opacity: 1, scale: 0.5 }, { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.out", immediateRender: false }, at);
+        if (show) tl.to(show, { opacity: 1, duration: 0.16, ease: "power1.inOut" }, at + 0.1);
+        if (hide) tl.to(hide, { opacity: 0, duration: 0.16, ease: "power1.inOut" }, at + 0.1);
+      }
+
+      // Beat 1 (0 to 3.5s): one click on Dark turns the page and its sample Canvas preview dark.
+      capIn("#cap-1", 0.35);
+      cam(zoom(1.22, 800), 0.3, 1.2, "power3.inOut");
+      click("#click-dark", 1000, 364, 1.75, 0.75, "#st-dark");
+      capOut("#cap-1", 3.2);
+
+      // Beat 2 (3.5 to 7.4s): Themes, then Forest Reverie on the preview.
+      click("#click-themes", 217, 191, 3.6, 0.65, "#st-themes");
+      cam(zoom(1.1, 790), 3.5, 1.1, "power3.inOut");
+      capIn("#cap-2", 3.85);
+      click("#click-forest", 1004, 640, 4.75, 0.8, "#st-forest");
+      cam(zoom(1.24, 600), 5.0, 1.3, "power3.inOut");
+
+      // Beat 3 (6.5 to 12s): Sakura Days, then back to Appearance and light mode.
+      click("#click-sakura", 1268, 640, 6.55, 0.7, "#st-sakura");
+      capOut("#cap-2", 7.2);
+      capIn("#cap-3", 7.5);
+      cam(zoom(1.26, 640), 6.4, 2.6, "sine.inOut");
+      capOut("#cap-3", 9.55);
+      cam(zoom(1.22, 800), 9.1, 1.0, "power3.inOut");
+      click("#click-appearance", 304, 191, 9.95, 0.8, "#st-dark", ["#st-themes", "#st-forest", "#st-sakura"]);
+      click("#click-light", 926, 364, 10.95, 0.65, null, "#st-dark");
+      tl.to("#cursor", { x: REST.x, y: REST.y, duration: 0.7, ease: "power3.inOut" }, 11.2);
+      cam({ scale: 1, x: 0, y: 0 }, 11.0, 0.95, "power3.inOut");
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

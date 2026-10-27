@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, height=1080" />
+    <title>Eternal Summary card loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --surface-2: #1b1b1f; --surface-3: #25252a; --ink: #f3f2ef; --accent: #7b8cff; --page: #fcfaf8; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1440px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 38%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      #camera { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* The hero's browser window. Screenshot pixel (ox, oy) sits at layout (56 + 0.48824 * ox, 240 + 0.48824 * oy). */
+      #win {
+        position: absolute; left: 40px; top: 196px; width: 1360px; padding: 0 16px 16px;
+        border-radius: 20px; background: var(--surface-2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+      }
+      .win-bar { display: flex; align-items: center; gap: 9px; height: 44px; padding-left: 6px; }
+      .win-bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--surface-3); }
+      .screen { position: relative; width: 1328px; height: 839.8px; border-radius: 8px; overflow: hidden; background: var(--page); }
+      .screen img { position: absolute; left: 0; top: 0; display: block; width: 1328px; height: 839.8px; }
+
+      /* Highlight on the answer's source, "Sources 1" (image x 1905 to 2095, y 1540 to 1594). */
+      #ring { position: absolute; left: 930px; top: 752px; width: 93px; height: 26px; border-radius: 13px; box-shadow: 0 0 0 1.2px var(--accent); }
+
+      /* A band of the ground behind the caption, the panel runs on beneath it. */
+      #veil { position: absolute; left: 0; right: 0; top: 0; height: 200px; background: linear-gradient(180deg, var(--ground) 0px, var(--ground) 178px, rgba(11, 11, 13, 0) 200px); }
+
+      #cap {
+        position: absolute; left: 0; right: 0; top: 64px; text-align: center; color: var(--ink);
+        font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1440" data-height="1080">
+      <div id="light"></div>
+
+      <div id="camera">
+        <div id="win" data-layout-allow-overflow>
+          <div class="win-bar"><i></i><i></i><i></i></div>
+          <div class="screen" data-layout-allow-overflow>
+            <!-- One real screenshot of the extension: bullets, then a follow-up question answered with its source. -->
+            <img src="assets/img/follow-up-chat.webp" alt="" />
+            <div id="ring"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="veil"></div>
+      <div id="cap">Follow-up questions</div>
+    </div>
+
+    <script>
+      // A camera pose that puts layout point (cx, cy) at the frame centre at scale s.
+      const pose = (cx, cy, s) => ({ scale: s, x: -s * (cx - 720), y: -s * (cy - 540) });
+      const C0 = pose(1154, 354.7, 3.0); // the panel's header, verdict, tabs and bullets
+      const C1 = pose(1154, 840, 2.9); // the question, its answer and its source
+
+      // Rest state at t=0, returned to by t=7.
+      gsap.set("#camera", C0);
+      gsap.set("#ring", { opacity: 0, scale: 0.92 });
+
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#camera", { ...C1, duration: 1.4, ease: "power3.inOut" }, 0.9)
+        .to("#camera", { ...pose(1156, 842, 2.92), duration: 2.4, ease: "sine.inOut" }, 2.3)
+        .to("#ring", { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, 2.9)
+        .to("#ring", { opacity: 0, duration: 0.3, ease: "power1.in" }, 4.5)
+        .to("#camera", { ...C0, duration: 1.5, ease: "power3.inOut" }, 4.9);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

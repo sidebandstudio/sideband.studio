@@ -35,9 +35,28 @@ export interface ProductImage {
   kind: ProductImageKind
   /** Where the original came from: a repo path, a URL, or a capture. */
   source: string
-  /** Shown with the image wherever it appears. */
+  /** The attribution its source requires. Listed in the footer's Credits. */
   credit?: ProductImageCredit
 }
+
+/**
+ * One cut of a product's silent video, made with HyperFrames from its real
+ * screenshots (sources in media/product-videos/<id>/). The size and duration
+ * are the files' own, written by `scripts/sync-product-videos.mjs`.
+ */
+export interface ProductVideoCut {
+  mp4: string
+  webm: string
+  /** The cut's most explanatory frame, shown before and instead of playback. */
+  poster: string
+  width: number
+  height: number
+  durationSeconds: number
+  /** When the video shows credited material. Listed in the footer's Credits. */
+  credit?: ProductImageCredit
+}
+
+export type ProductVideoCutName = 'hero' | 'card'
 
 export interface ProductFeature {
   title: string
@@ -101,9 +120,42 @@ export interface Product {
    * screenshot is the preview.
    */
   images: ProductImage[]
+  /**
+   * The product's video in two cuts: `hero` (16:10) for its page and the
+   * largest place it appears, `card` (4:3) everywhere else.
+   */
+  video: Record<ProductVideoCutName, ProductVideoCut>
 }
 
 const ASSETS = '/assets/products'
+
+const VIDEO_SIZE: Record<ProductVideoCutName, [number, number]> = {
+  hero: [1920, 1200],
+  card: [1440, 1080],
+}
+
+/**
+ * A video cut's files in public/assets/products/<id>/video/. The duration is
+ * the file's own, rewritten from ffprobe by `npm run sync:videos`.
+ */
+function videoCut(
+  product: string,
+  cut: ProductVideoCutName,
+  durationSeconds: number,
+  extra: Pick<ProductVideoCut, 'credit'> = {},
+): ProductVideoCut {
+  const base = `${ASSETS}/${product}/video/${product}-${cut}`
+  const [width, height] = VIDEO_SIZE[cut]
+  return {
+    ...extra,
+    mp4: `${base}.mp4`,
+    webm: `${base}.webm`,
+    poster: `${base}-poster.webp`,
+    width,
+    height,
+    durationSeconds,
+  }
+}
 
 function image(
   product: string,
@@ -128,9 +180,9 @@ function image(
   }
 }
 
-/** The Eternal2x demos use Hero footage. Credit from the Eternal2x README "Credits". */
+/** The Upflow2x demos use Hero footage. Credit from the Upflow2x README "Credits". */
 const HERO_CREDIT: ProductImageCredit = {
-  text: 'Footage from Hero by the Blender Foundation, edited by Eternal2x',
+  text: 'Footage from Hero by the Blender Foundation, edited',
   href: 'https://studio.blender.org/projects/hero/',
   license: 'CC BY 4.0',
   licenseHref: 'https://creativecommons.org/licenses/by/4.0/',
@@ -227,6 +279,10 @@ export const products: Product[] = [
       'EternalMonitor icon',
       'repo docs/assets/icon.png',
     ),
+    video: {
+      hero: videoCut('eternal-monitor', 'hero', 12),
+      card: videoCut('eternal-monitor', 'card', 7),
+    },
     images: [
       image(
         'eternal-monitor',
@@ -391,6 +447,10 @@ export const products: Product[] = [
       'EternalRichPresence icon',
       'https://eternalrichpresence.dev/favicon.svg, rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('eternal-rich-presence', 'hero', 12),
+      card: videoCut('eternal-rich-presence', 'card', 7),
+    },
     images: [
       image(
         'eternal-rich-presence',
@@ -515,6 +575,10 @@ export const products: Product[] = [
       'Exerly app icon',
       'repo apps/ios/Exerly/Assets.xcassets/AppIcon.appiconset/AppIcon.png, resized to 512px',
     ),
+    video: {
+      hero: videoCut('exerly', 'hero', 12),
+      card: videoCut('exerly', 'card', 8),
+    },
     images: [
       image(
         'exerly',
@@ -696,6 +760,10 @@ export const products: Product[] = [
       'TandemCode mascot: two pixel creatures sharing a laptop',
       'repo apps/web/public/mascot.png',
     ),
+    video: {
+      hero: videoCut('tandemcode', 'hero', 12),
+      card: videoCut('tandemcode', 'card', 8),
+    },
     images: [
       image(
         'tandemcode',
@@ -799,6 +867,10 @@ export const products: Product[] = [
       'Better Canvas icon',
       'repo icons/icon-128.png',
     ),
+    video: {
+      hero: videoCut('better-canvas', 'hero', 12),
+      card: videoCut('better-canvas', 'card', 7),
+    },
     images: [
       image(
         'better-canvas',
@@ -843,16 +915,16 @@ export const products: Product[] = [
     ],
   },
   {
-    id: 'eternal2x',
-    name: 'Eternal2x',
+    id: 'upflow2x',
+    name: 'Upflow2x',
     category: 'Video plugin',
     tagline: 'Smooth 2x for hand-drawn animation in DaVinci Resolve.',
     description:
-      'Eternal2x is a DaVinci Resolve Studio plugin that finds the real drawings in animation held on 2s or 3s and draws the missing in-betweens with the RIFE network. The rebuilt clip keeps its length and timing, gets a 2x upscale and lands on the track above the original.',
+      'Upflow2x is a DaVinci Resolve Studio plugin that finds the real drawings in animation held on 2s or 3s and draws the missing in-betweens with the RIFE network. The rebuilt clip keeps its length and timing, gets a 2x upscale and lands on the track above the original.',
     overview: [
-      'Hand-drawn animation often holds each drawing for two or three frames. Eternal2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
+      'Hand-drawn animation often holds each drawing for two or three frames. Upflow2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave. It was called Eternal2x up to v0.4.0, and those releases still show that name in Resolve.',
       'A Lua panel inside Resolve starts a Python worker in the background. OpenCV scores every frame against the last new drawing with a tile-based difference, so a blink still counts as new, and works out whether the clip is on 1s, 2s or 3s. It refuses live action and clips already on 1s.',
-      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
+      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API, upscaled 2x by Real-ESRGAN’s anime model on the GPU on Windows or by Resolve’s Super Scale without one.',
     ],
     features: [
       {
@@ -862,7 +934,7 @@ export const products: Product[] = [
       {
         title: 'Drawn in-betweens',
         body: 'The RIFE network draws each missing frame, on the GPU on Windows.',
-        image: '/assets/products/eternal2x/frames-compare.webp',
+        image: '/assets/products/upflow2x/frames-compare.webp',
       },
       {
         title: 'Timing stays put',
@@ -874,12 +946,12 @@ export const products: Product[] = [
       },
       {
         title: 'Upscale 2x',
-        body: 'The result comes back with Resolve’s Super Scale applied.',
+        body: 'Real-ESRGAN’s anime model redraws every frame at 2x on the GPU on Windows. Without a GPU, Resolve’s Super Scale does the upscale.',
       },
       {
         title: 'Lands above the original',
         body: 'The render goes on the track above the source clip, and Show Original flips between the two.',
-        image: '/assets/products/eternal2x/resolve-panel.webp',
+        image: '/assets/products/upflow2x/resolve-panel.webp',
       },
       {
         title: 'Grainy source mode',
@@ -899,6 +971,7 @@ export const products: Product[] = [
       'ONNX Runtime',
       'DirectML',
       'RIFE 4.25',
+      'Real-ESRGAN',
       'DaVinci Resolve API',
     ],
     status: 'LIVE',
@@ -907,67 +980,70 @@ export const products: Product[] = [
     engineers: ['ali-tleis'],
     origin: null,
     links: {
-      site: 'https://eternal2x.com/',
-      repo: 'https://github.com/sidebandstudio/Eternal2x.com',
-      download: 'https://eternal2x.com/download.html',
-      docs: 'https://eternal2x.com/help.html',
+      site: 'https://upflow2x.com/',
+      repo: 'https://github.com/sidebandstudio/Upflow2x',
+      download: 'https://upflow2x.com/download.html',
+      docs: 'https://upflow2x.com/help.html',
     },
-    repo: 'sidebandstudio/Eternal2x.com',
-    accentColor: '#7C6FEF',
+    repo: 'sidebandstudio/Upflow2x',
+    accentColor: '#F2A93B',
     icon: image(
-      'eternal2x',
+      'upflow2x',
       'icon.webp',
       512,
       512,
       'none',
       'artwork',
-      'Eternal2x neon E2x logo',
-      'repo public/logo/Eternal 2x logo 01.png, center crop to square',
+      'Upflow2x logo, a strip of three film frames with the middle one amber',
+      'repo docs/assets/logo.png, the upflow2x.com icon',
     ),
+    video: {
+      hero: videoCut('upflow2x', 'hero', 12, { credit: HERO_CREDIT }),
+      card: videoCut('upflow2x', 'card', 7, { credit: HERO_CREDIT }),
+    },
     images: [
       image(
-        'eternal2x',
+        'upflow2x',
         'resolve-panel.webp',
         1600,
         861,
         'desktop',
         'screenshot',
-        'DaVinci Resolve Studio with the Eternal2x panel after a render, the smoothed clip on the track above the original',
-        'repo docs/assets/demo/resolve.jpg',
+        'DaVinci Resolve Studio with the plugin panel, still named Eternal2x, after a render, the smoothed clip on the track above the original',
+        'repo docs/assets/demo/resolve.jpg, captured before the rename to Upflow2x, so it shows the Eternal2x name',
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'frames-compare.webp',
         1200,
         760,
         'none',
         'artwork',
-        'Six frames of a walk as drawn on 2s compared with Eternal2x and its new in-betweens',
-        'repo docs/assets/demo/frames.jpg',
+        'Six frames of a walk as drawn on 2s compared with Eternal2x, as Upflow2x was then called, and its new in-betweens',
+        'repo docs/assets/demo/frames.jpg, made before the rename to Upflow2x, so it shows the Eternal2x name',
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'site-home-desktop.webp',
         2880,
         1800,
         'desktop',
         'screenshot',
-        'The eternal2x.com home page with the before and after comparison',
-        'Playwright capture of https://eternal2x.com/ at 1440x900, 2x, 2026-10-26',
+        'The upflow2x.com How it works section, with the film poster of the plugin in DaVinci Resolve, above the Get Upflow2x requirements',
+        'Playwright capture of https://upflow2x.com/ at 1440x900, 2x, 2026-10-27, scrolled past the comparison player, whose anime clip has no licence we can show',
         { credit: HERO_CREDIT },
       ),
       image(
-        'eternal2x',
+        'upflow2x',
         'site-home-mobile.webp',
         780,
         1688,
         'mobile',
         'screenshot',
-        'The eternal2x.com home page on a phone',
-        'Playwright capture of https://eternal2x.com/ at 390x844, 2x, 2026-10-26',
-        { credit: HERO_CREDIT },
+        'The Get Upflow2x section of upflow2x.com on a phone, with the requirements',
+        'Playwright capture of https://upflow2x.com/ at 390x844, 2x, 2026-10-27, scrolled to Get Upflow2x, past the comparison player, whose anime clip has no licence we can show',
       ),
     ],
   },
@@ -1048,6 +1124,10 @@ export const products: Product[] = [
       'Eternal Summary icon',
       'repo icons/icon-512.png',
     ),
+    video: {
+      hero: videoCut('eternal-summary', 'hero', 12),
+      card: videoCut('eternal-summary', 'card', 7),
+    },
     images: [
       image(
         'eternal-summary',
@@ -1196,6 +1276,10 @@ export const products: Product[] = [
       'hushtype app icon',
       'repo website/brand/icon-512.png',
     ),
+    video: {
+      hero: videoCut('hushtype', 'hero', 12),
+      card: videoCut('hushtype', 'card', 7),
+    },
     images: [
       image(
         'hushtype',
@@ -1306,6 +1390,10 @@ export const products: Product[] = [
       'EternalExchange mark',
       'https://eternalexchangemod.com/assets/favicon.svg, rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('eternal-exchange', 'hero', 12),
+      card: videoCut('eternal-exchange', 'card', 7),
+    },
     images: [
       image(
         'eternal-exchange',
@@ -1404,6 +1492,10 @@ export const products: Product[] = [
       'Top Choice Realty LLC logo',
       'repo apps/web/src/assets/topchoicerealtypfp.jpg, resized to 512px',
     ),
+    video: {
+      hero: videoCut('top-choice-realty', 'hero', 12),
+      card: videoCut('top-choice-realty', 'card', 7),
+    },
     images: [
       image(
         'top-choice-realty',
@@ -1508,8 +1600,12 @@ export const products: Product[] = [
       'none',
       'artwork',
       'Signature Cuts 413 SC monogram',
-      'drawn by Sideband in the site colours (the shop ships no icon), components/products/scenes/group-b/signature-cuts/mark.svg rasterized at 512px',
+      'drawn by Sideband in the site colours (the shop ships no icon), public/assets/products/signature-cuts/mark.svg rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('signature-cuts', 'hero', 12),
+      card: videoCut('signature-cuts', 'card', 7),
+    },
     images: [
       image(
         'signature-cuts',

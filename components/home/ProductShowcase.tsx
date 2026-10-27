@@ -8,7 +8,8 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
-import { ProductScene, productAccentStyle } from '@/components/products/scenes'
+import { productAccentStyle } from '@/components/products/accent'
+import ProductVideo from '@/components/products/ProductVideo'
 import { getProductById } from '@/lib/products'
 import {
   countWord,
@@ -22,8 +23,8 @@ import styles from './ProductShowcase.module.css'
 const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
 
 /**
- * A curated look at the ranking: the first product large with its hero scene,
- * the next two as scene cards, and every other product as one strip of chips
+ * A curated look at the ranking: the first product large with its hero video,
+ * the next two as video cards, and every other product as one strip of chips
  * in rank order. Each product links to its page. The order is the GitHub
  * ranking from lib/products.ts, whose weights and inputs the lede reads. The
  * full ranked index lives on /products only.
@@ -123,10 +124,11 @@ function Facts({ facts }: { facts: string[] }) {
 function Featured({ product }: { product: ShowcaseProduct }) {
   return (
     <article className="group relative grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-      <ProductScene
-        id={product.id}
-        variant="hero"
-        className="transition-transform duration-ui ease-out group-hover:-translate-y-1 lg:col-span-7"
+      <ProductVideo
+        video={product.video.hero}
+        cut="hero"
+        lift
+        className="lg:col-span-7"
       />
       <div className="flex flex-col gap-5 lg:col-span-5">
         <h3 className="text-head text-sideband-text">
@@ -167,10 +169,11 @@ function Featured({ product }: { product: ShowcaseProduct }) {
 function Card({ product }: { product: ShowcaseProduct }) {
   return (
     <article className="group relative flex flex-col gap-6">
-      <ProductScene
-        id={product.id}
-        variant="card"
-        className="transition-transform duration-ui ease-out group-hover:-translate-y-1"
+      <ProductVideo
+        video={product.video.card}
+        cut="card"
+        lift
+        sizes="(min-width: 1400px) 676px, (min-width: 768px) 46vw, 92vw"
       />
       <div className="flex flex-col gap-3">
         <h3 className="text-lead font-medium text-sideband-text">

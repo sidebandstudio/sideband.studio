@@ -5,7 +5,7 @@ import StatusBadge from '@/components/ui/StatusBadge'
 import ArrowLink from '@/components/ui/ArrowLink'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
-import { ProductScene } from '@/components/products/scenes'
+import ProductVideo from '@/components/products/ProductVideo'
 import type { FeaturedProject } from '@/lib/engineers'
 import type { ProjectGroups } from '@/lib/engineers-view'
 import type { CollapseTarget } from './ShowAll'
@@ -100,11 +100,7 @@ export default function ProjectsSection({
                 delay={(i % 3) * 70}
                 className="group relative flex flex-col"
               >
-                <ProductScene
-                  id={product.id}
-                  variant="card"
-                  className="transition-transform duration-ui ease-out group-hover:-translate-y-1"
-                />
+                <ProductVideo video={product.video.card} cut="card" lift />
                 <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
                   <h4 className="text-lead font-medium text-sideband-text">
                     <Link

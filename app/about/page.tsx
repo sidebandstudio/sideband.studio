@@ -88,7 +88,7 @@ export default function AboutPage() {
     {
       title: 'Built for a need we had',
       // Ali Younes, https://aliyounes.dev/work/eternal-monitor (people.md, Ali Younes quote 9).
-      body: 'Eternal2x exists because every frame interpolator Ali Tleis tried smeared the held frames in his anime edits. It finds the real drawings and draws only the missing in-betweens. EternalMonitor started the same way. In Ali Younes’s words: “I refused to pay $40 for an iPad-as-second-display app that lagged. So I wrote my own.”',
+      body: 'Upflow2x, first released as Eternal2x, exists because every frame interpolator Ali Tleis tried smeared the held frames in his anime edits. It finds the real drawings and draws only the missing in-betweens. EternalMonitor started the same way. In Ali Younes’s words: “I refused to pay $40 for an iPad-as-second-display app that lagged. So I wrote my own.”',
     },
     {
       title: 'A place to learn',

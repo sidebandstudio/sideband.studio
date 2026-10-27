@@ -7,8 +7,9 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
-import { ProductScene, productAccentStyle } from '@/components/products/scenes'
+import { productAccentStyle } from '@/components/products/accent'
 import ProductName from './ProductName'
+import ProductVideo from './ProductVideo'
 import type { ProductRankInputs, RankedProduct } from '@/lib/products'
 import {
   capitalize,
@@ -256,29 +257,27 @@ function Links({ r }: { r: RankedProduct }) {
   )
 }
 
-/** The scene as a link to the product's page. Hidden from the tab order: the name links there too. */
-function SceneLink({
+/** The video as a link to the product's page. Hidden from the tab order: the name links there too. */
+function VideoLink({
   r,
-  variant,
+  cut,
+  sizes,
   className,
 }: {
   r: RankedProduct
-  variant: 'card' | 'hero'
+  cut: 'card' | 'hero'
+  sizes?: string
   className?: string
 }) {
   return (
-    <Link
-      href={`/products/${r.product.id}`}
-      tabIndex={-1}
-      aria-hidden="true"
-      className={cx('group block rounded-panel', className)}
-    >
-      <ProductScene
-        id={r.product.id}
-        variant={variant}
-        className="transition-transform duration-ui ease-out group-hover:-translate-y-1"
-      />
-    </Link>
+    <ProductVideo
+      video={r.product.video[cut]}
+      cut={cut}
+      link={{ href: `/products/${r.product.id}`, label: r.product.name }}
+      lift
+      sizes={sizes}
+      className={className}
+    />
   )
 }
 
@@ -320,7 +319,7 @@ function Flagship({ r, total }: { r: RankedProduct; total: number }) {
       className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12"
     >
       <Reveal className="lg:col-span-7">
-        <SceneLink r={r} variant="hero" />
+        <VideoLink r={r} cut="hero" />
       </Reveal>
       <Reveal delay={70} className="flex flex-col gap-6 lg:col-span-5">
         <div className="flex flex-col gap-3">
@@ -350,7 +349,7 @@ function Feature({ r, total }: { r: RankedProduct; total: number }) {
       style={productAccentStyle(product.accentColor)}
       className="flex flex-col gap-8"
     >
-      <SceneLink r={r} variant="card" />
+      <VideoLink r={r} cut="card" sizes="(min-width: 768px) 46vw, 92vw" />
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3">
           <Name r={r} size="head" />
@@ -379,7 +378,12 @@ function Row({ r, total }: { r: RankedProduct; total: number }) {
       style={productAccentStyle(product.accentColor)}
       className="grid gap-8 md:grid-cols-12 md:gap-x-10"
     >
-      <SceneLink r={r} variant="card" className="md:col-span-5 lg:col-span-4" />
+      <VideoLink
+        r={r}
+        cut="card"
+        sizes="(min-width: 1024px) 31vw, (min-width: 768px) 40vw, 92vw"
+        className="md:col-span-5 lg:col-span-4"
+      />
       <div className="flex flex-col gap-4 md:col-span-7 lg:col-span-5">
         <div className="flex flex-col gap-2">
           <Name r={r} size="lead" />
