@@ -1,44 +1,32 @@
-import { ProductStatus } from '@/lib/products'
+import type { ProductStatus } from '@/lib/products'
+import Badge from './Badge'
+import { cx } from './cx'
 
-interface StatusBadgeProps {
+const STATUS: Record<string, { label: string; dot: string }> = {
+  LIVE: { label: 'Live', dot: 'bg-sideband-ok' },
+  'IN DEVELOPMENT': { label: 'In development', dot: 'bg-sideband-warn' },
+  'COMING SOON': { label: 'Coming soon', dot: 'bg-sideband-muted' },
+}
+
+/** A product's release state, from lib/products.ts. The dot carries the colour. */
+export default function StatusBadge({
+  status,
+  className,
+}: {
   status: ProductStatus
-}
-
-const MAP: Record<ProductStatus, { color: string; label: string }> = {
-  LIVE: { color: '#4ade80', label: 'LIVE' },
-  'IN DEVELOPMENT': { color: '#A855F7', label: 'IN DEV' },
-  'COMING SOON': { color: '#8B82AA', label: 'SOON' },
-}
-
-export default function StatusBadge({ status }: StatusBadgeProps) {
-  const { color, label } = MAP[status] ?? MAP['COMING SOON']
-
+  className?: string
+}) {
+  const { label, dot } = STATUS[status] ?? {
+    label: status,
+    dot: 'bg-sideband-muted',
+  }
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 5,
-        padding: '3px 9px',
-        border: `1px solid ${color}30`,
-        background: `${color}12`,
-        fontSize: 10,
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        color,
-      }}
-    >
+    <Badge className={className}>
       <span
-        style={{
-          width: 5,
-          height: 5,
-          borderRadius: '50%',
-          background: color,
-          display: 'inline-block',
-          boxShadow: status === 'LIVE' ? `0 0 6px ${color}` : 'none',
-        }}
+        aria-hidden="true"
+        className={cx('h-1.5 w-1.5 rounded-full', dot)}
       />
       {label}
-    </span>
+    </Badge>
   )
 }
