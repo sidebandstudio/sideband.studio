@@ -1493,7 +1493,16 @@ export const products: Product[] = [
     },
     repo: 'whoisaldo/SignatureCuts',
     accentColor: '#D4C5B0',
-    icon: null,
+    icon: image(
+      'signature-cuts',
+      'icon.webp',
+      512,
+      512,
+      'none',
+      'artwork',
+      'Signature Cuts 413 SC monogram',
+      'drawn by Sideband in the site colours (the shop ships no icon), components/products/scenes/group-b/signature-cuts/mark.svg rasterized at 512px',
+    ),
     images: [
       image(
         'signature-cuts',
