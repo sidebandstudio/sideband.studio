@@ -117,7 +117,7 @@ What each check guards. All but `check:links` run in CI on every PR.
 - `tests/scenes-legibility.spec.ts`: every scene's text renders at 12px or more, at six widths, in every place a scene appears.
 - `tests/site.spec.ts`: crawls every route from the home page and the sitemap. At 390 and 1440 each page returns 200 and has one `h1`, a title, a description, a canonical URL and social images that exist, no console or page errors, no sideways scrolling, internal links and `#` anchors that resolve, and images with alt text that load. Under reduced motion nothing animates and all page text is drawn. On phones it also guards layout shift (0.1 or less), image weight (500 KB or less) and keeps the GitHub snapshot out of client scripts.
 - `npm run check:links` (local only, needs the network): every external link on the built site answers. Run it after `npm run build`. It allows only the bot-blockers listed in `scripts/check-links.mjs`, each with its reason.
-- Tests that click or type act only on a settled, hydrated page: open pages with `visit()` and wait with `settle()` from `tests/helpers.ts`, and wait on observable state (`expect.poll`, `toHaveURL`), never on a fixed timeout. The only timeouts left check that something does not happen within a window.
+- Tests that click or type act only on a settled, hydrated page: open pages with `visit()` and wait with `settle()` from `tests/helpers.ts`, and wait on observable state (`expect.poll`, `toHaveURL`), never on a fixed timeout. The only timeouts left check that something does not happen within a window. Focus an element with `focusOnScreen()` before a key press that scrolls the page: the page scrolls smoothly, so focusing something off screen starts a scroll the jump would race.
 
 ## Copy Style
 
