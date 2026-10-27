@@ -56,9 +56,10 @@ npm run lint
 npm run check:consistency  # counts in prose match lib/ data
 npm run check:copy         # no em dashes or semicolons in user-facing copy
 npx playwright test        # smoke tests in tests/
+npm run check:links        # after npm run build: every external link answers
 ```
 
-CI runs these same checks (plus `npx tsc --noEmit` and `prettier --check`) on every PR and must be green before merge.
+CI runs these same checks (plus `npx tsc --noEmit` and `prettier --check`) on every PR and must be green before merge, except `check:links`, which needs the network and stays local. It reads the built pages, so build first. It allows only the bot-blockers listed in `scripts/check-links.mjs` (LinkedIn's 999, TikTok's 403), each with its reason. Fix any other failure at its source in `lib/` or the page.
 
 Then sweep for what your change makes stale:
 
