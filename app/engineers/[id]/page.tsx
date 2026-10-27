@@ -6,7 +6,6 @@ import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Container from '@/components/ui/Container'
 import Reveal from '@/components/ui/Reveal'
-import Eyebrow from '@/components/ui/Eyebrow'
 import Badge from '@/components/ui/Badge'
 import ArrowLink from '@/components/ui/ArrowLink'
 import { ArrowRightIcon, ArrowUpRightIcon } from '@/components/ui/Icons'
@@ -26,6 +25,7 @@ import {
   firstName,
   groupExperience,
   groupProjects,
+  listJoin,
   publishedLinks,
 } from '@/lib/engineers-view'
 
@@ -70,8 +70,8 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
   const projectCount = engineer.projects?.length ?? 0
   const order = [
     projects.studio.length > 0 && 'Sideband products',
-    projects.featured.length > 0 &&
-      `the work ${first} features on a personal site`,
+    projects.featured.length > 0 && `the work ${first}'s own site features`,
+    projects.ventures.length > 0 && `${first}'s own ventures`,
     projects.other.length > 0 && 'everything else',
   ].filter(Boolean) as string[]
   const projectsLede = `All ${projectCount} of ${first}'s projects${
@@ -82,12 +82,28 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
   const lifestyle = engineer.lifestyle ?? []
   const next = getOtherEngineer(engineer.id)
 
+  // A portrait smaller than its column leaves room under it for the Now list.
+  const nowBeside = (engineer.portrait?.width ?? 0) < 416
+  const nowBlock = now && (
+    <Reveal trigger="mount" delay={280}>
+      <h2 className="text-body font-medium text-sideband-text">Now</h2>
+      <Blocks
+        blocks={now.blocks}
+        className={
+          nowBeside
+            ? 'mt-4 [&_li]:text-small [&_li]:text-sideband-text-secondary [&_ul]:space-y-3'
+            : 'mt-4 [&_li]:text-small [&_li]:text-sideband-text-secondary [&_ul]:grid [&_ul]:gap-x-8 [&_ul]:space-y-0 [&_ul]:gap-y-3 sm:[&_ul]:grid-cols-2'
+        }
+      />
+    </Reveal>
+  )
+
   const meta = [
     { label: 'Based in', value: engineer.contact.location },
     { label: 'Availability', value: engineer.availability },
     {
       label: 'Speaks',
-      value: engineer.spokenLanguages?.join(' and '),
+      value: engineer.spokenLanguages && listJoin(engineer.spokenLanguages),
     },
   ].filter((m): m is { label: string; value: string } => Boolean(m.value))
 
@@ -132,18 +148,20 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
           <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-20">
             <div className="min-w-0">
               <Reveal trigger="mount" delay={70}>
-                <Eyebrow>{engineer.role}</Eyebrow>
-              </Reveal>
-              <Reveal trigger="mount" delay={140}>
                 <h1
                   id="engineer-name"
-                  className="mt-5 text-display text-sideband-text"
+                  className="text-display text-sideband-text"
                 >
                   {engineer.name}
                 </h1>
               </Reveal>
+              <Reveal trigger="mount" delay={140}>
+                <p className="mt-5 text-lead text-sideband-text">
+                  {engineer.role} at Sideband
+                </p>
+              </Reveal>
               <Reveal trigger="mount" delay={210}>
-                <p className="mt-8 max-w-prose text-lead text-sideband-text-secondary">
+                <p className="mt-6 max-w-prose text-lead text-sideband-text-secondary">
                   {engineer.shortBio}
                 </p>
               </Reveal>
@@ -199,17 +217,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                   ))}
                 </ul>
               </Reveal>
-              {now && (
-                <Reveal trigger="mount" delay={420}>
-                  <h2 className="mt-12 text-body font-medium text-sideband-text">
-                    Now
-                  </h2>
-                  <Blocks
-                    blocks={now.blocks}
-                    className="mt-4 [&_li]:text-small [&_li]:text-sideband-text-secondary [&_ul]:grid [&_ul]:gap-x-8 [&_ul]:space-y-0 [&_ul]:gap-y-3 sm:[&_ul]:grid-cols-2"
-                  />
-                </Reveal>
-              )}
+              {now && !nowBeside && <div className="mt-12">{nowBlock}</div>}
             </div>
 
             <div className="flex flex-col gap-10">
@@ -221,11 +229,21 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
                     width={engineer.portrait.width}
                     height={engineer.portrait.height}
                     priority
-                    sizes="(min-width: 1024px) 416px, (min-width: 640px) 60vw, 100vw"
+                    sizes={`(min-width: 1024px) ${Math.min(416, engineer.portrait.width)}px, (min-width: 640px) 60vw, 100vw`}
+                    // A portrait published smaller than the column is shown at its own size and shape, not enlarged.
+                    style={
+                      engineer.portrait.width < 416
+                        ? {
+                            maxWidth: engineer.portrait.width,
+                            aspectRatio: `${engineer.portrait.width} / ${engineer.portrait.height}`,
+                          }
+                        : undefined
+                    }
                     className="aspect-[4/5] w-full rounded-panel bg-sideband-surface object-cover sm:max-w-[26rem]"
                   />
                 </Reveal>
               )}
+              {now && nowBeside && nowBlock}
             </div>
           </div>
         </Container>
@@ -237,7 +255,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
           <SectionHeading
             id="github-title"
             title="On GitHub"
-            lede={`${first}'s public activity, languages and pinned work, from the studio's GitHub snapshot.`}
+            lede={`${first}'s public activity${gh.pinned.length > 0 ? ', languages and pinned work' : ' and languages'}, from the studio's GitHub snapshot.`}
           />
           <div className="mt-14">
             <GithubPanel gh={gh} accent={engineer.accentColor} first={first} />
@@ -357,7 +375,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
         <Section labelledBy="education-title" tone="surface">
           <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
             {engineer.education && engineer.education.length > 0 && (
-              <div>
+              <div className="min-w-0">
                 <Reveal>
                   <h2
                     id="education-title"
@@ -372,7 +390,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
               </div>
             )}
             {engineer.skills && engineer.skills.length > 0 && (
-              <div>
+              <div className="min-w-0">
                 <Reveal>
                   <h2 className="text-head text-sideband-text">Skills</h2>
                 </Reveal>
@@ -434,7 +452,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
             )}
             <span className="min-w-0 flex-1">
               <span className="block text-small text-sideband-muted">
-                Next of {countWord(engineers.length)} engineers
+                Next of the {countWord(engineers.length)} founding engineers
               </span>
               <span className="mt-1 block text-head text-sideband-text">
                 {next.name}
