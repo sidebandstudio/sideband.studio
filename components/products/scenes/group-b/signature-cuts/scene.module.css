@@ -1,6 +1,6 @@
 /* Signature Cuts scene. Base styles are the still frame: 11:00 AM chosen,
    Send via Text Message pressed, the text on the barber's phone, the iPhone
-   form of the link. */
+   form of the link. The fly keyframes follow each drawing's dashed path. */
 
 .slot {
   animation-name: slot;
@@ -9,15 +9,15 @@
   0%,
   4% {
     opacity: 0;
-    transform: translate(var(--sx), var(--sy));
+    transform: translateY(var(--sy));
   }
   7%,
   11% {
     opacity: 1;
-    transform: translate(var(--sx), var(--sy));
+    transform: translateY(var(--sy));
   }
   15% {
-    transform: translate(calc(var(--sx) * -0.06), calc(var(--sy) * -0.06));
+    transform: translateY(calc(var(--sy) * -0.06));
   }
   17%,
   90% {
@@ -111,22 +111,22 @@
     transform: none;
   }
   37% {
-    transform: translate(46px, -37px);
+    transform: translate(38px, -32px);
   }
   42% {
-    transform: translate(79px, -119px);
+    transform: translate(60px, -103px);
   }
   47% {
-    transform: translate(113px, -201px);
+    transform: translate(82px, -174px);
   }
   51% {
     opacity: 1;
-    transform: translate(175px, -238px);
+    transform: translate(122px, -206px);
   }
   54%,
   100% {
     opacity: 0;
-    transform: translate(195px, -238px) scale(0.6);
+    transform: translate(142px, -206px) scale(0.6);
   }
 }
 
@@ -145,22 +145,22 @@
     transform: none;
   }
   37% {
-    transform: translate(118px, -56px);
+    transform: translate(149px, -68px);
   }
   42% {
-    transform: translate(214px, -181px);
+    transform: translate(251px, -218px);
   }
   47% {
-    transform: translate(309px, -305px);
+    transform: translate(354px, -368px);
   }
   51% {
     opacity: 1;
-    transform: translate(434px, -362px);
+    transform: translate(506px, -436px);
   }
   54%,
   100% {
     opacity: 0;
-    transform: translate(474px, -362px) scale(0.6);
+    transform: translate(546px, -436px) scale(0.6);
   }
 }
 
@@ -179,22 +179,22 @@
     transform: none;
   }
   72% {
-    transform: translate(87px, 26px);
+    transform: translate(134px, 15px);
   }
   76% {
-    transform: translate(176px, 84px);
+    transform: translate(243px, 47px);
   }
   80% {
-    transform: translate(284px, 142px);
+    transform: translate(357px, 79px);
   }
   84% {
     opacity: 1;
-    transform: translate(434px, 168px);
+    transform: translate(506px, 94px);
   }
   86%,
   100% {
     opacity: 0;
-    transform: translate(474px, 168px) scale(0.6);
+    transform: translate(546px, 94px) scale(0.6);
   }
 }
 
@@ -230,7 +230,7 @@
   }
   64%,
   94% {
-    transform: translateX(152px);
+    transform: translateX(180px);
   }
   98%,
   100% {
