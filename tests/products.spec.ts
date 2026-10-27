@@ -214,6 +214,51 @@ test('products index names fit at 360, 768, 1440', async ({ page }) => {
   }
 })
 
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 1440, height: 700 },
+  { width: 390, height: 844 },
+]) {
+  test(`the viewer shows every image at least as large as the page at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    test.setTimeout(120000)
+    await page.setViewportSize(viewport)
+    for (const id of ['eternal2x', 'eternal-monitor', 'exerly']) {
+      const product = products.find((p) => p.id === id)!
+      await page.goto(`/products/${id}`)
+      const triggers = page.getByRole('button', { name: /^View larger:/ })
+      const count = await triggers.count()
+      expect(count).toBe(product.images.length)
+      for (let i = 0; i < count; i++) {
+        const trigger = triggers.nth(i)
+        await trigger.scrollIntoViewIfNeeded()
+        const inline = await trigger
+          .locator('img')
+          .evaluate((img) => img.getBoundingClientRect().width)
+        await trigger.click()
+        const shown = page.getByRole('dialog').locator('img').first()
+        await expect(shown).toBeVisible()
+        const box = await shown.evaluate((img: HTMLImageElement) => ({
+          width: img.getBoundingClientRect().width,
+          natural: Number(img.getAttribute('width')),
+          sizes: img.getAttribute('sizes'),
+        }))
+        expect(box.width, `${id} image ${i}`).toBeGreaterThanOrEqual(inline - 1)
+        expect(box.width).toBeLessThanOrEqual(
+          Math.min(box.natural, viewport.width) + 1,
+        )
+        expect(box.sizes).toMatch(/^\d+px$/)
+        expect(Math.abs(parseInt(box.sizes!) - box.width)).toBeLessThanOrEqual(
+          1,
+        )
+        await page.keyboard.press('Escape')
+        await expect(page.getByRole('dialog')).toBeHidden()
+      }
+    }
+  })
+}
+
 const WIDTHS = [390, 768, 1440, 1920]
 
 for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {

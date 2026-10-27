@@ -7,11 +7,11 @@ import {
   useId,
   useRef,
   useState,
-  type KeyboardEvent,
   type ReactNode,
 } from 'react'
 import type { ProductImage, ProductImageKind } from '@/lib/products'
 import { cx } from '@/components/ui/cx'
+import { useIsoLayoutEffect } from '@/components/ui/motion'
 import DeviceFrame from './DeviceFrame'
 import ImageCredit from './ImageCredit'
 import styles from './ProductGallery.module.css'
@@ -72,14 +72,68 @@ export default function ProductGallery({
 
   const isOpen = open !== null
 
-  // Open and close the native modal dialog with the state. showModal() makes
-  // the rest of the page inert and moves focus inside.
-  useEffect(() => {
+  const bodyRef = useRef<HTMLDivElement>(null)
+  const headRef = useRef<HTMLDivElement>(null)
+  const footRef = useRef<HTMLDivElement>(null)
+  const [size, setSize] = useState<{ width: number; height: number } | null>(
+    null,
+  )
+
+  // The viewer shows the image as large as the viewport allows once its own
+  // controls and caption are placed, never past the image's natural size, and
+  // never smaller than it appeared on the page. If the page showed it larger
+  // than the viewport is tall, the viewer scrolls rather than shrink it.
+  const measure = useCallback(() => {
+    const body = bodyRef.current
+    if (open === null || !body) return
+    const image = images[open]
+    const css = getComputedStyle(body)
+    const gap = parseFloat(css.rowGap) || 0
+    const availWidth =
+      body.clientWidth -
+      parseFloat(css.paddingLeft) -
+      parseFloat(css.paddingRight)
+    const availHeight =
+      window.innerHeight -
+      parseFloat(css.paddingTop) -
+      parseFloat(css.paddingBottom) -
+      (headRef.current?.offsetHeight ?? 0) -
+      (footRef.current?.offsetHeight ?? 0) -
+      gap * 2
+    const fit = Math.min(
+      availWidth / image.width,
+      availHeight / image.height,
+      1,
+    )
+    const inline =
+      triggers.current[open]?.querySelector('img')?.getBoundingClientRect()
+        .width ?? 0
+    const width = Math.max(
+      image.width * fit,
+      Math.min(inline, availWidth, image.width),
+    )
+    setSize({ width, height: (width * image.height) / image.width })
+  }, [images, open])
+
+  // Open and close the native modal dialog with the state, then size the
+  // image before the first paint. showModal() makes the rest of the page inert
+  // and moves focus inside.
+  useIsoLayoutEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
-    if (isOpen && !dialog.open) dialog.showModal()
+    if (isOpen && !dialog.open) {
+      dialog.showModal()
+      dialog.querySelector<HTMLElement>('[data-autofocus]')?.focus()
+    }
     if (!isOpen && dialog.open) dialog.close()
-  }, [isOpen])
+    measure()
+  }, [isOpen, measure])
+
+  useEffect(() => {
+    if (!isOpen) return
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [isOpen, measure])
 
   // While the viewer is open the page behind does not scroll. The cleanup
   // releases the lock however the viewer goes away: closed, or unmounted by a
@@ -100,15 +154,22 @@ export default function ProductGallery({
     if (index !== null) triggers.current[index]?.focus()
   }
 
-  const onKeyDown = (event: KeyboardEvent<HTMLDialogElement>) => {
-    if (event.key === 'ArrowRight') {
-      event.preventDefault()
-      step(1)
-    } else if (event.key === 'ArrowLeft') {
-      event.preventDefault()
-      step(-1)
+  // Arrow keys step through while the viewer is open, wherever focus sits in
+  // it (the scroll area can stop being focusable when an image fits).
+  useEffect(() => {
+    if (!isOpen) return
+    const onKey = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        step(1)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        step(-1)
+      }
     }
-  }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [isOpen, step])
 
   const current = open === null ? null : images[open]
 
@@ -173,21 +234,27 @@ export default function ProductGallery({
         aria-labelledby={titleId}
         className={styles.viewer}
         onClose={onClose}
-        onKeyDown={onKeyDown}
         onClick={(event) => {
           if (event.target === event.currentTarget) setOpen(null)
         }}
       >
         {current && open !== null && (
-          <div className={styles.viewerBody}>
-            <div className="flex items-center justify-between gap-4">
+          <div ref={bodyRef} className={styles.viewerBody}>
+            <div
+              ref={headRef}
+              className="flex items-center justify-between gap-4"
+            >
               <p className="text-small tabular-nums text-sideband-text-secondary">
                 <span id={titleId} className="text-sideband-text">
                   {KIND_LABEL[current.kind]} {open + 1} of {images.length}
                 </span>
                 <span className="sr-only">, {productName}</span>
               </p>
-              <ViewerButton label="Close viewer" onClick={() => setOpen(null)}>
+              <ViewerButton
+                label="Close viewer"
+                onClick={() => setOpen(null)}
+                autoFocus
+              >
                 <path d="M6 6l12 12M18 6L6 18" />
               </ViewerButton>
             </div>
@@ -204,12 +271,20 @@ export default function ProductGallery({
                 alt={current.alt}
                 width={current.width}
                 height={current.height}
-                sizes="100vw"
+                sizes={size ? `${Math.ceil(size.width)}px` : '100vw'}
                 className={styles.stageImage}
+                style={
+                  size
+                    ? { width: size.width, height: size.height }
+                    : { visibility: 'hidden' }
+                }
               />
             </div>
 
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-10">
+            <div
+              ref={footRef}
+              className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-10"
+            >
               <div className="flex max-w-prose flex-col gap-1">
                 <p className="text-small text-sideband-text">{current.alt}</p>
                 {current.credit && <ImageCredit credit={current.credit} />}
@@ -299,16 +374,20 @@ function Figure({
 function ViewerButton({
   label,
   onClick,
+  autoFocus = false,
   children,
 }: {
   label: string
   onClick: () => void
+  /** Takes focus when the viewer opens. */
+  autoFocus?: boolean
   children: ReactNode
 }) {
   return (
     <button
       type="button"
       aria-label={label}
+      data-autofocus={autoFocus ? '' : undefined}
       onClick={onClick}
       className="flex h-11 w-11 items-center justify-center rounded-full bg-sideband-surface-2 text-sideband-text transition-[transform,background-color] duration-hover ease-standard hover:bg-sideband-surface-3 active:scale-[0.97]"
     >

@@ -31,7 +31,12 @@ export default function DeviceFrame({
   className,
 }: DeviceFrameProps) {
   return (
-    <div className={cx(styles.container, className)}>
+    // Never shown past the image's natural size, so the large viewer can
+    // always show it at least as large as the page does.
+    <div
+      className={cx(styles.container, className)}
+      style={{ maxWidth: width }}
+    >
       <div className={cx(styles.frame, styles[device])}>
         <Image
           src={src}
