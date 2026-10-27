@@ -16,7 +16,7 @@ function Frames({ page, first }: { page: PortfolioPage; first: string }) {
       <figure className="min-w-0">
         <div
           data-ui
-          className="overflow-hidden rounded-panel bg-sideband-surface-2 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]"
+          className="overflow-hidden rounded-panel bg-sideband-surface-2"
         >
           <div className="flex h-10 items-center gap-2 px-4">
             <span aria-hidden="true" className="flex gap-1.5">
@@ -51,7 +51,7 @@ function Frames({ page, first }: { page: PortfolioPage; first: string }) {
       <figure className="mx-auto w-[min(15rem,70%)] lg:w-[16rem]">
         <div
           data-ui
-          className="overflow-hidden rounded-[2.25rem] bg-sideband-surface-2 p-2 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]"
+          className="overflow-hidden rounded-[2.25rem] bg-sideband-surface-2 p-2"
         >
           <Image
             src={page.mobile.src}

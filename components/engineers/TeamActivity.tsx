@@ -26,7 +26,10 @@ export default function TeamActivity({
     <div className="rounded-panel bg-sideband-surface p-6 md:p-10">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
         <Reveal className="min-w-0">
-          <p id="team-graph-summary" className="text-small text-sideband-muted">
+          <p
+            id="team-graph-summary"
+            className="max-w-prose text-small text-sideband-muted"
+          >
             {formatCount(summary.total)} contributions across the team in the
             last year, from {formatDay(summary.firstDay)} to{' '}
             {formatDay(summary.lastDay)}. At least one of them contributed on{' '}

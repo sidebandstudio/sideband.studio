@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
-import { ArrowUpRightIcon, GitHubIcon, RepoIcon } from '@/components/ui/Icons'
+import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
 import {
   accountAge,
   formatCount,
@@ -168,7 +168,10 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
           <h3 className="text-body font-medium text-sideband-text">
             Contributions
           </h3>
-          <p id={summaryId} className="mt-1.5 text-small text-sideband-muted">
+          <p
+            id={summaryId}
+            className="mt-1.5 max-w-prose text-small text-sideband-muted"
+          >
             {formatCount(s.total)} contributions in the last year, from{' '}
             {formatDay(s.firstDay)} to {formatDay(s.lastDay)}. Active on{' '}
             {formatCount(s.activeDays)} days, with a longest streak of{' '}
@@ -256,7 +259,6 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
                     className="group flex h-full flex-col rounded-inner bg-sideband-surface-2 p-5 transition-colors duration-hover ease-standard hover:bg-sideband-surface-3"
                   >
                     <span className="flex items-center gap-2 text-small font-medium text-sideband-text">
-                      <RepoIcon className="shrink-0 text-sideband-muted" />
                       <span className="truncate">{repo.nameWithOwner}</span>
                     </span>
                     {repo.description && (
