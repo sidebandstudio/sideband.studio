@@ -30,7 +30,7 @@ export default function OpenSource({
   return (
     <Section id="open-source" labelledBy="open-source-title">
       <div className="grid gap-x-16 gap-y-14 lg:grid-cols-12">
-        <div className="flex flex-col gap-10 lg:col-span-5">
+        <div className="flex min-w-0 flex-col gap-10 lg:col-span-5">
           <SectionHeading
             id="open-source-title"
             eyebrow="Open source"
@@ -53,7 +53,7 @@ export default function OpenSource({
 
         <ul
           aria-label="Open-source repositories"
-          className="flex flex-col gap-2 lg:col-span-7"
+          className="flex min-w-0 flex-col gap-2 lg:col-span-7"
         >
           {repos.map((r, i) => (
             <Reveal as="li" key={r.id} delay={i * 70}>
@@ -131,7 +131,7 @@ function RepoRow({ repo }: { repo: OpenRepo }) {
         />
       )}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="break-words text-body font-medium text-sideband-text">
+        <span className="text-body font-medium text-sideband-text [overflow-wrap:anywhere]">
           {repo.path}
         </span>
         <span className="text-small text-sideband-text-secondary">
