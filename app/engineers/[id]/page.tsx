@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import FadeUp from '@/components/animations/FadeUp'
-import SectionLabel from '@/components/ui/SectionLabel'
-import GlowButton from '@/components/ui/GlowButton'
+import Reveal from '@/components/ui/Reveal'
+import Eyebrow from '@/components/ui/Eyebrow'
+import Button from '@/components/ui/Button'
 import PrevBadge from '@/components/engineers/PrevBadge'
 import ExperienceTimeline from '@/components/engineers/ExperienceTimeline'
 import SkillsCloud from '@/components/engineers/SkillsCloud'
@@ -60,7 +60,7 @@ export default function EngineerDetailPage({
     <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Breadcrumb */}
-        <FadeUp>
+        <Reveal>
           <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-muted">
             <Link
               href="/engineers"
@@ -73,17 +73,17 @@ export default function EngineerDetailPage({
               {engineer.name}
             </span>
           </div>
-        </FadeUp>
+        </Reveal>
 
         {/* HERO */}
         <section className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
-            <FadeUp>
+            <Reveal>
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
                 [ ENGINEER DOSSIER · {indexLabel} ]
               </span>
-            </FadeUp>
-            <FadeUp delay={0.05}>
+            </Reveal>
+            <Reveal delay={50}>
               <h1 className="mt-5 font-display text-[64px] leading-[0.95] md:text-[88px]">
                 <span className="block text-sideband-text">
                   {engineer.name.split(' ')[0]}
@@ -93,8 +93,8 @@ export default function EngineerDetailPage({
                   <span className="text-sideband-accent">.</span>
                 </span>
               </h1>
-            </FadeUp>
-            <FadeUp delay={0.1}>
+            </Reveal>
+            <Reveal delay={100}>
               <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-sideband-accent">
                 {engineer.role}
               </p>
@@ -103,39 +103,39 @@ export default function EngineerDetailPage({
                   {engineer.contact.location}
                 </p>
               )}
-            </FadeUp>
+            </Reveal>
 
             {engineer.prev && engineer.prev.length > 0 && (
-              <FadeUp delay={0.15}>
+              <Reveal delay={150}>
                 <div className="mt-10">
                   <PrevBadge entries={engineer.prev} />
                 </div>
-              </FadeUp>
+              </Reveal>
             )}
 
-            <FadeUp delay={0.2}>
+            <Reveal delay={200}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 {engineer.contact.resume && (
-                  <GlowButton
-                    variant="filled"
+                  <Button
+                    variant="primary"
                     href={engineer.contact.resume}
                     external
                   >
                     Download Resume ↓
-                  </GlowButton>
+                  </Button>
                 )}
-                <GlowButton
-                  variant="ghost"
+                <Button
+                  variant="secondary"
                   href={`mailto:${engineer.contact.email}`}
                 >
                   Contact →
-                </GlowButton>
+                </Button>
               </div>
-            </FadeUp>
+            </Reveal>
           </div>
 
           {/* Portrait */}
-          <FadeUp delay={0.1}>
+          <Reveal delay={100}>
             <div className="relative">
               <span
                 aria-hidden
@@ -180,21 +180,21 @@ export default function EngineerDetailPage({
                 </span>
               </div>
             </div>
-          </FadeUp>
+          </Reveal>
         </section>
 
         {/* BIO */}
         <section className="mt-32 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
-          <FadeUp>
-            <SectionLabel label="WHO" />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Who</Eyebrow>
+          </Reveal>
           <div className="max-w-3xl space-y-6">
             {engineer.longBio.map((para, i) => (
-              <FadeUp key={i} delay={i * 0.05}>
+              <Reveal key={i} delay={i * 50}>
                 <p className="font-mono text-[14px] leading-[1.95] text-sideband-text-secondary">
                   {para}
                 </p>
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -202,9 +202,9 @@ export default function EngineerDetailPage({
         {/* EXPERIENCE */}
         {engineer.experience && engineer.experience.length > 0 && (
           <section className="mt-32">
-            <FadeUp>
-              <SectionLabel label="EXPERIENCE" withLine />
-            </FadeUp>
+            <Reveal>
+              <Eyebrow>Experience</Eyebrow>
+            </Reveal>
             <div className="mt-12">
               <ExperienceTimeline entries={engineer.experience} />
             </div>
@@ -214,9 +214,9 @@ export default function EngineerDetailPage({
         {/* SKILLS */}
         {engineer.skills && engineer.skills.length > 0 && (
           <section className="mt-32">
-            <FadeUp>
-              <SectionLabel label="STACK" withLine />
-            </FadeUp>
+            <Reveal>
+              <Eyebrow>Stack</Eyebrow>
+            </Reveal>
             <div className="mt-10">
               <SkillsCloud groups={engineer.skills} />
             </div>
@@ -226,9 +226,9 @@ export default function EngineerDetailPage({
         {/* PROJECTS */}
         {engineer.projects && engineer.projects.length > 0 && (
           <section className="mt-32">
-            <FadeUp>
-              <SectionLabel label="FEATURED WORK" withLine />
-            </FadeUp>
+            <Reveal>
+              <Eyebrow>Featured work</Eyebrow>
+            </Reveal>
             <div className="mt-10">
               <FeaturedProjects projects={engineer.projects} />
             </div>
@@ -238,12 +238,12 @@ export default function EngineerDetailPage({
         {/* EDUCATION */}
         {engineer.education && engineer.education.length > 0 && (
           <section className="mt-32">
-            <FadeUp>
-              <SectionLabel label="EDUCATION" withLine />
-            </FadeUp>
+            <Reveal>
+              <Eyebrow>Education</Eyebrow>
+            </Reveal>
             <div className="mt-10 space-y-6">
               {engineer.education.map((ed, i) => (
-                <FadeUp key={i} delay={i * 0.05}>
+                <Reveal key={i} delay={i * 50}>
                   <div className="border-l-2 border-sideband-accent/60 pl-6">
                     <h3 className="font-display text-[22px] text-sideband-text">
                       {ed.school}
@@ -256,7 +256,7 @@ export default function EngineerDetailPage({
                       {ed.honors ? ` · ${ed.honors}` : ''}
                     </p>
                   </div>
-                </FadeUp>
+                </Reveal>
               ))}
             </div>
           </section>
@@ -265,14 +265,14 @@ export default function EngineerDetailPage({
         {/* LIFESTYLE */}
         {engineer.lifestyle && engineer.lifestyle.length > 0 && (
           <section className="mt-32">
-            <FadeUp>
-              <SectionLabel label="OFF DUTY" withLine />
-            </FadeUp>
-            <FadeUp delay={0.05}>
+            <Reveal>
+              <Eyebrow>Off duty</Eyebrow>
+            </Reveal>
+            <Reveal delay={50}>
               <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
                 What the building looks like outside the repos.
               </p>
-            </FadeUp>
+            </Reveal>
             <div className="mt-10">
               <LifestyleGallery images={engineer.lifestyle} />
             </div>
@@ -281,11 +281,11 @@ export default function EngineerDetailPage({
 
         {/* CONTACT */}
         <section className="mt-32">
-          <FadeUp>
-            <SectionLabel label="CONTACT" withLine />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Contact</Eyebrow>
+          </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <FadeUp>
+            <Reveal>
               <div className="max-w-md">
                 <p className="font-display text-[28px] leading-tight text-sideband-text">
                   Want to build with {engineer.name.split(' ')[0]}?
@@ -294,17 +294,17 @@ export default function EngineerDetailPage({
                   Email is fastest. Resume, GitHub, and the rest are below.
                 </p>
               </div>
-            </FadeUp>
-            <FadeUp delay={0.08}>
+            </Reveal>
+            <Reveal delay={80}>
               <ContactPanel contact={engineer.contact} name={engineer.name} />
-            </FadeUp>
+            </Reveal>
           </div>
         </section>
 
         {/* NEXT ENGINEER */}
         {other && (
           <section className="mt-32 border-t border-sideband-border pb-24 pt-12">
-            <FadeUp>
+            <Reveal>
               <div className="flex flex-wrap items-baseline justify-between gap-6">
                 <div>
                   <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
@@ -318,11 +318,11 @@ export default function EngineerDetailPage({
                     {other.role}
                   </p>
                 </div>
-                <GlowButton variant="ghost" href={`/engineers/${other.id}`}>
+                <Button variant="secondary" href={`/engineers/${other.id}`}>
                   Open Dossier →
-                </GlowButton>
+                </Button>
               </div>
-            </FadeUp>
+            </Reveal>
           </section>
         )}
       </div>

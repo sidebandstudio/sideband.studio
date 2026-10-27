@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { products, type Product } from '@/lib/products'
-import Tag from '@/components/ui/Tag'
+import Badge from '@/components/ui/Badge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import {
   BrowserFrame,
@@ -184,7 +184,7 @@ function ProductText({
         }}
       >
         {tags.map((t) => (
-          <Tag key={t} label={t} color={accent} />
+          <Badge key={t}>{t}</Badge>
         ))}
       </div>
 
