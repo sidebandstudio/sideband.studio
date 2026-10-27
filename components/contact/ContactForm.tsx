@@ -149,7 +149,7 @@ export default function ContactForm() {
       className="rounded-panel bg-sideband-surface p-6 md:p-10"
     >
       <h2 id="form-title" className="text-lead font-medium text-sideband-text">
-        Write to the studio
+        Send a message
       </h2>
       <p className="mt-2 text-small text-sideband-muted">
         Every field is required.

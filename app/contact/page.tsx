@@ -24,8 +24,7 @@ export default function ContactPage() {
             as="h1"
             id="contact-title"
             trigger="mount"
-            eyebrow="Contact"
-            title="Get in touch"
+            title="Write to Sideband"
             lede="Questions about a product, a bug report, or an idea to build together. Messages from the form land in the studio inbox."
           />
 
