@@ -27,7 +27,8 @@ function format(n: number, decimals: number, grouped: boolean) {
  * A figure and what it counts, as one <dt>/<dd> pair: always place Stats
  * inside a <dl>. The final value is always in the markup, so
  * it reads correctly without script, to screen readers, and under reduced
- * motion. Count-up only runs for stats that start below the fold.
+ * motion. Count-up only runs for stats that start below the fold, and never
+ * while the visitor asks for reduced motion, even if they ask after load.
  */
 export default function Stat({
   value,
@@ -48,6 +49,7 @@ export default function Stat({
     const target = Number(digits.replace(/,/g, ''))
     const decimals = digits.split('.')[1]?.length ?? 0
     const grouped = digits.includes(',')
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
     let frame = 0
     setShown(`${prefix}${format(0, decimals, grouped)}${suffix}`)
 
@@ -55,6 +57,8 @@ export default function Stat({
       ([entry]) => {
         if (!entry.isIntersecting) return
         io.disconnect()
+        // Read the preference again here: it may have changed since mount.
+        if (reduce.matches) return setShown(value)
         const start = performance.now()
         const tick = (now: number) => {
           const t = Math.min(1, (now - start) / 1200)
@@ -68,11 +72,18 @@ export default function Stat({
       },
       { rootMargin: '0px 0px -10% 0px' },
     )
-    io.observe(el)
-    return () => {
+    // Turning reduced motion on at any point settles on the final value.
+    const settle = () => {
       io.disconnect()
       cancelAnimationFrame(frame)
       setShown(value)
+    }
+    const onChange = () => reduce.matches && settle()
+    reduce.addEventListener('change', onChange)
+    io.observe(el)
+    return () => {
+      reduce.removeEventListener('change', onChange)
+      settle()
     }
   }, [value, countUp])
 
