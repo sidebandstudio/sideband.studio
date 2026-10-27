@@ -7,8 +7,9 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import { countWord, type TeamMember } from '@/lib/home-data'
 
 /**
- * The engineers: who they are, what they build at Sideband, the products they
- * work on, and how much they shipped on GitHub in the last year.
+ * The founding engineers, one row each: who they are, what they build, the
+ * products they work on, and how much they shipped on GitHub in the last year.
+ * Rows hold any number of people, so the section never leaves an orphan card.
  */
 export default function Team({ team }: { team: TeamMember[] }) {
   return (
@@ -19,9 +20,9 @@ export default function Team({ team }: { team: TeamMember[] }) {
           eyebrow="The team"
           title={
             <>
-              {countWord(team.length, true)} engineers,
+              Built by {countWord(team.length)}
               <br />
-              one studio.
+              founding engineers.
             </>
           }
           lede="Who builds what, the products each of us works on, and how much each of us shipped on GitHub in the last year."
@@ -31,9 +32,9 @@ export default function Team({ team }: { team: TeamMember[] }) {
         </Reveal>
       </div>
 
-      <ul className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+      <ul className="mt-14 flex flex-col gap-2">
         {team.map((m, i) => (
-          <Reveal as="li" key={m.id} delay={(i % 4) * 70}>
+          <Reveal as="li" key={m.id} delay={Math.min(i, 4) * 70}>
             <Member member={m} />
           </Reveal>
         ))}
@@ -44,15 +45,15 @@ export default function Team({ team }: { team: TeamMember[] }) {
 
 function Member({ member: m }: { member: TeamMember }) {
   return (
-    <article className="group relative grid grid-cols-[6rem_1fr] gap-x-5 gap-y-5 sm:grid-cols-1">
-      <div className="relative aspect-square overflow-hidden rounded-inner bg-sideband-surface-2 sm:aspect-[4/5] sm:rounded-panel">
+    <article className="group relative grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-4 rounded-panel p-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)] md:gap-x-6 md:p-4 lg:grid-cols-[8rem_minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] lg:gap-x-8">
+      <div className="relative aspect-square overflow-hidden rounded-inner bg-sideband-surface-3 md:row-span-2 lg:row-span-1">
         {m.portrait ? (
           <Image
             src={m.portrait.src}
             alt={`Portrait of ${m.name}`}
             fill
-            sizes="(min-width: 1280px) 330px, (min-width: 640px) 45vw, 96px"
-            className="object-cover object-top transition-transform duration-ui ease-out group-hover:scale-[1.02]"
+            sizes="(min-width: 1024px) 128px, (min-width: 768px) 96px, 72px"
+            className="object-cover object-top transition-transform duration-ui ease-out group-hover:scale-[1.03]"
           />
         ) : (
           <span className="absolute inset-0 flex items-center justify-center text-lead text-sideband-text-secondary">
@@ -61,22 +62,23 @@ function Member({ member: m }: { member: TeamMember }) {
         )}
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div>
-          <h3 className="text-lead font-medium text-sideband-text">
-            <Link
-              href={`/engineers/${m.id}`}
-              className="after:absolute after:inset-0"
-            >
-              {m.name}
-            </Link>
-          </h3>
-          <p className="mt-1 text-small text-sideband-text-secondary">
-            {m.role}
-          </p>
-        </div>
-        <p className="text-body text-sideband-text">{m.builds}</p>
+      <div className="md:self-end lg:self-center">
+        <h3 className="text-lead font-medium text-sideband-text">
+          <Link
+            href={`/engineers/${m.id}`}
+            className="after:absolute after:inset-0 after:rounded-panel"
+          >
+            {m.name}
+          </Link>
+        </h3>
+        <p className="mt-1 text-small text-sideband-text-secondary">{m.role}</p>
+      </div>
 
+      <p className="col-span-2 text-body text-sideband-text md:col-span-2 md:col-start-2 md:row-start-2 md:self-start lg:col-span-1 lg:col-start-auto lg:row-start-auto lg:self-center">
+        {m.builds}
+      </p>
+
+      <div className="col-span-2 flex flex-col gap-3 md:col-span-1 md:col-start-3 md:row-start-1 md:self-end lg:col-start-auto lg:row-start-auto lg:self-center">
         {m.products.length > 0 && (
           <ul
             aria-label={`Products ${m.name} works on`}
@@ -86,7 +88,7 @@ function Member({ member: m }: { member: TeamMember }) {
               <li key={p.id}>
                 <Link
                   href={`/products/${p.id}`}
-                  className="inline-flex h-7 items-center rounded-full bg-sideband-surface-2 px-3 text-small text-sideband-text-secondary transition-colors duration-hover ease-standard hover:bg-sideband-surface-3 hover:text-sideband-text"
+                  className="inline-flex h-7 items-center rounded-full bg-sideband-surface-2 px-3 text-small text-sideband-text-secondary transition-colors duration-hover ease-standard hover:text-sideband-text group-hover:bg-sideband-surface-3"
                 >
                   {p.name}
                 </Link>
@@ -94,7 +96,6 @@ function Member({ member: m }: { member: TeamMember }) {
             ))}
           </ul>
         )}
-
         <p className="text-small text-sideband-muted">
           {m.contributions !== null && (
             <>

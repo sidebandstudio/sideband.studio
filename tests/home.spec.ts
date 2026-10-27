@@ -74,6 +74,26 @@ for (const engineer of engineers) {
   })
 }
 
+test('the team section counts and titles every engineer from the data', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const team = page.locator('#team')
+  await expect(team.locator('h2')).toContainText(
+    `Built by ${countWord(engineers.length)} founding engineers`,
+  )
+  await expect(team.locator('article')).toHaveCount(engineers.length)
+  for (const engineer of engineers) {
+    const row = team.locator('article', {
+      has: page.getByRole('link', { name: engineer.name, exact: true }),
+    })
+    await expect(row).toContainText(engineer.role)
+  }
+  await expect(page.locator('main')).not.toContainText(
+    /\b(?:co-?founders?|founders|friends)\b/i,
+  )
+})
+
 test('team product chips link to each product the engineer works on', async ({
   page,
 }) => {
