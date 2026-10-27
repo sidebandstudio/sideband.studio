@@ -75,11 +75,31 @@ test('engineer dossier renders exactly one h1 and the portrait', async ({
 test('every Sideband role shows the studio mark, not a monogram', async ({
   page,
 }) => {
-  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand']) {
+  for (const id of ['ali-younes', 'ali-tleis', 'karan-anand', 'naman-rusia']) {
     await page.goto(`/engineers/${id}`)
     await expect(page.getByRole('img', { name: 'Sideband logo' })).toBeVisible()
   }
 })
+
+const ENGINEER_NAMES: Record<string, string> = {
+  'ali-younes': 'Ali Younes',
+  'ali-tleis': 'Ali Tleis',
+  'karan-anand': 'Karan Anand',
+  'naman-rusia': 'Naman Rusia',
+}
+
+for (const [id, name] of Object.entries(ENGINEER_NAMES)) {
+  test(`engineer dossier /engineers/${id} returns 200 and names ${name}`, async ({
+    page,
+  }) => {
+    const res = await page.goto(`/engineers/${id}`)
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      name.split(' ')[0],
+    )
+    await expect(page.getByText(name).first()).toBeVisible()
+  })
+}
 
 test('unknown engineer id returns a not-found page', async ({ page }) => {
   const res = await page.goto('/engineers/nobody')
