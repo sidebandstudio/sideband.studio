@@ -57,6 +57,8 @@ function readVideos(page: Page) {
         noPip: video.hasAttribute('disablepictureinpicture'),
         controls: video.controls,
         preload: video.getAttribute('preload'),
+        // Within the 80px a frame starts buffering at (ProductVideo NEAR).
+        near: box.top < window.innerHeight + 80 && box.bottom > -80,
         text: wrap.textContent ?? '',
       }
     }),
@@ -168,10 +170,12 @@ for (const path of PAGES) {
       expect(v.controls, label).toBe(false)
       expect(v.ariaHidden, label).toBe('true')
       expect(v.focusable, label).toBe(0)
+      // Far from the viewport nothing loads, except the product page hero's
+      // metadata. A frame near it may already buffer.
+      const base =
+        path.startsWith('/products/') && v.index === 0 ? 'metadata' : 'none'
       expect(v.preload, label).toMatch(
-        path.startsWith('/products/') && v.index === 0
-          ? /^metadata$/
-          : /^none$/,
+        v.near ? new RegExp(`^(${base}|auto)$`) : new RegExp(`^${base}$`),
       )
 
       // Credits are not shown inline: the footer lists them.
@@ -230,6 +234,63 @@ for (const path of PAGES) {
     expect(shifts, 'layout shifts inside a video frame').toBe(0)
   })
 }
+
+test('a video pauses as soon as its frame leaves the viewport, by a few pixels either way', async ({
+  page,
+}) => {
+  test.setTimeout(90000)
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await visit(page, `/products/${upflow2x.id}`)
+  // The first neighbour under the hero.
+  const index = 1
+
+  /** Scrolls so the frame sits `gap` px outside the top or bottom edge. */
+  const placeOutside = (edge: 'top' | 'bottom', gap: number) =>
+    page
+      .locator(VIDEOS)
+      .nth(index)
+      .evaluate(
+        (wrap, [edge, gap]) => {
+          const box = wrap
+            .querySelector('[data-video-frame]')!
+            .getBoundingClientRect()
+          const top =
+            edge === 'top'
+              ? window.scrollY + box.bottom + Number(gap)
+              : window.scrollY + box.top - window.innerHeight - Number(gap)
+          window.scrollTo({ top, behavior: 'instant' })
+          const after = wrap
+            .querySelector('[data-video-frame]')!
+            .getBoundingClientRect()
+          return { top: after.top, bottom: after.bottom }
+        },
+        [edge, gap] as const,
+      )
+  const currentTime = () =>
+    page
+      .locator(VIDEOS)
+      .nth(index)
+      .evaluate((wrap) => wrap.querySelector('video')!.currentTime)
+
+  for (const edge of ['top', 'bottom'] as const) {
+    await scrollToVideo(page, index)
+    await expect
+      .poll(() => videoState(page, index), { timeout: 30000 })
+      .toMatchObject({ playing: true })
+
+    const box = await placeOutside(edge, 4)
+    if (edge === 'top') expect(box.bottom).toBeLessThanOrEqual(0)
+    else expect(box.top).toBeGreaterThanOrEqual(800)
+    await expect
+      .poll(() => videoState(page, index).then((s) => s.paused))
+      .toBe(true)
+    const at = await currentTime()
+    // Checks that playback does not resume within a window: the one timeout kind allowed.
+    await page.waitForTimeout(1000)
+    expect(await currentTime(), `${edge}: currentTime`).toBe(at)
+    expect((await videoState(page, index)).paused).toBe(true)
+  }
+})
 
 for (const path of ['/', '/products', `/products/${upflow2x.id}`]) {
   test(`${path} under reduced motion: posters only, nothing plays`, async ({

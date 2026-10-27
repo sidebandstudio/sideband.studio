@@ -31,11 +31,15 @@ export function isBelowFold(el: Element) {
   return el.getBoundingClientRect().top > window.innerHeight * 0.92
 }
 
+/** The share of an element that must be in the viewport for its loop to run. */
+const ON_SCREEN = 0.01
+
 /**
- * Runs ambient loops only while `ref` is on screen, the tab is visible and
- * the visitor allows motion. Sets data-play="on" on the element, which turns
- * on every `animation-play-state: var(--play, paused)` inside it.
- * Returns the same state for script-driven loops.
+ * Runs ambient loops only while part of `ref` is in the viewport, the tab is
+ * visible and the visitor allows motion. There is no margin: a loop stops as
+ * soon as its element leaves the viewport. Sets data-play="on" on the
+ * element, which turns on every `animation-play-state: var(--play, paused)`
+ * inside it. Returns the same state for script-driven loops.
  */
 export function useAmbient(ref: RefObject<Element>) {
   const [playing, setPlaying] = useState(false)
@@ -53,10 +57,10 @@ export function useAmbient(ref: RefObject<Element>) {
     }
     const io = new IntersectionObserver(
       ([entry]) => {
-        onScreen = entry.isIntersecting
+        onScreen = entry.intersectionRatio >= ON_SCREEN
         sync()
       },
-      { rootMargin: '80px 0px' },
+      { threshold: ON_SCREEN },
     )
     io.observe(el)
     document.addEventListener('visibilitychange', sync)

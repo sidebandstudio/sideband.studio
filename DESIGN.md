@@ -118,8 +118,8 @@ Easings: `ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and lifts, `ea
   once, staggered 70ms per sibling (`<SectionHeading>` does this for you). Content above the fold, with
   script off, or under reduced motion is simply visible.
 - **Ambient loops.** Only the product videos and the `bands` backdrop. Use `useAmbient(ref)` from
-  `components/ui/motion.ts`: it sets `data-play="on"` only while the element is on screen, the tab is
-  visible and motion is allowed. CSS loops use `animation-play-state: var(--play, paused)`; script
+  `components/ui/motion.ts`: it sets `data-play="on"` only while part of the element is in the viewport
+  (no margin), the tab is visible and motion is allowed. CSS loops use `animation-play-state: var(--play, paused)`; script
   loops read the returned boolean. Periods 6–20s, amplitudes small.
 - **Home preview.** The one other loop: the hero window (`components/home/HeroPreview.tsx`)
   pages to the next product every 6s while it is on screen, the tab is visible and motion is
@@ -213,9 +213,10 @@ render them: `media/product-videos/README.md`). `lib/products.ts` records each c
   `priority`, so it is the largest paint.
 - **Loading.** `<video muted loop playsInline disablePictureInPicture>` with a WebM then an MP4
   source. `preload="none"`, except the product page's own hero (`priority`), which preloads its
-  metadata. Nothing else downloads until the frame nears the viewport.
-- **Playback.** Plays only while on screen, the tab is visible and motion is allowed (`useAmbient`),
-  and pauses otherwise. Under reduced motion it never plays and only the poster shows, and turning
+  metadata. Within 80px of the viewport `preload` rises to `auto` so the video buffers ahead.
+  Nothing else downloads until the frame nears the viewport.
+- **Playback.** Plays only while part of the frame is in the viewport, the tab is visible and motion
+  is allowed (`useAmbient`), and pauses as soon as the frame leaves it. The 80px look-ahead only loads. Under reduced motion it never plays and only the poster shows, and turning
   reduced motion on while one plays pauses it and brings the poster back.
 - **Accessibility.** The frame is `aria-hidden` with no controls and nothing focusable. The page
   names the product in text beside it. In a list where the name already links, `link` makes the
