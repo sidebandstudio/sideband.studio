@@ -33,8 +33,8 @@ const TWEENS: Record<number, Pos> = {
 }
 const REPEATS = new Set([1, 3, 5, 6, 8])
 
-const V2 = 170
-const V1 = 330
+const V2 = 150
+const V1 = 310
 const cellX = (i: number) => 104 + 72 * i
 
 function Cell({
@@ -63,38 +63,17 @@ function Cell({
   )
 }
 
-/** `ruler` numbers the frames above V2, as Resolve's timeline does. */
-function Core({ ruler }: { ruler: boolean }) {
+/**
+ * The two tracks, V1 the source as drawn and V2 the rebuilt clip. `ruler`
+ * numbers the frames above V2, as Resolve's timeline does.
+ */
+function Tracks({ ruler }: { ruler: boolean }) {
   return (
     <g>
-      <text x={40} y={116} fontSize={22} className={cx(u.mono, u.muted)}>
-        On 2s · 4 drawings in 9 frames
-      </text>
-      <g className={cx(s.a, s.badge)}>
-        <rect
-          x={540}
-          y={86}
-          width={214}
-          height={44}
-          rx={22}
-          className={u.accDim}
-        />
-        <text
-          x={647}
-          y={116}
-          textAnchor="middle"
-          fontSize={22}
-          className={cx(u.mono, u.acc)}
-        >
-          Super Scale 2x
-        </text>
-      </g>
-
-      {/* Tracks */}
-      <text x={48} y={214} fontSize={24} className={cx(u.mono, u.muted)}>
+      <text x={40} y={V2 + 48} fontSize={36} className={cx(u.mono, u.muted)}>
         V2
       </text>
-      <text x={48} y={374} fontSize={24} className={cx(u.mono, u.muted)}>
+      <text x={40} y={V1 + 48} fontSize={36} className={cx(u.mono, u.muted)}>
         V1
       </text>
       {ruler &&
@@ -102,9 +81,9 @@ function Core({ ruler }: { ruler: boolean }) {
           <text
             key={i}
             x={cellX(i) + 33}
-            y={V2 - 22}
+            y={V2 - 26}
             textAnchor="middle"
-            fontSize={17}
+            fontSize={28}
             className={cx(u.mono, u.muted)}
           >
             {i + 1}
@@ -152,9 +131,9 @@ function Core({ ruler }: { ruler: boolean }) {
         <text
           key={i}
           x={cellX(i) + 33}
-          y={444}
+          y={V1 + 124}
           textAnchor="middle"
-          fontSize={22}
+          fontSize={36}
           className={cx(u.mono, REPEATS.has(i) ? u.muted : u.ink2)}
         >
           {d}
@@ -197,53 +176,114 @@ function Core({ ruler }: { ruler: boolean }) {
           </g>
         ))}
       </g>
+    </g>
+  )
+}
 
-      {/* Legend */}
+/** Super Scale 2x, switched on once the clip is rebuilt. Right edge at x. */
+function Badge({ x, y, size }: { x: number; y: number; size: number }) {
+  const w = 14 * 0.6 * size + 1.4 * size
+  const h = 1.6 * size
+  return (
+    <g className={cx(s.a, s.badge)}>
       <rect
-        x={104}
-        y={492}
-        width={22}
-        height={22}
-        rx={5}
+        x={x - w}
+        y={y}
+        width={w}
+        height={h}
+        rx={h / 2}
         className={u.accDim}
       />
-      <circle cx={115} cy={503} r={5} className={u.acc} />
-      <text x={138} y={510} fontSize={22} className={cx(u.mono, u.ink2)}>
-        RIFE in-between
+      <text
+        x={x - w / 2}
+        y={y + h / 2 + 0.36 * size}
+        textAnchor="middle"
+        fontSize={size}
+        className={cx(u.mono, u.acc)}
+      >
+        Super Scale 2x
       </text>
+    </g>
+  )
+}
+
+/** The two legend keys. `row` sets them side by side, else stacked. */
+function Legend({
+  x,
+  y,
+  size,
+  row,
+}: {
+  x: number
+  y: number
+  size: number
+  row: boolean
+}) {
+  const key = size * 0.85
+  const second = row
+    ? { x: x + key + 0.5 * size + 15 * 0.6 * size + 1.4 * size, y }
+    : { x, y: y + 1.55 * size }
+  const label = (lx: number, ly: number, text: string) => (
+    <text
+      x={lx + key + 0.5 * size}
+      y={ly + key / 2 + 0.36 * size}
+      fontSize={size}
+      className={cx(u.mono, u.ink2)}
+    >
+      {text}
+    </text>
+  )
+  return (
+    <>
       <rect
-        x={418}
-        y={492}
-        width={22}
-        height={22}
-        rx={5}
+        x={x}
+        y={y}
+        width={key}
+        height={key}
+        rx={key / 4}
+        className={u.accDim}
+      />
+      <circle cx={x + key / 2} cy={y + key / 2} r={key / 5} className={u.acc} />
+      {label(x, y, 'RIFE in-between')}
+      <rect
+        x={second.x + 1.25}
+        y={second.y + 1.25}
+        width={key - 2.5}
+        height={key - 2.5}
+        rx={key / 4}
         className={cx(u.none, u.accLine)}
         strokeWidth={2.5}
       />
-      <text x={452} y={510} fontSize={22} className={cx(u.mono, u.ink2)}>
-        Real drawing
-      </text>
-    </g>
+      {label(second.x, second.y, 'Real drawing')}
+    </>
   )
 }
 
 function Card() {
   return (
     <SceneSvg frame="card" duration={DURATION} still={STILL}>
-      <g transform="translate(0 14)">
-        <Core ruler={false} />
-      </g>
+      <text x={40} y={94} fontSize={36} className={cx(u.mono, u.ink2)}>
+        On 2s
+      </text>
+      <Badge x={754} y={52} size={36} />
+      <Tracks ruler={false} />
+      <Legend x={104} y={470} size={36} row={false} />
     </SceneSvg>
   )
 }
 
 function Hero() {
-  // Core (x 40–754, y 86–514) at 1.4×, centred.
+  // Tracks (x 40–754, y 104–438) at 1.4×, centred under the header row.
   return (
     <SceneSvg frame="hero" duration={DURATION} still={STILL}>
-      <g transform="translate(244 84) scale(1.4)">
-        <Core ruler />
+      <text x={246} y={198} fontSize={38} className={cx(u.mono, u.ink2)}>
+        On 2s · 4 drawings in 9 frames
+      </text>
+      <Badge x={1354} y={154} size={38} />
+      <g transform="translate(240 136) scale(1.4)">
+        <Tracks ruler />
       </g>
+      <Legend x={296} y={810} size={40} row />
     </SceneSvg>
   )
 }
