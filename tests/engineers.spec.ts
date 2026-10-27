@@ -251,6 +251,17 @@ test('the about timeline dates every engineer from their Sideband role', async (
   )
 })
 
+test('the about page quotes Ali Younes on why EternalMonitor exists', async ({
+  page,
+}) => {
+  await page.goto('/about')
+  await expect(
+    page.locator('section[aria-labelledby="how-title"]'),
+  ).toContainText(
+    'In Ali Younes’s words: “I refused to pay $40 for an iPad-as-second-display app that lagged. So I wrote my own.”',
+  )
+})
+
 test('a role held in two stints is measured per stint, and roles group by organisation', async ({
   page,
 }) => {
