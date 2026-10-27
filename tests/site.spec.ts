@@ -129,13 +129,19 @@ for (const route of ROUTES) {
         await page.locator('head link[rel="canonical"]').getAttribute('href'),
       ).toBe(canonical(route))
       const check = checker(request)
+      // The dev server points social images at itself so they preview
+      // locally. The production build (CI=1) must point them at the site.
+      const origins = process.env.CI
+        ? [SITE]
+        : [SITE, `http://localhost:${new URL(page.url()).port}`]
       for (const selector of [
         'meta[property="og:image"]',
         'meta[name="twitter:image"]',
       ]) {
-        const url = await metaContent(page, selector)
-        expect(url, selector).toMatch(/^https:\/\/sideband\.studio\//)
-        expect(await check(url!.slice(SITE.length)), url!).toBe(200)
+        const url = (await metaContent(page, selector)) ?? ''
+        const origin = origins.find((o) => url.startsWith(`${o}/`))
+        expect(origin, `${selector} ${url}`).toBeTruthy()
+        expect(await check(url.slice(origin!.length)), url).toBe(200)
       }
       expect(await metaContent(page, 'meta[property="og:url"]')).toBe(
         canonical(route),
