@@ -573,6 +573,24 @@ export const engineers: Engineer[] = [
         tech: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
       },
       {
+        name: 'Fade Empire',
+        blurb:
+          'Booking site and iPhone barber app for a two-chair barbershop in Chicopee, MA. Slots are reserved by Postgres functions that refuse double bookings, with text reminders through Twilio and pushes to the barbers.',
+        href: '/products/fade-empire',
+        internal: true,
+        productId: 'fade-empire',
+        repo: 'https://github.com/sidebandstudio/FadeEmpire',
+        tech: [
+          'JavaScript',
+          'Supabase',
+          'PostgreSQL',
+          'Deno',
+          'Twilio',
+          'SwiftUI',
+          'APNs',
+        ],
+      },
+      {
         name: 'EternalExchange',
         featured: true,
         blurb:
