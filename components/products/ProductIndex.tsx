@@ -319,10 +319,10 @@ function Flagship({ r, total }: { r: RankedProduct; total: number }) {
         <SceneLink r={r} variant="hero" />
       </Reveal>
       <Reveal delay={70} className="flex flex-col gap-6 lg:col-span-5">
-        <RankLine r={r} total={total} />
         <div className="flex flex-col gap-3">
           <Name r={r} size="head" />
           <Meta r={r} />
+          <RankLine r={r} total={total} />
         </div>
         <p className="text-lead text-sideband-text">{product.tagline}</p>
         <p className="text-body text-sideband-text-secondary">
@@ -348,10 +348,10 @@ function Feature({ r, total }: { r: RankedProduct; total: number }) {
     >
       <SceneLink r={r} variant="card" />
       <div className="flex flex-col gap-5">
-        <RankLine r={r} total={total} />
         <div className="flex flex-col gap-3">
           <Name r={r} size="head" />
           <Meta r={r} />
+          <RankLine r={r} total={total} />
         </div>
         <p className="text-lead text-sideband-text">{product.tagline}</p>
         <p className="text-body text-sideband-text-secondary">
@@ -377,10 +377,10 @@ function Row({ r, total }: { r: RankedProduct; total: number }) {
     >
       <SceneLink r={r} variant="card" className="md:col-span-5 lg:col-span-4" />
       <div className="flex flex-col gap-4 md:col-span-7 lg:col-span-5">
-        <RankLine r={r} total={total} />
         <div className="flex flex-col gap-2">
           <Name r={r} size="lead" />
           <Meta r={r} />
+          <RankLine r={r} total={total} />
         </div>
         <p className="text-body text-sideband-text">{product.tagline}</p>
         <p className="text-body text-sideband-text-secondary">
@@ -408,6 +408,8 @@ const COLUMNS: {
   { key: 'contributors', label: 'Contributors' },
   { key: 'platforms', label: 'Platforms' },
 ]
+
+const TABLE_ROW = 'border-t border-sideband-border text-sideband-text-secondary' // taste-skill-ignore: rules in a real data table
 
 function RankingTable({ ranked }: { ranked: RankedProduct[] }) {
   return (
@@ -451,10 +453,7 @@ function RankingTable({ ranked }: { ranked: RankedProduct[] }) {
         </thead>
         <tbody>
           {ranked.map((r) => (
-            <tr
-              key={r.product.id}
-              className="border-t border-sideband-border text-sideband-text-secondary"
-            >
+            <tr key={r.product.id} className={TABLE_ROW}>
               <td className="px-5 py-3.5 text-sideband-text">{r.rank}</td>
               <th scope="row" className="px-5 py-3.5 text-left font-normal">
                 <Link
