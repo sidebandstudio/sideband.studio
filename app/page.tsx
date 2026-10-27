@@ -1,18 +1,32 @@
 import Hero from '@/components/home/Hero'
-import ProductGrid from '@/components/home/ProductGrid'
-import StudioSection from '@/components/home/StudioSection'
+import ProductShowcase from '@/components/home/ProductShowcase'
+import Team from '@/components/home/Team'
 import OpenSource from '@/components/home/OpenSource'
 import FinalCta from '@/components/home/FinalCta'
-import { productsByRank } from '@/lib/products'
+import { getHomeData } from '@/lib/home-data'
 
 export default function Home() {
-  const products = productsByRank()
+  const data = getHomeData()
   return (
     <>
-      <Hero products={products} />
-      <ProductGrid products={products} />
-      <StudioSection />
-      <OpenSource />
+      <Hero
+        hero={data.hero}
+        stats={data.stats}
+        engineerCount={data.engineerCount}
+        syncedOn={data.syncedOn}
+      />
+      <ProductShowcase
+        products={data.showcase}
+        more={data.more}
+        ranking={data.ranking}
+        syncedOn={data.syncedOn}
+      />
+      <Team team={data.team} />
+      <OpenSource
+        repos={data.openRepos}
+        facts={data.studioFacts}
+        org={data.org}
+      />
       <FinalCta />
     </>
   )

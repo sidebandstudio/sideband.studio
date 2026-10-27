@@ -1,0 +1,10 @@
+/* The strip of ranked products scrolls sideways in one row on phones. The
+   chip cut off at the edge shows there is more, so the scrollbar is hidden. */
+.strip {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.strip::-webkit-scrollbar {
+  display: none;
+}

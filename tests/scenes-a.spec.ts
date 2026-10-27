@@ -11,13 +11,13 @@ const IDS = [
 ]
 
 for (const id of IDS) {
-  test(`${id} card scene renders on the home page and is decorative`, async ({
+  test(`${id} scene renders on the products index and is decorative`, async ({
     page,
   }) => {
-    await page.goto('/')
+    await page.goto('/products')
     const stage = page.locator(`[data-scene="${id}"]`)
     await stage.scrollIntoViewIfNeeded()
-    await expect(stage.locator('svg[data-frame="card"]')).toBeVisible()
+    await expect(stage.locator('svg[data-frame]:visible')).toHaveCount(1)
     expect(
       await stage.evaluate((el) => el.closest('[aria-hidden="true"]') !== null),
     ).toBe(true)
@@ -37,7 +37,7 @@ for (const id of IDS) {
 }
 
 test('scene loops pause off screen and run on screen', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/products')
   const stage = page.locator('[data-scene="tandemcode"]')
   const running = () =>
     stage.evaluate(
@@ -57,11 +57,11 @@ test('scene loops pause off screen and run on screen', async ({ page }) => {
 
 test('scenes are complete stills under reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+  await page.goto('/products')
   for (const id of IDS) {
     const stage = page.locator(`[data-scene="${id}"]`)
     await stage.scrollIntoViewIfNeeded()
-    await expect(stage.locator('svg[data-frame="card"]')).toBeVisible()
+    await expect(stage.locator('svg[data-frame]:visible')).toHaveCount(1)
     expect(
       await stage.evaluate((el) => el.getAnimations({ subtree: true }).length),
     ).toBe(0)

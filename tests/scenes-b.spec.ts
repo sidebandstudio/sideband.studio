@@ -1,8 +1,8 @@
 import { test, expect, type Page } from '@playwright/test'
 
 // Group-b product scenes (components/products/scenes/group-b). Cards render
-// in the home page's product grid. Heroes render on a product page once that
-// page uses <ProductScene variant="hero">.
+// on the products index, which shows every product. Heroes render on a
+// product page once that page uses <ProductScene variant="hero">.
 const ids = [
   'better-canvas',
   'eternal-summary',
@@ -50,7 +50,7 @@ test.describe('group-b scenes', () => {
     test(`${id} card plays on screen and pauses off screen`, async ({
       page,
     }) => {
-      await page.goto('/')
+      await page.goto('/products')
       await checkScene(page, id, 'card')
 
       await page.evaluate(() => window.scrollTo(0, 0))
@@ -71,7 +71,7 @@ test.describe('group-b scenes', () => {
   }) => {
     const context = await browser.newContext({ reducedMotion: 'reduce' })
     const page = await context.newPage()
-    await page.goto('/')
+    await page.goto('/products')
     for (const id of ids) {
       const svg = scene(page, id, 'card')
       await svg.scrollIntoViewIfNeeded()
