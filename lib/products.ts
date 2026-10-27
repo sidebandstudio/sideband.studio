@@ -1314,6 +1314,11 @@ export const products: Product[] = [
       ),
     ],
   },
+  // Describes what topchoicerealtyny.com serves: branch fleet/recover-local-migration
+  // at 2a92bec (open PR #1, not merged). A clean build of that commit reproduces the
+  // live index.html, index-bsDzy4H7.js and index-DKQi0Pci.css byte for byte, and the
+  // live headers, 405 handling and tcr_session cookie come from its vercel.json and
+  // api/ router. main (6ddd9249) is the older Express + MongoDB app and is not deployed.
   {
     id: 'top-choice-realty',
     name: 'Top Choice Realty',
@@ -1359,6 +1364,7 @@ export const products: Product[] = [
       'Vite',
       'Tailwind',
       'TanStack Query',
+      'Node.js 22',
       'Vercel Functions',
       'Supabase Postgres',
     ],
