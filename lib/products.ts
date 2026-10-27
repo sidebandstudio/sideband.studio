@@ -1252,7 +1252,6 @@ export const products: Product[] = [
       {
         title: 'Transmutation Table',
         body: 'Learn an item once, burn matter into EMC, and make any learned item back.',
-        image: '/assets/products/eternal-exchange/transmutation-table-gui.webp',
       },
       {
         title: 'Automation line',
