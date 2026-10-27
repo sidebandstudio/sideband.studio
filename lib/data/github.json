@@ -72,6 +72,11 @@
       ],
       "latestRelease": null,
       "license": "Apache-2.0",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/naman0r/tandemcode/blob/main/LICENSE"
+      },
+      "licenseName": "Apache License 2.0",
       "name": "tandemcode",
       "openIssues": 2,
       "parent": null,
@@ -120,6 +125,8 @@
       ],
       "latestRelease": null,
       "license": null,
+      "licenseFile": null,
+      "licenseName": null,
       "name": "Better-Canvas",
       "openIssues": 0,
       "parent": null,
@@ -171,6 +178,11 @@
         "url": "https://github.com/sidebandstudio/Eternal-Rich-Presence/releases/tag/v1.0.0-beta"
       },
       "license": "GPL-3.0",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/Eternal-Rich-Presence/blob/main/LICENSE"
+      },
+      "licenseName": "GNU General Public License v3.0",
       "name": "Eternal-Rich-Presence",
       "openIssues": 0,
       "parent": null,
@@ -220,6 +232,11 @@
       ],
       "latestRelease": null,
       "license": "NOASSERTION",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/Eternal-Summary/blob/main/LICENSE"
+      },
+      "licenseName": "Other",
       "name": "Eternal-Summary",
       "openIssues": 0,
       "parent": null,
@@ -275,6 +292,8 @@
         "url": "https://github.com/sidebandstudio/Eternal2x.com/releases/tag/v0.4.0"
       },
       "license": null,
+      "licenseFile": null,
+      "licenseName": null,
       "name": "Eternal2x.com",
       "openIssues": 0,
       "parent": null,
@@ -322,6 +341,11 @@
         "url": "https://github.com/sidebandstudio/EternalExchange/releases/tag/v1.0.0"
       },
       "license": "MIT",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/EternalExchange/blob/main/LICENSE"
+      },
+      "licenseName": "MIT License",
       "name": "EternalExchange",
       "openIssues": 0,
       "parent": null,
@@ -407,11 +431,16 @@
         "url": "https://github.com/sidebandstudio/EternalMonitor/releases/tag/v0.3.2"
       },
       "license": "MIT",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/EternalMonitor/blob/main/LICENSE"
+      },
+      "licenseName": "MIT License",
       "name": "EternalMonitor",
       "openIssues": 0,
       "parent": null,
       "primaryLanguage": "Rust",
-      "pushedAt": "2026-10-27T00:22:30Z",
+      "pushedAt": "2026-10-27T01:20:39Z",
       "releases": 7,
       "stars": 181,
       "topics": [
@@ -490,6 +519,8 @@
       ],
       "latestRelease": null,
       "license": null,
+      "licenseFile": null,
+      "licenseName": null,
       "name": "Exerly-Fitness",
       "openIssues": 0,
       "parent": null,
@@ -559,6 +590,11 @@
       ],
       "latestRelease": null,
       "license": "Apache-2.0",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/TandemCode/blob/main/LICENSE"
+      },
+      "licenseName": "Apache License 2.0",
       "name": "TandemCode",
       "openIssues": 0,
       "parent": "naman0r/tandemcode",
@@ -635,6 +671,11 @@
       ],
       "latestRelease": null,
       "license": "NOASSERTION",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/hushtype/blob/hushtype/LICENSE"
+      },
+      "licenseName": "Other",
       "name": "hushtype",
       "openIssues": 0,
       "parent": null,
@@ -683,6 +724,11 @@
       ],
       "latestRelease": null,
       "license": "MIT",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/topchoicerealty/blob/main/LICENSE"
+      },
+      "licenseName": "MIT License",
       "name": "topchoicerealty",
       "openIssues": 0,
       "parent": null,
@@ -727,6 +773,8 @@
       ],
       "latestRelease": null,
       "license": null,
+      "licenseFile": null,
+      "licenseName": null,
       "name": "SignatureCuts",
       "openIssues": 0,
       "parent": null,
@@ -739,7 +787,7 @@
       "watchers": 0
     }
   },
-  "syncedAt": "2026-10-27T00:56:30.660Z",
+  "syncedAt": "2026-10-27T01:38:31.737Z",
   "users": {
     "Alitleis123": {
       "avatarUrl": "https://avatars.githubusercontent.com/u/194432566?u=3567178a714548ed93442b0d0b00026cdf07887d&v=4",

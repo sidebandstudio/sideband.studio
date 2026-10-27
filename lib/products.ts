@@ -74,6 +74,11 @@ export interface Product {
   /** Credit for the code or idea this product builds on. */
   origin: string | null
   links: ProductLinks
+  /**
+   * What the repo's LICENSE file says, read by hand, for a license GitHub
+   * cannot identify (snapshot license NOASSERTION). productLicense() uses it.
+   */
+  licenseNote?: string
   /** `owner/name` key into the GitHub snapshot. */
   repo: string
   /** The repo the product is developed in, when `repo` is Sideband's fork of it. Ranking reads this one. */
@@ -997,6 +1002,8 @@ export const products: Product[] = [
       store:
         'https://chromewebstore.google.com/detail/eternal-summary/cpdeianknlpdhlbfdgckdcgfglbhkjbf',
     },
+    // LICENSE: "Eternal Summary License", copyright Ali Tleis, personal and educational use only.
+    licenseNote: 'Eternal Summary License, all rights reserved',
     repo: 'sidebandstudio/Eternal-Summary',
     accentColor: '#7B8CFF',
     icon: image(
@@ -1133,13 +1140,16 @@ export const products: Product[] = [
     version: '0.3.0',
     yearStarted: 2026,
     engineers: ['ali-younes'],
-    origin: 'Built on Handy by CJ Pais (MIT).',
+    origin:
+      'Built on Handy, an MIT-licensed app by CJ Pais. hushtype itself is proprietary.',
     links: {
       site: 'https://hushtype.vercel.app/',
       repo: 'https://github.com/sidebandstudio/hushtype',
       upstream: 'https://github.com/cjpais/Handy',
       download: 'https://hushtype.vercel.app/#install',
     },
+    // LICENSE: "proprietary and confidential", copyright Ali Younes (Sideband Studio).
+    licenseNote: 'Proprietary, all rights reserved',
     repo: 'sidebandstudio/hushtype',
     accentColor: '#B2C8A6',
     icon: image(
@@ -1525,6 +1535,88 @@ export function productRepo(product: Product): GithubRepo {
     )
   }
   return repo
+}
+
+/**
+ * OSI-approved licenses, by SPDX id as GitHub reports them. Only these count
+ * as open source. https://opensource.org/licenses
+ */
+const OSI_APPROVED = new Set([
+  '0BSD',
+  'AFL-3.0',
+  'AGPL-3.0',
+  'Apache-2.0',
+  'Artistic-2.0',
+  'BSD-2-Clause',
+  'BSD-3-Clause',
+  'BSL-1.0',
+  'ECL-2.0',
+  'EPL-1.0',
+  'EPL-2.0',
+  'EUPL-1.2',
+  'GPL-2.0',
+  'GPL-3.0',
+  'ISC',
+  'LGPL-2.1',
+  'LGPL-3.0',
+  'MIT',
+  'MPL-2.0',
+  'MS-PL',
+  'MS-RL',
+  'OSL-3.0',
+  'Unlicense',
+  'UPL-1.0',
+  'Zlib',
+])
+
+export interface ProductLicense {
+  /** SPDX id, or null when GitHub cannot identify the license or there is none. */
+  spdx: string | null
+  name: string
+  openSource: boolean
+  /** The LICENSE file on GitHub, or null when the repo has none. */
+  url: string | null
+}
+
+/**
+ * The license of the product's own repo (`repo`, not the upstream), from the
+ * snapshot's detected license and LICENSE file. Server-side: reads the snapshot.
+ *
+ * - An identified OSI-approved license is open source.
+ * - A LICENSE file GitHub cannot identify (NOASSERTION) is not, and its name
+ *   comes from `licenseNote`, read from the file.
+ * - No LICENSE file means all rights reserved.
+ */
+export function productLicense(product: Product): ProductLicense {
+  const repo = getRepo(product.repo)
+  if (!repo) {
+    throw new Error(
+      `${product.repo} is missing from lib/data/github.json. Run npm run sync:github.`,
+    )
+  }
+  const url = repo.licenseFile?.url ?? null
+  if (!repo.licenseFile) {
+    return {
+      spdx: null,
+      name: 'No license, all rights reserved',
+      openSource: false,
+      url,
+    }
+  }
+  if (!repo.license || repo.license === 'NOASSERTION') {
+    if (!product.licenseNote) {
+      throw new Error(
+        `${product.repo} has a LICENSE file GitHub cannot identify. Read it and set licenseNote on ${product.id}.`,
+      )
+    }
+    return { spdx: null, name: product.licenseNote, openSource: false, url }
+  }
+  return {
+    spdx: repo.license,
+    name: repo.licenseName ?? repo.license,
+    openSource: OSI_APPROVED.has(repo.license),
+    url,
+  }
 }
 
 export interface ProductRankInputs {
