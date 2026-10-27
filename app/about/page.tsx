@@ -10,6 +10,7 @@ import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
+import { pageMetadata } from '@/lib/metadata'
 import { rankedProducts } from '@/lib/products'
 import { formatCount, syncedLabel } from '@/lib/engineers-github'
 import {
@@ -34,10 +35,11 @@ const PEOPLE_COLUMNS: Record<number, string> = {
   6: 'sm:grid-cols-2 lg:grid-cols-3',
 }
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'About · Sideband',
   description: `Sideband is an independent software studio in Boston, founded in ${foundedYear} as Eternal Reverse. ${count} founding engineers build and ship its products.`,
-}
+  path: '/about',
+})
 
 export default function AboutPage() {
   const facts = studioFacts()

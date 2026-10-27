@@ -5,6 +5,7 @@ import Reveal from '@/components/ui/Reveal'
 import EngineerCard from '@/components/engineers/EngineerCard'
 import TeamActivity from '@/components/engineers/TeamActivity'
 import { listEngineers } from '@/lib/engineers'
+import { pageMetadata } from '@/lib/metadata'
 import { productRepo } from '@/lib/products'
 import {
   engineerGithub,
@@ -20,11 +21,12 @@ import {
   productsBy,
 } from '@/lib/engineers-view'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Engineers · Sideband',
   description:
     'The founding engineers behind Sideband: what each of them builds at the studio, their work history and projects, and their activity on GitHub.',
-}
+  path: '/engineers',
+})
 
 export default function EngineersPage() {
   const all = listEngineers()

@@ -26,6 +26,7 @@ import { engineers, getEngineerById, getOtherEngineer } from '@/lib/engineers'
 import { engineerGithub } from '@/lib/engineers-github'
 import { readBio } from '@/lib/engineers-bio'
 import { imageSizes } from '@/lib/engineers-media'
+import { pageMetadata } from '@/lib/metadata'
 import {
   capitalize,
   countWord,
@@ -47,18 +48,21 @@ export function generateMetadata({
 }): Metadata {
   const e = getEngineerById(params.id)
   if (!e) return { title: 'Engineer not found · Sideband' }
-  return {
+  return pageMetadata({
     title: `${e.name} · ${e.role} · Sideband`,
     description: e.shortBio,
-    alternates: { canonical: `/engineers/${e.id}` },
-    openGraph: {
-      title: `${e.name} · ${e.role}`,
-      description: e.shortBio,
-      url: `/engineers/${e.id}`,
-      type: 'profile',
-      ...(e.portrait ? { images: [{ url: e.portrait.src }] } : {}),
-    },
-  }
+    path: `/engineers/${e.id}`,
+    socialTitle: `${e.name} · ${e.role}`,
+    type: 'profile',
+    ...(e.portrait && {
+      image: {
+        url: e.portrait.src,
+        width: e.portrait.width,
+        height: e.portrait.height,
+        alt: e.name,
+      },
+    }),
+  })
 }
 
 export default function EngineerPage({ params }: { params: { id: string } }) {

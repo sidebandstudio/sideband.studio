@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ProductDetail from '@/components/products/ProductDetail'
+import { pageMetadata } from '@/lib/metadata'
 import { getProductById, products, rankedProducts } from '@/lib/products'
 
 export function generateStaticParams() {
@@ -22,31 +23,18 @@ export function generateMetadata({
     product.images.find((image) => image.kind === 'screenshot') ??
     product.images[0]
 
-  return {
+  return pageMetadata({
     title: `${product.name} · ${product.category} · Sideband`,
     description: product.description,
-    alternates: { canonical: `/products/${product.id}` },
-    openGraph: {
-      title: `${product.name}: ${product.tagline}`,
-      description: product.description,
-      url: `/products/${product.id}`,
-      type: 'website',
-      images: [
-        {
-          url: preview.src,
-          width: preview.width,
-          height: preview.height,
-          alt: preview.alt,
-        },
-      ],
+    path: `/products/${product.id}`,
+    socialTitle: `${product.name}: ${product.tagline}`,
+    image: {
+      url: preview.src,
+      width: preview.width,
+      height: preview.height,
+      alt: preview.alt,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${product.name}: ${product.tagline}`,
-      description: product.description,
-      images: [preview.src],
-    },
-  }
+  })
 }
 
 export default function ProductPage({ params }: { params: { id: string } }) {
