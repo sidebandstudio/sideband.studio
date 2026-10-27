@@ -2,6 +2,8 @@ import Image from 'next/image'
 import type { ComponentType, CSSProperties } from 'react'
 import { getProductById, type Product } from '@/lib/products'
 import { cx } from '@/components/ui/cx'
+import { scenesA } from './group-a'
+import { scenesB } from './group-b'
 
 /**
  * Product scenes: one hand-built, animated SVG per product, drawn in two
@@ -14,7 +16,10 @@ export interface SceneProps {
   variant: SceneVariant
 }
 
-export const scenes: Partial<Record<string, ComponentType<SceneProps>>> = {}
+export type SceneMap = Partial<Record<string, ComponentType<SceneProps>>>
+
+/** Scenes are drawn in two groups (group-a, group-b), each registering its own products. */
+export const scenes: SceneMap = { ...scenesA, ...scenesB }
 
 /** Sets --product-accent for everything inside, read by `bg-product`, `bg-product-dim` and scenes. */
 export function productAccentStyle(accent: string) {
