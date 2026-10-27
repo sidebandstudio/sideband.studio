@@ -5,7 +5,12 @@ import Eyebrow from '@/components/ui/Eyebrow'
 import Reveal from '@/components/ui/Reveal'
 import Stat from '@/components/ui/Stat'
 import HeroPreview from '@/components/home/HeroPreview'
+import { cx } from '@/components/ui/cx'
+import styles from './Hero.module.css'
 import { countWord, type HomeData } from '@/lib/home-data'
+
+/** The md button size on phones, so both actions share one row from 360px. */
+const PHONE_BUTTON = 'max-sm:h-10 max-sm:px-[1.125rem] max-sm:text-small'
 
 /**
  * The first screen: who Sideband is, the two ways in, and the top-ranked
@@ -30,10 +35,12 @@ export default function Hero({
           </Eyebrow>
         </Reveal>
         <Reveal trigger="mount" delay={70}>
-          <h1 id="hero-title" className="text-display text-sideband-text">
+          <h1
+            id="hero-title"
+            className={cx('text-display text-sideband-text', styles.title)}
+          >
             We build the things
-            <br />
-            we wished existed.
+            <br className="hidden sm:inline" /> we wished existed.
           </h1>
         </Reveal>
 
@@ -50,10 +57,15 @@ export default function Hero({
             delay={210}
             className="flex shrink-0 flex-wrap items-center gap-3"
           >
-            <Button href="/products" size="lg">
+            <Button href="/products" size="lg" className={PHONE_BUTTON}>
               View products
             </Button>
-            <Button href="/engineers" size="lg" variant="secondary">
+            <Button
+              href="/engineers"
+              size="lg"
+              variant="secondary"
+              className={PHONE_BUTTON}
+            >
               Meet the engineers
             </Button>
           </Reveal>

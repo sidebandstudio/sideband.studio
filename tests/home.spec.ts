@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import {
   productLicense,
@@ -219,4 +219,41 @@ test('under reduced motion every section is visible and complete', async ({
     ranked.find((p) => p.icon)!.name,
   )
   expect(errors).toEqual([])
+})
+
+/** Lines the hero headline sets in, from its height and line height. */
+async function headlineLines(page: Page) {
+  return page.locator('#hero-title').evaluate((h1) => {
+    const lineHeight = parseFloat(getComputedStyle(h1).lineHeight)
+    return Math.round(h1.getBoundingClientRect().height / lineHeight)
+  })
+}
+
+for (const width of [320, 360, 390, 480, 640, 768, 1024, 1440, 1920]) {
+  test(`the hero headline sets in two lines at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    await page.evaluate(() => document.fonts.ready)
+    expect(await headlineLines(page)).toBeLessThanOrEqual(2)
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    )
+    expect(overflow).toBeLessThanOrEqual(0)
+  })
+}
+
+test('both hero actions share one row at 360px', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 640 })
+  await page.goto('/')
+  const hero = page.locator('section[aria-labelledby="hero-title"]')
+  const tops = await Promise.all(
+    ['View products', 'Meet the engineers'].map(async (name) =>
+      Math.round(
+        (await hero.getByRole('link', { name }).boundingBox())?.y ?? -1,
+      ),
+    ),
+  )
+  expect(tops[0]).toBe(tops[1])
 })
