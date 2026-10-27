@@ -3,6 +3,7 @@
 // snapshot, so import it from server components and pass the results down as
 // props. Never import it into a 'use client' file.
 import { engineers } from '@/lib/engineers'
+import { formatDate } from '@/lib/format'
 import { githubSyncedAt } from '@/lib/github'
 import {
   productLicense,
@@ -19,18 +20,6 @@ import {
   type ProductLicense,
   type RankedProduct,
 } from '@/lib/products'
-
-const DATE = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-  timeZone: 'UTC',
-})
-
-/** "23 Oct 2026", in UTC so server and client agree, never split across lines. */
-export function formatDate(iso: string) {
-  return DATE.format(new Date(iso)).replace(/ /g, '\u00a0')
-}
 
 export function formatCount(n: number) {
   return n.toLocaleString('en-US')

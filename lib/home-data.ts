@@ -2,7 +2,8 @@
 // lib/engineers.ts and the GitHub snapshot. Server-only: it reads the snapshot,
 // so call it from app/page.tsx and pass the plain results to client components.
 import { engineers } from '@/lib/engineers'
-import { getGithubUser, getRepo, githubOrg, githubSyncedAt } from '@/lib/github'
+import { formatDate } from '@/lib/format'
+import { getGithubUser, githubOrg, githubSyncedAt } from '@/lib/github'
 import {
   productLicense,
   productRepo,
@@ -38,16 +39,6 @@ export function countWord(n: number, capital = false) {
 }
 
 const fmt = (n: number) => n.toLocaleString('en-US')
-
-/** Dates as the studio reads them, in Boston time. */
-export function formatDate(iso: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'America/New_York',
-  }).format(new Date(iso))
-}
 
 export interface Figure {
   value: string
@@ -291,17 +282,20 @@ export function getHomeData() {
     }
   })
 
+  // Each row names, links and counts one repo: the one the product's numbers
+  // are read from (the ranking's repo), as the product page's Repository
+  // panel does. Which products are open source still follows productLicense.
   const openRepos: OpenRepo[] = ranked.flatMap((p) => {
     const license = productLicense(p)
-    const repo = getRepo(p.repo)
-    if (!license.openSource || !p.links.repo || !repo) return []
+    if (!license.openSource) return []
+    const repo = productRepo(p)
     return [
       {
         id: p.id,
         name: p.name,
-        path: p.links.repo.replace('https://github.com/', ''),
-        href: p.links.repo,
-        license: license.spdx ?? license.name,
+        path: p.upstreamRepo ?? p.repo,
+        href: repo.url,
+        license: repo.license ?? license.spdx ?? license.name,
         language: repo.primaryLanguage,
         stars: repo.stars,
         commits: repo.commits,

@@ -232,18 +232,30 @@ export function isOwnVenture(project: FeaturedProject): boolean {
   return project.venture === true
 }
 
-/** Splits a person's projects: Sideband products first, then their featured work, their own ventures, then the rest. */
-export function groupProjects(projects: FeaturedProject[] = []): ProjectGroups {
-  const ranked = productsByRank()
-  const studio = projects
-    .map((project) => ({
-      project,
-      product: ranked.find((p) => p.id === project.productId),
-    }))
-    .filter((r): r is { project: FeaturedProject; product: Product } =>
-      Boolean(r.product),
-    )
-    .sort((a, b) => ranked.indexOf(a.product) - ranked.indexOf(b.product))
+/**
+ * Splits a person's projects: Sideband products first, then their featured
+ * work, their own ventures, then the rest. The Sideband products are the ones
+ * whose `engineers` credit the person, in rank order, so the dossier, the
+ * engineers index and /about always agree. Each needs a project card, and no
+ * card may point at a product that does not credit them.
+ */
+export function groupProjects(engineer: Engineer): ProjectGroups {
+  const projects = engineer.projects ?? []
+  const credited = productsBy(engineer.id)
+  for (const project of projects) {
+    if (project.productId && !credited.some((p) => p.id === project.productId))
+      throw new Error(
+        `${engineer.id}'s ${project.name} points at ${project.productId}, which does not credit them in lib/products.ts.`,
+      )
+  }
+  const studio = credited.map((product) => {
+    const project = projects.find((p) => p.productId === product.id)
+    if (!project)
+      throw new Error(
+        `${product.id} credits ${engineer.id}, so their projects in lib/engineers.ts need a card with productId '${product.id}'.`,
+      )
+    return { project, product }
+  })
   const inStudio = new Set(studio.map((s) => s.project))
   const rest = projects.filter((p) => !inStudio.has(p))
   return {

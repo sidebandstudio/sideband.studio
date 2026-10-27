@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { GitHubIcon } from '@/components/ui/Icons'
 import { engineers } from '@/lib/engineers'
-import { products } from '@/lib/products'
+import { productsByRank } from '@/lib/products'
 
 interface FooterLink {
   href: string
@@ -14,7 +14,12 @@ interface FooterLink {
 const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Products',
-    links: products.map((p) => ({ href: `/products/${p.id}`, label: p.name })),
+    // In rank order, as on the products page. A server component, so the
+    // GitHub snapshot the ranking reads stays out of the browser.
+    links: productsByRank().map((p) => ({
+      href: `/products/${p.id}`,
+      label: p.name,
+    })),
   },
   {
     title: 'Studio',

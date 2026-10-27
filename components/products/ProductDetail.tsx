@@ -17,7 +17,6 @@ import type { Product, ProductFeature, RankedProduct } from '@/lib/products'
 import {
   formatBytes,
   formatCount,
-  formatDate,
   imageSetCount,
   imageSetTitle,
   isWideImage,
@@ -31,6 +30,7 @@ import {
   type ProductStory,
   type StoryRow,
 } from '@/lib/products-view'
+import { formatDate } from '@/lib/format'
 import ImageGrid from './ImageGrid'
 import { ImageViewerProvider, ViewableImage } from './ImageViewer'
 import ProductName from './ProductName'

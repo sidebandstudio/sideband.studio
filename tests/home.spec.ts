@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import {
   productLicense,
+  productRepo,
   productsByRank,
   RANKING_WEIGHTS,
 } from '../lib/products'
@@ -174,8 +175,29 @@ test('open source lists exactly the OSI-licensed product repos', async ({
   const hrefs = await list
     .getByRole('link')
     .evaluateAll((links) => links.map((a) => a.getAttribute('href')))
-  expect(hrefs).toEqual(open.map((p) => p.links.repo))
+  expect(hrefs).toEqual(open.map((p) => productRepo(p).url))
   expect(open.some((p) => p.id === 'hushtype')).toBe(false)
+
+  // Each row's label, link and figures all come from one repo: the one the
+  // product's numbers are read from, as on its product page.
+  for (const p of open) {
+    const key = p.upstreamRepo ?? p.repo
+    const repo = productRepo(p)
+    expect(repo.url).toBe(`https://github.com/${key}`)
+    const row = list.locator(`a[href="${repo.url}"]`)
+    const label = await row.locator('span > span').first().textContent()
+    expect(label!.replace(/\s+/g, '')).toBe(key)
+    await expect(row).toContainText(`${repo.license} license`)
+    if (repo.primaryLanguage)
+      await expect(row).toContainText(repo.primaryLanguage)
+    await expect(row).toContainText(
+      `${repo.commits.toLocaleString('en-US')} commits`,
+    )
+    if (repo.stars > 0)
+      await expect(row).toContainText(
+        `${repo.stars.toLocaleString('en-US')} ${repo.stars === 1 ? 'star' : 'stars'}`,
+      )
+  }
   await expect(page.locator('#open-source h2')).toContainText(
     `${countWord(open.length, true)} of our products`,
   )
@@ -366,4 +388,71 @@ test('the preview does not page while it is off screen', async ({ page }) => {
     'aria-selected',
     'true',
   )
+})
+
+/** A row of a product page's Repository panel, whitespace collapsed. */
+async function repositoryRow(page: Page, label: string) {
+  const text = await page
+    .locator('dl > div')
+    .filter({ has: page.locator('dt', { hasText: label }) })
+    .locator('dd')
+    .first()
+    .textContent()
+  return text!.replace(/\s+/g, ' ').trim()
+}
+
+test('release and last-push dates read the same on the home page and the product page', async ({
+  page,
+}) => {
+  const open = ranked.filter((p) => productLicense(p).openSource)
+  const latest = ranked
+    .filter((p) => productRepo(p).latestRelease)
+    .sort((a, b) =>
+      productRepo(b).latestRelease!.date.localeCompare(
+        productRepo(a).latestRelease!.date,
+      ),
+    )[0]
+  const checked = ranked.filter(
+    (p) =>
+      open.includes(p) ||
+      p === latest ||
+      (ranked.indexOf(p) < 3 && productRepo(p).latestRelease),
+  )
+  expect(checked.length).toBeGreaterThan(0)
+
+  const shown = new Map<string, { release: string | null; push: string }>()
+  for (const p of checked) {
+    await visit(page, `/products/${p.id}`)
+    const release = productRepo(p).latestRelease
+      ? (await repositoryRow(page, 'Latest release')).replace(/^.*?, /, '')
+      : null
+    shown.set(p.id, { release, push: await repositoryRow(page, 'Last push') })
+  }
+
+  await visit(page, '/')
+  const main = page.getByRole('main')
+  for (const p of checked) {
+    const { release, push } = shown.get(p.id)!
+    const tag = productRepo(p).latestRelease?.tag
+    if (ranked.indexOf(p) < 3 && release)
+      await expect(
+        page
+          .locator('#products article')
+          .filter({ has: page.locator(`a[href="/products/${p.id}"]`) }),
+      ).toContainText(`${tag} released ${release}`)
+    if (p === latest)
+      await expect(main).toContainText(
+        `Latest release, ${p.name} on ${release}`,
+      )
+    if (open.includes(p)) {
+      const row = page
+        .getByRole('list', { name: 'Open-source repositories' })
+        .locator(`a[href="${productRepo(p).url}"]`)
+      await expect(row).toContainText(`Last push ${push}`)
+      // The same commit count the product page and the ranking read.
+      await expect(row).toContainText(
+        `${productRepo(p).commits.toLocaleString('en-US')} commits`,
+      )
+    }
+  }
 })

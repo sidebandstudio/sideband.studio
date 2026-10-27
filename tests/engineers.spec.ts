@@ -1,7 +1,8 @@
 import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
+import { formatDate } from '../lib/format'
 import { getGithubUser } from '../lib/github'
-import { productRepo, products } from '../lib/products'
+import { productRepo, products, productsByRank } from '../lib/products'
 import { visit } from './helpers'
 
 const FORMSPREE = 'https://formspree.io/f/xkoperoj'
@@ -112,14 +113,7 @@ test('the contribution graph has an accessible summary and reads days by keyboar
   )
   await page.keyboard.press('Home')
   const first = user.contributions.weeks[0].days[0]
-  await expect(readout).toContainText(
-    new Date(`${first.date}T00:00:00Z`).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-      timeZone: 'UTC',
-    }),
-  )
+  await expect(readout).toContainText(formatDate(first.date))
 })
 
 test('on a phone the contribution graph keeps its labels legible and unclipped', async ({
@@ -304,6 +298,39 @@ test('a role dated by year alone shows the year without a month or length', asyn
   await expect(sideband).toContainText('2026 – Present · Boston, MA')
   await expect(sideband).not.toContainText(/\b(mo|mos|yr|yrs)\b/)
 })
+
+for (const engineer of engineers) {
+  test(`dossier ${engineer.id} lists exactly the Sideband products that credit them`, async ({
+    page,
+  }) => {
+    const credited = productsByRank().filter((p) =>
+      p.engineers.includes(engineer.id),
+    )
+    await visit(page, `/engineers/${engineer.id}`)
+    const projects = page.locator('section[aria-labelledby="projects-title"]')
+    const listed = await page
+      .locator('#projects-studio-list h4 a')
+      .evaluateAll((links) => links.map((a) => a.getAttribute('href')))
+    expect(listed).toEqual(credited.map((p) => `/products/${p.id}`))
+
+    const n = credited.length
+    if (n > 0)
+      await expect(projects).toContainText(
+        n === 1 ? '1 is a Sideband product' : `${n} are Sideband products`,
+      )
+    else
+      await expect(
+        projects.getByRole('heading', { name: 'At Sideband' }),
+      ).toHaveCount(0)
+
+    // No other card links a product page or claims one.
+    const productLinks = await projects
+      .locator('a[href^="/products/"]')
+      .evaluateAll((links) => links.map((a) => a.getAttribute('href')))
+    for (const href of productLinks)
+      expect(credited.map((p) => `/products/${p.id}`)).toContain(href)
+  })
+}
 
 test("David's ventures are listed as his own, outside Sideband", async ({
   page,

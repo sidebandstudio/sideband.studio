@@ -592,6 +592,24 @@ export const engineers: Engineer[] = [
         ],
       },
       {
+        name: 'hushtype',
+        blurb:
+          'Menu bar dictation app for the Mac, built on the open-source Handy. Hold Option-Space, speak and release, and the text is pasted at the cursor in whatever app is in front. Speech recognition runs on the Mac.',
+        href: '/products/hushtype',
+        internal: true,
+        productId: 'hushtype',
+        repo: 'https://github.com/sidebandstudio/hushtype',
+        tech: [
+          'Rust',
+          'Tauri 2',
+          'React 19',
+          'TypeScript',
+          'ONNX Runtime',
+          'Parakeet V3',
+          'Ollama',
+        ],
+      },
+      {
         name: 'Moops Bookstore',
         featured: true,
         blurb:
@@ -1034,13 +1052,13 @@ export const engineers: Engineer[] = [
         tech: ['Rust', 'FFmpeg', 'AMF', 'H.264', 'HEVC'],
       },
       {
+        // Listed on his portfolio. The product credits Ali Younes alone, so
+        // this card claims no part in it and does not link the product page.
         name: 'Exerly Fitness',
         featured: true,
         blurb:
-          'Fitness app built at Sideband. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.',
-        href: '/products/exerly',
-        internal: true,
-        productId: 'exerly',
+          'A fitness app from the studio. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.',
+        href: 'https://exerlyfitness.com',
         repo: 'https://github.com/sidebandstudio/Exerly-Fitness',
         tech: [
           'SwiftUI',
@@ -1100,6 +1118,8 @@ export const engineers: Engineer[] = [
       },
     ],
     portfolio: {
+      // The captures leave out his security clearance line, which this site
+      // does not show (see the people dossier).
       url: 'https://alitleis.dev',
       summary:
         'Opens on a split screen with two ways in: a recruiter-friendly reading view over a starfield, and an editing suite that rebuilds the whole portfolio as a 75-second video timeline you can scrub, scored to Eyes Without a Face. Warm near-black with a single amber accent.',
@@ -1127,7 +1147,8 @@ export const engineers: Engineer[] = [
       linkedin: 'https://www.linkedin.com/in/ali-tleis-091800247/',
       website: 'https://alitleis.dev',
       tiktok: 'https://www.tiktok.com/@.justlightt',
-      resume: '/assets/engineers/ali-tleis/resume.pdf',
+      // Linked, not copied: the PDF prints his phone number and his clearance.
+      resume: 'https://alitleis.dev/resume/resume.pdf',
       location: 'Greater Boston, MA',
     },
   },
@@ -1173,7 +1194,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Joined the studio as its third founding engineer, working on systems design: architecture and technical planning for the product lineup.',
+          'Joined the studio as a founding engineer, working on systems design: architecture and technical planning for the product lineup.',
         skills: ['Systems Design', 'Architecture', 'TypeScript'],
       },
       {
