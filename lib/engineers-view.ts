@@ -167,6 +167,13 @@ export function publishedLinks(engineer: Engineer): PublishedLink[] {
     })
   if (c.x)
     links.push({ label: 'X', value: handle(c.x), href: c.x, external: true })
+  if (c.instagram)
+    links.push({
+      label: 'Instagram',
+      value: handle(c.instagram),
+      href: c.instagram,
+      external: true,
+    })
   if (c.tiktok)
     links.push({
       label: 'TikTok',
@@ -199,10 +206,17 @@ export interface ProjectGroups {
   /** Projects that are Sideband products, each with its product. */
   studio: { project: FeaturedProject; product: Product }[]
   featured: FeaturedProject[]
+  /** The person's own ventures, which the data marks as outside Sideband. */
+  ventures: FeaturedProject[]
   other: FeaturedProject[]
 }
 
-/** Splits a person's projects: Sideband products first, then their featured work, then the rest. */
+/** The data words a person's own venture "His own venture ..." in its blurb. */
+export function isOwnVenture(project: FeaturedProject): boolean {
+  return /^\w+ own venture\b/i.test(project.blurb)
+}
+
+/** Splits a person's projects: Sideband products first, then their featured work, their own ventures, then the rest. */
 export function groupProjects(projects: FeaturedProject[] = []): ProjectGroups {
   const ranked = productsByRank()
   const studio = projects
@@ -219,7 +233,8 @@ export function groupProjects(projects: FeaturedProject[] = []): ProjectGroups {
   return {
     studio,
     featured: rest.filter((p) => p.featured),
-    other: rest.filter((p) => !p.featured),
+    ventures: rest.filter((p) => !p.featured && isOwnVenture(p)),
+    other: rest.filter((p) => !p.featured && !isOwnVenture(p)),
   }
 }
 
@@ -239,7 +254,13 @@ const WORDS = [
   'twelve',
 ]
 
-/** A count as a word ("four"), so prose that names a number follows the data. */
+/** "A", "A and B", "A, B and C". */
+export function listJoin(items: string[]): string {
+  if (items.length < 2) return items.join('')
+  return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
+}
+
+/** A count as a word ("five"), so prose that names a number follows the data. */
 export function countWord(n: number): string {
   return WORDS[n] ?? String(n)
 }

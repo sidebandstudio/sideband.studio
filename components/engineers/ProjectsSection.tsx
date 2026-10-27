@@ -4,6 +4,7 @@ import Reveal from '@/components/ui/Reveal'
 import StatusBadge from '@/components/ui/StatusBadge'
 import ArrowLink from '@/components/ui/ArrowLink'
 import { ArrowRightIcon } from '@/components/ui/Icons'
+import { cx } from '@/components/ui/cx'
 import { ProductScene } from '@/components/products/scenes'
 import type { FeaturedProject } from '@/lib/engineers'
 import type { ProjectGroups } from '@/lib/engineers-view'
@@ -51,7 +52,7 @@ export default function ProjectsSection({
   groups: ProjectGroups
   first: string
 }) {
-  const { studio, featured, other } = groups
+  const { studio, featured, ventures, other } = groups
   return (
     <div className="space-y-20">
       {studio.length > 0 && (
@@ -124,7 +125,13 @@ export default function ProjectsSection({
                 as="li"
                 key={project.name}
                 delay={(i % 2) * 70}
-                className="flex flex-col rounded-panel bg-sideband-surface p-6 md:p-8"
+                className={cx(
+                  'flex flex-col rounded-panel bg-sideband-surface p-6 md:p-8',
+                  // A lone last card takes the full row instead of leaving half of it empty.
+                  i === featured.length - 1 &&
+                    featured.length % 2 === 1 &&
+                    'md:col-span-2 [&>p]:max-w-prose',
+                )}
               >
                 <h4 className="text-lead font-medium text-sideband-text">
                   {project.name}
@@ -140,6 +147,50 @@ export default function ProjectsSection({
                 <div className="mt-5">
                   <Tech items={project.tech} />
                 </div>
+                <div className="mt-auto pt-6">
+                  {project.href || project.repo ? (
+                    <ProjectLinks project={project} />
+                  ) : (
+                    <p className="text-small text-sideband-muted">
+                      No public link
+                    </p>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {ventures.length > 0 && (
+        <div>
+          <h3 className="text-lead font-medium text-sideband-text">
+            {first}&apos;s own ventures, outside Sideband
+          </h3>
+          <p className="mt-2 max-w-prose text-body text-sideband-text-secondary">
+            Companies {first} runs outside the studio. They are not Sideband
+            products, and their figures are as {first} reports them.
+          </p>
+          <ul className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {ventures.map((project, i) => (
+              <Reveal
+                as="li"
+                key={project.name}
+                delay={(i % 3) * 70}
+                className="flex flex-col rounded-panel bg-sideband-surface p-6 md:p-8"
+              >
+                <h4 className="text-lead font-medium text-sideband-text">
+                  {project.name}
+                </h4>
+                <p className="mt-1.5 text-small text-sideband-muted">
+                  {['Own venture', project.role].filter(Boolean).join(' · ')}
+                </p>
+                <p className="mt-3 text-body text-sideband-text-secondary">
+                  {project.blurb}
+                </p>
+                <p className="mt-5 text-small text-sideband-muted">
+                  {project.tech?.join(', ')}
+                </p>
                 <div className="mt-auto pt-6">
                   {project.href || project.repo ? (
                     <ProjectLinks project={project} />
