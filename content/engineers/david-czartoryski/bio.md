@@ -119,8 +119,6 @@ His own venture studio and holding company, separate from Sideband. It is behind
 
 ## Off Duty
 
-Wrestling (Massachusetts state champion more than once in high school, still wrestling at Northeastern) · travel, 23 countries · fashion · food · photography · cars · chess · fitness. Speaks English, Polish and Russian.
-
 ---
 
 ## Contact

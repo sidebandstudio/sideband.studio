@@ -170,4 +170,4 @@ All 20 of his projects, each with its own write-up, are at [namanrusia.dev/proje
 
 ## Off duty
 
-Guitar, music, lifting and Clash Royale. His resume adds road biking and Rubik's cubing.
+His resume also lists road biking and Rubik's cubing.

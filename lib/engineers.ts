@@ -6,8 +6,21 @@
  * from the synced GitHub snapshot, keyed by `githubLogin`.
  */
 
+/** One continuous period in a role. */
+export interface ExperienceStint {
+  startDate: string
+  endDate?: string
+  /** What the period was, when the role changed terms ("Co-op", "Part-time"). */
+  note?: string
+}
+
 export interface ExperienceEntry {
   company: string
+  /**
+   * The organisation the role belongs to when it is published under another
+   * name (Amazon Web Services is part of Amazon). Roles group by it.
+   */
+  org?: string
   /** The company's own site or GitHub org. */
   companyUrl?: string
   /** Optional company mark. Falls back to a monogram when absent. */
@@ -20,6 +33,11 @@ export interface ExperienceEntry {
   startDate: string
   /** Omitted for an incoming role that has only a start date. */
   endDate?: string
+  /**
+   * The separate periods of a role the person left and came back to, newest
+   * first. startDate and endDate then span all of them.
+   */
+  stints?: ExperienceStint[]
   current?: boolean
   upcoming?: boolean
   emphasis?: boolean
@@ -64,6 +82,8 @@ export interface FeaturedProject {
   role?: string
   /** Featured on the person's own portfolio. The rest is their other work. */
   featured?: boolean
+  /** The person's own venture, run outside Sideband. Shown apart from their other work. */
+  venture?: boolean
   tech?: string[]
 }
 
@@ -188,6 +208,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'Amazon',
+        org: 'Amazon',
         companyUrl: 'https://github.com/aws',
         logo: '/assets/logos/aws.png',
         role: 'Software Development Engineer · Amazon Dedicated Cloud',
@@ -253,6 +274,7 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Amazon Web Services',
+        org: 'Amazon',
         companyUrl: 'https://github.com/aws',
         logo: '/assets/logos/aws.png',
         role: 'SDE Intern · AWS CloudFormation',
@@ -284,10 +306,14 @@ export const engineers: Engineer[] = [
         location: 'Cambridge, MA',
         startDate: 'Jan 2026',
         endDate: 'Present',
+        stints: [
+          { startDate: 'Aug 2026', endDate: 'Present', note: 'Part-time' },
+          { startDate: 'Jan 2026', endDate: 'Jun 2026', note: 'Co-op' },
+        ],
         current: true,
         emphasis: true,
         summary:
-          'Co-op from Jan to Jun 2026, back part-time in the same role since Aug 2026. Pitched, architected and shipped a zero-touch PXE deployment platform for a ~1,000-machine fleet in Philips’ FDA-regulated Patient Monitoring business, which monitors 600M+ patients a year.',
+          'Pitched, architected and shipped a zero-touch PXE deployment platform for a ~1,000-machine fleet in Philips’ FDA-regulated Patient Monitoring business, which monitors 600M+ patients a year.',
         highlights: [
           'In production since Apr 2026 and used by 50+ engineers to test high-priority builds. Designed and shipped solo, and presented to 50+ engineers and stakeholders',
           'Stood up the FOG/TFTP server on Ubuntu 24.04 (dnsmasq proxyDHCP, tftpd-hpa) and built a PowerShell WinPE orchestrator with a FastAPI service for MAC-keyed host config, secrets and live deployment status',
@@ -1924,7 +1950,7 @@ export const engineers: Engineer[] = [
         endDate: 'Present',
         current: true,
         emphasis: true,
-        summary: 'One of the studio’s five founding engineers.',
+        summary: 'Joined the studio as one of its founding engineers.',
       },
       {
         company: 'Northeastern University HPC Research Lab',
@@ -2173,6 +2199,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'EternalTap',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, not a Sideband product. A wallet-native fare platform for universities and transit agencies: it verifies rider eligibility against a university roster, prices MBTA fare rules and issues a signed Apple Wallet pass. He wrote the eligibility engine across 9 MBTA reduced and free fare categories, the rider web app and the native SwiftUI app, and reports a conditional contract covering 22,000+ riders.',
         role: 'Built with a cofounder',
@@ -2188,6 +2215,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'CrediMax',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, outside Sideband. Aggregates your credit cards through Plaid and tells you which one to tap at checkout. Built solo end to end: a SwiftUI app with widgets, Live Activities and an Apple Watch complication, a FastAPI and Postgres backend on Plaid’s production environment, and a Claude advisor grounded in card and transfer-partner data.',
         href: 'https://credimax.app/',
@@ -2205,6 +2233,7 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'The creative engine',
+        venture: true,
         blurb:
           'His own venture under Hercules Holdings, outside Sideband: the software behind his commerce brands. An autonomous storefront builder regenerates each shop and tunes it against live sales, and an ad creative pipeline takes production from days to 6 minutes by his account. He reports $180K in revenue across the brands.',
         tech: [

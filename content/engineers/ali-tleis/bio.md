@@ -130,4 +130,4 @@ Other work:
 
 ## Off duty
 
-He makes anime and show edits in After Effects and DaVinci Resolve for 12.7K followers on TikTok, where his top post passed 2.9M views. Away from a screen he lifts. Languages: Arabic (native), English (fluent).
+He makes anime and show edits in After Effects and DaVinci Resolve for 12.7K followers on TikTok, where his top post passed 2.9M views.

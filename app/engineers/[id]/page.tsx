@@ -2,23 +2,39 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import Section from '@/components/ui/Section'
+import SectionHeading from '@/components/ui/SectionHeading'
+import Container from '@/components/ui/Container'
 import Reveal from '@/components/ui/Reveal'
-import Eyebrow from '@/components/ui/Eyebrow'
-import Button from '@/components/ui/Button'
-import PrevBadge from '@/components/engineers/PrevBadge'
-import ExperienceTimeline from '@/components/engineers/ExperienceTimeline'
-import SkillsCloud from '@/components/engineers/SkillsCloud'
-import FeaturedProjects from '@/components/engineers/FeaturedProjects'
-import ProjectList from '@/components/engineers/ProjectList'
-import LifestyleGallery from '@/components/engineers/LifestyleGallery'
-import ContactPanel from '@/components/engineers/ContactPanel'
+import Badge from '@/components/ui/Badge'
+import ArrowLink from '@/components/ui/ArrowLink'
+import { ArrowRightIcon, ArrowUpRightIcon } from '@/components/ui/Icons'
+import ExperienceTimeline, {
+  collapseExperience,
+} from '@/components/engineers/ExperienceTimeline'
+import GithubPanel from '@/components/engineers/GithubPanel'
+import PortfolioViewer from '@/components/engineers/PortfolioViewer'
+import ProjectsSection from '@/components/engineers/ProjectsSection'
+import LifeGallery from '@/components/engineers/LifeGallery'
+import { Education, Skills } from '@/components/engineers/EducationSkills'
+import { Blocks, InlineText } from '@/components/engineers/Markdown'
+import SectionIndex from '@/components/engineers/SectionIndex'
+import ShowAll from '@/components/engineers/ShowAll'
+import { collapseProjects } from '@/components/engineers/ProjectsSection'
+import { dossierText } from '@/lib/engineers-dossier'
+import { engineers, getEngineerById, getOtherEngineer } from '@/lib/engineers'
+import { engineerGithub } from '@/lib/engineers-github'
+import { readBio } from '@/lib/engineers-bio'
+import { imageSizes } from '@/lib/engineers-media'
 import {
-  engineerCountLabel,
-  engineerIndexLabel,
-  engineers,
-  getEngineerById,
-  getOtherEngineer,
-} from '@/lib/engineers'
+  capitalize,
+  countWord,
+  firstName,
+  groupExperience,
+  groupProjects,
+  listJoin,
+  publishedLinks,
+} from '@/lib/engineers-view'
 
 export function generateStaticParams() {
   return engineers.map((e) => ({ id: e.id }))
@@ -45,302 +61,513 @@ export function generateMetadata({
   }
 }
 
-export default function EngineerDetailPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+export default function EngineerPage({ params }: { params: { id: string } }) {
   const engineer = getEngineerById(params.id)
   if (!engineer) notFound()
 
-  const other = getOtherEngineer(engineer.id)
-  const projects = engineer.projects ?? []
-  const featuredProjects = projects.filter((p) => p.featured)
-  const otherProjects = projects.filter((p) => !p.featured)
-  const portraitSrc = engineer.portrait?.src
-  const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
+  const first = firstName(engineer)
+  const gh = engineerGithub(engineer)
+  const bio = readBio(engineer.id)
+  const text = dossierText(engineer, bio)
+  const { words, offDuty } = text
+  const wordCount =
+    words?.blocks.find((b) => b.type === 'list')?.items.length ?? 0
+  const links = publishedLinks(engineer)
+  const groups = groupExperience(engineer.experience ?? [])
+  const projects = groupProjects(engineer.projects)
+  const projectCount = engineer.projects?.length ?? 0
+  const parts = [
+    projects.studio.length > 0 &&
+      `${projects.studio.length} ${projects.studio.length === 1 ? 'is a Sideband product' : 'are Sideband products'}`,
+    projects.featured.length > 0 &&
+      `${projects.featured.length} ${projects.featured.length === 1 ? 'is' : 'are'} featured on ${first}'s own site`,
+    projects.ventures.length > 0 &&
+      `${projects.ventures.length} ${projects.ventures.length === 1 ? 'is a venture' : 'are ventures'} ${first} runs outside Sideband`,
+    projects.other.length > 0 && `${projects.other.length} more follow`,
+  ].filter(Boolean) as string[]
+  const projectsLede = `${projectCount} ${projectCount === 1 ? 'project' : 'projects'}. ${capitalize(listJoin(parts))}.`
+  const lifestyle = engineer.lifestyle ?? []
+  const next = getOtherEngineer(engineer.id)
+  const projectTargets = collapseProjects(projects, 'projects', 1)
+  const roleCount = groups.reduce((n, g) => n + g.roles.length, 0)
+
+  const meta = [
+    { label: 'Based in', value: engineer.contact.location },
+    { label: 'Availability', value: engineer.availability },
+    { label: 'Speaks', value: text.speaks && listJoin(text.speaks) },
+  ].filter((m): m is { label: string; value: string } => Boolean(m.value))
+
+  const interests =
+    text.interests.length > 0 ? (
+      <ul aria-label="Interests" className="flex flex-wrap gap-2">
+        {text.interests.map((i) => (
+          <li key={i}>
+            <Badge>{i}</Badge>
+          </li>
+        ))}
+      </ul>
+    ) : null
+  const hasOffDuty = Boolean(offDuty || interests)
+
+  const hasEducation =
+    (engineer.education?.length ?? 0) > 0 || (engineer.skills?.length ?? 0) > 0
+  const index = [
+    gh && { id: 'github', label: 'GitHub' },
+    engineer.portfolio && { id: 'site', label: 'Own site' },
+    { id: 'about', label: `About ${first}` },
+    groups.length > 0 && { id: 'experience', label: 'Experience' },
+    projectCount > 0 && { id: 'projects', label: 'Projects' },
+    hasEducation && {
+      id: 'education',
+      label: (engineer.education?.length ?? 0) > 0 ? 'Education' : 'Skills',
+    },
+    lifestyle.length > 0 && { id: 'off-duty', label: 'Off duty' },
+  ].filter(Boolean) as { id: string; label: string }[]
 
   return (
-    <div className="min-h-screen bg-sideband-black pt-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <Reveal>
-          <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-muted">
-            <Link
-              href="/engineers"
-              className="transition-colors hover:text-sideband-accent"
-            >
-              ← ENGINEERS
-            </Link>
-            <span className="text-sideband-border">/</span>
-            <span className="text-sideband-text-secondary">
-              {engineer.name}
-            </span>
-          </div>
-        </Reveal>
+    <>
+      {/* Header */}
+      <section aria-labelledby="engineer-name" className="pb-section pt-32">
+        <Container>
+          <Reveal trigger="mount">
+            <nav aria-label="Breadcrumb">
+              <ol className="flex items-center gap-2 text-small text-sideband-muted">
+                <li>
+                  <Link
+                    href="/engineers"
+                    className="transition-colors duration-hover hover:text-sideband-text"
+                  >
+                    Engineers
+                  </Link>
+                </li>
+                <li aria-hidden="true">/</li>
+                <li
+                  aria-current="page"
+                  className="text-sideband-text-secondary"
+                >
+                  {engineer.name}
+                </li>
+              </ol>
+            </nav>
+          </Reveal>
 
-        {/* HERO */}
-        <section className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+          <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-20">
+            <div className="min-w-0">
+              <Reveal trigger="mount" delay={70}>
+                <h1
+                  id="engineer-name"
+                  className="text-display text-sideband-text"
+                >
+                  {engineer.name}
+                </h1>
+              </Reveal>
+              <Reveal trigger="mount" delay={140}>
+                <p className="mt-5 text-lead text-sideband-text">
+                  {engineer.role} at Sideband
+                </p>
+              </Reveal>
+              <Reveal trigger="mount" delay={210}>
+                <p className="mt-6 max-w-prose text-lead text-sideband-text-secondary">
+                  {engineer.shortBio}
+                </p>
+              </Reveal>
+
+              {meta.length > 0 && (
+                <Reveal trigger="mount" delay={280}>
+                  <dl className="mt-10 grid gap-x-8 gap-y-5 sm:grid-cols-3">
+                    {meta.map((m) => (
+                      <div key={m.label}>
+                        <dt className="text-small text-sideband-muted">
+                          {m.label}
+                        </dt>
+                        <dd className="mt-1 text-body text-sideband-text">
+                          {m.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </Reveal>
+              )}
+
+              <Reveal trigger="mount" delay={350}>
+                <h2 className="sr-only">Links</h2>
+                <ul className="mt-10 grid grid-cols-2 gap-2">
+                  {links.map((l) => (
+                    <li key={l.label} className="min-w-0">
+                      <a
+                        href={l.href}
+                        {...(l.external
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
+                        className="group flex h-full flex-wrap items-center gap-x-2 gap-y-0.5 rounded-inner bg-sideband-surface px-4 py-3 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 sm:flex-nowrap sm:gap-4"
+                      >
+                        <span className="w-full shrink-0 text-small text-sideband-muted sm:w-[4.75rem]">
+                          {l.label}
+                        </span>
+                        <span className="min-w-0 flex-1 truncate text-small text-sideband-text">
+                          {l.value}
+                        </span>
+                        {l.external ? (
+                          <ArrowUpRightIcon
+                            size={13}
+                            className="shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          />
+                        ) : (
+                          <ArrowRightIcon
+                            size={13}
+                            className="shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:translate-x-1"
+                          />
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+
+            <div className="flex flex-col gap-10">
+              {engineer.portrait && (
+                <Reveal trigger="mount" delay={210}>
+                  <Image
+                    src={engineer.portrait.src}
+                    alt={`${engineer.name}, portrait`}
+                    width={engineer.portrait.width}
+                    height={engineer.portrait.height}
+                    priority
+                    sizes={`(min-width: 1024px) ${Math.min(416, engineer.portrait.width)}px, (min-width: 640px) 60vw, 100vw`}
+                    // A portrait published smaller than the column is shown at its own size and shape, not enlarged.
+                    style={
+                      engineer.portrait.width < 416
+                        ? {
+                            maxWidth: engineer.portrait.width,
+                            aspectRatio: `${engineer.portrait.width} / ${engineer.portrait.height}`,
+                          }
+                        : undefined
+                    }
+                    className="aspect-[4/5] w-full max-w-[14rem] rounded-panel bg-sideband-surface object-cover sm:max-w-[26rem]"
+                  />
+                </Reveal>
+              )}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <SectionIndex items={index} />
+
+      {/* GitHub */}
+      {gh && (
+        <Section
+          id="github"
+          labelledBy="github-title"
+          className="!pt-16 scroll-mt-16"
+        >
+          <SectionHeading
+            id="github-title"
+            title="On GitHub"
+            lede={`${first}'s public activity${gh.pinned.length > 0 ? ', languages and pinned work' : ' and languages'}, from the studio's GitHub snapshot.`}
+          />
+          <div className="mt-14">
+            <GithubPanel gh={gh} accent={engineer.accentColor} first={first} />
+          </div>
+        </Section>
+      )}
+
+      {/* Portfolio */}
+      {engineer.portfolio && (
+        <Section
+          id="site"
+          labelledBy="portfolio-title"
+          className="scroll-mt-16"
+        >
+          <SectionHeading
+            id="portfolio-title"
+            title={`${first}'s own site`}
+            lede={engineer.portfolio.summary}
+            actions={
+              <ArrowLink href={engineer.portfolio.url} external>
+                Visit{' '}
+                {engineer.portfolio.url
+                  .replace(/^https?:\/\/(www\.)?/, '')
+                  .replace(/\/$/, '')}
+              </ArrowLink>
+            }
+          />
+          <div className="mt-14">
+            <PortfolioViewer
+              pages={engineer.portfolio.pages}
+              first={first}
+              idPrefix={`${engineer.id}-portfolio`}
+            />
+          </div>
+        </Section>
+      )}
+
+      {/* Bio */}
+      <Section
+        id="about"
+        labelledBy="bio-title"
+        tone="surface"
+        className="scroll-mt-16"
+      >
+        <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
-                [ ENGINEER DOSSIER · {indexLabel} ]
-              </span>
+              <h2 id="bio-title" className="text-head text-sideband-text">
+                About {first}
+              </h2>
             </Reveal>
-            <Reveal delay={50}>
-              <h1 className="mt-5 font-display text-[64px] leading-[0.95] md:text-[88px]">
-                <span className="block text-sideband-text">
-                  {engineer.name.split(' ')[0]}
-                </span>
-                <span className="block text-sideband-text-secondary">
-                  {engineer.name.split(' ').slice(1).join(' ')}
-                  <span className="text-sideband-accent">.</span>
-                </span>
-              </h1>
-            </Reveal>
-            <Reveal delay={100}>
-              <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-sideband-accent">
-                {engineer.role}
-              </p>
-              {engineer.contact.location && (
-                <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
-                  {engineer.contact.location}
-                </p>
+            <Reveal delay={70}>
+              <div
+                id="about-text"
+                className="mt-10 max-w-prose space-y-5 text-body text-sideband-text"
+              >
+                {engineer.longBio.map((p) => (
+                  <p key={p.slice(0, 40)}>{p}</p>
+                ))}
+              </div>
+              {engineer.longBio.length > 2 && (
+                <ShowAll
+                  targets={[{ id: 'about-text', keep: 2 }]}
+                  total={engineer.longBio.length}
+                  noun="paragraphs"
+                  label={`Read the rest about ${first}`}
+                  className="mt-6"
+                />
               )}
             </Reveal>
-
-            {engineer.prev && engineer.prev.length > 0 && (
-              <Reveal delay={150}>
-                <div className="mt-10">
-                  <PrevBadge entries={engineer.prev} />
-                </div>
+          </div>
+          <div className="flex flex-col gap-12">
+            {bio?.quote && (
+              <Reveal delay={70}>
+                <blockquote className="text-lead font-medium text-sideband-text">
+                  <InlineText content={bio.quote} />
+                </blockquote>
               </Reveal>
             )}
-
-            <Reveal delay={200}>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                {engineer.contact.resume && (
-                  <Button
-                    variant="primary"
-                    href={engineer.contact.resume}
-                    external
-                  >
-                    Download Resume ↓
-                  </Button>
-                )}
-                <Button
-                  variant="secondary"
-                  href={`mailto:${engineer.contact.email}`}
-                >
-                  Contact →
-                </Button>
-              </div>
-            </Reveal>
-          </div>
-
-          {/* Portrait */}
-          <Reveal delay={100}>
-            <div className="relative">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -left-2 -top-2 h-6 w-6 border-l border-t border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -right-2 -top-2 h-6 w-6 border-r border-t border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -bottom-2 -left-2 h-6 w-6 border-b border-l border-sideband-accent"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -bottom-2 -right-2 h-6 w-6 border-b border-r border-sideband-accent"
-              />
-
-              <div className="relative aspect-[4/5] w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
-                {portraitSrc ? (
-                  <Image
-                    src={portraitSrc}
-                    alt={`${engineer.name}, portrait`}
-                    fill
-                    sizes="(min-width: 1024px) 480px, 100vw"
-                    priority
-                    className="object-cover object-top"
+            {words && (
+              <Reveal delay={140}>
+                <h3 className="text-body font-medium text-sideband-text">
+                  {words.title}
+                </h3>
+                <Blocks
+                  blocks={words.blocks}
+                  listId="words-list"
+                  className="mt-4 text-sideband-text-secondary"
+                />
+                {wordCount > 2 && (
+                  <ShowAll
+                    targets={[{ id: 'words-list', keep: 2 }]}
+                    total={wordCount}
+                    noun="quotes"
+                    className="mt-6"
                   />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <span className="font-display text-[160px] italic text-sideband-text/30">
-                      {engineer.initials}
-                    </span>
-                  </div>
                 )}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-sideband-black/80 to-transparent" />
-                <span className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-sideband-text">
-                  {engineer.initials} · ID {engineer.id.toUpperCase()}
-                </span>
-                <span className="absolute right-4 top-4 border border-sideband-border bg-sideband-black/70 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.25em] text-sideband-accent backdrop-blur">
-                  [ ACTIVE ]
-                </span>
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* BIO */}
-        <section className="mt-32 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
-          <Reveal>
-            <Eyebrow>Who</Eyebrow>
-          </Reveal>
-          <div className="max-w-3xl space-y-6">
-            {engineer.longBio.map((para, i) => (
-              <Reveal key={i} delay={i * 50}>
-                <p className="font-mono text-[14px] leading-[1.95] text-sideband-text-secondary">
-                  {para}
-                </p>
               </Reveal>
-            ))}
+            )}
+            {hasOffDuty && lifestyle.length === 0 && (
+              <Reveal delay={210}>
+                <h3 className="text-body font-medium text-sideband-text">
+                  Off duty
+                </h3>
+                {offDuty && (
+                  <Blocks
+                    blocks={offDuty.blocks}
+                    className="mt-4 text-sideband-text-secondary"
+                  />
+                )}
+                {interests && <div className="mt-5">{interests}</div>}
+              </Reveal>
+            )}
           </div>
-        </section>
+        </div>
+      </Section>
 
-        {/* EXPERIENCE */}
-        {engineer.experience && engineer.experience.length > 0 && (
-          <section className="mt-32">
-            <Reveal>
-              <Eyebrow>Experience</Eyebrow>
-            </Reveal>
-            <div className="mt-12">
-              <ExperienceTimeline entries={engineer.experience} />
-            </div>
-          </section>
-        )}
+      {/* Experience */}
+      {groups.length > 0 && (
+        <Section
+          id="experience"
+          labelledBy="experience-title"
+          className="scroll-mt-16"
+        >
+          <SectionHeading
+            id="experience-title"
+            title="Experience"
+            lede={`${roleCount} roles at ${groups.length} ${groups.length === 1 ? 'organization' : 'organizations'}, newest first.`}
+          />
+          <div className="mt-14">
+            <ExperienceTimeline
+              groups={groups}
+              listId="experience-list"
+              omitHighlights={text.ventureNames}
+            />
+            {groups.length > 0 && (
+              <ShowAll
+                targets={collapseExperience(groups, 'experience-list', 2)}
+                total={groups.length}
+                noun="organizations"
+                label={`Show the full history, all ${roleCount} roles`}
+                className="mt-8"
+              />
+            )}
+          </div>
+        </Section>
+      )}
 
-        {/* SKILLS */}
-        {engineer.skills && engineer.skills.length > 0 && (
-          <section className="mt-32">
-            <Reveal>
-              <Eyebrow>Stack</Eyebrow>
-            </Reveal>
-            <div className="mt-10">
-              <SkillsCloud groups={engineer.skills} />
-            </div>
-          </section>
-        )}
+      {/* Projects */}
+      {projectCount > 0 && (
+        <Section
+          id="projects"
+          labelledBy="projects-title"
+          className="scroll-mt-16"
+        >
+          <SectionHeading
+            id="projects-title"
+            title="Projects"
+            lede={projectsLede}
+          />
+          <div className="mt-14">
+            <ProjectsSection
+              groups={projects}
+              first={first}
+              idPrefix="projects"
+            />
+            {projectTargets.length > 0 && (
+              <ShowAll
+                targets={projectTargets}
+                total={projectCount}
+                noun="projects"
+                className="mt-10"
+              />
+            )}
+          </div>
+        </Section>
+      )}
 
-        {/* PROJECTS */}
-        {featuredProjects.length > 0 && (
-          <section className="mt-32">
-            <Reveal>
-              <Eyebrow>Featured work</Eyebrow>
-            </Reveal>
-            <div className="mt-10">
-              <FeaturedProjects projects={featuredProjects} />
-            </div>
-          </section>
-        )}
-
-        {otherProjects.length > 0 && (
-          <section className="mt-24">
-            <Reveal>
-              <Eyebrow>Other work</Eyebrow>
-            </Reveal>
-            <div className="mt-8">
-              <ProjectList projects={otherProjects} />
-            </div>
-          </section>
-        )}
-
-        {/* EDUCATION */}
-        {engineer.education && engineer.education.length > 0 && (
-          <section className="mt-32">
-            <Reveal>
-              <Eyebrow>Education</Eyebrow>
-            </Reveal>
-            <div className="mt-10 space-y-6">
-              {engineer.education.map((ed, i) => (
-                <Reveal key={i} delay={i * 50}>
-                  <div className="border-l-2 border-sideband-accent/60 pl-6">
-                    <h3 className="font-display text-[22px] text-sideband-text">
-                      {ed.school}
-                    </h3>
-                    <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.12em] text-sideband-text-secondary">
-                      {ed.degree}
-                    </p>
-                    <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-muted">
-                      {ed.dates}
-                      {ed.honors ? ` · ${ed.honors}` : ''}
-                    </p>
-                  </div>
+      {/* Education and skills */}
+      {hasEducation && (
+        <Section
+          id="education"
+          labelledBy="education-title"
+          tone="surface"
+          className="scroll-mt-16"
+        >
+          <div className="grid gap-24 lg:grid-cols-2 lg:gap-20">
+            {engineer.education && engineer.education.length > 0 && (
+              <div className="min-w-0">
+                <Reveal>
+                  <h2
+                    id="education-title"
+                    className="text-head text-sideband-text"
+                  >
+                    Education
+                  </h2>
                 </Reveal>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* LIFESTYLE */}
-        {engineer.lifestyle && engineer.lifestyle.length > 0 && (
-          <section className="mt-32">
-            <Reveal>
-              <Eyebrow>Off duty</Eyebrow>
-            </Reveal>
-            <Reveal delay={50}>
-              <p className="mt-6 max-w-2xl font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-                What the building looks like outside the repos.
-              </p>
-            </Reveal>
-            <div className="mt-10">
-              <LifestyleGallery images={engineer.lifestyle} />
-            </div>
-          </section>
-        )}
-
-        {/* CONTACT */}
-        <section className="mt-32">
-          <Reveal>
-            <Eyebrow>Contact</Eyebrow>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <Reveal>
-              <div className="max-w-md">
-                <p className="font-display text-[28px] leading-tight text-sideband-text">
-                  Want to build with {engineer.name.split(' ')[0]}?
-                </p>
-                <p className="mt-4 font-mono text-[13px] leading-[1.85] text-sideband-text-secondary">
-                  Email is fastest. Resume, GitHub, and the rest are below.
-                </p>
+                <div className="mt-10">
+                  <Education entries={engineer.education} />
+                </div>
               </div>
+            )}
+            {engineer.skills && engineer.skills.length > 0 && (
+              <div className="min-w-0">
+                <Reveal>
+                  <h2
+                    id={
+                      engineer.education?.length ? undefined : 'education-title'
+                    }
+                    className="text-head text-sideband-text"
+                  >
+                    Skills
+                  </h2>
+                </Reveal>
+                <Reveal delay={70} className="mt-10">
+                  <Skills groups={engineer.skills} listId="skills-list" />
+                </Reveal>
+                {engineer.skills.length > 1 && (
+                  <ShowAll
+                    targets={[{ id: 'skills-list', keep: 1 }]}
+                    total={engineer.skills.length}
+                    noun="skill groups"
+                    className="mt-8"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        </Section>
+      )}
+
+      {/* Off duty, with photos */}
+      {lifestyle.length > 0 && (
+        <Section id="off-duty" labelledBy="life-title" className="scroll-mt-16">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
+            <Reveal>
+              <h2 id="life-title" className="text-head text-sideband-text">
+                Off duty
+              </h2>
             </Reveal>
-            <Reveal delay={80}>
-              <ContactPanel contact={engineer.contact} name={engineer.name} />
+            <Reveal delay={70} className="flex flex-col gap-6">
+              {offDuty && (
+                <Blocks
+                  blocks={offDuty.blocks}
+                  className="text-sideband-text-secondary"
+                />
+              )}
+              {interests}
             </Reveal>
           </div>
-        </section>
+          <div className="mt-14">
+            <LifeGallery
+              images={lifestyle}
+              sizes={imageSizes(lifestyle.map((l) => l.src))}
+              listId="life-list"
+            />
+            {lifestyle.length > 1 && (
+              <ShowAll
+                targets={[{ id: 'life-list', keep: 1 }]}
+                total={lifestyle.length}
+                noun="photos"
+                className="mt-4"
+              />
+            )}
+          </div>
+        </Section>
+      )}
 
-        {/* NEXT ENGINEER */}
-        {other && (
-          <section className="mt-32 border-t border-sideband-border pb-24 pt-12">
-            <Reveal>
-              <div className="flex flex-wrap items-baseline justify-between gap-6">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-muted">
-                    NEXT DOSSIER
-                  </p>
-                  <p className="mt-2 font-display text-[36px] leading-tight text-sideband-text">
-                    {other.name}
-                    <span className="text-sideband-accent">.</span>
-                  </p>
-                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-sideband-text-secondary">
-                    {other.role}
-                  </p>
-                </div>
-                <Button variant="secondary" href={`/engineers/${other.id}`}>
-                  Open Dossier →
-                </Button>
-              </div>
-            </Reveal>
-          </section>
-        )}
-      </div>
-    </div>
+      {/* Next engineer */}
+      {next && next.id !== engineer.id && (
+        <Section labelledBy="next-title" spacing="tight" className="pb-section">
+          <h2 id="next-title" className="sr-only">
+            Next engineer
+          </h2>
+          <Link
+            href={`/engineers/${next.id}`}
+            className="group flex items-center gap-6 rounded-panel bg-sideband-surface p-6 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:p-8"
+          >
+            {next.portrait && (
+              <Image
+                src={next.portrait.src}
+                alt=""
+                width={160}
+                height={160}
+                className="h-20 w-20 shrink-0 rounded-full object-cover md:h-24 md:w-24"
+              />
+            )}
+            <span className="min-w-0 flex-1">
+              <span className="block text-head text-sideband-text">
+                {next.name}
+              </span>
+              <span className="mt-2 block text-small text-sideband-text-secondary">
+                Next of the {countWord(engineers.length)} founding engineers
+              </span>
+            </span>
+            <ArrowRightIcon
+              size={24}
+              className="shrink-0 text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:translate-x-1"
+            />
+          </Link>
+        </Section>
+      )}
+    </>
   )
 }
