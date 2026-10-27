@@ -112,6 +112,36 @@ test('the image viewer works by keyboard', async ({ page }) => {
   await expect(trigger).toBeFocused()
 })
 
+test('leaving a product page with the viewer open releases the scroll lock', async ({
+  page,
+}) => {
+  await page.goto('/products')
+  await page
+    .getByRole('heading', { name: 'EternalMonitor' })
+    .getByRole('link')
+    .click()
+  await page.waitForURL('**/products/eternal-monitor')
+
+  await page
+    .getByRole('button', { name: /^View larger:/ })
+    .first()
+    .click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect
+    .poll(() => page.evaluate(() => document.documentElement.style.overflow))
+    .toBe('hidden')
+
+  await page.goBack()
+  await page.waitForURL(/\/products$/)
+  await expect
+    .poll(() => page.evaluate(() => document.documentElement.style.overflow))
+    .toBe('')
+  await page.mouse.wheel(0, 1600)
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(0)
+})
+
 const WIDTHS = [390, 768, 1440, 1920]
 
 for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {

@@ -70,21 +70,31 @@ export default function ProductGallery({
     [images.length],
   )
 
+  const isOpen = open !== null
+
   // Open and close the native modal dialog with the state. showModal() makes
-  // the rest of the page inert and moves focus inside. While it is open the
-  // page behind does not scroll.
+  // the rest of the page inert and moves focus inside.
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
-    if (open !== null && !dialog.open) {
-      dialog.showModal()
-      document.documentElement.style.overflow = 'hidden'
+    if (isOpen && !dialog.open) dialog.showModal()
+    if (!isOpen && dialog.open) dialog.close()
+  }, [isOpen])
+
+  // While the viewer is open the page behind does not scroll. The cleanup
+  // releases the lock however the viewer goes away: closed, or unmounted by a
+  // route change such as the browser's Back button.
+  useEffect(() => {
+    if (!isOpen) return
+    const root = document.documentElement
+    const previous = root.style.overflow
+    root.style.overflow = 'hidden'
+    return () => {
+      root.style.overflow = previous
     }
-    if (open === null && dialog.open) dialog.close()
-  }, [open])
+  }, [isOpen])
 
   const onClose = () => {
-    document.documentElement.style.overflow = ''
     setOpen(null)
     const index = returnTo.current
     if (index !== null) triggers.current[index]?.focus()
