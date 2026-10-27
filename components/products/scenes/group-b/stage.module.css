@@ -1,0 +1,36 @@
+/* Shared by every group-b scene. See Stage.tsx. */
+
+.root {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.root * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Nothing runs until useAmbient has set data-play, and then only while it is
+   "on". Each element names its own keyframes in its scene's module. */
+.root[data-play] .a {
+  animation-duration: var(--loop);
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-fill-mode: both;
+  animation-play-state: var(--play, paused);
+}
+
+/* The base styles are each scene's still frame. */
+@media (prefers-reduced-motion: reduce) {
+  .root * {
+    animation: none !important;
+  }
+}

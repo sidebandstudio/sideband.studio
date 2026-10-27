@@ -10,8 +10,9 @@
  * the copy that mentions the count to be updated too.
  *
  * It also catches stale head-count phrasings generically: with three founders,
- * any "two-person studio" / "two founders" left behind is flagged, because the
- * number word no longer matches the source of truth.
+ * any "two-person studio" / "two founders" / "two founding engineers" left
+ * behind is flagged, because the number word no longer matches the source of
+ * truth. "Co-founder" is not a count ("co" is not a number word) and is skipped.
  *
  * Extend it by adding a fact to FACTS below. See AGENT_NOTES.md → Single Source
  * of Truth.
@@ -79,12 +80,30 @@ if (liveCount + devCount !== productCount) {
 
 // --- Facts to verify in prose. Each regex captures the number word that
 // precedes the noun; non-number words ("the founders", "our products") are
-// skipped automatically. ---
+// skipped automatically. `prose` limits a fact to the user-facing prose
+// directories: generic team nouns ("people", "engineers") also describe other
+// teams and product users in lib/ data ("two people solve a problem", "one of
+// 15 engineers"), and "three live cursors" is not a product count, so in
+// lib/ only the studio's own team nouns and "N products" are checked. ---
 const FACTS = [
   {
     label: 'founder count',
     expected: engineerCount,
-    re: /\b([a-z]+)[- ](?:founders?|person|people|friends?)\b/gi,
+    re: /\b([a-z]+)[- ](?:co-?founders?|founders?|founding engineers?)\b/gi,
+  },
+  {
+    label: 'founder count',
+    expected: engineerCount,
+    prose: true,
+    re: /\b([a-z]+)[- ](?:engineers?|person|people|friends?)\b/gi,
+  },
+  {
+    // "Now there are five of us". "One of us" means a single member, not a
+    // head count, so it is skipped.
+    label: 'founder count',
+    expected: engineerCount,
+    prose: true,
+    re: /\b(?!one\b)([a-z]+) of us\b/gi,
   },
   {
     label: 'total product count',
@@ -94,23 +113,37 @@ const FACTS = [
   {
     label: 'live product count',
     expected: liveCount,
+    prose: true,
     re: /\b([a-z]+) live\b/gi,
   },
   {
     label: 'in-development product count',
     expected: devCount,
+    prose: true,
     re: /\b([a-z]+) in (?:active )?development\b/gi,
   },
 ]
 
 // Historical references ("started from two founders", "began as a two-person
-// team") describe the past, not the current count, and are exempt.
-const HISTORICAL = /\b(?:started|began|grew|founded)\b[^.!?]{0,40}$/i
-const isHistorical = (text, index) =>
-  HISTORICAL.test(text.slice(Math.max(0, index - 60), index))
+// team") describe the past, not the current count, and are exempt. A count
+// stays a claim about today when the clause turns present between the
+// historical verb and the count ("started as two people and is now four
+// founders"), when "now" follows it ("is four founders now"), and after
+// "co-founded" ("co-founded ... with four founders"), which names the person's
+// role rather than the studio's origin.
+const HISTORICAL = /\b(?:started|began|grew|(?<!co-)founded)\b([^.!?]{0,40})$/i
+const PRESENT = /\b(?:now|is|are|has|have|today)\b/i
+const NOW_AFTER = /^\s+now\b/i
+function isHistorical(text, index, length) {
+  const m = HISTORICAL.exec(text.slice(Math.max(0, index - 60), index))
+  if (!m || PRESENT.test(m[1])) return false
+  return !NOW_AFTER.test(text.slice(index + length))
+}
 
-// --- Files to scan: everything user-facing, never the source-of-truth data. ---
-const SCAN_DIRS = ['app', 'components', 'content']
+// --- Files to scan: everything user-facing, plus lib/ for the prose its data
+// renders (bios, summaries). lib/data/ holds generated JSON and is not scanned.
+const PROSE_DIRS = ['app', 'components', 'content']
+const DATA_DIRS = ['lib']
 const SCAN_FILES = ['README.md']
 const EXT = new Set(['.tsx', '.ts', '.md'])
 
@@ -125,7 +158,8 @@ function walk(dir) {
   return out
 }
 
-const files = [...SCAN_DIRS.flatMap(walk), ...SCAN_FILES]
+const proseFiles = new Set([...PROSE_DIRS.flatMap(walk), ...SCAN_FILES])
+const files = [...proseFiles, ...DATA_DIRS.flatMap(walk)]
 
 const errors = []
 for (const file of files) {
@@ -133,12 +167,13 @@ for (const file of files) {
     .split('\n')
     .forEach((line, i) => {
       for (const fact of FACTS) {
+        if (fact.prose && !proseFiles.has(file)) continue
         fact.re.lastIndex = 0
         let m
         while ((m = fact.re.exec(line))) {
           const word = m[1].toLowerCase()
           if (!wordToNum.has(word)) continue // "the founders", "our products" → not a claim
-          if (isHistorical(line, m.index)) continue // past-tense origin copy, not a current count
+          if (isHistorical(line, m.index, m[0].length)) continue // past-tense origin copy, not a current count
           if (wordToNum.get(word) !== fact.expected) {
             errors.push({
               file,

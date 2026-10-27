@@ -1,6 +1,6 @@
 # Ali Tleis
 
-**Co-Founder · Full-Stack Engineer · Sideband**
+**Founding Engineer · Sideband**
 
 > "Outside work I build tools for problems I hit myself. Eternal2x exists because every interpolator I tried smeared the held frames in my anime edits."
 
@@ -22,7 +22,7 @@ Portfolio: https://alitleis.dev · GitHub: [@Alitleis123](https://github.com/Ali
 ## Now
 
 - **Web Application Developer (AI Integration) Co-op at MIT Lincoln Laboratory**, Jun 2026 – Jan 2027
-- **Co-Founder · Full-Stack Engineer at Sideband** since Jan 2026
+- **Founding Engineer at Sideband** since Jan 2026
 - B.S. Computer Science & Sociology at **Northeastern University**, expected Aug 2028
 - Security Clearance: DoD Investigation in Progress
 - Based in **Greater Boston, MA**
@@ -43,15 +43,15 @@ Seven-month co-op. Owns the Laboratory's internal AI search, used by 4,500+ engi
 - Search results and generated answers keep the source documents' access controls, with permission-aware retrieval tied to the lab's identity services
 - Incremental ingestion from SharePoint and internal docs with Norconex. Runs in Docker on Kubernetes with Helm and GitLab CI/CD, monitored with Prometheus and Grafana.
 
-### Sideband · Co-Founder · Full-Stack Engineer
+### Sideband · Founding Engineer
 
 **Boston, MA · Jan 2026 – Present**
 
-Co-founded an independent software studio with four founders.
+One of five founding engineers at an independent software studio.
 
 - Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion
 - Builds the Python and Lua pipeline behind Eternal2x, a DaVinci Resolve plugin, and contributes to Eternal Summary and EternalMonitor
-- Built the engineer roster from structured data, with a profile for each founder and links between products and the people who build them
+- Built the engineer roster from structured data, with a profile for each founding engineer and links between products and the people who build them
 - Added Playwright checks and a shared copy-style check in CI, and helped move the live site and product links through the 2026 rebrand from Eternal Reverse to Sideband
 
 ### Top Choice Realty · Frontend Developer Intern
@@ -88,7 +88,7 @@ Activities: Video Editing Club · Arab Student Association
 
 ## Projects
 
-- **[Eternal2x](/products/eternal2x)** · DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then rebuilds the motion between them with optical flow. "Anime holds each drawing for two or three frames, so Eternal2x finds the real drawings first and rebuilds the frames between them with optical flow."
+- **[Eternal2x](/products/eternal2x)** · DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then draws the missing in-betweens with the RIFE network on ONNX Runtime.
 - **[Eternal Summary](/products/eternal-summary)** · Chrome extension that summarizes the page you are reading, explains what you highlight, and answers follow-ups in a rail beside the article.
 - **[EternalMonitor](/products/eternal-monitor)** · Open-source contributor who owns AMD GPU support: Rust and FFmpeg AMF H.264 and HEVC encoding, keyframe recovery and the software fallback.
 - **[Exerly Fitness](/products/exerly)** · Fitness app built at Sideband. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.

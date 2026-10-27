@@ -32,7 +32,12 @@ export interface GithubRepo {
   forks: number
   watchers: number
   openIssues: number
+  /** SPDX id as GitHub detects it. NOASSERTION means a LICENSE file GitHub cannot identify. */
   license: string | null
+  /** GitHub's name for the license, "Other" for NOASSERTION. */
+  licenseName: string | null
+  /** The LICENSE file GitHub found, or null when the repo has none. */
+  licenseFile: { path: string; url: string } | null
   topics: string[]
   createdAt: string
   pushedAt: string

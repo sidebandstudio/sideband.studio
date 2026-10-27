@@ -1,6 +1,6 @@
 # Naman Rusia
 
-**Co-Founder · Sideband**
+**Founding Engineer · Sideband**
 
 > "I like Building, Iterating and shipping software to effect impact"
 
@@ -20,7 +20,7 @@ Portfolio: https://www.namanrusia.dev · GitHub: [@naman0r](https://github.com/n
 
 ## Now
 
-- **Co-Founder at Sideband** since Aug 2026
+- **Founding Engineer at Sideband** since Aug 2026
 - **Director of Software, TAMID at Northeastern** since Jul 2026
 - **Software Developer, Code4Community** on Blue Hill Observatory since Sep 2026
 - B.S. Computer Science & Business Administration at **Northeastern University**, expected May 2028
@@ -31,7 +31,7 @@ Portfolio: https://www.namanrusia.dev · GitHub: [@naman0r](https://github.com/n
 
 ## Experience
 
-### Sideband · Co-Founder
+### Sideband · Founding Engineer
 
 **Boston, MA · Aug 2026 – Present**
 
@@ -121,7 +121,7 @@ Coursework: Foundations of Artificial Intelligence · Object-Oriented Design · 
 
 - **[TandemCode](/products/tandemcode)** · Practice coding interview problems with a partner in one Yjs-synced editor, judged against hidden tests in gVisor sandboxes. FastAPI and Postgres on AWS Lightsail, React 19 frontend.
 - **[Dockmaster](https://trydockmaster.vercel.app/)** · Know what's running on your Mac and your homelab: stray dev servers, repos, worktrees and coding agents.
-- **[Canvas Buddy](https://trycanvasbuddy.vercel.app/)** · Ask questions about your Canvas classes from a small terminal app, with cited sources from a read-only MCP server. `brew install naman0r/tap/canvas-buddy`
+- **[Canvas Buddy](https://trycanvasbuddy.vercel.app/)** · Ask questions about your Canvas classes from a small terminal app, with cited sources from local, read-only course storage, using Codex, OpenCode or a local Ollama model. `brew install naman0r/tap/canvas-buddy`
   Other work:
 
 - **[Peel](https://github.com/naman0r/Peel)** · macOS menu bar app that turns anything on screen into a draggable artifact.
@@ -134,7 +134,7 @@ Coursework: Foundations of Artificial Intelligence · Object-Oriented Design · 
 - **[Resume-Tex](https://github.com/naman0r/resume-tex)** · Google ADK agent that tailors a LaTeX resume to a job description.
 - **[NUtrition](https://nutrition-oasis.vercel.app/)** · Northeastern dining hall macro tracker, built at Oasis.
 - **[AMA Automator](https://github.com/TamidNu/AMA-Automator)** · Automates TAMID's ask-me-anything process on Slack.
-- **[TaNews](https://github.com/IpDaniel/tanews/tree/naman)** · Full-stack news platform with admin and user roles.
+- **[TaNews](https://github.com/TamidNu/TaNews/tree/naman)** · Full-stack news platform with admin and user roles.
 - **[StudyBuddy](https://github.com/Arshayp/studybuddy-2)** · Connects university students to form study groups.
 - **[BackBuddy](https://github.com/naman0r/backbuddy-app)** · Posture-correcting chair attachment with a React Native app over Bluetooth, built at Forge.
 - **[MindMapr](https://github.com/naman0r/MindMapr)** · AI study tool that turns notes into visualizations.
