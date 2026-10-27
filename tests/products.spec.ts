@@ -1,43 +1,9 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { products, productsByRank } from '../lib/products'
-
-/**
- * Waits until a page has settled after a navigation: loaded, hydrated (React
- * has attached to the document, so clicks reach its handlers) and idle. Tests
- * act or leave only after this, so nothing runs against server HTML and a page
- * is not left in the middle of its own route prefetches.
- */
-async function settle(page: Page) {
-  await page.waitForLoadState('load')
-  await page.waitForFunction(() =>
-    Object.keys(document.body).some((key) => key.startsWith('__reactFiber')),
-  )
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) =>
-        requestIdleCallback(() => resolve(), { timeout: 2000 }),
-      ),
-  )
-}
-
-async function visit(page: Page, path: string) {
-  const response = await page.goto(path)
-  await settle(page)
-  return response
-}
-
-/** Lets layout catch up after a viewport change. */
-async function nextFrame(page: Page) {
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) =>
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-      ),
-  )
-}
+import { visit, settle, nextFrame, ABORTED_PREFETCH } from './helpers'
 
 test('products index lists every product in ranked order', async ({ page }) => {
-  await page.goto('/products')
+  await visit(page, '/products')
   const ranked = productsByRank().map((p) => p.name)
 
   const entries = page.locator('article[data-rank]')
@@ -62,7 +28,7 @@ for (const product of products) {
     page,
     request,
   }) => {
-    const res = await page.goto(`/products/${product.id}`)
+    const res = await visit(page, `/products/${product.id}`)
     expect(res?.status()).toBe(200)
     await expect(
       page.getByRole('heading', { level: 1, name: product.name }),
@@ -363,9 +329,6 @@ for (const product of products) {
  * or closes while it is in flight. Matched exactly, so any other failed fetch
  * or console error still fails the test.
  */
-const ABORTED_PREFETCH =
-  /^Failed to fetch RSC payload for http:\/\/127\.0\.0\.1:\d+\/\S*\. Falling back to browser navigation\. TypeError: (?:Failed to fetch|network error)$/
-
 /**
  * Two fresh loads, the narrowest and the widest width, so code that runs at
  * mount runs at both ends. The widths between are reached by resizing the

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { visit } from './helpers'
 
 // Group-b product scenes (components/products/scenes/group-b). Cards render
 // on the products index, which shows every product. Heroes render on a
@@ -54,7 +55,7 @@ test.describe('group-b scenes', () => {
     test(`${id} card plays on screen and pauses off screen`, async ({
       page,
     }) => {
-      await page.goto('/products')
+      await visit(page, '/products')
       await checkScene(page, id, 'card')
 
       await page.evaluate(() => window.scrollTo(0, 0))
@@ -63,7 +64,7 @@ test.describe('group-b scenes', () => {
     })
 
     test(`${id} hero plays on its product page`, async ({ page }) => {
-      await page.goto(`/products/${id}`)
+      await visit(page, `/products/${id}`)
       const count = await scene(page, id, 'hero').count()
       test.skip(count === 0, 'this product page does not render a hero scene')
       await checkScene(page, id, 'hero')
@@ -75,7 +76,7 @@ test.describe('group-b scenes', () => {
   }) => {
     const context = await browser.newContext({ reducedMotion: 'reduce' })
     const page = await context.newPage()
-    await page.goto('/products')
+    await visit(page, '/products')
     for (const id of ids) {
       const svg = scene(page, id, 'card')
       await svg.scrollIntoViewIfNeeded()

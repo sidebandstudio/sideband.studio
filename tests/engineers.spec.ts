@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { getGithubUser } from '../lib/github'
 import { productRepo, products } from '../lib/products'
+import { visit } from './helpers'
 
 const FORMSPREE = 'https://formspree.io/f/xkoperoj'
 const fmt = (n: number) => n.toLocaleString('en-US')
@@ -21,7 +22,7 @@ for (const engineer of engineers) {
   test(`dossier ${engineer.id} returns 200 with the snapshot's GitHub numbers`, async ({
     page,
   }) => {
-    const res = await page.goto(`/engineers/${engineer.id}`)
+    const res = await visit(page, `/engineers/${engineer.id}`)
     expect(res?.status()).toBe(200)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       engineer.name,
@@ -45,7 +46,7 @@ for (const engineer of engineers) {
     page,
     request,
   }) => {
-    await page.goto(`/engineers/${engineer.id}`)
+    await visit(page, `/engineers/${engineer.id}`)
     const main = page.getByRole('main')
     const c = engineer.contact
     const published = [
@@ -90,7 +91,7 @@ test('the contribution graph has an accessible summary and reads days by keyboar
   page,
 }) => {
   const user = getGithubUser(engineers[0].githubLogin)!
-  await page.goto(`/engineers/${engineers[0].id}`)
+  await visit(page, `/engineers/${engineers[0].id}`)
   const graph = page.getByRole('img', {
     name: new RegExp(
       `${fmt(user.contributions.total)} contributions in the last year`,
@@ -126,7 +127,7 @@ test('on a phone the contribution graph keeps its labels legible and unclipped',
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   const user = getGithubUser(engineers[0].githubLogin)!
-  await page.goto(`/engineers/${engineers[0].id}`)
+  await visit(page, `/engineers/${engineers[0].id}`)
   const group = page.getByRole('group', { name: /Contribution calendar/ })
   await group.scrollIntoViewIfNeeded()
 
@@ -183,7 +184,7 @@ test('on a phone the contribution graph keeps its labels legible and unclipped',
 test('the engineers index shows each GitHub signal and the team graph', async ({
   page,
 }) => {
-  await page.goto('/engineers')
+  await visit(page, '/engineers')
   const main = page.getByRole('main')
   for (const e of engineers) {
     const user = getGithubUser(e.githubLogin)!
@@ -216,7 +217,7 @@ test('the engineers index shows each GitHub signal and the team graph', async ({
 test('the about timeline dates every engineer from their Sideband role', async ({
   page,
 }) => {
-  await page.goto('/about')
+  await visit(page, '/about')
   const history = page.locator('section[aria-labelledby="history-title"]')
   const roles = engineers.map((e) => ({
     engineer: e,
@@ -260,7 +261,7 @@ test('the about timeline dates every engineer from their Sideband role', async (
 test('the about page quotes Ali Younes on why EternalMonitor exists', async ({
   page,
 }) => {
-  await page.goto('/about')
+  await visit(page, '/about')
   await expect(
     page.locator('section[aria-labelledby="how-title"]'),
   ).toContainText(
@@ -271,7 +272,7 @@ test('the about page quotes Ali Younes on why EternalMonitor exists', async ({
 test('a role held in two stints is measured per stint, and roles group by organisation', async ({
   page,
 }) => {
-  await page.goto('/engineers/ali-younes')
+  await visit(page, '/engineers/ali-younes')
   const exp = page.locator('section[aria-labelledby="experience-title"]')
   const groups = exp.locator(':scope ol > li')
   const philips = groups.filter({
@@ -295,7 +296,7 @@ test('a role held in two stints is measured per stint, and roles group by organi
 test('a role dated by year alone shows the year without a month or length', async ({
   page,
 }) => {
-  await page.goto('/engineers/david-czartoryski')
+  await visit(page, '/engineers/david-czartoryski')
   const exp = page.locator('section[aria-labelledby="experience-title"]')
   const sideband = exp
     .getByRole('listitem')
@@ -307,7 +308,7 @@ test('a role dated by year alone shows the year without a month or length', asyn
 test("David's ventures are listed as his own, outside Sideband", async ({
   page,
 }) => {
-  await page.goto('/engineers/david-czartoryski')
+  await visit(page, '/engineers/david-czartoryski')
   const projects = page.locator('section[aria-labelledby="projects-title"]')
   const heading = projects.getByRole('heading', {
     name: "David's own ventures, outside Sideband",
@@ -340,7 +341,7 @@ test.describe('contact form', () => {
       calls++
       return route.abort()
     })
-    await page.goto('/contact')
+    await visit(page, '/contact')
     await page.getByRole('button', { name: /Send message/i }).click()
     await expect(page.getByText('Enter your name.')).toBeVisible()
     await expect(page.getByRole('textbox', { name: 'Name' })).toBeFocused()
@@ -369,7 +370,7 @@ test.describe('contact form', () => {
         body: JSON.stringify({ ok: true }),
       })
     })
-    await page.goto('/contact')
+    await visit(page, '/contact')
     await fill(page)
     await page.getByRole('button', { name: /Send message/i }).click()
     await expect(
@@ -391,7 +392,7 @@ test.describe('contact form', () => {
     await page.route(FORMSPREE, (route) =>
       route.fulfill({ status: 500, body: '{}' }),
     )
-    await page.goto('/contact')
+    await visit(page, '/contact')
     await fill(page)
     await page.getByRole('button', { name: /Send message/i }).click()
     const alert = page
@@ -431,7 +432,7 @@ for (const width of [390, 768, 1440, 1920]) {
     })
     page.on('pageerror', (e) => errors.push(`${page.url()}: ${e.message}`))
     for (const path of PAGES) {
-      await page.goto(path, { waitUntil: 'networkidle' })
+      await visit(page, path, { waitUntil: 'networkidle' })
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - window.innerWidth,
       )
