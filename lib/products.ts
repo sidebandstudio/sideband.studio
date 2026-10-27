@@ -39,6 +39,25 @@ export interface ProductImage {
   credit?: ProductImageCredit
 }
 
+/**
+ * One cut of a product's silent video, made with HyperFrames from its real
+ * screenshots (sources in media/product-videos/<id>/). The size and duration
+ * are the files' own, written by `scripts/sync-product-videos.mjs`.
+ */
+export interface ProductVideoCut {
+  mp4: string
+  webm: string
+  /** The cut's most explanatory frame, shown before and instead of playback. */
+  poster: string
+  width: number
+  height: number
+  durationSeconds: number
+  /** Shown under the video wherever it appears, when it shows credited material. */
+  credit?: ProductImageCredit
+}
+
+export type ProductVideoCutName = 'hero' | 'card'
+
 export interface ProductFeature {
   title: string
   body: string
@@ -101,9 +120,42 @@ export interface Product {
    * screenshot is the preview.
    */
   images: ProductImage[]
+  /**
+   * The product's video in two cuts: `hero` (16:10) for its page and the
+   * largest place it appears, `card` (4:3) everywhere else.
+   */
+  video: Record<ProductVideoCutName, ProductVideoCut>
 }
 
 const ASSETS = '/assets/products'
+
+const VIDEO_SIZE: Record<ProductVideoCutName, [number, number]> = {
+  hero: [1920, 1200],
+  card: [1440, 1080],
+}
+
+/**
+ * A video cut's files in public/assets/products/<id>/video/. The duration is
+ * the file's own, rewritten from ffprobe by `npm run sync:videos`.
+ */
+function videoCut(
+  product: string,
+  cut: ProductVideoCutName,
+  durationSeconds: number,
+  extra: Pick<ProductVideoCut, 'credit'> = {},
+): ProductVideoCut {
+  const base = `${ASSETS}/${product}/video/${product}-${cut}`
+  const [width, height] = VIDEO_SIZE[cut]
+  return {
+    ...extra,
+    mp4: `${base}.mp4`,
+    webm: `${base}.webm`,
+    poster: `${base}-poster.webp`,
+    width,
+    height,
+    durationSeconds,
+  }
+}
 
 function image(
   product: string,
@@ -227,6 +279,10 @@ export const products: Product[] = [
       'EternalMonitor icon',
       'repo docs/assets/icon.png',
     ),
+    video: {
+      hero: videoCut('eternal-monitor', 'hero', 12),
+      card: videoCut('eternal-monitor', 'card', 7),
+    },
     images: [
       image(
         'eternal-monitor',
@@ -391,6 +447,10 @@ export const products: Product[] = [
       'EternalRichPresence icon',
       'https://eternalrichpresence.dev/favicon.svg, rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('eternal-rich-presence', 'hero', 12),
+      card: videoCut('eternal-rich-presence', 'card', 7),
+    },
     images: [
       image(
         'eternal-rich-presence',
@@ -515,6 +575,10 @@ export const products: Product[] = [
       'Exerly app icon',
       'repo apps/ios/Exerly/Assets.xcassets/AppIcon.appiconset/AppIcon.png, resized to 512px',
     ),
+    video: {
+      hero: videoCut('exerly', 'hero', 12),
+      card: videoCut('exerly', 'card', 8),
+    },
     images: [
       image(
         'exerly',
@@ -696,6 +760,10 @@ export const products: Product[] = [
       'TandemCode mascot: two pixel creatures sharing a laptop',
       'repo apps/web/public/mascot.png',
     ),
+    video: {
+      hero: videoCut('tandemcode', 'hero', 12),
+      card: videoCut('tandemcode', 'card', 8),
+    },
     images: [
       image(
         'tandemcode',
@@ -799,6 +867,10 @@ export const products: Product[] = [
       'Better Canvas icon',
       'repo icons/icon-128.png',
     ),
+    video: {
+      hero: videoCut('better-canvas', 'hero', 12),
+      card: videoCut('better-canvas', 'card', 7),
+    },
     images: [
       image(
         'better-canvas',
@@ -924,6 +996,10 @@ export const products: Product[] = [
       'Eternal2x neon E2x logo',
       'repo public/logo/Eternal 2x logo 01.png, center crop to square',
     ),
+    video: {
+      hero: videoCut('eternal2x', 'hero', 12, { credit: HERO_CREDIT }),
+      card: videoCut('eternal2x', 'card', 7, { credit: HERO_CREDIT }),
+    },
     images: [
       image(
         'eternal2x',
@@ -1048,6 +1124,10 @@ export const products: Product[] = [
       'Eternal Summary icon',
       'repo icons/icon-512.png',
     ),
+    video: {
+      hero: videoCut('eternal-summary', 'hero', 12),
+      card: videoCut('eternal-summary', 'card', 7),
+    },
     images: [
       image(
         'eternal-summary',
@@ -1196,6 +1276,10 @@ export const products: Product[] = [
       'hushtype app icon',
       'repo website/brand/icon-512.png',
     ),
+    video: {
+      hero: videoCut('hushtype', 'hero', 12),
+      card: videoCut('hushtype', 'card', 7),
+    },
     images: [
       image(
         'hushtype',
@@ -1306,6 +1390,10 @@ export const products: Product[] = [
       'EternalExchange mark',
       'https://eternalexchangemod.com/assets/favicon.svg, rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('eternal-exchange', 'hero', 12),
+      card: videoCut('eternal-exchange', 'card', 7),
+    },
     images: [
       image(
         'eternal-exchange',
@@ -1404,6 +1492,10 @@ export const products: Product[] = [
       'Top Choice Realty LLC logo',
       'repo apps/web/src/assets/topchoicerealtypfp.jpg, resized to 512px',
     ),
+    video: {
+      hero: videoCut('top-choice-realty', 'hero', 12),
+      card: videoCut('top-choice-realty', 'card', 7),
+    },
     images: [
       image(
         'top-choice-realty',
@@ -1510,6 +1602,10 @@ export const products: Product[] = [
       'Signature Cuts 413 SC monogram',
       'drawn by Sideband in the site colours (the shop ships no icon), components/products/scenes/group-b/signature-cuts/mark.svg rasterized at 512px',
     ),
+    video: {
+      hero: videoCut('signature-cuts', 'hero', 12),
+      card: videoCut('signature-cuts', 'card', 7),
+    },
     images: [
       image(
         'signature-cuts',

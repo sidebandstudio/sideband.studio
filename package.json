@@ -11,7 +11,8 @@
     "shots": "node scripts/capture-screenshots.mjs",
     "check:copy": "node scripts/check-copy.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "sync:github": "node scripts/sync-github.mjs"
+    "sync:github": "node scripts/sync-github.mjs",
+    "sync:videos": "node scripts/sync-product-videos.mjs"
   },
   "dependencies": {
     "next": "14.2.21",
