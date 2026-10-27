@@ -19,8 +19,8 @@ const STILL = 0.86
 
 const NOISE = [-14, 10, -6, 16, -12, 4, -18, 8, 12, -8, 14, -10, 6, -4]
 const READINGS = NOISE.map((n, i) => ({
-  x: 76 + 28 * i,
-  y: 168 + 7 * i + n,
+  x: 72 + 23 * i,
+  y: 160 + 7 * i + n,
 }))
 const INTAKE = [88, 104, 76, 96, 110, 92, 84]
 
@@ -36,33 +36,39 @@ function Barcode({ x, y }: { x: number; y: number }) {
   )
 }
 
-/** `detail` adds the readouts that are too small to read at card size. */
+/**
+ * Both framings draw this, the hero at 1.4×. Every label is at least 36
+ * units, so it reads at the smallest card. `detail` adds the protein target,
+ * which only has room to read in the hero.
+ */
 function Core({ detail }: { detail: boolean }) {
   return (
     <g>
       {/* Weight: readings and trend */}
-      <rect x={40} y={50} width={430} height={290} rx={16} className={u.s2} />
-      <text x={64} y={92} fontSize={22} className={cx(u.sans, u.ink2)}>
+      <rect x={40} y={40} width={360} height={290} rx={16} className={u.s2} />
+      <text x={64} y={92} fontSize={36} className={cx(u.sans, u.ink2)}>
         Weight
       </text>
-      <circle cx={300} cy={85} r={5} className={u.muted} />
-      <text x={312} y={92} fontSize={22} className={cx(u.sans, u.muted)}>
-        Scale
-      </text>
-      <rect x={374} y={83} width={18} height={4} rx={2} className={u.acc} />
-      <text x={400} y={92} fontSize={22} className={cx(u.sans, u.muted)}>
+      <rect x={246} y={78} width={24} height={6} rx={3} className={u.acc} />
+      <text
+        x={376}
+        y={92}
+        textAnchor="end"
+        fontSize={36}
+        className={cx(u.sans, u.acc)}
+      >
         Trend
       </text>
       <path
-        d="M 76 168 C 200 190, 320 230, 440 262"
+        d="M 72 160 C 172 178, 272 216, 371 250"
         className={cx(u.none, u.accLine)}
         strokeWidth={4}
         strokeLinecap="round"
       />
       <rect
-        x={70}
-        y={140}
-        width={378}
+        x={66}
+        y={132}
+        width={312}
         height={140}
         className={cx(u.s2, s.a, s.trendCover)}
       />
@@ -77,33 +83,33 @@ function Core({ detail }: { detail: boolean }) {
       ))}
       <line
         x1={64}
-        y1={310}
-        x2={446}
-        y2={310}
+        y1={304}
+        x2={376}
+        y2={304}
         className={u.line}
         strokeWidth={2}
       />
 
       {/* Intake: a week of logged food */}
-      <rect x={40} y={364} width={430} height={186} rx={16} className={u.s2} />
-      <text x={64} y={404} fontSize={22} className={cx(u.sans, u.ink2)}>
+      <rect x={40} y={354} width={360} height={206} rx={16} className={u.s2} />
+      <text x={64} y={404} fontSize={36} className={cx(u.sans, u.ink2)}>
         Intake
       </text>
       {INTAKE.map((h, i) => (
         <rect
           key={i}
-          x={64 + 48 * i}
-          y={528 - h}
-          width={32}
+          x={64 + 42 * i}
+          y={536 - h}
+          width={28}
           height={h}
           rx={6}
           className={cx(i === 6 ? u.accSoft : u.s3, s.a, s[`bar${i}`])}
         />
       ))}
-      <Barcode x={418} y={400} />
+      <Barcode x={342} y={374} />
       <rect
-        x={420}
-        y={410}
+        x={344}
+        y={384}
         width={28}
         height={16}
         rx={4}
@@ -111,141 +117,107 @@ function Core({ detail }: { detail: boolean }) {
       />
 
       {/* Measured expenditure */}
-      <rect x={494} y={50} width={266} height={290} rx={16} className={u.s2} />
-      <text x={516} y={92} fontSize={22} className={cx(u.sans, u.ink2)}>
-        Measured expenditure
+      <rect x={424} y={40} width={336} height={290} rx={16} className={u.s2} />
+      <text x={448} y={88} fontSize={36} className={cx(u.sans, u.ink2)}>
+        Measured
+      </text>
+      <text x={448} y={128} fontSize={36} className={cx(u.sans, u.ink2)}>
+        expenditure
       </text>
       <g className={cx(s.a, s.measured)}>
-        <text x={516} y={166} fontSize={52} className={cx(u.sans, u.ink)}>
+        <text x={448} y={206} fontSize={56} className={cx(u.sans, u.ink)}>
           2,460
         </text>
-        <text x={516} y={198} fontSize={22} className={cx(u.sans, u.muted)}>
+        <text x={448} y={248} fontSize={36} className={cx(u.sans, u.muted)}>
           kcal/day
         </text>
       </g>
       <g className={cx(s.a, s.confidence)}>
         <rect
-          x={676}
-          y={124}
-          width={64}
-          height={32}
-          rx={16}
+          x={628}
+          y={164}
+          width={108}
+          height={50}
+          rx={25}
           className={u.accDim}
         />
         <text
-          x={708}
-          y={146}
+          x={682}
+          y={202}
           textAnchor="middle"
-          fontSize={22}
+          fontSize={36}
           className={cx(u.sans, u.acc)}
         >
           High
         </text>
+        <rect x={448} y={284} width={288} height={8} rx={4} className={u.s3} />
+        <rect
+          x={530}
+          y={284}
+          width={112}
+          height={8}
+          rx={4}
+          className={u.accSoft}
+        />
+        <rect x={583} y={274} width={6} height={28} rx={3} className={u.acc} />
       </g>
-      {!detail && (
-        <g className={cx(s.a, s.confidence)}>
-          <rect
-            x={516}
-            y={262}
-            width={222}
-            height={8}
-            rx={4}
-            className={u.s3}
-          />
-          <rect
-            x={588}
-            y={262}
-            width={92}
-            height={8}
-            rx={4}
-            className={u.accSoft}
-          />
-          <rect
-            x={630}
-            y={252}
-            width={6}
-            height={28}
-            rx={3}
-            className={u.acc}
-          />
-        </g>
-      )}
-      {detail && (
-        <>
-          <text x={516} y={250} fontSize={19} className={cx(u.sans, u.muted)}>
-            Mean intake
-          </text>
-          <text x={516} y={276} fontSize={21} className={cx(u.mono, u.ink2)}>
-            2,210 kcal
-          </text>
-          <text x={516} y={302} fontSize={19} className={cx(u.sans, u.muted)}>
-            Trend
-          </text>
-          <text x={516} y={328} fontSize={21} className={cx(u.mono, u.ink2)}>
-            −0.23 kg a week
-          </text>
-        </>
-      )}
 
       {/* Targets after the weekly check-in */}
-      <rect x={494} y={364} width={266} height={186} rx={16} className={u.s2} />
-      <text x={516} y={404} fontSize={22} className={cx(u.sans, u.ink2)}>
-        Current targets
-      </text>
-      <text x={516} y={440} fontSize={22} className={cx(u.sans, u.muted)}>
-        Calories
+      <rect x={424} y={354} width={336} height={206} rx={16} className={u.s2} />
+      <text x={448} y={404} fontSize={36} className={cx(u.sans, u.ink2)}>
+        Calorie target
       </text>
       <text
-        x={516}
-        y={484}
-        fontSize={40}
+        x={448}
+        y={490}
+        fontSize={56}
         className={cx(u.sans, u.ink, s.a, s.oldTarget)}
       >
         2,150
       </text>
       <text
-        x={516}
-        y={484}
-        fontSize={40}
+        x={448}
+        y={490}
+        fontSize={56}
         className={cx(u.sans, u.ink, s.a, s.newTarget)}
       >
         2,200
       </text>
       <g className={cx(s.a, s.change)}>
         <rect
-          x={650}
-          y={456}
-          width={76}
-          height={32}
-          rx={16}
+          x={628}
+          y={448}
+          width={108}
+          height={50}
+          rx={25}
           className={u.accDim}
         />
         <text
-          x={688}
-          y={478}
+          x={682}
+          y={486}
           textAnchor="middle"
-          fontSize={22}
+          fontSize={36}
           className={cx(u.mono, u.acc)}
         >
           +50
         </text>
       </g>
       {detail && (
-        <text x={516} y={526} fontSize={21} className={cx(u.mono, u.muted)}>
+        <text x={448} y={540} fontSize={28} className={cx(u.mono, u.muted)}>
           Protein 160 g
         </text>
       )}
 
-      <circle cx={440} cy={262} r={6} className={cx(u.acc, s.a, s.flowTrend)} />
+      <circle cx={371} cy={250} r={6} className={cx(u.acc, s.a, s.flowTrend)} />
       <circle
-        cx={368}
-        cy={444}
+        cx={330}
+        cy={452}
         r={6}
         className={cx(u.acc, s.a, s.flowIntake)}
       />
       <circle
         cx={560}
-        cy={210}
+        cy={256}
         r={6}
         className={cx(u.acc, s.a, s.flowTarget)}
       />
@@ -262,7 +234,7 @@ function Card() {
 }
 
 function Hero() {
-  // Core (x 40–760, y 50–550) at 1.4×, centred.
+  // Core (x 40–760, y 40–560) at 1.4×, centred.
   return (
     <SceneSvg frame="hero" duration={DURATION} still={STILL}>
       <g transform="translate(240 80) scale(1.4)">
