@@ -1,4 +1,4 @@
-import FadeUp from '@/components/animations/FadeUp'
+import Reveal from '@/components/ui/Reveal'
 import type { SkillGroup } from '@/lib/engineers'
 
 interface SkillsCloudProps {
@@ -9,7 +9,7 @@ export default function SkillsCloud({ groups }: SkillsCloudProps) {
   return (
     <div className="grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2">
       {groups.map((group, i) => (
-        <FadeUp key={group.category} delay={i * 0.05}>
+        <Reveal key={group.category} delay={i * 50}>
           <div>
             <div className="flex items-center gap-3">
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-sideband-accent">
@@ -31,7 +31,7 @@ export default function SkillsCloud({ groups }: SkillsCloudProps) {
               ))}
             </div>
           </div>
-        </FadeUp>
+        </Reveal>
       ))}
     </div>
   )

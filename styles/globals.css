@@ -2,76 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colour tokens (--sideband-*) are emitted by the plugin in tailwind.config.ts,
+   which is their single source. This file owns motion, base styles and the
+   few patterns Tailwind cannot express. See DESIGN.md. */
+
 :root {
-  --sideband-black: #06050e;
-  --sideband-surface: #0d0b1a;
-  --sideband-surface-2: #131127;
-  --sideband-border: rgba(255, 255, 255, 0.07);
-  --sideband-border-strong: rgba(255, 255, 255, 0.13);
-  /* Text-safe dim tone: >=4.5:1 (WCAG AA) on black, surface and surface-2.
-     Use --sideband-hairline for decorative lines, not this. */
-  --sideband-muted: #837aa4;
-  --sideband-hairline: #382f5c;
-  --sideband-text: #edeaf5;
-  --sideband-text-secondary: #8b82aa;
-  --sideband-accent: #a855f7;
-  --sideband-accent-dim: rgba(168, 85, 247, 0.15);
-  --sideband-ok: #4ade80;
-  --sideband-warn: #fbbf24;
-  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-press: 120ms;
+  --dur-hover: 180ms;
+  --dur-ui: 320ms;
+  --dur-enter: 720ms;
+  --stagger: 70ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --nav-h: 4rem;
 }
+
+/* ---- Base ---- */
 
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+  background-color: var(--sideband-black);
 }
 
 body {
   background-color: var(--sideband-black);
   color: var(--sideband-text);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-feature-settings: 'ss01', 'ss02';
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Film grain as a tiled background image: one 256px texture, no live SVG
-   filter over the viewport. */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+  hyphens: none;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Film grain as one tiled 256px texture, never a live filter over the page. */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
-.inner {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 32px;
-  padding-right: 32px;
-}
-
 ::selection {
-  background-color: #a855f730;
-  color: var(--sideband-text);
+  background-color: var(--sideband-accent);
+  color: var(--sideband-accent-ink);
 }
 
 :focus-visible {
   outline: 2px solid var(--sideband-accent);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -80,50 +83,30 @@ body::after {
 
 ::-webkit-scrollbar-thumb {
   background: var(--sideband-hairline);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sideband-text-secondary);
+  background: var(--sideband-muted);
 }
 
-/* ---- Type ---- */
-.display {
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  color: var(--sideband-text);
+/* Legacy pages still use .inner. New code uses <Container>. */
+.inner {
+  width: 100%;
+  max-width: 87.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 0.5rem + 3vw, 2.5rem);
+  padding-right: clamp(1.25rem, 0.5rem + 3vw, 2.5rem);
 }
 
-.eyebrow {
-  display: block;
-  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--sideband-muted);
-}
-
-/* ---- Surfaces ---- */
-.tile {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--sideband-border);
-  border-radius: 12px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.015),
-    rgba(255, 255, 255, 0)
-  );
-}
-
-/* ---- Page-load sequence: [data-rise] plays once, offset by --d ---- */
+/* ---- Motion: page-load sequence ----
+   [data-rise] plays once on first paint, offset by --d. Pure CSS, so it runs
+   before hydration and needs no script. <Reveal trigger="mount"> renders it. */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
@@ -132,38 +115,345 @@ body::after {
 }
 
 [data-rise] {
-  animation: rise 0.7s var(--ease-out) both;
+  animation: rise var(--dur-enter) var(--ease-out) both;
   animation-delay: var(--d, 0ms);
 }
 
-/* ---- Hero ---- */
+/* ---- Motion: scroll reveal ----
+   Content is visible by default. <Reveal> marks an element hidden only after
+   hydration and only if it starts below the fold, then reveals it once. No
+   script, or reduced motion, means it simply stays visible. */
+[data-reveal='hidden'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 24px), 0);
+}
+
+[data-reveal='shown'] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-enter) var(--ease-out),
+    transform var(--dur-enter) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* ---- Motion: ambient loops ----
+   Loops run only while their host is on screen and the tab is visible.
+   useAmbient() sets data-play="on" on the host; anything looping inside uses
+   animation-play-state: var(--play, paused). */
+[data-play='on'] {
+  --play: running;
+}
+
+/* ---- Backdrops (components/ui/Backdrop.tsx) ---- */
+.bd-grid,
+.hero-grid {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.09) 1px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+  background-position: center top;
+  mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    black 30%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    black 30%,
+    transparent 75%
+  );
+}
+
+.bd-spotlight {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 0%,
+    rgba(255, 255, 255, 0.075),
+    transparent 70%
+  );
+}
+
+.bd-spotlight[data-tone='accent'] {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 0%,
+    color-mix(in srgb, var(--band-a, var(--sideband-accent)) 18%, transparent),
+    transparent 70%
+  );
+}
+
+.bd-spotlight[data-from='bottom'] {
+  background-position: 0 0;
+  transform: scaleY(-1);
+}
+
+/* The product's own light, behind the icon in the ProductScene fallback. */
+.scene-light {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--product-accent) 22%, transparent),
+    transparent
+  );
+}
+
+/* The signature: the mark's two offset tiles as flat fields of colour at
+   low strength. Upper tile in --band-a, lower in
+   --band-b. */
+.bd-bands {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
+}
+
+.bd-band {
+  position: absolute;
+  width: min(44%, 560px);
+  aspect-ratio: 1.6;
+  border-radius: 28% 28% 28% 6%;
+  opacity: 0.08;
+  animation: band-drift 18s var(--ease-in-out) infinite alternate;
+  animation-play-state: var(--play, paused);
+}
+
+.bd-band-a {
+  top: 8%;
+  left: max(2%, calc(50% - 640px));
+  background: var(--band-a, var(--sideband-accent));
+}
+
+.bd-band-b {
+  bottom: 8%;
+  right: max(2%, calc(50% - 640px));
+  border-radius: 6% 28% 28% 28%;
+  background: var(--band-b, var(--sideband-violet));
+  animation-direction: alternate-reverse;
+}
+
+@keyframes band-drift {
+  from {
+    transform: translate3d(-3%, 0, 0);
+  }
+  to {
+    transform: translate3d(3%, 0, 0);
+  }
+}
+
+/* ---- Home sections (legacy, rebuilt in phase 2) ----
+   Kept so the current home page stays presentable on the new tokens. New
+   code uses the components in components/ui instead of these classes. */
+.display {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--sideband-text);
+}
+
+.eyebrow {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sideband-text-secondary);
+}
+
+.tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: var(--sideband-surface);
+}
+
 .hero-grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(
-    ellipse 80% 60% at 50% 40%,
-    black 40%,
-    transparent 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 60% at 50% 40%,
-    black 40%,
-    transparent 100%
-  );
 }
 
-/* Inline boxes ignore transforms, so each rising headline line is a block. */
+.sec {
+  position: relative;
+  padding: clamp(4rem, 2rem + 4.5vw, 7.5rem) 0;
+}
+
+.section-head {
+  max-width: 46rem;
+  margin-bottom: 56px;
+}
+
+.section-head .eyebrow {
+  margin-bottom: 20px;
+}
+
+.section-head h2 {
+  margin-bottom: 24px;
+  font-size: clamp(2rem, 1.25rem + 2.6vw, 3.5rem);
+  line-height: 1;
+}
+
+.section-head p {
+  max-width: 40rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: var(--sideband-text-secondary);
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--sideband-text-secondary);
+}
+
+.checklist svg {
+  flex-shrink: 0;
+  color: var(--sideband-ok);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.product-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px;
+  border-radius: 1.25rem;
+  background: var(--sideband-surface);
+  transition: background-color var(--dur-hover) var(--ease-standard);
+}
+
+.product-cell:hover {
+  background: var(--sideband-surface-2);
+}
+
+.product-cell:hover .product-arrow,
+.repo-row:hover .product-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.product-arrow {
+  opacity: 0;
+  transition:
+    opacity var(--dur-hover) var(--ease-standard),
+    transform var(--dur-hover) var(--ease-standard);
+}
+
+.grid-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 28px;
+  font-size: 0.875rem;
+  color: var(--sideband-text-secondary);
+}
+
+.grid-footer-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grid-footer-item svg {
+  color: var(--sideband-ok);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.open-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 8px;
+}
+
+.repo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  transition: background-color var(--dur-hover) var(--ease-standard);
+}
+
+.repo-row:hover {
+  background: var(--sideband-surface-2);
+}
+
+.open-pitch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px;
+}
+
+.pitch-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 7px;
+  background: var(--sideband-accent-dim);
+  color: var(--sideband-accent);
+}
+
+.sec-cta {
+  overflow: hidden;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .split,
+  .open-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- Home hero (legacy, rebuilt in phase 2) ----
+   Marks enter once, then drift while visible and lean toward the pointer.
+   --px/--py come from the pointer, scaled per mark by --depth. */
 .hero-title span {
   display: inline-block;
 }
 
-/* Marks enter once, then drift while visible and lean toward the pointer.
-   --px/--py come from the pointer, scaled per mark by --depth. */
 .hero-float {
   position: absolute;
   inset: 64px 0 0;
@@ -190,11 +480,8 @@ body::after {
   height: 100%;
   overflow: hidden;
   border-radius: 25%;
-  border: 1px solid var(--sideband-border-strong);
-  background: #0b0a14;
-  box-shadow:
-    0 20px 48px -16px rgba(0, 0, 0, 0.65),
-    0 2px 0 0 rgba(255, 255, 255, 0.04) inset;
+  background: var(--sideband-surface);
+  box-shadow: 0 20px 48px -16px rgba(0, 0, 0, 0.65);
   animation:
     mark-in 1s var(--ease-out) var(--d) both,
     mark-drift var(--dur) ease-in-out calc(var(--d) + 1s) infinite;
@@ -389,27 +676,17 @@ body::after {
   }
 }
 
-/* Preview: a browser window with one tab per product. Tilted a couple of
-   degrees, flat on hover. The rise wrapper sits outside so its transform
-   does not fight the tilt. */
+/* Preview: a browser window with one tab per product. */
 .hero-preview {
   max-width: 1120px;
   margin: 0 auto;
-  transform: perspective(2000px) rotateX(2deg);
-  transition: transform 0.6s ease;
-}
-
-.hero-preview:hover,
-.hero-preview:focus-within {
-  transform: perspective(2000px) rotateX(0deg);
 }
 
 .hero-frame {
   overflow: hidden;
-  border: 1px solid var(--sideband-border-strong);
-  border-radius: 14px;
-  background: #0a0913;
-  box-shadow: 0 28px 64px -28px rgba(0, 0, 0, 0.75);
+  border-radius: 1.25rem;
+  background: var(--sideband-surface);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
 }
 
 .hero-frame-shot {
@@ -436,17 +713,17 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 7px;
-  font-size: 12.5px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  color: var(--sideband-text-secondary);
+  color: var(--sideband-muted);
   white-space: nowrap;
   transition:
-    color 0.18s ease,
-    background 0.18s ease;
+    color var(--dur-hover) var(--ease-standard),
+    background var(--dur-hover) var(--ease-standard);
 }
 
 .hero-tab:hover {
@@ -455,7 +732,7 @@ body::after {
 
 .hero-tab[aria-selected='true'] {
   color: var(--sideband-text);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--sideband-surface-3);
 }
 
 .hero-tab img {
@@ -469,284 +746,15 @@ body::after {
     display: none;
   }
   .hero-tab {
-    padding: 0 8px;
+    padding: 0 9px;
   }
 }
 
-@media (max-width: 960px) {
-  .hero-preview {
-    transform: none;
-  }
-}
-
-/* ---- Landing sections ---- */
-.sec {
-  position: relative;
-  padding: 96px 0;
-  border-top: 1px solid var(--sideband-border);
-}
-
-.section-head {
-  max-width: 720px;
-  margin-bottom: 56px;
-}
-
-.section-head .eyebrow {
-  margin-bottom: 14px;
-}
-
-.section-head h2 {
-  margin-bottom: 18px;
-  font-size: clamp(32px, 4vw, 48px);
-}
-
-.section-head p {
-  max-width: 620px;
-  font-size: 18px;
-  letter-spacing: -0.005em;
-  color: var(--sideband-text-secondary);
-}
-
-.checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  list-style: none;
-}
-
-.checklist li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--sideband-text-secondary);
-}
-
-.checklist svg {
-  flex-shrink: 0;
-  color: var(--sideband-ok);
-}
-
-/* Product grid: one bordered cell per product, shared 1px lines. */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  overflow: hidden;
-  border: 1px solid var(--sideband-border);
-  border-radius: 12px;
-}
-
-.product-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px 22px;
-  border-right: 1px solid var(--sideband-border);
-  border-bottom: 1px solid var(--sideband-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent);
-  transition: background 0.2s ease;
-}
-
-.product-cell:nth-child(3n) {
-  border-right: 0;
-}
-
-.product-cell:nth-last-child(-n + 3) {
-  border-bottom: 0;
-}
-
-.product-cell:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.product-cell:hover .product-arrow {
-  opacity: 1;
-  transform: translate(2px, -2px);
-}
-
-.product-arrow {
-  opacity: 0;
-  transition:
-    opacity 0.18s ease,
-    transform 0.18s ease;
-}
-
-.grid-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  margin-top: 28px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--sideband-border);
-  font-size: 13px;
-  color: var(--sideband-text-secondary);
-}
-
-.grid-footer-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.grid-footer-item svg {
-  color: var(--sideband-ok);
-}
-
-@media (max-width: 960px) {
-  .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .product-cell:nth-child(3n) {
-    border-right: 1px solid var(--sideband-border);
-  }
-  .product-cell:nth-child(2n) {
-    border-right: 0;
-  }
-  .product-cell:nth-last-child(-n + 3) {
-    border-bottom: 1px solid var(--sideband-border);
-  }
-  .product-cell:nth-last-child(-n + 2) {
-    border-bottom: 0;
-  }
-}
-
-@media (max-width: 560px) {
-  .product-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .product-cell,
-  .product-cell:nth-child(3n) {
-    border-right: 0;
-    border-bottom: 1px solid var(--sideband-border);
-  }
-  .product-cell:last-child {
-    border-bottom: 0;
-  }
-}
-
-/* Two-column feature rows (studio, open source). */
-.split {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 64px;
-  align-items: center;
-}
-
-.split-reverse {
-  grid-template-columns: 1fr 1.1fr;
-}
-
-.open-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 20px;
-}
-
-.repo-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--sideband-border);
-  transition: background 0.18s ease;
-}
-
-.repo-row:hover {
-  background: rgba(255, 255, 255, 0.025);
-}
-
-.repo-row:hover .product-arrow {
-  opacity: 1;
-  transform: translate(2px, -2px);
-}
-
-.open-pitch {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 32px;
-  padding: 32px;
-  background:
-    radial-gradient(
-      110% 75% at 100% 0%,
-      var(--sideband-accent-dim),
-      transparent 60%
-    ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
-}
-
-.pitch-mark {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  margin-top: 1px;
-  border-radius: 7px;
-  border: 1px solid rgba(168, 85, 247, 0.28);
-  background: var(--sideband-accent-dim);
-  color: var(--sideband-accent);
-}
-
-/* Final call to action: accent glow rising from below the fold. */
-.sec-cta {
-  overflow: hidden;
-  padding: 120px 0;
-  text-align: center;
-}
-
-.sec-cta::before {
-  content: '';
-  position: absolute;
-  inset: auto 0 -50% 0;
-  height: 60%;
-  pointer-events: none;
-  opacity: 0.6;
-  background: radial-gradient(
-    ellipse at center,
-    var(--sideband-accent-dim) 0%,
-    transparent 60%
-  );
-}
-
-@media (max-width: 960px) {
-  .split,
-  .split-reverse {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .split-reverse > :first-child {
-    order: 2;
-  }
-  .open-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 820px) {
-  .sec {
-    padding: 64px 0;
-  }
-  .sec-cta {
-    padding: 96px 0;
-  }
-  .section-head {
-    margin-bottom: 40px;
-  }
-}
-
-@media (max-width: 600px) {
-  .inner {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-/* ---- Product detail pages ---- */
+/* ---- Product pages (legacy, rebuilt in phase 2) ---- */
 .prod-section {
   position: relative;
   overflow: hidden;
-  padding: 128px 0;
+  padding: clamp(6rem, 3rem + 7vw, 11rem) 0;
 }
 
 .prod-section:nth-child(odd) {
@@ -762,20 +770,17 @@ body::after {
   top: -16px;
   pointer-events: none;
   user-select: none;
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: clamp(160px, 22vw, 280px);
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.05em;
   line-height: 1;
   color: var(--sideband-text);
-  opacity: 0.035;
+  opacity: 0.03;
 }
 
 .prod-problem {
-  padding-left: 16px;
-  border-left: 2px solid var(--sideband-border);
-  font-size: 14px;
-  font-style: italic;
-  line-height: 1.85;
+  font-size: 15px;
+  line-height: 1.7;
   color: var(--sideband-text-secondary);
 }
 
@@ -786,7 +791,6 @@ body::after {
   align-items: center;
 }
 
-/* Device shadows */
 .iphone-wrap {
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
 }
@@ -921,10 +925,18 @@ body::after {
   }
 }
 
-/* ---- Reduced motion ---- */
+/* ---- Reduced motion: every animation off, all content visible ---- */
 @media (prefers-reduced-motion: reduce) {
-  [data-rise] {
-    animation: none;
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-rise],
+  [data-reveal] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 
   .hero-float-card {
@@ -934,12 +946,6 @@ body::after {
 
   .hero-float-mark {
     translate: none;
-    transition: none;
-  }
-
-  .hero-preview,
-  .hero-preview:hover {
-    transform: none;
     transition: none;
   }
 

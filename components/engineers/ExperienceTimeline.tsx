@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import FadeUp from '@/components/animations/FadeUp'
+import Reveal from '@/components/ui/Reveal'
 import type { ExperienceEntry } from '@/lib/engineers'
 
 /** Leading letters, up to three — "Amazon Web Services" -> "AWS". */
@@ -71,7 +71,7 @@ export default function ExperienceTimeline({
   return (
     <div className="relative ml-4 border-l border-sideband-border pl-8">
       {entries.map((entry, i) => (
-        <FadeUp key={`${entry.company}-${i}`} delay={i * 0.06}>
+        <Reveal key={`${entry.company}-${i}`} delay={i * 60}>
           <div className="relative mb-12 last:mb-0">
             {/* Dot */}
             <div
@@ -146,7 +146,7 @@ export default function ExperienceTimeline({
               </div>
             )}
           </div>
-        </FadeUp>
+        </Reveal>
       ))}
     </div>
   )

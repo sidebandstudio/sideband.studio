@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import FadeUp from '@/components/animations/FadeUp'
-import SectionLabel from '@/components/ui/SectionLabel'
-import GlowButton from '@/components/ui/GlowButton'
+import Reveal from '@/components/ui/Reveal'
+import Eyebrow from '@/components/ui/Eyebrow'
+import Button from '@/components/ui/Button'
 import EngineerCard from '@/components/engineers/EngineerCard'
 import { listEngineers } from '@/lib/engineers'
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Hero */}
-        <FadeUp>
+        <Reveal>
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ ABOUT ]
           </span>
@@ -41,65 +41,65 @@ export default function AboutPage() {
           <h1 className="font-display text-5xl font-bold text-sideband-text md:text-7xl">
             One studio<span className="text-sideband-accent">.</span>
           </h1>
-        </FadeUp>
+        </Reveal>
 
         {/* Narrative */}
         <div className="mt-20 max-w-3xl space-y-16">
-          <FadeUp>
-            <SectionLabel label="WHY" />
+          <Reveal>
+            <Eyebrow>Why</Eyebrow>
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               We started Sideband because building software is the most fun we
               know how to have. Every product here began as something one of us
               wanted for ourselves, and that is still the whole strategy.
             </p>
-          </FadeUp>
+          </Reveal>
 
-          <FadeUp>
-            <SectionLabel label="HOW" />
+          <Reveal>
+            <Eyebrow>How</Eyebrow>
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               We build for ourselves first, then polish until we would hand it
               to a friend. Each product page has an honest write-up of how the
               thing actually works, from DXGI capture down to the render loop.
               The architecture is the interesting part, so we show it.
             </p>
-          </FadeUp>
+          </Reveal>
 
-          <FadeUp>
-            <SectionLabel label="NEXT" />
+          <Reveal>
+            <Eyebrow>Next</Eyebrow>
             <p className="mt-6 font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
               More products. The list of things we wish existed is long, and we
               are in no rush.
             </p>
-          </FadeUp>
+          </Reveal>
         </div>
 
         {/* Team Cards */}
         <div className="mt-24">
-          <FadeUp>
-            <SectionLabel label="THE TEAM" withLine />
-          </FadeUp>
-          <FadeUp delay={0.05}>
+          <Reveal>
+            <Eyebrow>The team</Eyebrow>
+          </Reveal>
+          <Reveal delay={50}>
             <p className="mt-6 max-w-2xl font-mono text-[12px] uppercase tracking-[0.15em] text-sideband-muted">
               Open a dossier for the full picture →
             </p>
-          </FadeUp>
+          </Reveal>
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-4xl">
             {founders.map((founder, i) => (
-              <FadeUp key={founder.id} delay={0.1 + i * 0.08}>
+              <Reveal key={founder.id} delay={100 + i * 80}>
                 <EngineerCard engineer={founder} />
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>
 
         {/* Timeline */}
         <div className="mt-24">
-          <FadeUp>
-            <SectionLabel label="TIMELINE" withLine />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Timeline</Eyebrow>
+          </Reveal>
           <div className="relative mt-10 ml-4 border-l border-sideband-border pl-8">
             {timeline.map((entry, i) => (
-              <FadeUp key={i} delay={i * 0.05}>
+              <Reveal key={i} delay={i * 50}>
                 <div className="relative mb-8 last:mb-0">
                   {/* Dot */}
                   <div className="absolute -left-[41px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-sideband-accent bg-sideband-black" />
@@ -112,24 +112,24 @@ export default function AboutPage() {
                     </span>
                   </div>
                 </div>
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>
 
         {/* CTA */}
-        <FadeUp>
+        <Reveal>
           <div className="mt-24 border-t border-sideband-border pb-24 pt-16 text-center">
             <p className="font-display text-3xl text-sideband-text">
               Want to build with us?
             </p>
             <div className="mt-6">
-              <GlowButton variant="filled" href="/contact">
+              <Button variant="primary" href="/contact">
                 Get in Touch
-              </GlowButton>
+              </Button>
             </div>
           </div>
-        </FadeUp>
+        </Reveal>
       </div>
     </div>
   )
