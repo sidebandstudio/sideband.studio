@@ -1667,6 +1667,164 @@ export const products: Product[] = [
       ),
     ],
   },
+  // Read from github.com/sidebandstudio/FadeEmpire at 5cd5710 (2026-10-21):
+  // README, index.html, scripts/, supabase/ (migrations 0001-0022, three Edge
+  // Functions), ios/ (project.yml, README) and docs/barber-app/CONTRACT.md, and
+  // from the live site. Its GitHub description ("Static only website") predates
+  // the Supabase backend.
+  {
+    id: 'fade-empire',
+    name: 'Fade Empire',
+    category: 'Barbershop booking',
+    tagline: 'Book a chair online, with an iPhone app for the barbers.',
+    description:
+      'The website and booking system of Fade Empire, a two-chair barbershop in Chicopee, Massachusetts. Customers pick a barber, a day and a 45-minute slot and get it on the spot. An iPhone app lets the barbers manage their chairs.',
+    overview: [
+      'The site is for the shop’s customers, mostly on phones, and the app is for its barbers and manager. A customer books, cancels or moves an appointment without calling, and can get a text reminder the day before.',
+      'The site is plain HTML, CSS and JavaScript modules on GitHub Pages, installable as an app. Bookings go through functions in Supabase Postgres that check the shop’s hours, the barber’s schedule and days off and set the price on the server, and the database refuses a second booking for a slot that is already taken. If the database cannot be reached, the request still reaches the barber by WhatsApp or text.',
+      'The SwiftUI barber app shows each barber their own schedule, lets them book walk-ins, mark no-shows and set days off, and sends a push for every booking, cancellation and move. The manager adds and edits barbers there, and the site follows without a deploy. Reminder texts go out hourly through Twilio from a scheduled Edge Function.',
+    ],
+    features: [
+      {
+        title: 'Book a slot on the spot',
+        body: 'Pick a barber, a day and a 45-minute slot, and the slot is yours as soon as you reserve it.',
+        image: '/assets/products/fade-empire/booking-desktop.webp',
+      },
+      {
+        title: 'No double bookings',
+        body: 'The database itself lets only one booking take a slot, even when two people reserve it at the same moment.',
+      },
+      {
+        title: 'Bring friends or kids',
+        body: 'Book up to six people in back-to-back slots with the same barber, all at once or not at all.',
+      },
+      {
+        title: 'Cancel or move it yourself',
+        body: 'Enter the phone you booked with to see your upcoming bookings, then cancel one or move it to a new time.',
+      },
+      {
+        title: 'Text reminders',
+        body: 'An opt-in text the day before the appointment, and another when the next cut is due about three weeks later.',
+      },
+      {
+        title: 'The price list books',
+        body: 'Every service on the price list is a button that picks it in the booking form.',
+        image: '/assets/products/fade-empire/site-menu-desktop.webp',
+      },
+      {
+        title: 'Open now and next free slot',
+        body: 'The page shows whether the shop is open and the earliest free slot with any barber.',
+        image: '/assets/products/fade-empire/site-home-desktop.webp',
+      },
+      {
+        title: 'Barber app for iPhone',
+        body: 'Each barber sees their own schedule, books walk-ins, marks no-shows, sets days off and gets a push for every booking.',
+      },
+      {
+        title: 'Booking links',
+        body: 'Each barber shares a link that opens the form with them picked, and a service too if they choose one.',
+      },
+    ],
+    platforms: ['Web, installable on phones', 'iOS 17 or later (barber app)'],
+    stack: [
+      'HTML',
+      'CSS',
+      'JavaScript',
+      'Supabase',
+      'PostgreSQL',
+      'Deno',
+      'TypeScript',
+      'Twilio',
+      'Swift',
+      'SwiftUI',
+      'APNs',
+      'GitHub Pages',
+    ],
+    status: 'LIVE',
+    version: null,
+    yearStarted: 2025,
+    engineers: ['ali-younes'],
+    origin: null,
+    links: {
+      site: 'https://chicopeefadeempire.com/',
+      repo: 'https://github.com/sidebandstudio/FadeEmpire',
+    },
+    // The shop's own name and town, from its site's title and schema.org
+    // BarberShop data (1193 Memorial Dr, Chicopee).
+    client: {
+      name: 'Fade Empire',
+      location: 'Chicopee, Massachusetts',
+      url: 'https://chicopeefadeempire.com/',
+    },
+    repo: 'sidebandstudio/FadeEmpire',
+    accentColor: '#C8A24A',
+    icon: image(
+      'fade-empire',
+      'icon.webp',
+      512,
+      512,
+      'none',
+      'artwork',
+      'Fade Empire knight helmet logo',
+      'repo assets/brand/icon-512.png, the site’s web app icon',
+    ),
+    video: {
+      hero: videoCut('fade-empire', 'hero', 12),
+      card: videoCut('fade-empire', 'card', 7),
+    },
+    images: [
+      image(
+        'fade-empire',
+        'site-home-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The Fade Empire home page with the shop’s hours status and the next open slot',
+        'Playwright capture of https://chicopeefadeempire.com/ at 1440x900, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'site-home-mobile.webp',
+        780,
+        1688,
+        'mobile',
+        'screenshot',
+        'The Fade Empire home page on a phone',
+        'Playwright capture of https://chicopeefadeempire.com/ at 390x844, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'booking-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The booking form with a barber, a day and an 11:30 AM slot picked',
+        'Playwright capture of the #book section on https://chicopeefadeempire.com/ after picking a barber, day, time and service, nothing submitted, 1440x900, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'booking-mobile.webp',
+        780,
+        1688,
+        'mobile',
+        'screenshot',
+        'The day’s 45-minute slots and the selected time on a phone',
+        'Playwright capture of the #book section on https://chicopeefadeempire.com/ after picking a day, time and service, nothing submitted, 390x844, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'site-menu-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The Fade Empire price list with the VIP service',
+        'Playwright capture of the #menu section on https://chicopeefadeempire.com/ at 1440x900, 2x, 2026-10-27',
+      ),
+    ],
+  },
 ]
 
 export function getProductById(id: string) {
