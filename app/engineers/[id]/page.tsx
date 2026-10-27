@@ -373,7 +373,7 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
       {((engineer.education?.length ?? 0) > 0 ||
         (engineer.skills?.length ?? 0) > 0) && (
         <Section labelledBy="education-title" tone="surface">
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
+          <div className="grid gap-24 lg:grid-cols-2 lg:gap-20">
             {engineer.education && engineer.education.length > 0 && (
               <div className="min-w-0">
                 <Reveal>
@@ -451,14 +451,11 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
               />
             )}
             <span className="min-w-0 flex-1">
-              <span className="block text-small text-sideband-muted">
-                Next of the {countWord(engineers.length)} founding engineers
-              </span>
-              <span className="mt-1 block text-head text-sideband-text">
+              <span className="block text-head text-sideband-text">
                 {next.name}
               </span>
               <span className="mt-2 block text-small text-sideband-text-secondary">
-                {next.role}
+                Next of the {countWord(engineers.length)} founding engineers
               </span>
             </span>
             <ArrowRightIcon
