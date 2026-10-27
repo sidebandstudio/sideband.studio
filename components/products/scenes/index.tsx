@@ -63,8 +63,9 @@ export function ProductScene({ id, variant, className }: ProductSceneProps) {
 }
 
 /**
- * The product's icon under its own light, on the scene's dot grid. A product
- * with no icon shows its name instead.
+ * The product's icon on the stage's dot grid, with one short flat bar in the
+ * product accent beneath it. No light, no glow: the icon carries the identity.
+ * A product with no icon shows its name instead.
  */
 function SceneFallback({
   product,
@@ -76,9 +77,8 @@ function SceneFallback({
   const hero = variant === 'hero'
   return (
     <>
-      <div className="bd-grid absolute inset-0 -z-10 opacity-70" />
-      <div className="scene-light absolute inset-0 -z-10" />
-      <div className="absolute inset-0 grid place-items-center">
+      <div className="bd-grid scene-grid absolute inset-0 -z-10" />
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 md:gap-6">
         {product.icon ? (
           <Image
             src={product.icon.src}
@@ -87,7 +87,7 @@ function SceneFallback({
             height={256}
             className={cx(
               'rounded-[22%]',
-              hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-16 w-16',
+              hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-20 w-20',
             )}
           />
         ) : (
@@ -95,6 +95,12 @@ function SceneFallback({
             {product.name}
           </span>
         )}
+        <span
+          className={cx(
+            'block h-1 rounded-full bg-product',
+            hero ? 'w-12 md:w-16' : 'w-10',
+          )}
+        />
       </div>
     </>
   )

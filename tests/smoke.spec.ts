@@ -281,3 +281,37 @@ test('the home link closes the mobile menu on the home page', async ({
   ).not.toBe('hidden')
   await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
 })
+
+test('stats skip the count-up when reduced motion is turned on after load', async ({
+  page,
+}) => {
+  await page.goto('/')
+  // Hydrated with motion allowed: the count-up is armed at zero.
+  await expect(page.locator('dd span[aria-hidden]').first()).toHaveText('0')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.waitForTimeout(100)
+  await page.evaluate(() => {
+    const w = window as unknown as { seen: string[] }
+    w.seen = []
+    document.querySelectorAll('dd span[aria-hidden]').forEach((s) => {
+      w.seen.push(s.textContent ?? '')
+      new MutationObserver(() => w.seen.push(s.textContent ?? '')).observe(s, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      })
+    })
+  })
+  const finals = await page
+    .locator('dd .sr-only')
+    .evaluateAll((els) => els.map((e) => e.textContent ?? ''))
+
+  await page.locator('dl').scrollIntoViewIfNeeded()
+  await page.waitForTimeout(1500)
+
+  const seen = await page.evaluate(
+    () => (window as unknown as { seen: string[] }).seen,
+  )
+  expect(finals.length).toBeGreaterThan(0)
+  expect(seen.every((v) => finals.includes(v))).toBe(true)
+})

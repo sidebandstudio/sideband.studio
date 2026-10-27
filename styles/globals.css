@@ -188,12 +188,18 @@ body::after {
   transform: scaleY(-1);
 }
 
-/* The product's own light, behind the icon in the ProductScene fallback. */
-.scene-light {
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--product-accent) 22%, transparent),
-    transparent
+/* The dot grid of a ProductScene fallback, faded evenly to the stage edges
+   around the centred icon. */
+.scene-grid {
+  mask-image: radial-gradient(
+    ellipse 60% 70% at 50% 50%,
+    black 20%,
+    transparent 80%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 70% at 50% 50%,
+    black 20%,
+    transparent 80%
   );
 }
 
