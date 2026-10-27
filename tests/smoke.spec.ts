@@ -210,3 +210,20 @@ test('footer links every product and engineer', async ({ page }) => {
   await footer.getByRole('link', { name: products[0].name }).click()
   await expect(page).toHaveURL(new RegExp(`/products/${products[0].id}$`))
 })
+
+test('choosing the current page in the mobile menu returns focus to the toggle', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/products')
+
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await page
+    .locator('#mobile-menu')
+    .getByRole('link', { name: 'Products' })
+    .click()
+
+  await expect(page.locator('#mobile-menu')).toBeHidden()
+  await expect(page).toHaveURL(/\/products$/)
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+})

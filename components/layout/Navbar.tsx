@@ -40,6 +40,10 @@ export default function Navbar() {
     if (returnFocus) toggleRef.current?.focus()
   }, [])
 
+  // Any link in the menu closes it and hands focus back to the toggle, also
+  // when the link is the current page and no route change follows.
+  const closeFromLink = () => close(true)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
@@ -224,7 +228,7 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     aria-current={active ? 'page' : undefined}
-                    onClick={() => setOpen(false)}
+                    onClick={closeFromLink}
                     className={cx(
                       'flex items-center justify-between py-3 text-head transition-colors duration-hover',
                       active
@@ -252,7 +256,7 @@ export default function Navbar() {
             <Button
               href="/contact"
               size="lg"
-              onClick={() => setOpen(false)}
+              onClick={closeFromLink}
               className="w-full"
             >
               Contact
