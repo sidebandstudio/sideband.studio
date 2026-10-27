@@ -208,9 +208,3 @@ Example section:
   posing as product UI.
 - Don't colour headlines, and don't use the accent in more than two places per screen.
 - Don't add a sixth type size or a second sans family.
-
-## Legacy
-
-`styles/globals.css` still carries the classes of pages built before this system (`.display`,
-`.eyebrow`, `.sec`, `.section-head`, `.hero-*`, `.hf-*`, `.prod-*` and friends), mapped onto the new
-tokens. Do not use them in new code. Delete each block when the page that uses it is rebuilt.
