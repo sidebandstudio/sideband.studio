@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
@@ -7,7 +8,7 @@ import { productsByRank } from '@/lib/products'
 
 interface FooterLink {
   href: string
-  label: string
+  label: ReactNode
   external?: boolean
 }
 
@@ -40,7 +41,18 @@ const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Contact',
     links: [
-      { href: 'mailto:hello@sideband.studio', label: 'hello@sideband.studio' },
+      // May break after the @: on a 320px phone the address is wider than
+      // its column. A span, so the break is not a flex item of the link.
+      {
+        href: 'mailto:hello@sideband.studio',
+        label: (
+          <span>
+            hello@
+            <wbr />
+            sideband.studio
+          </span>
+        ),
+      },
       {
         href: 'https://github.com/sidebandstudio',
         label: 'GitHub',

@@ -3,7 +3,7 @@ import { engineers } from '../lib/engineers'
 import { formatDate } from '../lib/format'
 import { getGithubUser } from '../lib/github'
 import { productRepo, products, productsByRank } from '../lib/products'
-import { visit } from './helpers'
+import { horizontalOverflow, visit } from './helpers'
 
 const FORMSPREE = 'https://formspree.io/f/xkoperoj'
 const fmt = (n: number) => n.toLocaleString('en-US')
@@ -460,10 +460,8 @@ for (const width of [390, 768, 1440, 1920]) {
     page.on('pageerror', (e) => errors.push(`${page.url()}: ${e.message}`))
     for (const path of PAGES) {
       await visit(page, path, { waitUntil: 'networkidle' })
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth - window.innerWidth,
-      )
-      expect(overflow, path).toBeLessThanOrEqual(0)
+      const { overflow, culprits } = await horizontalOverflow(page)
+      expect(overflow, [path, ...culprits].join('\n')).toBeLessThanOrEqual(0)
     }
     expect(errors).toEqual([])
   })

@@ -6,7 +6,12 @@ import {
 } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { products } from '../lib/products'
-import { ABORTED_PREFETCH, visit } from './helpers'
+import {
+  ABORTED_PREFETCH,
+  horizontalOverflow,
+  nextFrame,
+  visit,
+} from './helpers'
 
 /**
  * Site-wide checks on every route: what the sitemap lists, what the pages
@@ -147,16 +152,12 @@ for (const route of ROUTES) {
         canonical(route),
       )
 
-      // No sideways scrolling. The body hides horizontal overflow, which
-      // would hide a page that is too wide, so it is released to measure.
-      const overflow = await page.evaluate(() => {
-        const html = document.documentElement
-        document.body.style.overflowX = 'visible'
-        const wide = html.scrollWidth - html.clientWidth
-        document.body.style.overflowX = ''
-        return wide
-      })
-      expect(overflow, 'horizontal overflow').toBeLessThanOrEqual(0)
+      // No sideways scrolling.
+      const { overflow, culprits } = await horizontalOverflow(page)
+      expect(
+        overflow,
+        ['horizontal overflow', ...culprits].join('\n'),
+      ).toBeLessThanOrEqual(0)
 
       // Every internal link resolves, and every anchor it names exists.
       const links = await page.locator('a[href]').evaluateAll((els) =>
@@ -210,6 +211,29 @@ for (const route of ROUTES) {
       expect(errors).toEqual([])
     })
   }
+}
+
+// The narrowest phones, below the widths above. Long unbreakable text (an
+// address, a handle) is what overflows here, and platforms measure text
+// differently (Linux sets it a few pixels wider than macOS), so one load is
+// resized through the narrow widths.
+for (const route of ROUTES) {
+  test(`${route} from 320 to 375px: no sideways scrolling`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 900 })
+    await visit(page, route)
+    await page.evaluate(() => document.fonts.ready)
+    for (const width of [320, 340, 360, 375]) {
+      await page.setViewportSize({ width, height: 900 })
+      await nextFrame(page)
+      const { overflow, culprits } = await horizontalOverflow(page)
+      expect(
+        overflow,
+        [`horizontal overflow at ${width}`, ...culprits].join('\n'),
+      ).toBeLessThanOrEqual(0)
+    }
+  })
 }
 
 for (const route of ROUTES) {

@@ -32,17 +32,23 @@ export default function ContactPage() {
 
           <Reveal trigger="mount" delay={280}>
             <h2 className="sr-only">Other ways to reach us</h2>
+            {/* On a narrow phone the address does not fit beside its label,
+                so the row wraps it onto a line of its own (flex-auto sizes it
+                by its full width), and it breaks at the @ or the / only if
+                even that line is too short. */}
             <ul className="mt-12 space-y-3">
               <li>
                 <a
                   href="mailto:hello@sideband.studio"
-                  className="group flex items-center gap-4 rounded-inner bg-sideband-surface px-5 py-4 transition-colors duration-hover hover:bg-sideband-surface-2"
+                  className="group flex flex-wrap items-center gap-x-4 gap-y-1 rounded-inner bg-sideband-surface px-5 py-4 transition-colors duration-hover hover:bg-sideband-surface-2"
                 >
                   <span className="w-16 shrink-0 text-small text-sideband-muted">
                     Email
                   </span>
-                  <span className="flex-1 text-body text-sideband-text">
-                    hello@sideband.studio
+                  <span className="flex-auto text-body text-sideband-text">
+                    hello@
+                    <wbr />
+                    sideband.studio
                   </span>
                 </a>
               </li>
@@ -51,19 +57,23 @@ export default function ContactPage() {
                   href={githubOrg.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-inner bg-sideband-surface px-5 py-4 transition-colors duration-hover hover:bg-sideband-surface-2"
+                  className="group flex flex-wrap items-center gap-x-4 gap-y-1 rounded-inner bg-sideband-surface px-5 py-4 transition-colors duration-hover hover:bg-sideband-surface-2"
                 >
                   <span className="w-16 shrink-0 text-small text-sideband-muted">
                     GitHub
                   </span>
-                  <span className="flex flex-1 items-center gap-2 text-body text-sideband-text">
+                  <span className="flex flex-auto items-center gap-2 text-body text-sideband-text">
                     <GitHubIcon size={16} className="text-sideband-muted" />
-                    github.com/{githubOrg.login}
+                    <span>
+                      github.com/
+                      <wbr />
+                      {githubOrg.login}
+                    </span>
+                    <ArrowUpRightIcon
+                      size={13}
+                      className="ml-auto shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
                   </span>
-                  <ArrowUpRightIcon
-                    size={13}
-                    className="shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  />
                 </a>
               </li>
             </ul>
