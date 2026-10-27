@@ -1,5 +1,21 @@
-/* EternalRichPresence, one 12s loop. The still frame is 80%: the status on
-   Discord and both players on the same track at the same position. */
+/* EternalRichPresence, one 12s loop. The still frame is 80%: the song on
+   Discord and, in the hero, the friend's Spotify on the same track at the
+   same position. */
+
+/* The product's own mark colours, Discord blurple and Apple Music red, and
+   Discord's online green, used sparingly. */
+.blurple {
+  fill: #5865f2;
+}
+.blurpleLine {
+  stroke: color-mix(in srgb, #5865f2 80%, transparent);
+}
+.online {
+  fill: #23a55a;
+}
+.coverBg {
+  fill: color-mix(in srgb, #5865f2 24%, var(--sideband-black));
+}
 
 .a {
   transform-box: fill-box;
@@ -19,18 +35,19 @@
 @keyframes poll {
   0%,
   6%,
-  40%,
+  42%,
   48%,
   100% {
     transform: none;
   }
   3%,
-  44% {
+  45% {
     transform: scale(1.18);
   }
 }
 
-/* Cover art goes up to the image host and comes back as a URL Discord can show. */
+/* The cover art goes up to the image host and comes back as a URL that
+   Discord shows. --from and --host are set per drawing. */
 .art {
   animation-name: art;
 }
@@ -38,16 +55,16 @@
   0%,
   5% {
     opacity: 0;
-    transform: translate(-389px, -199px) scale(1.31);
+    transform: var(--from);
   }
   7% {
     opacity: 1;
-    transform: translate(-389px, -199px) scale(1.31);
+    transform: var(--from);
   }
   15%,
-  18% {
+  17% {
     opacity: 1;
-    transform: translate(-99px, -316px) scale(0.42);
+    transform: var(--host);
   }
   26%,
   93% {
@@ -65,26 +82,60 @@
 }
 @keyframes cloud {
   0%,
-  14%,
-  20%,
+  13%,
+  19%,
   100% {
     transform: none;
   }
-  17% {
-    transform: scale(1.1);
+  16% {
+    transform: scale(1.12);
   }
 }
 
-/* Discord fills in the activity. */
-.activity {
-  animation-name: activity;
+/* Discord fills in the activity: header, title, then artist and progress. */
+.head {
+  animation-name: head;
 }
-@keyframes activity {
+.song {
+  animation-name: song;
+}
+.row {
+  animation-name: row;
+}
+@keyframes head {
   0%,
   24% {
     opacity: 0;
   }
-  29%,
+  27%,
+  93% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes song {
+  0%,
+  27% {
+    opacity: 0;
+  }
+  30%,
+  93% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes row {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  33%,
   93% {
     opacity: 1;
   }
@@ -94,48 +145,48 @@
   }
 }
 
-/* Progress runs at the song's position. Both bars share this timing. */
+/* Progress at 1:21 of 3:27, moving in real time. Every bar on the same
+   song shares this timing. */
 .progress {
   transform-origin: left center;
-  transform: scaleX(0.576);
+  transform: scaleX(0.391);
   animation-name: progress;
+  animation-timing-function: linear;
 }
 @keyframes progress {
   0% {
-    transform: scaleX(0.08);
-    animation-timing-function: linear;
+    transform: scaleX(0.345);
   }
   80% {
-    transform: scaleX(0.576);
-    animation-timing-function: linear;
+    transform: scaleX(0.391);
   }
   100% {
-    transform: scaleX(0.7);
+    transform: scaleX(0.403);
   }
 }
 
-/* A friend clicks Join. */
+/* Hero: a friend presses Ask to Join. */
 .pointer {
   animation-name: pointer;
 }
 @keyframes pointer {
   0%,
-  28% {
+  38% {
     opacity: 0;
     transform: translate(70px, 60px);
   }
-  31% {
+  41% {
     opacity: 1;
     transform: translate(70px, 60px);
   }
-  36% {
+  46% {
     opacity: 1;
     transform: none;
   }
-  38% {
+  48% {
     transform: scale(0.85);
   }
-  40%,
+  50%,
   93% {
     opacity: 1;
     transform: none;
@@ -152,12 +203,12 @@
 }
 @keyframes press {
   0%,
-  37%,
-  44%,
+  47%,
+  56%,
   100% {
     opacity: 0;
   }
-  39% {
+  49% {
     opacity: 0.9;
   }
 }
@@ -169,87 +220,88 @@
 }
 @keyframes link {
   0%,
-  40% {
+  50% {
     opacity: 0;
     transform: none;
   }
-  42% {
+  52% {
     opacity: 1;
     transform: none;
     animation-timing-function: linear;
   }
-  47% {
+  56% {
     opacity: 1;
-    transform: translate(-120px, 52px);
+    transform: translate(-121px, 50px);
+    animation-timing-function: linear;
   }
-  52% {
+  60% {
     opacity: 1;
-    transform: translate(-232px, -8px);
+    transform: translate(-253px, 46px);
   }
-  54%,
+  62%,
   100% {
     opacity: 0;
-    transform: translate(-232px, -8px);
+    transform: translate(-253px, 46px);
   }
 }
 
-/* The friend's player jumps to the same track at the same position. */
+/* The friend's Spotify starts the same track at the same position. */
 .friend {
   animation-name: friend;
 }
 @keyframes friend {
   0%,
-  52% {
-    opacity: 0.32;
+  60% {
+    opacity: 0;
+    transform: scale(0.97);
   }
-  55%,
+  63%,
   93% {
     opacity: 1;
+    transform: none;
   }
   97%,
   100% {
-    opacity: 0.32;
+    opacity: 0;
+    transform: none;
   }
 }
-.friendArt {
-  animation-name: friendArt;
+.idle {
+  opacity: 0;
+  animation-name: idle;
 }
-@keyframes friendArt {
+@keyframes idle {
   0%,
-  52% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  55%,
-  93% {
+  60% {
     opacity: 1;
-    transform: none;
   }
-  97%,
-  100% {
+  62%,
+  95% {
     opacity: 0;
-    transform: none;
+  }
+  98%,
+  100% {
+    opacity: 1;
   }
 }
 .friendProgress {
   transform-origin: left center;
-  transform: scaleX(0.576);
+  transform: scaleX(0.391);
   animation-name: friendProgress;
+  animation-timing-function: linear;
 }
 @keyframes friendProgress {
   0%,
-  52% {
-    transform: scaleX(0.3);
+  60% {
+    transform: scaleX(0.12);
   }
-  54% {
-    transform: scaleX(0.415);
-    animation-timing-function: linear;
+  61% {
+    transform: scaleX(0.38);
   }
   80% {
-    transform: scaleX(0.576);
-    animation-timing-function: linear;
+    transform: scaleX(0.391);
   }
   100% {
-    transform: scaleX(0.7);
+    transform: scaleX(0.403);
   }
 }

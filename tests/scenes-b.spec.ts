@@ -33,7 +33,11 @@ async function checkScene(page: Page, id: string, variant: 'card' | 'hero') {
   const svg = scene(page, id, variant)
   await expect(svg).toHaveCount(1)
   // Decorative: the stage around the drawing is hidden from assistive tech.
-  await expect(svg.locator('xpath=..')).toHaveAttribute('aria-hidden', 'true')
+  expect(
+    await svg.evaluate(
+      (el) => el.parentElement?.closest('[aria-hidden="true"]') !== null,
+    ),
+  ).toBe(true)
   // A small DOM, as the scene contract asks.
   const nodes = await svg.evaluate((el) => el.querySelectorAll('*').length)
   expect(nodes).toBeGreaterThan(30)

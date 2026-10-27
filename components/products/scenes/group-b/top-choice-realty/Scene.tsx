@@ -3,7 +3,7 @@
 import type { CSSProperties } from 'react'
 import { cx } from '@/components/ui/cx'
 import type { SceneProps } from '../..'
-import { Stage, a, C } from '../Stage'
+import { Framings, Stage, a, C } from '../Stage'
 import m from './scene.module.css'
 
 /**
@@ -13,10 +13,10 @@ import m from './scene.module.css'
  * which now point at each other (the sold RPC writes both in one step).
  *
  * The listing and buyer are illustrations, not real records. Field names and
- * statuses (Active, Pending, Sold, email sent) are the app's own.
+ * statuses (Active, Sold, email sent) are the app's own.
  */
 export default function TopChoiceRealtyScene({ variant }: SceneProps) {
-  return variant === 'hero' ? <Hero /> : <Card />
+  return <Framings variant={variant} card={<Card />} hero={<Hero />} />
 }
 
 /** The brokerage's gold house, as on its site and favicon. */
@@ -51,8 +51,8 @@ function Status({
   h: number
   font: number
 }) {
-  const wA = font * 3.6
-  const wS = font * 2.9
+  const wA = font * 4.4
+  const wS = font * 3.4
   return (
     <g>
       <g className={cx(a, m.active)} opacity="0">
@@ -144,113 +144,100 @@ function Card() {
   return (
     <Stage id="top-choice-realty" variant="card" loop={13}>
       {/* The listing */}
-      <rect x="48" y="64" width="290" height="472" rx="20" fill={C.s2} />
-      <path d="M48 244 V84 q0 -20 20 -20 H318 q20 0 20 20 V244 Z" fill={C.s3} />
-      <House x={193} y={160} s={46} w={5} />
-      <Status x={66} y={82} h={36} font={19} />
-      <text x="70" y="294" fontSize="32" fontWeight="500" fill={C.ink}>
+      <rect x="40" y="36" width="360" height="316" rx="20" fill={C.s2} />
+      <path d="M40 196 V56 q0 -20 20 -20 H380 q20 0 20 20 V196 Z" fill={C.s3} />
+      <House x={312} y={124} s={44} w={5} />
+      <Status x={60} y={56} h={56} font={36} />
+      <text x="64" y="262" fontSize="48" fontWeight="500" fill={C.ink}>
         $849,000
       </text>
-      <text x="70" y="330" fontSize="19" fill={C.muted}>
-        3 beds · 2 baths · 1,450 sqft
-      </text>
-      <text x="70" y="362" fontSize="19" fill={C.ink2}>
-        Staten Island
-      </text>
-      <rect x="70" y="470" width="246" height="44" rx="22" fill={C.s3} />
-      <text x="193" y="499" fontSize="19" textAnchor="middle" fill={C.ink}>
-        Contact agent
-      </text>
+      <rect x="64" y="286" width="312" height="44" rx="22" fill={C.s3} />
+      <Envelope x={198} y={293} w={44} />
 
       {/* The agent, emailed */}
-      <Agent cx={492} cy={118} r={36} />
-      <text x="544" y="112" fontSize="20" fill={C.ink}>
+      <rect x="440" y="36" width="320" height="316" rx="20" fill={C.s2} />
+      <Agent cx={600} cy={118} r={48} />
+      <text x="600" y="218" fontSize="36" textAnchor="middle" fill={C.ink}>
         Listing agent
       </text>
       <g className={cx(a, m.sent)}>
-        <Tick x={546} y={136} s={16} />
-        <text x="570" y="144" fontSize="18" fill={C.accent}>
+        <Tick x={484} y={274} s={28} />
+        <text x="526" y="290" fontSize="36" fill={C.accent}>
           Email sent
         </text>
       </g>
 
-      {/* The customer book */}
-      <rect x="400" y="236" width="352" height="300" rx="20" fill={C.s2} />
-      <text x="424" y="278" fontSize="22" fontWeight="500" fill={C.ink}>
+      {/* The customer book, its newest row the buyer */}
+      <rect x="40" y="388" width="720" height="180" rx="20" fill={C.s2} />
+      <text x="70" y="440" fontSize="38" fontWeight="500" fill={C.ink}>
         Customers
       </text>
-      {[372, 420, 468].map((y) => (
-        <g key={y} fill="rgba(255, 255, 255, 0.16)">
-          <rect x="424" y={y} width="96" height="10" rx="5" />
-          <rect x="560" y={y} width="72" height="10" rx="5" />
-          <rect x="676" y={y} width="52" height="10" rx="5" />
-        </g>
-      ))}
+      <g fill="rgba(255, 255, 255, 0.16)">
+        <rect x="74" y="534" width="160" height="12" rx="6" />
+        <rect x="360" y="534" width="140" height="12" rx="6" />
+        <rect x="646" y="534" width="80" height="12" rx="6" />
+      </g>
       <g className={cx(a, m.row)}>
         <rect
-          x="412"
-          y="298"
-          width="328"
-          height="50"
-          rx="12"
+          x="54"
+          y="458"
+          width="692"
+          height="60"
+          rx="14"
           fill={C.accent}
           fillOpacity="0.14"
         />
-        <text x="424" y="330" fontSize="19" fill={C.ink}>
+        <text x="74" y="501" fontSize="36" fill={C.ink}>
           J. Rivera
         </text>
-        <text x="560" y="330" fontSize="19" fill={C.ink}>
+        <text x="360" y="501" fontSize="36" fill={C.ink}>
           $849,000
         </text>
-        <text x="728" y="330" fontSize="19" textAnchor="end" fill={C.muted}>
+        <text x="726" y="501" fontSize="36" textAnchor="end" fill={C.muted}>
           Oct 24
         </text>
       </g>
 
       {/* The two records, joined */}
       <g className={cx(a, m.link)}>
-        <path
-          d="M338 300 H376 V323 H412"
-          fill="none"
-          stroke={C.accent}
-          strokeWidth="3"
-        />
-        <circle cx="338" cy="300" r="6" fill={C.accent} />
-        <circle cx="412" cy="323" r="6" fill={C.accent} />
+        <path d="M320 352 V458" fill="none" stroke={C.accent} strokeWidth="4" />
+        <circle cx="320" cy="352" r="8" fill={C.accent} />
+        <circle cx="320" cy="458" r="8" fill={C.accent} />
       </g>
       <circle
         className={cx(a, m.pulse)}
-        cx="338"
-        cy="300"
-        r="5"
+        style={pos(0, 106)}
+        cx="320"
+        cy="352"
+        r="6"
         fill={C.ink}
         opacity="0"
       />
 
       {/* The buyer form that opens on Sold, and becomes the row */}
-      <g className={cx(a, m.sheet)} style={pos(306, -127)} opacity="0">
+      <g className={cx(a, m.sheet)} style={pos(-50, 68)} opacity="0">
         <rect
-          x="180"
-          y="386"
-          width="180"
-          height="128"
-          rx="14"
+          x="300"
+          y="340"
+          width="300"
+          height="160"
+          rx="16"
           fill={C.s3}
           stroke={C.lineStrong}
           strokeWidth="2"
         />
-        <text x="198" y="418" fontSize="17" fill={C.muted}>
+        <text x="324" y="386" fontSize="36" fill={C.muted}>
           Buyer
         </text>
-        <rect x="198" y="430" width="144" height="36" rx="9" fill={C.s1} />
-        <text x="210" y="455" fontSize="18" fill={C.ink}>
+        <rect x="506" y="362" width="70" height="28" rx="14" fill={C.accent} />
+        <rect x="324" y="404" width="252" height="72" rx="12" fill={C.s1} />
+        <text x="342" y="453" fontSize="36" fill={C.ink}>
           J. Rivera
         </text>
-        <rect x="198" y="476" width="70" height="24" rx="12" fill={C.accent} />
       </g>
 
-      <g className={cx(a, m.mail)} style={pos(316, -378)} opacity="0">
-        <Envelope x={174} y={480} w={38} />
+      <g className={cx(a, m.mail)} style={pos(380, -192)} opacity="0">
+        <Envelope x={198} y={293} w={44} />
       </g>
     </Stage>
   )
@@ -259,224 +246,142 @@ function Card() {
 function Hero() {
   return (
     <Stage id="top-choice-realty" variant="hero" loop={14}>
-      {/* The public listings page */}
-      <text x="180" y="168" fontSize="34" fontWeight="500" fill={C.ink}>
-        Listings
-      </text>
-      {['Staten Island', '3+ beds'].map((t, i) => (
-        <g key={t}>
-          <rect
-            x={360 + i * 200}
-            y="132"
-            width={i ? 128 : 182}
-            height="48"
-            rx="24"
-            fill={C.s2}
-          />
-          <text
-            x={360 + i * 200 + (i ? 64 : 91)}
-            y="163"
-            fontSize="21"
-            textAnchor="middle"
-            fill={C.ink2}
-          >
-            {t}
-          </text>
-        </g>
-      ))}
-
-      {/* The listing this is about */}
-      <rect x="180" y="210" width="340" height="600" rx="24" fill={C.s2} />
-      <path
-        d="M180 440 V234 q0 -24 24 -24 H496 q24 0 24 24 V440 Z"
-        fill={C.s3}
-      />
-      <House x={350} y={330} s={60} w={6} />
-      <Status x={202} y={232} h={44} font={22} />
-      <text x="206" y="500" fontSize="40" fontWeight="500" fill={C.ink}>
-        $849,000
-      </text>
-      <text x="206" y="544" fontSize="22" fill={C.muted}>
-        3 beds · 2 baths · 1,450 sqft
-      </text>
-      <text x="206" y="582" fontSize="22" fill={C.ink2}>
-        Staten Island
-      </text>
-      <g className={cx(a, m.soldTo)}>
-        <text x="206" y="640" fontSize="22" fill={C.accent}>
-          Sold to J. Rivera, Oct 24
-        </text>
-      </g>
-      <rect x="206" y="730" width="288" height="54" rx="27" fill={C.s3} />
-      <text x="350" y="765" fontSize="22" textAnchor="middle" fill={C.ink}>
-        Contact agent
-      </text>
-
-      {/* A neighbour on the board */}
-      <rect x="550" y="210" width="340" height="600" rx="24" fill={C.s2} />
-      <path
-        d="M550 440 V234 q0 -24 24 -24 H866 q24 0 24 24 V440 Z"
-        fill={C.s3}
-      />
-      <House x={720} y={330} s={60} w={6} />
-      <rect
-        x="572"
-        y="232"
-        width="104"
-        height="44"
-        rx="22"
-        fill={C.ground}
-        fillOpacity="0.7"
-      />
-      <text x="624" y="261" fontSize="22" textAnchor="middle" fill={C.ink2}>
-        Pending
-      </text>
-      <rect
-        x="576"
-        y="472"
-        width="170"
-        height="30"
-        rx="8"
-        fill="rgba(255, 255, 255, 0.22)"
-      />
-      <rect
-        x="576"
-        y="526"
-        width="230"
-        height="14"
-        rx="7"
-        fill="rgba(255, 255, 255, 0.14)"
-      />
-      <rect
-        x="576"
-        y="566"
-        width="130"
-        height="14"
-        rx="7"
-        fill="rgba(255, 255, 255, 0.14)"
-      />
-      <rect x="576" y="730" width="288" height="54" rx="27" fill={C.s3} />
-
-      {/* The agent's back office: inquiries */}
-      <rect x="950" y="210" width="480" height="250" rx="24" fill={C.s2} />
-      <Agent cx={1012} cy={272} r={36} />
-      <text x="1066" y="266" fontSize="24" fontWeight="500" fill={C.ink}>
-        Listing agent
-      </text>
-      <text x="1066" y="296" fontSize="20" fill={C.muted}>
-        Inquiries
-      </text>
-      <rect x="976" y="336" width="428" height="96" rx="16" fill={C.s3} />
-      <g className={cx(a, m.inbox)}>
-        <Envelope x={998} y={360} w={44} />
-        <rect x="1064" y="362" width="170" height="12" rx="6" fill={C.ink2} />
-        <rect
-          x="1064"
-          y="390"
-          width="120"
-          height="10"
-          rx="5"
-          fill="rgba(255, 255, 255, 0.22)"
+      {/* Drawn from y 150, lowered to sit centred in the frame */}
+      <g transform="translate(0 20)">
+        {/* The listing, which names its buyer once sold */}
+        <rect x="170" y="150" width="440" height="660" rx="24" fill={C.s2} />
+        <path
+          d="M170 440 V174 q0 -24 24 -24 H586 q24 0 24 24 V440 Z"
+          fill={C.s3}
         />
-      </g>
-      <g className={cx(a, m.sent)}>
-        <Tick x={1270} y={380} s={20} />
-        <text x="1300" y="390" fontSize="21" fill={C.accent}>
-          Email sent
-        </text>
-      </g>
-
-      {/* The customer book */}
-      <rect x="950" y="500" width="480" height="310" rx="24" fill={C.s2} />
-      <text x="976" y="550" fontSize="26" fontWeight="500" fill={C.ink}>
-        Customers
-      </text>
-      <g fontSize="18" fill={C.muted}>
-        <text x="976" y="590">
-          Name
-        </text>
-        <text x="1150" y="590">
-          Price
-        </text>
-        <text x="1404" y="590" textAnchor="end">
-          Sold
-        </text>
-      </g>
-      {[624, 670].map((y) => (
-        <g key={y} fill="rgba(255, 255, 255, 0.16)">
-          <rect x="976" y={y} width="120" height="12" rx="6" />
-          <rect x="1150" y={y} width="96" height="12" rx="6" />
-          <rect x="1334" y={y} width="70" height="12" rx="6" />
-        </g>
-      ))}
-      <g className={cx(a, m.row)}>
-        <rect
-          x="962"
-          y="706"
-          width="456"
-          height="62"
-          rx="14"
-          fill={C.accent}
-          fillOpacity="0.14"
-        />
-        <House x={984} y={738} s={11} w={2.5} />
-        <text x="1008" y="745" fontSize="22" fill={C.ink}>
-          J. Rivera
-        </text>
-        <text x="1150" y="745" fontSize="22" fill={C.ink}>
+        <House x={410} y={318} s={66} w={6} />
+        <Status x={196} y={176} h={64} font={40} />
+        <text x="202" y="520" fontSize="60" fontWeight="500" fill={C.ink}>
           $849,000
         </text>
-        <text x="1404" y="745" fontSize="22" textAnchor="end" fill={C.muted}>
-          Oct 24
+        <g className={cx(a, m.soldTo)}>
+          <text x="202" y="610" fontSize="40" fill={C.accent}>
+            Sold to J. Rivera
+          </text>
+        </g>
+        <rect x="202" y="706" width="376" height="72" rx="36" fill={C.s3} />
+        <text x="390" y="756" fontSize="40" textAnchor="middle" fill={C.ink}>
+          Contact agent
         </text>
-      </g>
 
-      {/* The two records, joined under the board */}
-      <g className={cx(a, m.link)}>
-        <path
-          d="M350 810 V870 H930 V737 H962"
-          fill="none"
-          stroke={C.accent}
-          strokeWidth="4"
+        {/* The agent's back office: the inquiry, emailed */}
+        <rect x="670" y="150" width="760" height="270" rx="24" fill={C.s2} />
+        <Agent cx={744} cy={222} r={44} />
+        <text x="810" y="238" fontSize="44" fontWeight="500" fill={C.ink}>
+          Listing agent
+        </text>
+        <rect x="696" y="296" width="708" height="98" rx="18" fill={C.s3} />
+        <g className={cx(a, m.inbox)}>
+          <Envelope x={724} y={327} w={52} />
+          <rect x="800" y="328" width="220" height="14" rx="7" fill={C.ink2} />
+          <rect
+            x="800"
+            y="356"
+            width="150"
+            height="12"
+            rx="6"
+            fill="rgba(255, 255, 255, 0.22)"
+          />
+        </g>
+        <g className={cx(a, m.sent)}>
+          <Tick x={1124} y={346} s={28} />
+          <text x="1166" y="359" fontSize="40" fill={C.accent}>
+            Email sent
+          </text>
+        </g>
+
+        {/* The customer book, its newest row the buyer */}
+        <rect x="670" y="470" width="760" height="340" rx="24" fill={C.s2} />
+        <text x="700" y="530" fontSize="44" fontWeight="500" fill={C.ink}>
+          Customers
+        </text>
+        {[668, 712, 756].map((y) => (
+          <g key={y} fill="rgba(255, 255, 255, 0.16)">
+            <rect x="748" y={y} width="150" height="14" rx="7" />
+            <rect x="1000" y={y} width="130" height="14" rx="7" />
+            <rect x="1316" y={y} width="80" height="14" rx="7" />
+          </g>
+        ))}
+        <g className={cx(a, m.row)}>
+          <rect
+            x="684"
+            y="556"
+            width="732"
+            height="80"
+            rx="16"
+            fill={C.accent}
+            fillOpacity="0.14"
+          />
+          <House x={716} y={594} s={15} w={3} />
+          <text x="748" y="610" fontSize="40" fill={C.ink}>
+            J. Rivera
+          </text>
+          <text x="1000" y="610" fontSize="40" fill={C.ink}>
+            $849,000
+          </text>
+          <text x="1396" y="610" fontSize="40" textAnchor="end" fill={C.muted}>
+            Oct 24
+          </text>
+        </g>
+
+        {/* The two records, joined */}
+        <g className={cx(a, m.link)}>
+          <path
+            d="M610 596 H684"
+            fill="none"
+            stroke={C.accent}
+            strokeWidth="4"
+          />
+          <circle cx="610" cy="596" r="8" fill={C.accent} />
+          <circle cx="684" cy="596" r="8" fill={C.accent} />
+        </g>
+        <circle
+          className={cx(a, m.pulse)}
+          style={pos(74, 0)}
+          cx="610"
+          cy="596"
+          r="7"
+          fill={C.ink}
+          opacity="0"
         />
-        <circle cx="350" cy="810" r="8" fill={C.accent} />
-        <circle cx="962" cy="737" r="8" fill={C.accent} />
-      </g>
-      <circle
-        className={cx(a, m.pulseH)}
-        cx="350"
-        cy="810"
-        r="7"
-        fill={C.ink}
-        opacity="0"
-      />
 
-      <g className={cx(a, m.sheet)} style={pos(750, 15)} opacity="0">
-        <rect
-          x="290"
-          y="636"
-          width="300"
-          height="172"
-          rx="18"
-          fill={C.s3}
-          stroke={C.lineStrong}
-          strokeWidth="2"
-        />
-        <text x="314" y="674" fontSize="20" fill={C.muted}>
-          Buyer
-        </text>
-        <rect x="314" y="688" width="252" height="46" rx="11" fill={C.s1} />
-        <text x="330" y="719" fontSize="22" fill={C.ink}>
-          J. Rivera
-        </text>
-        <rect x="314" y="752" width="110" height="36" rx="18" fill={C.accent} />
-        <text x="369" y="777" fontSize="19" textAnchor="middle" fill={C.ground}>
-          Save
-        </text>
-      </g>
+        {/* The buyer form that opens on Sold, and becomes the row */}
+        <g className={cx(a, m.sheet)} style={pos(450, -174)} opacity="0">
+          <rect
+            x="420"
+            y="660"
+            width="360"
+            height="220"
+            rx="18"
+            fill={C.s3}
+            stroke={C.lineStrong}
+            strokeWidth="2"
+          />
+          <text x="448" y="712" fontSize="38" fill={C.muted}>
+            Buyer
+          </text>
+          <rect x="448" y="732" width="304" height="72" rx="12" fill={C.s1} />
+          <text x="468" y="781" fontSize="40" fill={C.ink}>
+            J. Rivera
+          </text>
+          <rect
+            x="448"
+            y="824"
+            width="112"
+            height="36"
+            rx="18"
+            fill={C.accent}
+          />
+        </g>
 
-      <g className={cx(a, m.mail)} style={pos(666, -392)} opacity="0">
-        <Envelope x={326} y={740} w={50} />
+        <g className={cx(a, m.mail)} style={pos(360, -398)} opacity="0">
+          <Envelope x={364} y={725} w={52} />
+        </g>
       </g>
     </Stage>
   )

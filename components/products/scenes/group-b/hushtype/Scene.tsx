@@ -3,20 +3,21 @@
 import type { CSSProperties } from 'react'
 import { cx } from '@/components/ui/cx'
 import type { SceneProps } from '../..'
-import { Stage, a, C } from '../Stage'
+import { Framings, Stage, a, C } from '../Stage'
 import m from './scene.module.css'
 
 /**
- * hushtype: hold Option-Space and speak, and everything happens inside the
+ * hushtype: hold Option-Space and speak, and the audio stays inside the
  * dotted line, on the Mac. Parakeet V3 writes the raw words, Refine strikes
- * the false start inside its 2.5 s deadline (the ring), and the clean line is
- * pasted into the chat at the cursor. The hero runs it twice: the second time
- * the deadline passes and the raw words are pasted unchanged.
+ * the false start inside its deadline (the ring), and the clean line is pasted
+ * into the chat at the cursor. The hero names the 2.5 s deadline and runs it
+ * twice: the second time the deadline passes and the raw words are pasted
+ * unchanged.
  *
  * The sentence is the one on hushtype.vercel.app's own demo.
  */
 export default function HushtypeScene({ variant }: SceneProps) {
-  return variant === 'hero' ? <Hero /> : <Card />
+  return <Framings variant={variant} card={<Card />} hero={<Hero />} />
 }
 
 const delay = (s: number) => ({ animationDelay: `${s}s` }) as CSSProperties
@@ -139,7 +140,7 @@ function Keys({
         ))}
         <text
           x={x + option - font * 0.6}
-          y={y + font * 1.3}
+          y={y + font * 1.15}
           fontSize={font}
           textAnchor="end"
           fill={C.ink2}
@@ -148,7 +149,7 @@ function Keys({
         </text>
         <text
           x={x + font * 0.6}
-          y={y + h - font * 0.6}
+          y={y + h - font * 0.55}
           fontSize={font}
           fill={C.ink2}
         >
@@ -338,47 +339,44 @@ function Card() {
   return (
     <Stage id="hushtype" variant="card" loop={12}>
       <Boundary
-        x={28}
-        y={30}
-        w={744}
-        h={542}
+        x={24}
+        y={40}
+        w={752}
+        h={532}
         r={28}
-        label="On your Mac"
-        font={22}
+        label="Audio stays on your Mac"
+        font={36}
       />
 
       {/* The chat the words land in */}
-      <rect x="72" y="64" width="656" height="172" rx="20" fill={C.s2} />
-      <circle cx="110" cy="100" r="15" fill={C.s3} />
-      <text x="136" y="108" fontSize="22" fill={C.ink2}>
-        Nora
-      </text>
-      <rect x="96" y="128" width="240" height="40" rx="20" fill={C.s3} />
+      <rect x="64" y="84" width="672" height="150" rx="20" fill={C.s2} />
+      <circle cx="104" cy="124" r="18" fill={C.s3} />
+      <rect x="136" y="104" width="230" height="40" rx="20" fill={C.s3} />
       <rect
-        x="116"
-        y="144"
-        width="176"
+        x="156"
+        y="120"
+        width="170"
         height="8"
         rx="4"
         fill="rgba(255, 255, 255, 0.22)"
       />
       <g className={cx(a, m.cBubble)}>
-        <rect x="454" y="178" width="250" height="44" rx="22" fill={C.accent} />
-        <text x="470" y="208" fontSize="24" fill={C.ground}>
+        <rect x="336" y="164" width="376" height="54" rx="27" fill={C.accent} />
+        <text x="356" y="203" fontSize="36" fill={C.ground}>
           Meet me at the cafe.
         </text>
       </g>
 
       {/* What was said, and what Refine cuts */}
       <g className={cx(a, m.cRaw)}>
-        <Raw x={170} y={306} size={26} cutClass={m.cCut} cutOpacity={0.35} />
-        <Strike x={170} y={306} size={26} className={m.cStrike} />
+        <Raw x={81} y={296} size={36} cutClass={m.cCut} cutOpacity={0.35} />
+        <Strike x={81} y={296} size={36} className={m.cStrike} />
       </g>
       <text
         className={cx(a, m.cClean)}
         x="400"
-        y="306"
-        fontSize="26"
+        y="296"
+        fontSize="36"
         textAnchor="middle"
         fill={C.ink}
         opacity="0"
@@ -388,65 +386,65 @@ function Card() {
 
       {/* The stages, all on the Mac */}
       <g stroke={C.lineStrong} strokeWidth="3">
-        <line x1="320" y1="372" x2="354" y2="372" />
-        <line x1="509" y1="372" x2="540" y2="372" />
+        <line x1="320" y1="364" x2="348" y2="364" />
+        <line x1="556" y1="364" x2="584" y2="364" />
       </g>
       <Chip
-        x={170}
-        y={350}
-        w={150}
-        h={44}
+        x={84}
+        y={336}
+        w={236}
+        h={56}
         label="Parakeet V3"
-        font={22}
+        font={36}
         litClass={m.cLitP}
       />
       <Chip
-        x={354}
-        y={350}
-        w={104}
-        h={44}
+        x={348}
+        y={336}
+        w={146}
+        h={56}
         label="Refine"
-        font={22}
+        font={36}
         litClass={m.cLitR}
       />
       <Ring
-        cx={484}
-        cy={372}
-        r={15}
-        dot={3.6}
+        cx={526}
+        cy={364}
+        r={17}
+        dot={4}
         lit={5}
         a={m.cDot}
         b={m.still}
         step={0.2}
       />
       <Chip
-        x={540}
-        y={350}
-        w={96}
-        h={44}
+        x={584}
+        y={336}
+        w={132}
+        h={56}
         label="Paste"
-        font={22}
+        font={36}
         litClass={m.cLitV}
       />
 
       {/* Hold Option-Space and speak */}
       <Keys
-        x={136}
-        y={436}
-        h={70}
-        option={130}
-        space={255}
-        r={12}
-        font={20}
+        x={86}
+        y={428}
+        h={106}
+        option={180}
+        space={280}
+        r={14}
+        font={36}
         downClass={m.cDown}
         litClass={m.cLit}
       />
       <Wave
-        x={568}
-        cy={474}
-        heights={[14, 30, 46, 24, 54, 34, 42, 20, 12]}
-        bar={6}
-        gap={5}
+        x={600}
+        cy={480}
+        heights={[18, 40, 62, 32, 72, 46, 56, 26, 16]}
+        bar={8}
+        gap={6}
         className={m.cTalk}
       />
     </Stage>
@@ -458,209 +456,151 @@ function Hero() {
     <Stage id="hushtype" variant="hero" loop={18}>
       <Boundary
         x={150}
-        y={80}
+        y={70}
         w={1300}
-        h={840}
+        h={860}
         r={44}
-        label="Runs on your Mac"
-        font={28}
+        label="Audio stays on your Mac"
+        font={40}
       />
 
-      <g transform="translate(0 80)">
-        {/* Hold Option-Space and speak */}
-        <Wave
-          x={214}
-          cy={250}
-          heights={[18, 40, 70, 46, 90, 60, 104, 52, 76, 34, 20]}
-          bar={10}
-          gap={14}
-          className={m.hTalk}
-        />
-        <Keys
-          x={200}
-          y={500}
-          h={90}
-          option={128}
-          space={190}
-          r={16}
-          font={24}
-          downClass={m.hDown}
-          litClass={m.hLit}
-        />
-        <text x="200" y="650" fontSize="22" fill={C.muted}>
-          Hold Option-Space, speak
-        </text>
+      {/* Hold Option-Space and speak */}
+      <Keys
+        x={210}
+        y={146}
+        h={124}
+        option={200}
+        space={320}
+        r={18}
+        font={40}
+        downClass={m.hDown}
+        litClass={m.hLit}
+      />
+      <Wave
+        x={210}
+        cy={366}
+        heights={[20, 44, 74, 50, 96, 64, 108, 56, 80, 40, 66, 30, 18]}
+        bar={12}
+        gap={14}
+        className={m.hTalk}
+      />
 
-        {/* Connectors */}
-        <g fill="none" stroke={C.lineStrong} strokeWidth="3">
-          <path d="M490 250 H560" />
-          <path d="M805 300 V340" />
-          <path d="M805 560 V600" />
-          <path d="M1050 655 H1080 V380 H1110" />
-        </g>
+      {/* Connectors */}
+      <g fill="none" stroke={C.lineStrong} strokeWidth="3">
+        <path d="M345 440 V520" />
+        <path d="M480 552 H520" />
+        <path d="M870 552 H910" />
+        <path d="M1120 520 V460" />
+      </g>
 
-        {/* Stage 1: speech to raw words */}
-        <rect x="560" y="140" width="490" height="160" rx="22" fill={C.s2} />
-        <rect
-          className={cx(a, m.hLitP)}
-          x="560"
-          y="140"
-          width="490"
-          height="160"
-          rx="22"
-          fill={C.accent}
-          fillOpacity="0.12"
-          stroke={C.accent}
-          strokeOpacity="0.5"
-          strokeWidth="2"
-          opacity="0"
+      {/* The stages: speech to words, cleanup under a deadline, paste */}
+      <Chip
+        x={210}
+        y={520}
+        w={270}
+        h={64}
+        label="Parakeet V3"
+        font={40}
+        litClass={m.hLitP}
+      />
+      <Chip
+        x={520}
+        y={520}
+        w={170}
+        h={64}
+        label="Refine"
+        font={40}
+        litClass={m.hLitR}
+      />
+      <g className={cx(a, m.hRing)}>
+        <Ring
+          cx={732}
+          cy={552}
+          r={22}
+          dot={5.5}
+          lit={5}
+          a={m.hDotA}
+          b={m.hDotB}
+          step={0.2}
         />
-        <text x="592" y="190" fontSize="26" fontWeight="500" fill={C.ink}>
-          Parakeet V3
-        </text>
-        <text x="1018" y="190" fontSize="22" textAnchor="end" fill={C.muted}>
-          Speech to text
-        </text>
-        <g className={cx(a, m.hRawP)}>
-          <Raw x={592} y={262} size={24} cutClass={m.still} />
-        </g>
+      </g>
+      <text x="770" y="566" fontSize="40" fill={C.muted}>
+        2.5 s
+      </text>
+      <Chip
+        x={910}
+        y={520}
+        w={420}
+        h={64}
+        label="Paste at the cursor"
+        font={40}
+        litClass={m.hLitV}
+      />
 
-        {/* Stage 2: Refine, under a deadline */}
-        <rect x="560" y="340" width="490" height="220" rx="22" fill={C.s2} />
-        <rect
-          className={cx(a, m.hLitR)}
-          x="560"
-          y="340"
-          width="490"
-          height="220"
-          rx="22"
-          fill={C.accent}
-          fillOpacity="0.12"
-          stroke={C.accent}
-          strokeOpacity="0.5"
-          strokeWidth="2"
-          opacity="0"
-        />
-        <text x="592" y="390" fontSize="26" fontWeight="500" fill={C.ink}>
-          Refine
-        </text>
-        <text
-          className={cx(a, m.hLabel)}
-          x="682"
-          y="390"
-          fontSize="22"
-          fill={C.muted}
-        >
-          Messaging mode
-        </text>
-        <g className={cx(a, m.hRing)}>
-          <Ring
-            cx={1000}
-            cy={382}
-            r={20}
-            dot={4.5}
-            lit={5}
-            a={m.hDotA}
-            b={m.hDotB}
-            step={0.2}
-          />
-        </g>
-        <text x="962" y="390" fontSize="22" textAnchor="end" fill={C.muted}>
-          2.5 s
-        </text>
-        <text
-          className={cx(a, m.hLabelRaw)}
-          x="682"
-          y="390"
-          fontSize="22"
-          fill={C.accent}
-          opacity="0"
-        >
-          Raw text kept
-        </text>
-        <g className={cx(a, m.hInput)}>
-          <Raw x={592} y={456} size={24} cutClass={m.hCut} cutOpacity={0.35} />
-          <Strike x={592} y={456} size={24} className={m.hStrike} />
-        </g>
-        <path d="M592 482 H1018" stroke={C.line} strokeWidth="2" />
-        <text
-          className={cx(a, m.hOut1)}
-          x="592"
-          y="526"
-          fontSize="24"
-          fill={C.accent}
-        >
+      {/* The words: raw from Parakeet, struck by Refine, then the result */}
+      <rect x="210" y="620" width="1200" height="250" rx="26" fill={C.s2} />
+      <g className={cx(a, m.hRawP)}>
+        <Raw x={250} y={706} size={42} cutClass={m.hCut} cutOpacity={0.35} />
+        <Strike x={250} y={706} size={42} className={m.hStrike} />
+      </g>
+      <path d="M250 748 H1370" stroke={C.line} strokeWidth="2" />
+      <text
+        className={cx(a, m.hOut1)}
+        x="250"
+        y="818"
+        fontSize="42"
+        fill={C.accent}
+      >
+        Meet me at the cafe.
+      </text>
+      <g className={cx(a, m.hOut2)} opacity="0">
+        <Raw x={250} y={818} size={42} cutClass={m.still} />
+      </g>
+      <text
+        className={cx(a, m.hLabelRaw)}
+        x="1370"
+        y="818"
+        fontSize="38"
+        textAnchor="end"
+        fill={C.accent}
+        opacity="0"
+      >
+        Raw text kept
+      </text>
+
+      {/* The chat */}
+      <rect x="830" y="130" width="580" height="330" rx="26" fill={C.s2} />
+      <circle cx="878" cy="182" r="24" fill={C.s3} />
+      <rect x="918" y="154" width="260" height="56" rx="28" fill={C.s3} />
+      <rect
+        x="944"
+        y="177"
+        width="190"
+        height="10"
+        rx="5"
+        fill="rgba(255, 255, 255, 0.22)"
+      />
+      <g className={cx(a, m.hBubble1)}>
+        <rect x="990" y="236" width="400" height="64" rx="32" fill={C.accent} />
+        <text x="1014" y="281" fontSize="38" fill={C.ground}>
           Meet me at the cafe.
         </text>
-        <g className={cx(a, m.hOut2)} opacity="0">
-          <Raw x={592} y={526} size={24} cutClass={m.still} />
-        </g>
-
-        {/* Stage 3: paste at the cursor */}
-        <rect x="560" y="600" width="490" height="110" rx="22" fill={C.s2} />
+      </g>
+      <g className={cx(a, m.hBubble2)} opacity="0">
         <rect
-          className={cx(a, m.hLitV)}
-          x="560"
-          y="600"
-          width="490"
-          height="110"
-          rx="22"
+          x="940"
+          y="318"
+          width="450"
+          height="116"
+          rx="30"
           fill={C.accent}
-          fillOpacity="0.12"
-          stroke={C.accent}
-          strokeOpacity="0.5"
-          strokeWidth="2"
-          opacity="0"
         />
-        <text x="592" y="664" fontSize="26" fontWeight="500" fill={C.ink}>
-          Paste at the cursor
+        <text x="964" y="365" fontSize="38" fill={C.ground}>
+          meet me at the library,
         </text>
-        <rect x="1006" y="634" width="4" height="42" rx="2" fill={C.accent} />
-
-        {/* The chat */}
-        <rect x="1110" y="140" width="300" height="570" rx="26" fill={C.s2} />
-        <circle cx="1152" cy="186" r="20" fill={C.s3} />
-        <text x="1184" y="194" fontSize="24" fill={C.ink2}>
-          Nora
+        <text x="964" y="413" fontSize="38" fill={C.ground}>
+          actually the cafe
         </text>
-        <rect x="1130" y="236" width="210" height="52" rx="26" fill={C.s3} />
-        <rect
-          x="1154"
-          y="257"
-          width="150"
-          height="10"
-          rx="5"
-          fill="rgba(255, 255, 255, 0.22)"
-        />
-        <g className={cx(a, m.hBubble1)}>
-          <rect
-            x="1140"
-            y="320"
-            width="250"
-            height="52"
-            rx="26"
-            fill={C.accent}
-          />
-          <text x="1159" y="354" fontSize="24" fill={C.ground}>
-            Meet me at the cafe.
-          </text>
-        </g>
-        <g className={cx(a, m.hBubble2)} opacity="0">
-          <rect
-            x="1118"
-            y="392"
-            width="282"
-            height="88"
-            rx="26"
-            fill={C.accent}
-          />
-          <text x="1138" y="428" fontSize="24" fill={C.ground}>
-            meet me at the library,
-          </text>
-          <text x="1138" y="460" fontSize="24" fill={C.ground}>
-            actually the cafe
-          </text>
-        </g>
       </g>
     </Stage>
   )

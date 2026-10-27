@@ -16,9 +16,10 @@ interface StageProps {
 
 /**
  * Hosts a product scene. Runs its loops only while it is on screen, the
- * tab is visible and motion is allowed (useAmbient). The hero framing swaps
- * to the card drawing below md, where the stage is 4:3 and phone-sized, so
- * its labels stay legible.
+ * tab is visible and motion is allowed (useAmbient). The hero framing shows
+ * the card drawing while its stage is narrower than 480px (a 4:3 phone
+ * stage), where the hero drawing's labels would fall under 12px, and the
+ * hero drawing from there up. See ui.module.css.
  */
 export function SceneStage({ id, variant, card, hero }: StageProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -30,8 +31,8 @@ export function SceneStage({ id, variant, card, hero }: StageProps) {
         card
       ) : (
         <>
-          <div className={`${u.frame} md:hidden`}>{card}</div>
-          <div className={`${u.frame} hidden md:block`}>{hero}</div>
+          <div className={`${u.frame} ${u.compact}`}>{card}</div>
+          <div className={`${u.frame} ${u.wide}`}>{hero}</div>
         </>
       )}
     </div>

@@ -1,5 +1,5 @@
 /* Eternal Summary scene. Base styles are the still frame: panel open,
-   summary written, source 2 opened and its sentence lit in the article. */
+   summary written, marker 2 opened and its sentence lit in the article. */
 
 .panel {
   animation-name: panel;
@@ -327,27 +327,27 @@
   0%,
   50% {
     opacity: 0;
-    transform: translate(760px, 540px);
+    transform: translate(778px, 506px);
   }
   53% {
     opacity: 1;
-    transform: translate(730px, 500px);
+    transform: translate(748px, 466px);
   }
   60% {
-    transform: translate(650px, 420px);
+    transform: translate(668px, 386px);
   }
   61% {
-    transform: translate(650px, 420px) scale(0.86);
+    transform: translate(668px, 386px) scale(0.86);
   }
   63%,
   74% {
     opacity: 1;
-    transform: translate(650px, 420px);
+    transform: translate(668px, 386px);
   }
   82%,
   100% {
     opacity: 0;
-    transform: translate(730px, 520px);
+    transform: translate(748px, 486px);
   }
 }
 
@@ -358,37 +358,37 @@
   0%,
   50% {
     opacity: 0;
-    transform: translate(1320px, 740px);
+    transform: translate(1420px, 640px);
   }
   53% {
     opacity: 1;
-    transform: translate(1260px, 700px);
+    transform: translate(1360px, 580px);
   }
   60% {
-    transform: translate(1150px, 634px);
+    transform: translate(1292px, 502px);
   }
   61% {
-    transform: translate(1150px, 634px) scale(0.86);
+    transform: translate(1292px, 502px) scale(0.86);
   }
   63%,
   72% {
     opacity: 1;
-    transform: translate(1150px, 634px);
+    transform: translate(1292px, 502px);
   }
   79% {
-    transform: translate(640px, 656px);
+    transform: translate(640px, 688px);
   }
   80% {
-    transform: translate(640px, 656px) scale(0.86);
+    transform: translate(640px, 688px) scale(0.86);
   }
   82%,
   86% {
     opacity: 1;
-    transform: translate(640px, 656px);
+    transform: translate(640px, 688px);
   }
   92%,
   100% {
     opacity: 0;
-    transform: translate(760px, 700px);
+    transform: translate(760px, 760px);
   }
 }

@@ -14,6 +14,8 @@ for (const id of IDS) {
   test(`${id} scene renders on the products index and is decorative`, async ({
     page,
   }) => {
+    // The home page features only the top three, so /products, which shows
+    // every scene, is where each one is checked. Rank 1 renders its hero.
     await page.goto('/products')
     const stage = page.locator(`[data-scene="${id}"]`)
     await stage.scrollIntoViewIfNeeded()
@@ -36,24 +38,40 @@ for (const id of IDS) {
   })
 }
 
-test('scene loops pause off screen and run on screen', async ({ page }) => {
-  await page.goto('/products')
-  const stage = page.locator('[data-scene="tandemcode"]')
-  const running = () =>
-    stage.evaluate(
-      (el) =>
-        el
-          .getAnimations({ subtree: true })
-          .filter((a) => a.playState === 'running').length,
+for (const id of IDS) {
+  test(`${id} loops pause off screen and run on screen`, async ({ page }) => {
+    await page.goto('/products')
+    // Start scrolled to the footer so every stage, even rank 1, is off screen.
+    await page.locator('footer').scrollIntoViewIfNeeded()
+    const stage = page.locator(`[data-scene="${id}"]`)
+    const running = () =>
+      stage.evaluate(
+        (el) =>
+          el
+            .getAnimations({ subtree: true })
+            .filter((a) => a.playState === 'running').length,
+      )
+
+    await expect(stage).toHaveAttribute('data-play', 'off')
+    expect(await running()).toBe(0)
+
+    await stage.scrollIntoViewIfNeeded()
+    await expect(stage).toHaveAttribute('data-play', 'on')
+    expect(await running()).toBeGreaterThan(0)
+
+    // A small DOM, as the scene contract asks.
+    const nodes = await stage.evaluate((el) =>
+      Array.from(el.querySelectorAll('svg[data-frame]')).map(
+        (svg) => svg.querySelectorAll('*').length,
+      ),
     )
+    for (const n of nodes) expect(n).toBeLessThan(300)
 
-  await expect(stage).toHaveAttribute('data-play', 'off')
-  expect(await running()).toBe(0)
-
-  await stage.scrollIntoViewIfNeeded()
-  await expect(stage).toHaveAttribute('data-play', 'on')
-  expect(await running()).toBeGreaterThan(0)
-})
+    await page.locator('footer').scrollIntoViewIfNeeded()
+    await expect(stage).toHaveAttribute('data-play', 'off')
+    await expect.poll(running).toBe(0)
+  })
+}
 
 test('scenes are complete stills under reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })

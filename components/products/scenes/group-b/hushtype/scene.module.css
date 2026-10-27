@@ -430,32 +430,6 @@
   }
 }
 
-.hInput {
-  animation-name: hInput;
-}
-@keyframes hInput {
-  0%,
-  20.5% {
-    opacity: 0;
-  }
-  22%,
-  42% {
-    opacity: 1;
-  }
-  45%,
-  66.5% {
-    opacity: 0;
-  }
-  68%,
-  96% {
-    opacity: 1;
-  }
-  99%,
-  100% {
-    opacity: 0;
-  }
-}
-
 /* Dots 1 to 5 light in both runs, 6 to 8 only when the deadline runs out. */
 .hDotA {
   animation-name: hDotA;
@@ -589,24 +563,6 @@
   99%,
   100% {
     opacity: 0;
-  }
-}
-
-.hLabel {
-  animation-name: hLabel;
-}
-@keyframes hLabel {
-  0%,
-  77% {
-    opacity: 1;
-  }
-  79%,
-  96% {
-    opacity: 0;
-  }
-  99%,
-  100% {
-    opacity: 1;
   }
 }
 

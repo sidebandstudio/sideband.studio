@@ -135,9 +135,9 @@ function Node({
       <Icon item={item} x={x + 12} y={y + 12} />
       <text
         x={x + 32}
-        y={y + 94}
+        y={y + 106}
         textAnchor="middle"
-        fontSize={24}
+        fontSize={36}
         className={cx(u.mono, u.ink, valueClass)}
       >
         {value}
@@ -175,11 +175,11 @@ function Core() {
           strokeWidth={2}
         />
       ))}
-      <text x={206} y={426} fontSize={22} className={cx(u.mono, u.muted)}>
-        ×3
-      </text>
-      <text x={200} y={346} fontSize={22} className={cx(u.mono, u.muted)}>
+      <text x={150} y={352} fontSize={36} className={cx(u.mono, u.muted)}>
         ×2
+      </text>
+      <text x={160} y={452} fontSize={36} className={cx(u.mono, u.muted)}>
+        ×3
       </text>
 
       {/* Base values, then the values the mapper solves */}
@@ -287,9 +287,9 @@ function Core() {
         <text
           key={text}
           x={TABLE.x}
-          y={118}
+          y={116}
           textAnchor="middle"
-          fontSize={28}
+          fontSize={40}
           className={cx(u.mono, u.ink, s.a, c)}
         >
           {text}
@@ -297,12 +297,15 @@ function Core() {
       ))}
       <text
         x={TABLE.x}
-        y={462}
+        y={466}
         textAnchor="middle"
-        fontSize={22}
+        fontSize={36}
         className={cx(u.sans, u.muted)}
       >
-        Transmutation Table
+        <tspan x={TABLE.x}>Transmutation</tspan>
+        <tspan x={TABLE.x} dy={42}>
+          Table
+        </tspan>
       </text>
     </g>
   )
@@ -311,7 +314,7 @@ function Core() {
 function Card() {
   return (
     <SceneSvg frame="card" duration={DURATION} still={STILL}>
-      <g transform="translate(0 20)">
+      <g transform="translate(0 6)">
         <Core />
       </g>
     </SceneSvg>
@@ -319,10 +322,10 @@ function Card() {
 }
 
 function Hero() {
-  // Core (x 56–736, y 94–494) at 1.35×, centred.
+  // Core (x 34–740, y 86–520) at 1.4×, centred.
   return (
     <SceneSvg frame="hero" duration={DURATION} still={STILL}>
-      <g transform="translate(265 100) scale(1.35)">
+      <g transform="translate(258 76) scale(1.4)">
         <Core />
       </g>
     </SceneSvg>

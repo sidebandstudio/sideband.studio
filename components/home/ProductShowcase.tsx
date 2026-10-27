@@ -9,7 +9,6 @@ import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
-import { SignatureCutsMark } from '@/components/products/scenes/group-b/signature-cuts/Scene'
 import { getProductById } from '@/lib/products'
 import {
   countWord,
@@ -18,14 +17,6 @@ import {
   type ShowcaseProduct,
 } from '@/lib/home-data'
 import styles from './ProductShowcase.module.css'
-
-/**
- * Marks the scene builders drew for products that ship no icon, so a chip
- * shows the product's own mark rather than a bare accent bar.
- */
-const MARKS: Partial<Record<string, typeof SignatureCutsMark>> = {
-  'signature-cuts': SignatureCutsMark,
-}
 
 /** Covers the whole card with the title link, so the card is one target. */
 const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
@@ -199,7 +190,6 @@ function Card({ product }: { product: ShowcaseProduct }) {
 
 function Chip({ product }: { product: MoreProduct }) {
   const accent = getProductById(product.id)?.accentColor
-  const Mark = MARKS[product.id]
   return (
     <Link
       href={`/products/${product.id}`}
@@ -219,13 +209,7 @@ function Chip({ product }: { product: MoreProduct }) {
           style={accent ? productAccentStyle(accent) : undefined}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sideband-surface-3"
         >
-          {Mark ? (
-            <svg viewBox="0 0 36 36" className="h-9 w-9">
-              <Mark x={0} y={0} size={36} />
-            </svg>
-          ) : (
-            <span className="block h-1 w-4 rounded-full bg-product" />
-          )}
+          <span className="block h-1 w-4 rounded-full bg-product" />
         </span>
       )}
       {product.name}

@@ -37,8 +37,11 @@ function Desktop({ strokeClass }: { strokeClass?: string }) {
   )
 }
 
-/** PC, iPad and the two lanes between them, in the card's 800×600 space. */
-function Core({ labels }: { labels: boolean }) {
+/**
+ * PC, iPad and the two lanes between them, in the card's 800×600 space.
+ * `label` is the lane labels' size, chosen per drawing to stay legible.
+ */
+function Core({ label }: { label: number }) {
   return (
     <g>
       {/* Windows PC */}
@@ -122,28 +125,24 @@ function Core({ labels }: { labels: boolean }) {
         className={cx(u.none, u.lineStrong)}
         strokeWidth={2}
       />
-      {labels && (
-        <>
-          <text
-            x={410}
-            y={204}
-            textAnchor="middle"
-            fontSize={22}
-            className={cx(u.mono, u.muted)}
-          >
-            Frames
-          </text>
-          <text
-            x={410}
-            y={326}
-            textAnchor="middle"
-            fontSize={22}
-            className={cx(u.mono, u.muted)}
-          >
-            Pencil
-          </text>
-        </>
-      )}
+      <text
+        x={410}
+        y={206}
+        textAnchor="middle"
+        fontSize={label}
+        className={cx(u.mono, u.muted)}
+      >
+        Frames
+      </text>
+      <text
+        x={410}
+        y={312 + label * 0.72}
+        textAnchor="middle"
+        fontSize={label}
+        className={cx(u.mono, u.muted)}
+      >
+        Pencil
+      </text>
 
       {[s.frag1, s.frag2, s.lost, s.frag4, s.resend].map((c) => (
         <rect
@@ -178,8 +177,8 @@ function Chip({
   w,
   label,
   selected,
-  size = 24,
-  font = u.mono,
+  size = 36,
+  font = u.sans,
 }: {
   x: number
   y: number
@@ -216,27 +215,29 @@ function Chip({
 function Card() {
   return (
     <SceneSvg frame="card" duration={DURATION} still={STILL}>
-      <Core labels />
+      <g transform="translate(0 -24)">
+        <Core label={36} />
+      </g>
       <text
         x={180}
-        y={414}
+        y={400}
         textAnchor="middle"
-        fontSize={24}
+        fontSize={36}
         className={cx(u.sans, u.muted)}
       >
         Windows PC
       </text>
       <text
         x={630}
-        y={414}
+        y={400}
         textAnchor="middle"
-        fontSize={24}
+        fontSize={36}
         className={cx(u.sans, u.muted)}
       >
         iPad
       </text>
-      <Chip x={204} y={460} w={262} label="Mirror my screen" selected />
-      <Chip x={478} y={460} w={118} label="60 fps" />
+      <Chip x={133} y={432} w={335} label="Mirror my screen" selected />
+      <Chip x={482} y={432} w={185} label="60 fps" font={u.mono} />
     </SceneSvg>
   )
 }
@@ -246,58 +247,54 @@ function Hero() {
   return (
     <SceneSvg frame="hero" duration={DURATION} still={STILL}>
       <g transform="translate(0 -36)">
-        <circle cx={334} cy={214} r={12} className={cx(u.acc, s.a, s.pulse)} />
-        <circle cx={334} cy={214} r={12} className={u.acc} />
-        <text x={366} y={226} fontSize={36} className={cx(u.sans, u.ink)}>
+        <circle cx={256} cy={212} r={13} className={cx(u.acc, s.a, s.pulse)} />
+        <circle cx={256} cy={212} r={13} className={u.acc} />
+        <text x={286} y={227} fontSize={42} className={cx(u.sans, u.ink)}>
           Streaming to iPad
         </text>
-        <text x={366} y={266} fontSize={22} className={cx(u.mono, u.muted)}>
-          USB · Mirroring · 1920 × 1080 · 60 fps
-        </text>
         <rect
-          x={846}
-          y={190}
-          width={440}
-          height={56}
-          rx={28}
+          x={696}
+          y={171}
+          width={664}
+          height={82}
+          rx={41}
           className={u.s2}
         />
         <Chip
-          x={852}
-          y={196}
-          w={232}
+          x={702}
+          y={177}
+          w={347}
           label="Mirror my screen"
           selected
-          size={23}
-          font={u.sans}
+          size={38}
         />
         <text
-          x={1182}
+          x={1201}
           y={226}
           textAnchor="middle"
-          fontSize={23}
+          fontSize={38}
           className={cx(u.sans, u.muted)}
         >
           Second screen
         </text>
 
         <g transform="translate(260 228) scale(1.35)">
-          <Core labels />
+          <Core label={30} />
         </g>
         <text
           x={503}
-          y={796}
+          y={790}
           textAnchor="middle"
-          fontSize={26}
+          fontSize={38}
           className={cx(u.sans, u.muted)}
         >
           Windows PC
         </text>
         <text
           x={1110}
-          y={796}
+          y={790}
           textAnchor="middle"
-          fontSize={26}
+          fontSize={38}
           className={cx(u.sans, u.muted)}
         >
           iPad
@@ -311,16 +308,16 @@ function Hero() {
           <g key={stat.label}>
             <text
               x={stat.x}
-              y={872}
-              fontSize={22}
+              y={876}
+              fontSize={38}
               className={cx(u.sans, u.muted)}
             >
               {stat.label}
             </text>
             <text
               x={stat.x}
-              y={912}
-              fontSize={30}
+              y={926}
+              fontSize={40}
               className={cx(u.mono, u.ink)}
             >
               {stat.value}

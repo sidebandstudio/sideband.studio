@@ -479,12 +479,12 @@
   }
   27% {
     opacity: 1;
-    transform: translate(-56px, 34px) scale(0.7);
+    transform: translate(-28px, 60px) scale(0.7);
   }
   29%,
   100% {
     opacity: 0;
-    transform: translate(-56px, 34px) scale(0.7);
+    transform: translate(-28px, 60px) scale(0.7);
   }
 }
 
@@ -510,7 +510,7 @@
   40%,
   100% {
     opacity: 0;
-    transform: translate(98px, -88px);
+    transform: translate(99px, -70px);
   }
 }
 .flowIntake {
@@ -529,7 +529,7 @@
   40%,
   100% {
     opacity: 0;
-    transform: translate(166px, -246px);
+    transform: translate(140px, -262px);
   }
 }
 .measured {
@@ -590,7 +590,7 @@
   56%,
   100% {
     opacity: 0;
-    transform: translate(0, 238px);
+    transform: translate(0, 210px);
   }
 }
 .oldTarget {

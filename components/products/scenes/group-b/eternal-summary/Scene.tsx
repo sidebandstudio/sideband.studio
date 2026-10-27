@@ -3,19 +3,20 @@
 import { useId, type CSSProperties } from 'react'
 import { cx } from '@/components/ui/cx'
 import type { SceneProps } from '../..'
-import { Stage, a, mono, C } from '../Stage'
+import { Framings, Stage, a, mono, C } from '../Stage'
 import m from './scene.module.css'
 
 /**
  * Eternal Summary: an article with the side panel docked beside it. The head,
  * middle and tail of the page (50, 20 and 30 percent in `samplePage`) light up
- * and travel to the panel, which fills with a summary, the "Worth reading"
- * verdict and numbered sources. Source 2 is opened and its sentence lights up
- * in the article. The hero adds the service worker and the /api/summarize
- * call underneath, and the highlight-to-summarize card.
+ * and travel to the panel, which fills with the "Worth reading" verdict and a
+ * summary with numbered source markers. Marker 2 is opened and its sentence
+ * lights up in the article. The hero names the three windows, adds the service
+ * worker and the /api/summarize call underneath, and the highlight-to-summarize
+ * card.
  */
 export default function EternalSummaryScene({ variant }: SceneProps) {
-  return variant === 'hero' ? <Hero /> : <Card />
+  return <Framings variant={variant} card={<Card />} hero={<Hero />} />
 }
 
 const delay = (s: number) => ({ animationDelay: `${s}s` }) as CSSProperties
@@ -65,77 +66,136 @@ function useClip() {
   return useId().replace(/:/g, '')
 }
 
+/** A numbered source marker after a line of the summary. */
+function Marker({
+  x,
+  y,
+  r,
+  n,
+  font,
+}: {
+  x: number
+  y: number
+  r: number
+  n: number
+  font: number
+}) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r} fill={C.s2} />
+      <text
+        x={x}
+        y={y + font * 0.36}
+        fontSize={font}
+        textAnchor="middle"
+        fill={C.ink2}
+      >
+        {n}
+      </text>
+    </g>
+  )
+}
+
+/** Marker 2 once it has been opened. */
+function OpenMarker({
+  x,
+  y,
+  r,
+  font,
+}: {
+  x: number
+  y: number
+  r: number
+  font: number
+}) {
+  return (
+    <g className={cx(a, m.mark)}>
+      <circle cx={x} cy={y} r={r} fill={C.accent} />
+      <text
+        x={x}
+        y={y + font * 0.36}
+        fontSize={font}
+        fontWeight="500"
+        textAnchor="middle"
+        fill={C.ground}
+      >
+        2
+      </text>
+    </g>
+  )
+}
+
 function Card() {
   const id = useClip()
   return (
     <Stage id="eternal-summary" variant="card" loop={12}>
       <defs>
         <clipPath id={`${id}-win`}>
-          <rect x="48" y="100" width="704" height="444" rx="18" />
-          <rect x="48" y="100" width="704" height="40" />
+          <rect x="40" y="92" width="720" height="460" rx="18" />
+          <rect x="40" y="92" width="720" height="40" />
         </clipPath>
       </defs>
 
       {/* Browser window */}
-      <rect x="48" y="56" width="704" height="488" rx="18" fill={C.s2} />
+      <rect x="40" y="48" width="720" height="504" rx="18" fill={C.s2} />
       <g fill={C.lineStrong}>
-        <circle cx="78" cy="78" r="6" />
-        <circle cx="100" cy="78" r="6" />
-        <circle cx="122" cy="78" r="6" />
+        <circle cx="70" cy="70" r="6" />
+        <circle cx="92" cy="70" r="6" />
+        <circle cx="114" cy="70" r="6" />
       </g>
-      <rect x="156" y="66" width="300" height="24" rx="12" fill={C.s3} />
+      <rect x="146" y="58" width="280" height="24" rx="12" fill={C.s3} />
 
       <g clipPath={`url(#${id}-win)`}>
         {/* The article, which scrolls a little when source 2 is opened */}
         <g className={cx(a, m.scroll)}>
-          <rect x="84" y="132" width="86" height="10" rx="5" fill={C.muted} />
+          <rect x="72" y="118" width="80" height="10" rx="5" fill={C.muted} />
           <Lines
             h={22}
             fill="rgba(255, 255, 255, 0.5)"
             rows={[
-              [84, 156, 330],
-              [84, 188, 220],
+              [72, 140, 300],
+              [72, 172, 196],
             ]}
           />
           <Lines
-            h={9}
+            h={10}
             rows={[
-              [84, 244, 340],
-              [84, 266, 320],
-              [84, 288, 336],
-              [84, 310, 250],
-              [84, 362, 330],
-              [84, 384, 340],
-              [84, 406, 210],
-              [84, 458, 336],
-              [84, 480, 318],
-              [84, 502, 280],
+              [72, 230, 304],
+              [72, 254, 286],
+              [72, 278, 298],
+              [72, 302, 220],
+              [72, 352, 300],
+              [72, 376, 306],
+              [72, 400, 190],
+              [72, 452, 298],
+              [72, 476, 280],
+              [72, 500, 240],
             ]}
           />
           {/* The sentence source 2 points at */}
           <rect
             className={cx(a, m.cite)}
-            x="78"
-            y="377"
-            width="352"
-            height="19"
-            rx="5"
+            x="64"
+            y="369"
+            width="322"
+            height="24"
+            rx="6"
             fill={C.accent}
             fillOpacity="0.3"
           />
           {/* The three windows samplePage sends: head, middle, tail */}
           {[
-            [232, 92],
-            [350, 70],
-            [446, 70],
+            [214, 112],
+            [336, 90],
+            [436, 90],
           ].map(([y, h], i) => (
             <rect
               key={y}
               className={cx(a, m.window)}
               style={delay(i * 0.6)}
-              x="72"
+              x="58"
               y={y}
-              width="364"
+              width="336"
               height={h}
               rx="10"
               fill={C.accent}
@@ -149,9 +209,9 @@ function Card() {
 
         {/* Text strips travelling from each window to the panel */}
         {[
-          [100, 272, 0],
-          [100, 382, 0.6],
-          [100, 478, 1.2],
+          [100, 254, 0],
+          [100, 376, 0.6],
+          [100, 476, 1.2],
         ].map(([x, y, d]) => (
           <rect
             key={y}
@@ -159,8 +219,8 @@ function Card() {
             style={
               {
                 ...delay(d),
-                '--dx': `${500 - x}px`,
-                '--dy': `${250 - y}px`,
+                '--dx': `${520 - x}px`,
+                '--dy': `${318 - y}px`,
               } as CSSProperties
             }
             x={x}
@@ -174,84 +234,65 @@ function Card() {
 
         {/* The side panel, docked beside the article */}
         <g className={cx(a, m.panel)}>
-          <rect x="468" y="100" width="284" height="444" fill={C.s3} />
-          <InfinityMark x={500} y={130} size={30} />
-          <text x="530" y="128" fontSize="22" fontWeight="500" fill={C.ink}>
-            Eternal Summary
-          </text>
-          <text x="530" y="154" fontSize="18" fill={C.muted}>
-            2 min read
-          </text>
+          <rect x="412" y="92" width="348" height="460" fill={C.s3} />
+          <InfinityMark x={458} y={130} size={48} />
           <g className={cx(a, m.pop)}>
             <rect
-              x="488"
-              y="178"
-              width="156"
-              height="36"
-              rx="18"
+              x="432"
+              y="160"
+              width="280"
+              height="56"
+              rx="28"
               fill={C.accent}
               fillOpacity="0.16"
             />
             <text
-              x="506"
-              y="202"
-              fontSize="20"
+              x="456"
+              y="201"
+              fontSize="36"
               fontWeight="500"
               fill={C.accent}
             >
               Worth reading
             </text>
           </g>
-          {[238, 262, 286, 310, 334].map((y, i) => (
+          {/* The summary, each claim followed by its source */}
+          {[
+            [262, 206],
+            [318, 300],
+            [374, 186],
+            [430, 136],
+          ].map(([y, w], i) => (
             <rect
               key={y}
               className={cx(a, m.grow)}
               style={delay(i * 0.18)}
-              x="490"
-              y={y}
-              width={[236, 220, 240, 228, 150][i]}
-              height="10"
-              rx="5"
+              x="432"
+              y={y - 6}
+              width={w}
+              height="12"
+              rx="6"
               fill={C.ink2}
               fillOpacity="0.7"
             />
           ))}
           <g className={cx(a, m.sources)}>
-            <text x="490" y="416" fontSize="20" fill={C.muted}>
-              Sources
-            </text>
-            {[1, 2, 3].map((n, i) => (
-              <g key={n}>
-                <circle cx={598 + i * 40} cy="409" r="16" fill={C.s2} />
-                <text
-                  x={598 + i * 40}
-                  y="415"
-                  fontSize="17"
-                  textAnchor="middle"
-                  fill={C.ink2}
-                >
-                  {n}
-                </text>
-              </g>
-            ))}
-            <g className={cx(a, m.mark)}>
-              <circle cx="638" cy="409" r="16" fill={C.accent} />
-              <text
-                x="638"
-                y="415"
-                fontSize="17"
-                fontWeight="500"
-                textAnchor="middle"
-                fill={C.ground}
-              >
-                2
-              </text>
-            </g>
+            <Marker x={676} y={262} r={24} n={1} font={36} />
+            <Marker x={656} y={374} r={24} n={2} font={36} />
+            <Marker x={606} y={430} r={24} n={3} font={36} />
+            <OpenMarker x={656} y={374} r={24} font={36} />
           </g>
-          <rect x="488" y="470" width="244" height="46" rx="12" fill={C.s2} />
-          <text x="506" y="499" fontSize="19" fill={C.muted}>
-            Ask about this page
-          </text>
+          {/* Ask about this page */}
+          <rect x="432" y="476" width="308" height="52" rx="14" fill={C.s2} />
+          <rect
+            x="454"
+            y="497"
+            width="150"
+            height="10"
+            rx="5"
+            fill={C.muted}
+            fillOpacity="0.5"
+          />
         </g>
       </g>
 
@@ -259,7 +300,7 @@ function Card() {
       <path
         className={cx(a, m.pointer)}
         d="M0 0 L0 26 L7 19 L12 30 L17 28 L12 17 L21 17 Z"
-        transform="translate(650 420)"
+        transform="translate(668 386)"
         fill={C.ink}
         stroke={C.ground}
         strokeWidth="2"
@@ -275,93 +316,95 @@ function Hero() {
     <Stage id="eternal-summary" variant="hero" loop={14}>
       <defs>
         <clipPath id={`${id}-win`}>
-          <rect x="170" y="126" width="1260" height="634" rx="24" />
-          <rect x="170" y="126" width="1260" height="60" />
+          <rect x="150" y="110" width="1300" height="650" rx="24" />
+          <rect x="150" y="110" width="1300" height="60" />
         </clipPath>
       </defs>
 
       {/* The page's journey under the window: service worker, then the API */}
       <g fill="none" stroke={C.lineStrong} strokeWidth="3">
-        <path d="M470 760 V860 H560" />
-        <path d="M800 860 H880" />
-        <path d="M1220 860 H1260 V760" />
+        <path d="M500 760 V818" />
+        <path d="M670 854 H760" />
+        <path d="M1180 854 H1260 V760" />
       </g>
-      <rect x="560" y="824" width="240" height="72" rx="36" fill={C.s2} />
-      <text x="680" y="870" fontSize="26" textAnchor="middle" fill={C.ink2}>
+      <rect x="330" y="818" width="340" height="72" rx="36" fill={C.s2} />
+      <text x="500" y="867" fontSize="38" textAnchor="middle" fill={C.ink2}>
         Service worker
       </text>
-      <rect x="880" y="810" width="340" height="100" rx="24" fill={C.s2} />
+      <rect x="760" y="790" width="420" height="140" rx="24" fill={C.s2} />
       <text
         className={mono}
-        x="1050"
-        y="852"
-        fontSize="26"
+        x="970"
+        y="848"
+        fontSize="38"
         textAnchor="middle"
         fill={C.ink}
       >
         /api/summarize
       </text>
-      <text x="1050" y="888" fontSize="22" textAnchor="middle" fill={C.muted}>
+      <text x="970" y="902" fontSize="38" textAnchor="middle" fill={C.muted}>
         gemini-2.5-flash
       </text>
 
       {/* Browser window */}
-      <rect x="170" y="70" width="1260" height="690" rx="24" fill={C.s2} />
+      <rect x="150" y="50" width="1300" height="710" rx="24" fill={C.s2} />
       <g fill={C.lineStrong}>
-        <circle cx="210" cy="98" r="8" />
-        <circle cx="238" cy="98" r="8" />
-        <circle cx="266" cy="98" r="8" />
+        <circle cx="190" cy="80" r="8" />
+        <circle cx="218" cy="80" r="8" />
+        <circle cx="246" cy="80" r="8" />
       </g>
-      <rect x="310" y="82" width="460" height="32" rx="16" fill={C.s3} />
+      <rect x="290" y="64" width="460" height="32" rx="16" fill={C.s3} />
 
       <g clipPath={`url(#${id}-win)`}>
         <g className={cx(a, m.scroll)}>
-          <rect x="250" y="168" width="130" height="14" rx="7" fill={C.muted} />
+          <rect x="230" y="138" width="130" height="14" rx="7" fill={C.muted} />
           <Lines
-            h={34}
+            h={30}
             fill="rgba(255, 255, 255, 0.5)"
             rows={[
-              [250, 198, 560],
-              [250, 244, 380],
+              [230, 164, 540],
+              [230, 202, 360],
             ]}
           />
           <Lines
             h={12}
             rows={[
-              [250, 330, 580],
-              [250, 360, 560],
-              [250, 390, 590],
-              [250, 420, 540],
-              [250, 450, 380],
-              [250, 512, 570],
-              [250, 542, 590],
-              [250, 572, 430],
-              [250, 634, 360],
-              [250, 664, 580],
-              [250, 694, 556],
-              [250, 724, 420],
+              [234, 316, 580],
+              [234, 342, 556],
+              [234, 368, 590],
+              [234, 394, 420],
+              [234, 494, 570],
+              [234, 520, 590],
+              [234, 546, 380],
+              [234, 646, 560],
+              [234, 672, 590],
+              [234, 698, 540],
+              [234, 724, 430],
             ]}
           />
           <rect
             className={cx(a, m.citeHero)}
-            x="242"
-            y="533"
-            width="606"
-            height="30"
+            x="224"
+            y="512"
+            width="608"
+            height="28"
             rx="7"
             fill={C.accent}
             fillOpacity="0.3"
           />
-          {[
-            [312, 168, 'Head 50%'],
-            [494, 106, 'Middle 20%'],
-            [616, 138, 'Tail 30%'],
-          ].map(([y, h, label], i) => (
+          {/* The three windows, named on their top edge */}
+          {(
+            [
+              [280, 140, 'Head 50%', 196],
+              [458, 114, 'Middle 20%', 222],
+              [610, 140, 'Tail 30%', 168],
+            ] as const
+          ).map(([y, h, label, w], i) => (
             <g key={label} className={cx(a, m.window)} style={delay(i * 0.7)}>
               <rect
-                x="232"
+                x="210"
                 y={y}
-                width="624"
+                width="640"
                 height={h}
                 rx="14"
                 fill={C.accent}
@@ -370,13 +413,8 @@ function Hero() {
                 strokeOpacity="0.55"
                 strokeWidth="2.5"
               />
-              <text
-                x="846"
-                y={Number(y) - 12}
-                fontSize="22"
-                textAnchor="end"
-                fill={C.accent}
-              >
+              <rect x="226" y={y - 24} width={w} height="48" fill={C.s2} />
+              <text x="240" y={y + 13} fontSize="38" fill={C.accent}>
                 {label}
               </text>
             </g>
@@ -385,9 +423,9 @@ function Hero() {
           {/* Highlight a passage and the Summarize button pops beside it */}
           <rect
             className={cx(a, m.select)}
-            x="246"
-            y="686"
-            width="440"
+            x="228"
+            y="716"
+            width="436"
             height="28"
             rx="6"
             fill={C.ink}
@@ -395,17 +433,17 @@ function Hero() {
           />
           <g className={cx(a, m.button)}>
             <rect
-              x="540"
-              y="630"
-              width="150"
-              height="42"
-              rx="21"
+              x="510"
+              y="648"
+              width="236"
+              height="56"
+              rx="28"
               fill={C.accent}
             />
             <text
-              x="615"
-              y="658"
-              fontSize="22"
+              x="628"
+              y="689"
+              fontSize="38"
               fontWeight="500"
               textAnchor="middle"
               fill={C.ground}
@@ -416,104 +454,67 @@ function Hero() {
         </g>
 
         <g className={cx(a, m.panel)}>
-          <rect x="920" y="126" width="510" height="634" fill={C.s3} />
-          <InfinityMark x={986} y={178} size={46} />
-          <text x="1030" y="172" fontSize="30" fontWeight="500" fill={C.ink}>
+          <rect x="880" y="110" width="570" height="650" fill={C.s3} />
+          <InfinityMark x={940} y={170} size={52} />
+          <text x="990" y="184" fontSize="40" fontWeight="500" fill={C.ink}>
             Eternal Summary
           </text>
-          <text x="1030" y="206" fontSize="22" fill={C.muted}>
-            2 min read
-          </text>
           <g className={cx(a, m.pop)}>
+            <rect
+              x="912"
+              y="226"
+              width="300"
+              height="64"
+              rx="32"
+              fill={C.accent}
+              fillOpacity="0.16"
+            />
             <text
-              x="960"
-              y="268"
-              fontSize="24"
+              x="938"
+              y="272"
+              fontSize="40"
               fontWeight="500"
               fill={C.accent}
             >
               Worth reading
             </text>
-            <rect
-              x="1126"
-              y="254"
-              width="240"
-              height="12"
-              rx="6"
-              fill={C.ink2}
-              fillOpacity="0.4"
-            />
-          </g>
-          <rect x="956" y="300" width="438" height="56" rx="28" fill={C.s2} />
-          <rect x="962" y="306" width="140" height="44" rx="22" fill={C.s3} />
-          {['Summary', 'Bullets', 'Key points'].map((t, i) => (
             <text
-              key={t}
-              x={1032 + i * 140}
-              y="336"
-              fontSize="21"
-              textAnchor="middle"
-              fill={i === 0 ? C.ink : C.muted}
+              x="1414"
+              y="272"
+              fontSize="38"
+              textAnchor="end"
+              fill={C.muted}
             >
-              {t}
+              2 min read
             </text>
-          ))}
-          {[394, 426, 458, 490, 522, 554].map((y, i) => (
+          </g>
+          {[
+            [350, 360],
+            [420, 490],
+            [490, 330],
+            [560, 240],
+          ].map(([y, w], i) => (
             <rect
               key={y}
               className={cx(a, m.grow)}
               style={delay(i * 0.16)}
-              x="972"
-              y={y}
-              width={[404, 380, 410, 392, 400, 260][i]}
-              height="13"
-              rx="6.5"
+              x="912"
+              y={y - 7}
+              width={w}
+              height="14"
+              rx="7"
               fill={C.ink2}
               fillOpacity="0.7"
             />
           ))}
-          <rect
-            x="956"
-            y="390"
-            width="4"
-            height="180"
-            rx="2"
-            fill={C.lineStrong}
-          />
           <g className={cx(a, m.sources)}>
-            <text x="972" y="636" fontSize="24" fill={C.muted}>
-              Sources
-            </text>
-            {[1, 2, 3].map((n, i) => (
-              <g key={n}>
-                <circle cx={1090 + i * 54} cy="628" r="22" fill={C.s2} />
-                <text
-                  x={1090 + i * 54}
-                  y="636"
-                  fontSize="22"
-                  textAnchor="middle"
-                  fill={C.ink2}
-                >
-                  {n}
-                </text>
-              </g>
-            ))}
-            <g className={cx(a, m.mark)}>
-              <circle cx="1144" cy="628" r="22" fill={C.accent} />
-              <text
-                x="1144"
-                y="636"
-                fontSize="22"
-                fontWeight="500"
-                textAnchor="middle"
-                fill={C.ground}
-              >
-                2
-              </text>
-            </g>
+            <Marker x={1312} y={350} r={28} n={1} font={40} />
+            <Marker x={1282} y={490} r={28} n={2} font={40} />
+            <Marker x={1192} y={560} r={28} n={3} font={40} />
+            <OpenMarker x={1282} y={490} r={28} font={40} />
           </g>
-          <rect x="956" y="686" width="438" height="52" rx="14" fill={C.s2} />
-          <text x="980" y="720" fontSize="22" fill={C.muted}>
+          <rect x="912" y="626" width="506" height="68" rx="16" fill={C.s2} />
+          <text x="940" y="673" fontSize="38" fill={C.muted}>
             Ask about this page
           </text>
         </g>
@@ -521,25 +522,22 @@ function Hero() {
         {/* The selection card, anchored beside the passage */}
         <g className={cx(a, m.card)}>
           <rect
-            x="520"
-            y="520"
-            width="330"
-            height="136"
+            x="470"
+            y="540"
+            width="370"
+            height="150"
             rx="16"
             fill={C.s3}
             stroke={C.lineStrong}
             strokeWidth="2"
           />
-          <InfinityMark x={558} y={554} size={30} />
-          <text x="586" y="562" fontSize="22" fontWeight="500" fill={C.ink}>
-            Selection
-          </text>
+          <InfinityMark x={514} y={580} size={40} />
           <Lines
-            h={11}
+            h={12}
             fill="rgba(255, 255, 255, 0.4)"
             rows={[
-              [544, 590, 280],
-              [544, 614, 250],
+              [500, 616, 310],
+              [500, 642, 280],
             ]}
           />
         </g>
@@ -547,9 +545,9 @@ function Hero() {
 
       {/* Text strips: down to the service worker, across to the API */}
       {[
-        [300, 396, 0],
-        [300, 548, 0.7],
-        [300, 680, 1.4],
+        [300, 342, 0],
+        [300, 520, 0.7],
+        [300, 672, 1.4],
       ].map(([x, y, d]) => (
         <rect
           key={y}
@@ -557,10 +555,10 @@ function Hero() {
           style={
             {
               ...delay(d),
-              '--x1': `${470 - x - 40}px`,
-              '--y1': `${780 - y}px`,
-              '--y2': `${860 - y - 6}px`,
-              '--x3': `${870 - x - 80}px`,
+              '--x1': `${500 - 40 - x}px`,
+              '--y1': `${778 - y}px`,
+              '--y2': `${848 - y}px`,
+              '--x3': `${700 - x}px`,
             } as CSSProperties
           }
           x={x}
@@ -573,8 +571,8 @@ function Hero() {
       ))}
       <circle
         className={cx(a, m.reply)}
-        cx="1240"
-        cy="860"
+        cx="1260"
+        cy="854"
         r="10"
         fill={C.accent}
       />
@@ -582,7 +580,7 @@ function Hero() {
       <path
         className={cx(a, m.pointerHero)}
         d="M0 0 L0 36 L10 27 L17 42 L24 39 L17 24 L30 24 Z"
-        transform="translate(1160 650)"
+        transform="translate(1292 502)"
         fill={C.ink}
         stroke={C.ground}
         strokeWidth="2.5"

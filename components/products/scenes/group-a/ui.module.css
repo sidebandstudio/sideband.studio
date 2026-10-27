@@ -4,10 +4,25 @@
 .stage {
   position: absolute;
   inset: 0;
+  container-type: size;
 }
 
 .frame {
   height: 100%;
+}
+
+/* A hero stage under 480px wide shows the card drawing: at that size the
+   hero drawing's 38-unit labels would render under 12px. */
+.wide {
+  display: none;
+}
+@container (min-width: 480px) {
+  .compact {
+    display: none;
+  }
+  .wide {
+    display: block;
+  }
 }
 
 .svg {

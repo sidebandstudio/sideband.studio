@@ -18,6 +18,29 @@
   font-family: var(--font-mono), ui-monospace, monospace;
 }
 
+/* A hero stage under 480px wide shows the card drawing. See Framings. */
+.framings {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+}
+.compact,
+.wide {
+  position: absolute;
+  inset: 0;
+}
+.wide {
+  display: none;
+}
+@container (min-width: 480px) {
+  .compact {
+    display: none;
+  }
+  .wide {
+    display: block;
+  }
+}
+
 /* Nothing runs until useAmbient has set data-play, and then only while it is
    "on". Each element names its own keyframes in its scene's module. */
 .root[data-play] .a {
