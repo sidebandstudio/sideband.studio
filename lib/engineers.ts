@@ -1100,6 +1100,8 @@ export const engineers: Engineer[] = [
       },
     ],
     portfolio: {
+      // The captures leave out his security clearance line, which this site
+      // does not show (see the people dossier).
       url: 'https://alitleis.dev',
       summary:
         'Opens on a split screen with two ways in: a recruiter-friendly reading view over a starfield, and an editing suite that rebuilds the whole portfolio as a 75-second video timeline you can scrub, scored to Eyes Without a Face. Warm near-black with a single amber accent.',
