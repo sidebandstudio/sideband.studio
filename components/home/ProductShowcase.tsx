@@ -11,11 +11,17 @@ import { cx } from '@/components/ui/cx'
 import { ProductScene, productAccentStyle } from '@/components/products/scenes'
 import { SignatureCutsMark } from '@/components/products/scenes/group-b/signature-cuts/Scene'
 import { getProductById } from '@/lib/products'
-import type { HomeData, ShowcaseProduct } from '@/lib/home-data'
+import {
+  countWord,
+  type HomeData,
+  type MoreProduct,
+  type ShowcaseProduct,
+} from '@/lib/home-data'
+import styles from './ProductShowcase.module.css'
 
 /**
- * Marks the scene builders drew for products that ship no icon, so a ranked
- * row shows the product's own mark rather than a bare accent bar.
+ * Marks the scene builders drew for products that ship no icon, so a chip
+ * shows the product's own mark rather than a bare accent bar.
  */
 const MARKS: Partial<Record<string, typeof SignatureCutsMark>> = {
   'signature-cuts': SignatureCutsMark,
@@ -25,24 +31,27 @@ const MARKS: Partial<Record<string, typeof SignatureCutsMark>> = {
 const STRETCH = 'after:absolute after:inset-0 after:rounded-panel'
 
 /**
- * The ranked products: the first one large with its hero scene, the next two
- * as scene cards, and the rest as a compact ranked list. Every product links
- * to its page. The order is the GitHub ranking from lib/products.ts, whose
- * weights and inputs the lede reads. The full table lives on /products.
+ * A curated look at the ranking: the first product large with its hero scene,
+ * the next two as scene cards, and every other product as one strip of chips
+ * in rank order. Each product links to its page. The order is the GitHub
+ * ranking from lib/products.ts, whose weights and inputs the lede reads. The
+ * full ranked index lives on /products only.
  */
 export default function ProductShowcase({
   products,
+  more,
   ranking,
   syncedOn,
 }: {
-  /** In ranked order, from the server. */
+  /** The featured products, in ranked order, from the server. */
   products: ShowcaseProduct[]
+  /** The rest, in ranked order. */
+  more: MoreProduct[]
   ranking: HomeData['ranking']
   syncedOn: string
 }) {
-  const [first, ...rest] = products
-  const pair = rest.slice(0, 2)
-  const others = rest.slice(2)
+  const [first, ...pair] = products
+  const total = products.length + more.length
 
   return (
     <Section id="products" labelledBy="products-title">
@@ -57,9 +66,12 @@ export default function ProductShowcase({
           </>
         }
         lede={`Each score is ${ranking.popularityPercent} popularity (${ranking.popularityInputs}) and ${ranking.scopePercent} scope (${ranking.scopeInputs}), with GitHub figures synced ${syncedOn}.`}
+        actions={
+          <ArrowLink href="/products#ranking">How the ranking works</ArrowLink>
+        }
       />
 
-      <ol className="mt-14 grid gap-x-6 gap-y-16 md:grid-cols-2">
+      <ol className="mt-14 grid gap-x-6 gap-y-12 md:grid-cols-2 md:gap-y-16">
         <Reveal as="li" className="md:col-span-2">
           <Featured product={first} />
         </Reveal>
@@ -70,24 +82,30 @@ export default function ProductShowcase({
         ))}
       </ol>
 
-      <div className="mt-20 flex flex-wrap items-end justify-between gap-6">
-        <h3 className="text-lead font-medium text-sideband-text">
-          And the rest of the list
-        </h3>
-        <ArrowLink href="/products#ranking">
-          The full ranking and how it is scored
-        </ArrowLink>
-      </div>
-      <ol
-        start={pair.length + 2}
-        className="mt-8 grid gap-2 md:grid-cols-2 md:gap-x-6"
-      >
-        {others.map((p, i) => (
-          <Reveal as="li" key={p.id} delay={(i % 2) * 70}>
-            <Row product={p} />
-          </Reveal>
-        ))}
-      </ol>
+      {more.length > 0 && (
+        <Reveal className="mt-16 md:mt-20">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+            <h3 className="text-lead font-medium text-sideband-text">
+              {countWord(more.length, true)} more, in rank order
+            </h3>
+            <ArrowLink href="/products">All {total} products</ArrowLink>
+          </div>
+          <ol
+            start={products.length + 1}
+            aria-label={`Products ranked ${products.length + 1} to ${total}`}
+            className={cx(
+              'mt-6 flex gap-2 max-md:-mx-gutter max-md:overflow-x-auto max-md:px-gutter md:flex-wrap',
+              styles.strip,
+            )}
+          >
+            {more.map((p) => (
+              <li key={p.id} className="shrink-0">
+                <Chip product={p} />
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+      )}
     </Section>
   )
 }
@@ -129,9 +147,11 @@ function Featured({ product }: { product: ShowcaseProduct }) {
         <p className="text-lead text-sideband-text-secondary">
           {product.tagline}
         </p>
-        <p className="text-body text-sideband-text">{product.description}</p>
+        <p className="hidden text-body text-sideband-text md:block">
+          {product.description}
+        </p>
         <Facts facts={product.facts} />
-        <ul className="flex flex-wrap gap-2" aria-label="Platforms">
+        <ul className="hidden flex-wrap gap-2 md:flex" aria-label="Platforms">
           {product.platforms.map((pl) => (
             <li key={pl}>
               <Badge>{pl}</Badge>
@@ -177,72 +197,41 @@ function Card({ product }: { product: ShowcaseProduct }) {
   )
 }
 
-function Row({ product }: { product: ShowcaseProduct }) {
+function Chip({ product }: { product: MoreProduct }) {
   const accent = getProductById(product.id)?.accentColor
   const Mark = MARKS[product.id]
   return (
     <Link
       href={`/products/${product.id}`}
-      className="group flex items-center gap-4 rounded-panel bg-sideband-surface p-4 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:p-5"
+      className="group flex h-12 items-center gap-2.5 whitespace-nowrap rounded-full bg-sideband-surface pl-1.5 pr-4 text-small font-medium text-sideband-text transition-colors duration-hover ease-standard hover:bg-sideband-surface-2"
     >
       {product.icon ? (
         <Image
           src={product.icon}
           alt=""
-          width={96}
-          height={96}
-          className="h-11 w-11 shrink-0 rounded-[22%]"
+          width={72}
+          height={72}
+          className="h-9 w-9 shrink-0 rounded-full"
         />
       ) : (
         <span
           aria-hidden="true"
           style={accent ? productAccentStyle(accent) : undefined}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[22%] bg-sideband-surface-3"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sideband-surface-3"
         >
           {Mark ? (
-            <svg viewBox="0 0 44 44" className="h-11 w-11">
-              <Mark x={0} y={0} size={44} />
+            <svg viewBox="0 0 36 36" className="h-9 w-9">
+              <Mark x={0} y={0} size={36} />
             </svg>
           ) : (
-            <span className="block h-1 w-5 rounded-full bg-product" />
+            <span className="block h-1 w-4 rounded-full bg-product" />
           )}
         </span>
       )}
-      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="text-body font-medium text-sideband-text">
-          {product.name}
-        </span>
-        <span className="flex items-center gap-2 text-small text-sideband-text-secondary">
-          <span
-            aria-hidden="true"
-            className={cx(
-              'h-1.5 w-1.5 shrink-0 rounded-full',
-              product.status === 'LIVE' ? 'bg-sideband-ok' : 'bg-sideband-warn',
-            )}
-          />
-          <span className="sr-only">
-            {product.status === 'LIVE' ? 'Live.' : 'In development.'}
-          </span>
-          <span className="truncate">{product.category}</span>
-        </span>
-        <span className="text-small text-sideband-muted lg:hidden">
-          <span className="tabular-nums text-sideband-text">
-            {product.figure.value}
-          </span>{' '}
-          {product.figure.label}
-        </span>
-      </span>
-      <span className="hidden shrink-0 flex-col items-end gap-0.5 text-right lg:flex">
-        <span className="text-body tabular-nums text-sideband-text">
-          {product.figure.value}
-        </span>
-        <span className="text-small text-sideband-muted">
-          {product.figure.label}
-        </span>
-      </span>
+      {product.name}
       <ArrowRightIcon
-        size={16}
-        className="shrink-0 text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:translate-x-1"
+        size={14}
+        className="text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:translate-x-0.5"
       />
     </Link>
   )

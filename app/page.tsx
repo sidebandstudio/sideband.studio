@@ -17,6 +17,7 @@ export default function Home() {
       />
       <ProductShowcase
         products={data.showcase}
+        more={data.more}
         ranking={data.ranking}
         syncedOn={data.syncedOn}
       />

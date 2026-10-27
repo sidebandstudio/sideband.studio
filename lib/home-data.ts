@@ -144,6 +144,16 @@ export interface ShowcaseProduct {
   site: { href: string; label: string } | null
 }
 
+/** A product after the featured three: enough for a chip that links to it. */
+export interface MoreProduct {
+  id: string
+  name: string
+  icon: string | null
+}
+
+/** How many ranked products the home page features with their scenes. */
+const FEATURED = 3
+
 // ---- Team ----
 
 export interface TeamMember {
@@ -246,7 +256,7 @@ export function getHomeData() {
       }
     })
 
-  const showcase: ShowcaseProduct[] = ranked.map((p) => ({
+  const showcase: ShowcaseProduct[] = ranked.slice(0, FEATURED).map((p) => ({
     id: p.id,
     name: p.name,
     category: p.category,
@@ -336,6 +346,13 @@ export function getHomeData() {
     stats,
     hero,
     showcase,
+    more: ranked.slice(FEATURED).map(
+      (p): MoreProduct => ({
+        id: p.id,
+        name: p.name,
+        icon: p.icon?.src ?? null,
+      }),
+    ),
     team,
     openRepos,
     studioFacts,

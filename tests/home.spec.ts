@@ -49,8 +49,32 @@ test('the products section links every product in ranked order', async ({
     )
   expect(hrefs).toEqual(ranked.map((p) => `/products/${p.id}`))
   await expect(
-    section.getByRole('link', { name: /full ranking/ }),
+    section.getByRole('link', { name: 'How the ranking works' }),
   ).toHaveAttribute('href', '/products#ranking')
+  await expect(
+    section.getByRole('link', { name: `All ${ranked.length} products` }),
+  ).toHaveAttribute('href', '/products')
+})
+
+test('the products section features three scenes and one strip for the rest', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const section = page.locator('#products')
+  await expect(section.locator('[data-scene]')).toHaveCount(3)
+  const strip = section.getByRole('list', {
+    name: `Products ranked 4 to ${ranked.length}`,
+  })
+  await expect(strip.getByRole('link')).toHaveText(
+    ranked.slice(3).map((p) => p.name),
+  )
+  // One or two lines of chips on a desktop.
+  const tops = await strip
+    .getByRole('link')
+    .evaluateAll((links) =>
+      links.map((a) => Math.round(a.getBoundingClientRect().top)),
+    )
+  expect(new Set(tops).size).toBeLessThanOrEqual(2)
 })
 
 test('the products section describes the GitHub ranking with its weights', async ({
