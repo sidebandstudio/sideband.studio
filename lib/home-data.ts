@@ -3,7 +3,7 @@
 // so call it from app/page.tsx and pass the plain results to client components.
 import { engineers } from '@/lib/engineers'
 import { formatDate } from '@/lib/format'
-import { getGithubUser, getRepo, githubOrg, githubSyncedAt } from '@/lib/github'
+import { getGithubUser, githubOrg, githubSyncedAt } from '@/lib/github'
 import {
   productLicense,
   productRepo,
@@ -282,10 +282,12 @@ export function getHomeData() {
     }
   })
 
+  // Linked where the product page's source link goes, with the figures from
+  // the repo its numbers are read from (the ranking's repo).
   const openRepos: OpenRepo[] = ranked.flatMap((p) => {
     const license = productLicense(p)
-    const repo = getRepo(p.repo)
-    if (!license.openSource || !p.links.repo || !repo) return []
+    const repo = productRepo(p)
+    if (!license.openSource || !p.links.repo) return []
     return [
       {
         id: p.id,

@@ -428,6 +428,10 @@ test('release and last-push dates read the same on the home page and the product
         .getByRole('list', { name: 'Open-source repositories' })
         .locator(`a[href="${p.links.repo}"]`)
       await expect(row).toContainText(`Last push ${push}`)
+      // The same commit count the product page and the ranking read.
+      await expect(row).toContainText(
+        `${productRepo(p).commits.toLocaleString('en-US')} commits`,
+      )
     }
   }
 })
