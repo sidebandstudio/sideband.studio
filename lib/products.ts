@@ -1296,22 +1296,6 @@ export const products: Product[] = [
         'The eternalexchangemod.com home page on a phone',
         'Playwright capture of https://eternalexchangemod.com/ at 390x844, 2x, 2026-10-26',
       ),
-      image(
-        'eternal-exchange',
-        'transmutation-table-gui.webp',
-        916,
-        788,
-        'none',
-        'artwork',
-        'The Transmutation Table interface texture that ships in the mod, shown at four times its size',
-        'repo src/main/resources/assets/projecte/textures/gui/transmute.png (229x197 drawn area of a 256x256 texture, byte-identical to ProjectE mc1.21.1), scaled 4x nearest-neighbor',
-        {
-          credit: {
-            text: 'Texture by MidnightLightning for Equivalent Exchange 2, used in ProjectE with the EE2 creator’s permission',
-            href: 'https://github.com/sinkillerj/ProjectE/blob/mc1.21.1/README.md',
-          },
-        },
-      ),
     ],
   },
   // Describes what topchoicerealtyny.com serves: branch fleet/recover-local-migration
