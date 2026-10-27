@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1440, height=1080" />
-    <title>Eternal2x card loop</title>
+    <title>Upflow2x card loop</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
       @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
@@ -20,63 +20,32 @@
       }
       #camera { position: absolute; inset: 0; transform-origin: 50% 58%; }
 
-      /* Two viewers play the frames comparison's real Eternal2x output frames in order, at 2.5x:
-         the drawn row beside the Eternal2x row. */
-      .viewer { position: absolute; top: 236px; width: 410px; height: 745px; border-radius: 12px; overflow: hidden; background: #0e0e0e; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
-      .viewer .cell { position: absolute; inset: 0; overflow: hidden; }
-      .viewer .cell img { display: block; width: 100%; height: 100%; }
-      #view-drawn { left: 255px; }
-      #view-e2x { left: 775px; box-shadow: 0 0 0 4px var(--accent), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
-      .vlabel { position: absolute; top: 80px; width: 600px; margin-left: -300px; text-align: center; color: var(--ink); font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; }
-      #label-drawn { left: 460px; }
-      #label-e2x { left: 980px; color: var(--accent); }
+      /* The film's own comparison, played back at half speed: the Hero walk as drawn left of the divider and from Upflow2x right of it.
+         The clip is the film's picture (1920x712); this window shows 1120 px of it around the divider at 1.2x, so the divider sits at x 720. */
+      #compare { position: absolute; left: 48px; top: 196px; width: 1344px; height: 854.4px; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9); }
+      #walk { position: absolute; left: -479px; top: 0; width: 2304px; height: 854.4px; max-width: none; }
+      .vlabel { position: absolute; top: 80px; width: 640px; margin-left: -320px; text-align: center; color: var(--ink); font-size: 84px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; }
+      #label-drawn { left: 384px; }
+      #label-up { left: 1056px; color: var(--accent); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="card" data-start="0" data-duration="7" data-width="1440" data-height="1080">
       <div id="light"></div>
       <div id="camera">
-        <div id="view-drawn" class="viewer"></div>
-        <div id="view-e2x" class="viewer"></div>
+        <div id="compare">
+          <video id="walk" class="clip" src="assets/video/hero-walk-compare.mp4" data-start="0" data-duration="7" data-track-index="1" muted playsinline></video>
+        </div>
       </div>
       <div id="label-drawn" class="vlabel">As drawn</div>
-      <div id="label-e2x" class="vlabel">Eternal2x</div>
+      <div id="label-up" class="vlabel">From Upflow2x</div>
     </div>
 
     <script>
-      // Authored constants only, no layout reads at tween time.
-      const STEP = 0.25; // each frame shows for 0.25 s, about a sixth of real speed
-      const CYCLE = 1.75; // six frames, the last held one step longer, four passes per loop
-
-      function viewer(id, row) {
-        const host = document.getElementById(id);
-        for (let i = 0; i < 6; i++) {
-          const cell = document.createElement("div");
-          cell.className = "cell";
-          cell.id = `${id}-${i}`;
-          const img = document.createElement("img");
-          img.src = `assets/img/cells/${row}-${i}.webp`; // the cell's inside, cut from frames-compare.webp
-          img.alt = "";
-          cell.appendChild(img);
-          host.appendChild(cell);
-        }
-      }
-      viewer("view-drawn", "top");
-      viewer("view-e2x", "bottom");
-      const cells = (k) => [`#view-drawn-${k}`, `#view-e2x-${k}`];
-      const allCells = [0, 1, 2, 3, 4, 5].flatMap(cells);
-
-      // Rest state at t=0: the first frame of the walk. Each pass ends on that state at a multiple of CYCLE, and 4 x CYCLE = 7 s.
+      // The clip is three passes of the same 56 frames (2.33 s each), so the loop wraps where each pass does.
       gsap.set("#camera", { scale: 1 });
-      gsap.set(allCells, { opacity: 0 });
-      gsap.set(cells(0), { opacity: 1 });
 
       const tl = gsap.timeline({ paused: true });
-      for (let c = 0; c < 4; c++) {
-        const at = c * CYCLE;
-        for (let k = 1; k < 6; k++) tl.set(allCells, { opacity: 0 }, at + k * STEP).set(cells(k), { opacity: 1 }, at + k * STEP);
-        if (c < 3) tl.set(allCells, { opacity: 0 }, at + CYCLE).set(cells(0), { opacity: 1 }, at + CYCLE);
-      }
       tl.to("#camera", { scale: 1.02, duration: 3.3, ease: "sine.inOut" }, 0.2)
         .to("#camera", { scale: 1, duration: 3.3, ease: "sine.inOut" }, 3.6);
 
