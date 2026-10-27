@@ -18,3 +18,14 @@
     transform: scaleX(1);
   }
 }
+
+/* One row of tabs that scrolls sideways on narrow screens. The cut-off tab at
+   the edge shows there is more, so the scrollbar itself is hidden. */
+.scroller {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}

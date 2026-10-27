@@ -37,6 +37,7 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
   const [cycle, setCycle] = useState(0)
   const frameRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const listRef = useRef<HTMLDivElement>(null)
   const state = useRef({
     visible: false,
     hovered: false,
@@ -115,6 +116,17 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
     }
   }, [count])
 
+  // The tabs sit in one scrolling row on narrow screens. Keep the selected
+  // one in view as it changes, without moving the page.
+  useEffect(() => {
+    const list = listRef.current
+    const tab = tabRefs.current[active]
+    if (!list || !tab) return
+    const start = tab.offsetLeft - list.scrollLeft
+    if (start >= 0 && start + tab.offsetWidth <= list.clientWidth) return
+    list.scrollTo({ left: tab.offsetLeft - 8 })
+  }, [active])
+
   function pick(i: number) {
     state.current.userControlled = true
     if (timer.current !== undefined) clearTimeout(timer.current)
@@ -144,10 +156,14 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
       )}
     >
       <div
+        ref={listRef}
         role="tablist"
         aria-label="Products"
         onKeyDown={onKeyDown}
-        className="flex flex-wrap gap-1 pb-2 md:pb-3"
+        className={cx(
+          'relative -mx-2 flex gap-1 overflow-x-auto px-2 pb-2 md:-mx-3 md:px-3 md:pb-3',
+          styles.scroller,
+        )}
       >
         {items.map((item, i) => {
           const selected = i === active

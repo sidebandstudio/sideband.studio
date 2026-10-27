@@ -15,6 +15,9 @@ const PHONE_BUTTON = 'max-sm:h-10 max-sm:px-[1.125rem] max-sm:text-small'
 /**
  * The first screen: who Sideband is, the two ways in, and the top-ranked
  * products as real screenshots. The studio's numbers from GitHub close it.
+ * On phones the preview moves up under the headline, so the first screen
+ * shows a real product, and the lede and actions follow it. The DOM keeps
+ * the desktop order, which is also the reading order.
  */
 export default function Hero({
   hero,
@@ -28,7 +31,7 @@ export default function Hero({
       className="relative isolate overflow-hidden pb-section pt-32 md:pt-36"
     >
       <Backdrop variant="spotlight" />
-      <Container>
+      <Container className="flex flex-col">
         <Reveal trigger="mount">
           <Eyebrow className="mb-6">
             Independent software studio in Boston, MA
@@ -44,7 +47,7 @@ export default function Hero({
           </h1>
         </Reveal>
 
-        <div className="mt-8 flex flex-col gap-9 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+        <div className="mt-8 flex flex-col gap-9 max-md:order-1 max-md:mt-10 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <Reveal trigger="mount" delay={140}>
             <p className="max-w-prose text-lead text-sideband-text-secondary">
               Sideband is {countWord(engineerCount)} founding engineers who
@@ -71,11 +74,11 @@ export default function Hero({
           </Reveal>
         </div>
 
-        <Reveal trigger="mount" delay={280} className="mt-14 md:mt-16">
+        <Reveal trigger="mount" delay={280} className="mt-8 md:mt-16">
           <HeroPreview items={hero} />
         </Reveal>
 
-        <div className="mt-20 md:mt-28">
+        <div className="mt-20 max-md:order-2 md:mt-28">
           <h2 className="text-lead font-medium text-sideband-text">
             The studio on GitHub
           </h2>

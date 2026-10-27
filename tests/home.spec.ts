@@ -257,3 +257,41 @@ test('both hero actions share one row at 360px', async ({ page }) => {
   )
   expect(tops[0]).toBe(tops[1])
 })
+
+for (const [width, height] of [
+  [360, 640],
+  [390, 844],
+]) {
+  test(`the first screen at ${width}px shows a product screenshot`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height })
+    await page.goto('/')
+    const shot = page.locator(
+      'section[aria-labelledby="hero-title"] [role="tabpanel"]:not([aria-hidden="true"]) img',
+    )
+    await expect(shot).toBeVisible()
+    await expect
+      .poll(() => shot.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0)
+    const box = (await shot.boundingBox())!
+    expect(box.y).toBeGreaterThan(0)
+    expect(box.y + box.height).toBeLessThanOrEqual(height)
+
+    // The tabs are one row that scrolls, and the keyboard brings the last
+    // one into view.
+    const tabs = page.getByRole('tablist', { name: 'Products' })
+    const row = (await tabs.boundingBox())!
+    expect(row.height).toBeLessThan(60)
+    await tabs.getByRole('tab', { selected: true }).focus()
+    await page.keyboard.press('End')
+    const last = tabs.getByRole('tab').last()
+    await expect(last).toHaveAttribute('aria-selected', 'true')
+    await expect
+      .poll(async () => {
+        const b = (await last.boundingBox())!
+        return b.x >= row.x - 1 && b.x + b.width <= row.x + row.width + 1
+      })
+      .toBe(true)
+  })
+}
