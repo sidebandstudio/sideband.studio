@@ -186,7 +186,8 @@
   }
 }
 
-/* A pulse runs each way along the link: listing to customer, and back. */
+/* A pulse runs each way along the link: listing to customer, and back. Each
+   drawing sets the link's length in --tx and --ty. */
 .pulse {
   animation-name: pulse;
 }
@@ -200,91 +201,24 @@
     opacity: 1;
     transform: none;
   }
-  64% {
-    transform: translate(38px, 0);
-  }
-  66% {
-    transform: translate(38px, 23px);
-  }
-  70% {
-    opacity: 1;
-    transform: translate(74px, 23px);
-  }
-  72%,
-  75% {
-    opacity: 0;
-    transform: translate(74px, 23px);
-  }
-  76% {
-    opacity: 1;
-    transform: translate(74px, 23px);
-  }
-  80% {
-    transform: translate(38px, 23px);
-  }
-  82% {
-    transform: translate(38px, 0);
-  }
-  86% {
-    opacity: 1;
-    transform: none;
-  }
-  88%,
-  100% {
-    opacity: 0;
-    transform: none;
-  }
-}
-
-.pulseH {
-  animation-name: pulseH;
-}
-@keyframes pulseH {
-  0%,
-  59% {
-    opacity: 0;
-    transform: none;
-  }
-  60% {
-    opacity: 1;
-    transform: none;
-  }
-  62% {
-    transform: translate(0, 60px);
-  }
   68% {
-    transform: translate(580px, 60px);
-  }
-  71% {
-    transform: translate(580px, -73px);
-  }
-  72% {
     opacity: 1;
-    transform: translate(612px, -73px);
+    transform: translate(var(--tx), var(--ty));
   }
-  74%,
+  70%,
   75% {
     opacity: 0;
-    transform: translate(612px, -73px);
+    transform: translate(var(--tx), var(--ty));
   }
   76% {
     opacity: 1;
-    transform: translate(612px, -73px);
+    transform: translate(var(--tx), var(--ty));
   }
-  77% {
-    transform: translate(580px, -73px);
-  }
-  80% {
-    transform: translate(580px, 60px);
-  }
-  86% {
-    transform: translate(0, 60px);
-  }
-  88% {
+  84% {
     opacity: 1;
     transform: none;
   }
-  90%,
+  86%,
   100% {
     opacity: 0;
     transform: none;
