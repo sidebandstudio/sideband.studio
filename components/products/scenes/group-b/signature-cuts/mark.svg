@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Signature Cuts 413</title>
+  <defs>
+    <clipPath id="sc-pole">
+      <rect x="196" y="132" width="120" height="248" rx="60"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#050505"/>
+  <rect x="196" y="132" width="120" height="248" rx="60" fill="#1a1815"/>
+  <g clip-path="url(#sc-pole)" fill="#D4C5B0">
+    <path d="M196 150 L316 82 V126 L196 194 Z"/>
+    <path d="M196 230 L316 162 V206 L196 274 Z"/>
+    <path d="M196 310 L316 242 V286 L196 354 Z"/>
+    <path d="M196 390 L316 322 V366 L196 434 Z"/>
+  </g>
+  <rect x="180" y="100" width="152" height="28" rx="14" fill="#F0EBE3"/>
+  <rect x="180" y="384" width="152" height="28" rx="14" fill="#F0EBE3"/>
+</svg>
