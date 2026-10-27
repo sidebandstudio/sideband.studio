@@ -10,7 +10,7 @@ import {
 } from '@/lib/engineers'
 import { productsByRank, type Product } from '@/lib/products'
 
-const MONTHS = [
+export const MONTHS = [
   'Jan',
   'Feb',
   'Mar',

@@ -205,7 +205,7 @@ export default function AboutPage() {
         <SectionHeading
           id="history-title"
           title="How it started"
-          lede="From the dates in each person’s work history, each product’s first year, and the studio’s own repository."
+          lede="From each person’s Sideband dates, the month each product’s repository was created, and the studio’s own repository."
         />
         <ol className="mt-14 space-y-6">
           {timeline.map((y, yi) => (
@@ -248,7 +248,7 @@ export default function AboutPage() {
                                 ? ', '
                                 : i === all.length - 2
                                   ? ' and '
-                                  : '.'}
+                                  : (e.suffix ?? '.')}
                             </span>
                           ))}
                         </>

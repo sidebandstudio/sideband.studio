@@ -231,6 +231,24 @@ test('the about timeline dates every engineer from their Sideband role', async (
       `${engineer.name} joins as ${role.role}.`,
     )
   await expect(history).not.toContainText(/co-?found/i)
+  // Projects begun before their builder joined are theirs, not studio work.
+  await expect(history).toContainText(
+    'Ali Tleis starts Eternal Summary, now a Sideband product.',
+  )
+  await expect(history).toContainText(
+    'Naman Rusia starts TandemCode, now a Sideband product.',
+  )
+  const studioWork = await history
+    .locator('li li')
+    .filter({ hasText: 'Work begins at the studio' })
+    .allInnerTexts()
+  expect(studioWork.length).toBeGreaterThan(0)
+  for (const line of studioWork)
+    expect(line).not.toMatch(/Eternal Summary|TandemCode/)
+  // The studio's start matches "It started as two of us".
+  await expect(history).toContainText(
+    'Ali Younes and one other person start the studio in Boston as Eternal Reverse.',
+  )
 })
 
 test('a role held in two stints is measured per stint, and roles group by organisation', async ({

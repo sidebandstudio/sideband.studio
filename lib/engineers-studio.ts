@@ -2,8 +2,13 @@
 // lib/engineers.ts and the GitHub snapshot.
 import { engineers, type Engineer } from '@/lib/engineers'
 import { getGithubUser } from '@/lib/github'
-import { productRepo, products, rankedProducts } from '@/lib/products'
-import { parseYearMonth } from '@/lib/engineers-view'
+import {
+  productRepo,
+  products,
+  rankedProducts,
+  type Product,
+} from '@/lib/products'
+import { listJoin, MONTHS, parseYearMonth } from '@/lib/engineers-view'
 
 export function studioFacts() {
   const repos = products.map(productRepo)
@@ -43,7 +48,10 @@ export interface TimelineEvent {
   text: string
   /** Engineer or product ids the event links to. */
   engineer?: string
+  /** Products named after the text, as links. */
   products?: { id: string; name: string }[]
+  /** Closes the sentence after the products. Defaults to a full stop. */
+  suffix?: string
 }
 
 export interface TimelineYear {
@@ -51,10 +59,20 @@ export interface TimelineYear {
   events: TimelineEvent[]
 }
 
+type YM = { year: number; month: number | null }
+
+/** True only when a is known to come before b: a bare year is not before a date in it. */
+function before(a: YM, b: YM) {
+  if (a.year !== b.year) return a.year < b.year
+  return a.month !== null && b.month !== null && a.month < b.month
+}
+
 /**
  * The studio's history: when it started, when each person joined, the
- * rename, and which products were started each year. Dates come from each
- * person's Sideband role and each product's yearStarted.
+ * rename, and when each product began. Dates come from each person's
+ * Sideband role and each product's repository (its creation month, when
+ * that falls in the product's yearStarted). A product someone began before
+ * they joined is told as that person starting it, not as studio work.
  */
 export function studioTimeline(): TimelineYear[] {
   const roles = engineers
@@ -69,8 +87,10 @@ export function studioTimeline(): TimelineYear[] {
     events.push({
       date: founder.role!.startDate,
       year: founder.ym.year,
-      order: order(founder.ym),
-      text: `${founder.engineer.name} starts the studio in Boston as Eternal Reverse.`,
+      // First in its year: the studio's start comes before anything in it.
+      order: founder.ym.year * 12 - 0.5,
+      // "It started as two of us", aliyounes.dev (people.md, Ali Younes 1.6).
+      text: `${founder.engineer.name} and one other person start the studio in Boston as Eternal Reverse.`,
       engineer: founder.engineer.id,
     })
   for (const r of joined)
@@ -89,24 +109,58 @@ export function studioTimeline(): TimelineYear[] {
     text: 'Eternal Reverse becomes Sideband, with a new studio site at sideband.studio.',
   })
 
-  const ranked = rankedProducts().map((r) => r.product)
-  const years = Array.from(new Set(products.map((p) => p.yearStarted)))
-  for (const year of years)
-    events.push({
-      date: String(year),
-      year,
-      // After the dated events of the same year.
-      order: year * 12 + 12,
-      text: 'Work begins on what are now Sideband products:',
-      products: ranked
-        .filter((p) => p.yearStarted === year)
-        .map((p) => ({ id: p.id, name: p.name })),
+  const joinedAt = new Map(roles.map((r) => [r.engineer.id, r.ym]))
+  const nameOf = (id: string) => engineers.find((e) => e.id === id)?.name ?? id
+  const started = new Map<
+    string,
+    { ym: YM; atStudio: boolean; builders: string[]; made: Product[] }
+  >()
+  for (const { product } of rankedProducts()) {
+    const created = new Date(productRepo(product).createdAt)
+    const ym: YM =
+      created.getUTCFullYear() === product.yearStarted
+        ? { year: product.yearStarted, month: created.getUTCMonth() }
+        : { year: product.yearStarted, month: null }
+    // Studio work once one of its builders had joined; otherwise their own project.
+    const atStudio = product.engineers.some((id) => {
+      const joined = joinedAt.get(id)
+      return joined ? before(joined, ym) : false
     })
+    const key = `${ym.year}-${ym.month}-${atStudio}-${atStudio ? '' : product.engineers.join()}`
+    const entry = started.get(key)
+    if (entry) entry.made.push(product)
+    else
+      started.set(key, {
+        ym,
+        atStudio,
+        builders: product.engineers,
+        made: [product],
+      })
+  }
+  for (const { ym, atStudio, builders, made } of Array.from(started.values())) {
+    const names = listJoin(builders.map(nameOf))
+    events.push({
+      date:
+        ym.month === null ? String(ym.year) : `${MONTHS[ym.month]} ${ym.year}`,
+      year: ym.year,
+      order: order(ym),
+      text: atStudio
+        ? 'Work begins at the studio on'
+        : `${names} ${builders.length === 1 ? 'starts' : 'start'}`,
+      engineer: !atStudio && builders.length === 1 ? builders[0] : undefined,
+      products: made.map((p) => ({ id: p.id, name: p.name })),
+      suffix: atStudio
+        ? undefined
+        : made.length === 1
+          ? ', now a Sideband product.'
+          : ', now Sideband products.',
+    })
+  }
 
   events.sort((a, b) => a.order - b.order)
   const out: TimelineYear[] = []
-  for (const { date, text, engineer, products: made, year } of events) {
-    const event = { date, text, engineer, products: made }
+  for (const { date, text, engineer, products: made, suffix, year } of events) {
+    const event = { date, text, engineer, products: made, suffix }
     const bucket = out.find((y) => y.year === year)
     if (bucket) bucket.events.push(event)
     else out.push({ year, events: [event] })
