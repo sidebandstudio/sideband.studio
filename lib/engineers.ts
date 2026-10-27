@@ -161,7 +161,7 @@ export const engineers: Engineer[] = [
     id: 'ali-younes',
     name: 'Ali Younes',
     initials: 'AY',
-    role: 'Co-Founder & Lead Engineer',
+    role: 'Founding Engineer',
     githubLogin: 'whoisaldo',
     shortBio:
       'Software engineer on systems, infrastructure, AI tooling and backend. Wrote the Rust host and Swift client behind EternalMonitor.',
@@ -312,14 +312,14 @@ export const engineers: Engineer[] = [
         companyUrl: 'https://sideband.studio',
         logo: '/assets/logos/sideband.png',
         logoOnDark: true,
-        role: 'Co-Founder & Lead Engineer',
+        role: 'Founding Engineer',
         location: 'Boston, MA',
         startDate: '2025',
         endDate: 'Present',
         current: true,
         emphasis: true,
         summary:
-          'Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now, shipping its own products instead of client work.',
+          'Founding engineer of the studio, which began in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now, shipping its own products instead of client work.',
         highlights: [
           'Wrote the Rust host and SwiftUI iPad client behind EternalMonitor',
           'Built the SwiftUI iOS app and Node API behind Exerly Fitness',
@@ -732,7 +732,7 @@ export const engineers: Engineer[] = [
     id: 'ali-tleis',
     name: 'Ali Tleis',
     initials: 'AT',
-    role: 'Co-Founder · Full-Stack Engineer',
+    role: 'Founding Engineer',
     githubLogin: 'Alitleis123',
     shortBio:
       'Web Application Developer at MIT Lincoln Laboratory, where he owns the internal AI search 4,500+ engineers use. Builds Eternal2x at Sideband.',
@@ -793,14 +793,14 @@ export const engineers: Engineer[] = [
         companyUrl: 'https://sideband.studio',
         logo: '/assets/logos/sideband.png',
         logoOnDark: true,
-        role: 'Co-Founder · Full-Stack Engineer',
+        role: 'Founding Engineer',
         location: 'Boston, MA',
         startDate: 'Jan 2026',
         endDate: 'Present',
         current: true,
         emphasis: true,
         summary:
-          'Co-founded an independent software studio with five founding engineers. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
+          'One of five founding engineers at an independent software studio. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
         highlights: [
           'Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion',
           'Builds the Python and Lua pipeline behind Eternal2x, and built Eternal Summary and Better Canvas',
@@ -1109,12 +1109,12 @@ export const engineers: Engineer[] = [
     id: 'karan-anand',
     name: 'Karan Anand',
     initials: 'KA',
-    role: 'Co-Founder & Systems Design Engineer',
+    role: 'Founding Engineer',
     githubLogin: 'Karan4248',
     shortBio:
       'Computer Science student at the University of Manitoba and co-founder of Staged, an AI resume builder. Builds things that work, then finds new ways to break them.',
     longBio: [
-      'Karan studies Computer Science at the University of Manitoba in Winnipeg and joined Sideband as a co-founder in 2026, focused on systems design. He likes turning ideas into things people can actually click on.',
+      'Karan studies Computer Science at the University of Manitoba in Winnipeg and joined Sideband as a founding engineer in 2026, focused on systems design. He likes turning ideas into things people can actually click on.',
       'Before Sideband he co-founded and built Staged, an AI-powered resume builder with live preview, PDF export and Claude-powered content generation. He handled the full-stack development and the Stripe subscription billing, and ran an Instagram page for user acquisition.',
       'For school he built Exercise Tracker, a Java fitness tracker with user profiles, an activity feed and route finding on a grid map. Outside of code he is usually locked into a Valorant match, grinding a Monster Hunter boss, or watching basketball.',
     ],
@@ -1129,7 +1129,7 @@ export const engineers: Engineer[] = [
     prev: [
       {
         label: 'SIDEBAND',
-        sublabel: 'CO-FOUNDER · SYSTEMS DESIGN · CURRENT',
+        sublabel: 'FOUNDING ENGINEER · SYSTEMS DESIGN · CURRENT',
       },
       { label: 'STAGED', sublabel: 'CO-FOUNDER & DEVELOPER' },
       { label: 'UNIVERSITY OF MANITOBA', sublabel: 'COMPUTER SCIENCE' },
@@ -1140,14 +1140,14 @@ export const engineers: Engineer[] = [
         companyUrl: 'https://sideband.studio',
         logo: '/assets/logos/sideband.png',
         logoOnDark: true,
-        role: 'Co-Founder & Systems Design Engineer',
+        role: 'Founding Engineer',
         location: 'Winnipeg, MB (Remote)',
         startDate: 'Aug 2026',
         endDate: 'Present',
         current: true,
         emphasis: true,
         summary:
-          'Joined the studio as its third co-founder, working on systems design: architecture and technical planning for the product lineup.',
+          'Joined the studio as its third founding engineer, working on systems design: architecture and technical planning for the product lineup.',
         skills: ['Systems Design', 'Architecture', 'TypeScript'],
       },
       {
@@ -1257,7 +1257,7 @@ export const engineers: Engineer[] = [
     id: 'naman-rusia',
     name: 'Naman Rusia',
     initials: 'NR',
-    role: 'Co-Founder',
+    role: 'Founding Engineer',
     githubLogin: 'naman0r',
     shortBio:
       'Software engineer on backend, cloud and systems. Interned on the Sonos iOS app and on Philips Healthcare’s systems integration team.',
@@ -1291,7 +1291,7 @@ export const engineers: Engineer[] = [
         companyUrl: 'https://sideband.studio',
         logo: '/assets/logos/sideband.png',
         logoOnDark: true,
-        role: 'Co-Founder',
+        role: 'Founding Engineer',
         location: 'Boston, MA',
         startDate: 'Aug 2026',
         endDate: 'Present',

@@ -1,6 +1,6 @@
 # Ali Younes
 
-**Co-Founder & Lead Engineer · Sideband**
+**Founding Engineer · Sideband**
 
 > "I like to work with deeply architected systems. Most of my work tends to revolve around automating, but I usually just kinda build a solution to anything really. My favorite areas are systems, infrastructure, AI tooling and backend."
 
@@ -26,7 +26,7 @@ Portfolio: https://aliyounes.dev · GitHub: [@whoisaldo](https://github.com/whoi
 - **Philips:** SDE Co-op, System Integration, back part-time since Aug 2026
 - **Pinnatec Auto:** Lead Full Stack Engineer (part-time) on Virtual Link, since Sep 2026
 - **Pawtograder:** Backend Engineer on the grading server, since Aug 2026
-- **Sideband:** Co-founder and lead engineer
+- **Sideband:** Founding engineer
 - Based in **Boston, MA**
 
 ---
@@ -72,11 +72,11 @@ Pitched, architected and shipped a zero-touch PXE deployment platform for a ~1,0
 
 He wrote up the Secure Boot work in [Zero-touch Windows deployment with Secure Boot still on](https://aliyounes.dev/blog/zero-touch-secure-boot).
 
-### Sideband · Co-Founder & Lead Engineer
+### Sideband · Founding Engineer
 
 **Boston, MA · 2025 – Present**
 
-Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now. Wrote the Rust host and SwiftUI client behind EternalMonitor, the SwiftUI iOS app and Node API behind Exerly Fitness, and most of the studio site.
+Founding engineer of the studio, which began in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now. Wrote the Rust host and SwiftUI client behind EternalMonitor, the SwiftUI iOS app and Node API behind Exerly Fitness, and most of the studio site.
 
 ### Top Choice Realty · Frontend Developer Intern
 
