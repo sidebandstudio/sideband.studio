@@ -1,0 +1,136 @@
+import { test, expect } from '@playwright/test'
+import { products, productsByRank } from '../lib/products'
+
+test('products index lists every product in ranked order', async ({ page }) => {
+  await page.goto('/products')
+  const ranked = productsByRank().map((p) => p.name)
+
+  const entries = page.locator('article[data-rank]')
+  await expect(entries).toHaveCount(ranked.length)
+  expect(await entries.locator('h2').allTextContents()).toEqual(ranked)
+  expect(
+    await entries.evaluateAll((els) =>
+      els.map((el) => Number(el.getAttribute('data-rank'))),
+    ),
+  ).toEqual(ranked.map((_, i) => i + 1))
+
+  const table = page.getByRole('region', {
+    name: 'Ranking inputs and scores for every product',
+  })
+  expect(
+    await table.locator('tbody th[scope="row"]').allTextContents(),
+  ).toEqual(ranked)
+})
+
+for (const product of products) {
+  test(`${product.id}: page returns 200 with its name and valid actions`, async ({
+    page,
+    request,
+  }) => {
+    const res = await page.goto(`/products/${product.id}`)
+    expect(res?.status()).toBe(200)
+    await expect(
+      page.getByRole('heading', { level: 1, name: product.name }),
+    ).toBeVisible()
+
+    const hrefs = await page
+      .locator('[data-product-actions] a')
+      .evaluateAll((els) => els.map((el) => el.getAttribute('href')))
+    const own = [
+      product.links.download,
+      product.links.store,
+      product.links.site,
+      product.links.docs,
+      product.links.repo,
+    ].filter(Boolean)
+    // Every action the data has is offered, once, and nothing else.
+    expect([...hrefs].sort()).toEqual([...own].sort())
+    for (const href of hrefs) {
+      expect(href).toMatch(/^https:\/\/[^\s]+$/)
+      expect(() => new URL(href!)).not.toThrow()
+    }
+
+    // Internal links in the page body resolve.
+    const internal = await page
+      .locator('main a[href^="/"]')
+      .evaluateAll((els) => els.map((el) => el.getAttribute('href')!))
+    for (const href of Array.from(
+      new Set(internal.map((h) => h.split('#')[0])),
+    )) {
+      expect((await request.get(href)).status(), href).toBe(200)
+    }
+
+    // Images are labelled by kind: artwork is never called a screenshot.
+    const captions = await page
+      .locator('figure figcaption p:first-child span')
+      .allTextContents()
+    const label = {
+      screenshot: 'Screenshot.',
+      artwork: 'Artwork.',
+      photo: 'Photo.',
+    }
+    expect([...captions].sort()).toEqual(
+      product.images.map((i) => label[i.kind]).sort(),
+    )
+  })
+}
+
+test('the image viewer works by keyboard', async ({ page }) => {
+  const product = products.find((p) => p.id === 'eternal2x')!
+  const [first, second] = product.images
+  await page.goto(`/products/${product.id}`)
+
+  const trigger = page.getByRole('button', {
+    name: `View larger: ${first.alt}`,
+  })
+  await trigger.focus()
+  await page.keyboard.press('Enter')
+
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toBeVisible()
+  await expect(dialog.getByRole('img', { name: first.alt })).toBeVisible()
+  await expect(dialog).toContainText(`1 of ${product.images.length}`)
+  // The credit travels with the image into the viewer.
+  await expect(
+    dialog.getByRole('link', { name: first.credit!.text }),
+  ).toHaveAttribute('href', first.credit!.href!)
+
+  await page.keyboard.press('ArrowRight')
+  await expect(dialog.getByRole('img', { name: second.alt })).toBeVisible()
+  await page.keyboard.press('ArrowLeft')
+  await page.keyboard.press('ArrowLeft')
+  await expect(
+    dialog.getByRole('img', { name: product.images.at(-1)!.alt }),
+  ).toBeVisible()
+
+  await dialog.getByRole('button', { name: 'Next image' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(dialog.getByRole('img', { name: first.alt })).toBeVisible()
+
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(trigger).toBeFocused()
+})
+
+const WIDTHS = [390, 768, 1440, 1920]
+
+for (const path of ['/products', ...products.map((p) => `/products/${p.id}`)]) {
+  test(`no console errors on ${path} at ${WIDTHS.join(', ')}`, async ({
+    page,
+  }) => {
+    const errors: string[] = []
+    page.on('console', (m) => {
+      if (m.type() === 'error') errors.push(m.text())
+    })
+    page.on('pageerror', (e) => errors.push(e.message))
+    for (const width of WIDTHS) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(path, { waitUntil: 'networkidle' })
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - window.innerWidth,
+      )
+      expect(overflow, `horizontal overflow at ${width}`).toBeLessThanOrEqual(0)
+    }
+    expect(errors).toEqual([])
+  })
+}
