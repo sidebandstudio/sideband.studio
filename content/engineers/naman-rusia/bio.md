@@ -73,7 +73,8 @@ Northeastern's pro-bono software consultancy.
 - **Director of Software** (Jul 2026 – Present): working with Movo to integrate warehouse cameras into one tracking system
 - **Software Developer** (Jan – Jul 2026): a full-stack quant research platform for a Boston hedge fund to generate, backtest and explore trading signals, with a Python quant engine running as async Redis and RQ jobs behind FastAPI and a Next.js frontend
 - **Tech Consulting Foundations Instructor** (Jan – Jul 2026): taught the curriculum to 15+ students
-- **Technical Product Manager and Tech Lead** (Sep – Dec 2025): led [Foresight](https://foresight-tamid.vercel.app), real-time pricing insights for boutique hotels
+- **Technical Product Manager (Tech Lead)** (Sep – Dec 2025): led [Foresight](https://foresight-tamid.vercel.app), real-time pricing insights for boutique hotels
+- **TCF and Education Member** (Jan – Aug 2025): Tech Consulting Foundations and education track member
 
 ### Auribus Labs · Software Engineering Intern (part-time)
 
@@ -96,12 +97,12 @@ Northeastern's pro-bono software consultancy.
 
 Built [NUtrition](https://nutrition-oasis.vercel.app/), a Northeastern dining hall macronutrient tracker, now in production.
 
-### Forge · Software Lead and Software Engineer
+### Forge
 
 **Boston, MA · Sep 2024 – Apr 2025**
 
 - Software lead on **BackBuddy** (Jan – Apr 2025), a cross-platform Arduino-integrated mobile app to help improve posture
-- Software engineer on **SmartStep** (Sep – Dec 2024), an app for a height-adjusting cane that helps the elderly climb stairs and find the cane if it is lost
+- Software engineer on **SmartStep** (Sep – Dec 2024), an app for a height-adjusting cane with tracking, to help the elderly climb stairs and find the cane if it is lost
 
 ---
 
