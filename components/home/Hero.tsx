@@ -5,10 +5,12 @@ import Button from '@/components/ui/Button'
 import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
 import HeroMarks from '@/components/home/HeroMarks'
 import ProductPreview from '@/components/home/ProductPreview'
+import type { Product } from '@/lib/products'
 
 const delay = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
 
-export default function Hero() {
+/** `products` arrives in ranked order from the server, so the GitHub snapshot stays out of the client bundle. */
+export default function Hero({ products }: { products: Product[] }) {
   const heroRef = useRef<HTMLElement>(null)
 
   return (
@@ -17,7 +19,7 @@ export default function Hero() {
       className="relative overflow-hidden pb-[60px] pt-[136px] max-[820px]:pt-[196px]"
     >
       <div className="hero-grid" aria-hidden="true" />
-      <HeroMarks heroRef={heroRef} />
+      <HeroMarks heroRef={heroRef} products={products} />
 
       <div className="inner relative z-[2] text-center">
         <h1 className="hero-title display mx-auto mb-[22px] mt-0 max-w-[20ch] text-balance text-[clamp(38px,5.6vw,76px)] max-[820px]:text-[clamp(40px,11vw,56px)]">
@@ -65,7 +67,7 @@ export default function Hero() {
         </div>
 
         <div data-rise style={delay(520)}>
-          <ProductPreview />
+          <ProductPreview products={products} />
         </div>
       </div>
     </section>

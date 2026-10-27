@@ -9,13 +9,13 @@ import { products } from '@/lib/products'
 
 const REPOS = [
   ...products.flatMap((p) =>
-    p.github
+    p.links.repo
       ? [
           {
             id: p.id,
-            href: p.github,
-            path: p.github.replace('https://github.com/', ''),
-            lang: p.tags[0],
+            href: p.links.repo,
+            path: p.links.repo.replace('https://github.com/', ''),
+            lang: p.stack[0],
             live: p.status === 'LIVE',
           },
         ]

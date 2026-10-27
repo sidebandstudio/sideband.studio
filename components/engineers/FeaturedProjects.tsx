@@ -4,11 +4,15 @@ import FadeUp from '@/components/animations/FadeUp'
 import type { FeaturedProject } from '@/lib/engineers'
 import { getProductById } from '@/lib/products'
 
-/** Internal projects point at /products/<id>; reuse that product's cover art. */
+/** Internal projects point at /products/<id>; reuse that product's widest screenshot. */
 function coverFor(project: FeaturedProject): string | null {
   if (!project.internal) return null
   const id = project.href.split('/').filter(Boolean).pop()
-  return (id && getProductById(id)?.cardHero) || null
+  const product = id ? getProductById(id) : undefined
+  if (!product) return null
+  return (
+    product.images.find((img) => img.device === 'desktop') ?? product.images[0]
+  ).src
 }
 
 interface FeaturedProjectsProps {

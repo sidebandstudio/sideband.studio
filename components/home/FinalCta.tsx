@@ -6,7 +6,7 @@ export default function FinalCta() {
     <section className="sec sec-cta">
       <div className="inner relative">
         <h2 className="display text-balance text-[clamp(40px,6vw,72px)]">
-          Six products
+          Eleven products
           <br />
           and counting.
         </h2>

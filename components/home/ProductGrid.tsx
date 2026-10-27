@@ -1,17 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRightIcon, CheckIcon } from '@/components/ui/Icons'
-import { products, type ProductStatus } from '@/lib/products'
+import { products, productsByRank, type ProductStatus } from '@/lib/products'
 
 const STATUS: Record<ProductStatus, { label: string; dot: string }> = {
   LIVE: { label: 'Live', dot: 'bg-sideband-ok' },
   'IN DEVELOPMENT': { label: 'In development', dot: 'bg-sideband-warn' },
-  'COMING SOON': { label: 'Coming soon', dot: 'bg-sideband-muted' },
 }
 
 const LIVE = products.filter((p) => p.status === 'LIVE').length
 const DEV = products.filter((p) => p.status === 'IN DEVELOPMENT').length
-const OPEN = products.filter((p) => p.github).length
+const OPEN = products.filter((p) => p.links.repo).length
 
 export default function ProductGrid() {
   return (
@@ -21,26 +20,35 @@ export default function ProductGrid() {
           <span className="eyebrow">Products</span>
           <h2 className="display text-balance">What we build</h2>
           <p className="text-pretty">
-            Six products across desktop, browser, mobile, and full-stack. Each
-            one started as something we wanted for ourselves.
+            Eleven products across desktop, browser, mobile, and the web, in
+            order of use and size.
           </p>
         </div>
 
         <div className="product-grid">
-          {products.map((p) => (
+          {productsByRank().map((p) => (
             <Link
               key={p.id}
               href={`/products/${p.id}`}
               className="product-cell group"
             >
               <div className="flex items-center gap-3">
-                <Image
-                  src={p.icon}
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="h-7 w-7 shrink-0 rounded-[7px]"
-                />
+                {p.icon ? (
+                  <Image
+                    src={p.icon.src}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-7 w-7 shrink-0 rounded-[7px] object-cover"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-[7px] border border-sideband-border font-mono text-[11px] text-sideband-text-secondary"
+                  >
+                    {p.name.charAt(0)}
+                  </span>
+                )}
                 <span className="min-w-0 flex-1 truncate text-[15px] font-medium tracking-[-0.01em] text-sideband-text">
                   {p.name}
                 </span>
@@ -56,7 +64,7 @@ export default function ProductGrid() {
               </p>
               <div className="mt-auto flex items-center justify-between gap-3 pt-1 font-mono text-[11px] text-sideband-muted">
                 <span className="truncate">
-                  {p.tags.slice(0, 3).join(' · ')}
+                  {p.stack.slice(0, 3).join(' · ')}
                 </span>
                 <ArrowUpRightIcon className="product-arrow shrink-0 text-sideband-text-secondary" />
               </div>

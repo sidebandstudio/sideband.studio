@@ -7,11 +7,10 @@ interface StatusBadgeProps {
 const MAP: Record<ProductStatus, { color: string; label: string }> = {
   LIVE: { color: '#4ade80', label: 'LIVE' },
   'IN DEVELOPMENT': { color: '#A855F7', label: 'IN DEV' },
-  'COMING SOON': { color: '#8B82AA', label: 'SOON' },
 }
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
-  const { color, label } = MAP[status] ?? MAP['COMING SOON']
+  const { color, label } = MAP[status]
 
   return (
     <span
