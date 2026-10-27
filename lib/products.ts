@@ -90,9 +90,16 @@ export interface Product {
   /** The repo the product is developed in, when `repo` is Sideband's fork of it. Ranking reads this one. */
   upstreamRepo?: string
   accentColor: string
-  /** The product's own icon or logo, or null when it has none. */
+  /**
+   * The icon shown for the product: its own icon or logo, or one Sideband
+   * drew for it when it ships none (Signature Cuts, see its `source`). Null
+   * when it has neither.
+   */
   icon: ProductImage | null
-  /** Real screenshots and photos. The first one is the preview. */
+  /**
+   * Screenshots, photos and artwork, each labelled by `kind`. The first
+   * screenshot is the preview.
+   */
   images: ProductImage[]
 }
 
@@ -1697,8 +1704,8 @@ export function rankInputs(product: Product): ProductRankInputs {
 }
 
 /**
- * Products ordered by popularity first, then scope, all from the GitHub
- * snapshot and the platform list. No rank is typed by hand.
+ * Products ordered by one score that blends popularity and scope, all from the
+ * GitHub snapshot and the platform list. No rank is typed by hand.
  *
  * Each input is log-scaled, log10(1 + x), so a handful of stars still counts
  * and one large repo does not flatten the rest, then divided by the largest
@@ -1706,10 +1713,12 @@ export function rankInputs(product: Product): ProductRankInputs {
  *
  *   popularity = mean(stars, forks, release downloads)
  *   scope      = mean(code bytes, default-branch commits, human contributors, platforms)
- *   score      = 0.65 * popularity + 0.35 * scope
+ *   score      = RANKING_WEIGHTS.popularity * popularity
+ *              + RANKING_WEIGHTS.scope * scope        (0.65 and 0.35)
  *
- * Popularity carries the larger weight, so real use outranks size, and scope
- * orders the products that nobody has starred or downloaded yet. Ties go to
+ * Popularity carries the larger weight, so stars, forks and downloads count
+ * for more than size, though they measure interest, not users. Scope orders
+ * the products that nobody has starred or downloaded yet. Ties go to
  * the name. Code bytes count everything in the repo, including code a product
  * inherited (hushtype from Handy, EternalExchange from ProjectE), and their low
  * commit counts pull that back. TandemCode reads its upstream repo, where it

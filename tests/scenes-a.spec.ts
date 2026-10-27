@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { visit } from './helpers'
 
 // The animated SVG scenes in components/products/scenes/group-a.
 const IDS = [
@@ -16,7 +17,7 @@ for (const id of IDS) {
   }) => {
     // The home page features only the top three, so /products, which shows
     // every scene, is where each one is checked. Rank 1 renders its hero.
-    await page.goto('/products')
+    await visit(page, '/products')
     const stage = page.locator(`[data-scene="${id}"]`)
     await stage.scrollIntoViewIfNeeded()
     await expect(stage.locator('svg[data-frame]:visible')).toHaveCount(1)
@@ -26,7 +27,7 @@ for (const id of IDS) {
   })
 
   test(`${id} product page renders its scene`, async ({ page }) => {
-    const res = await page.goto(`/products/${id}`)
+    const res = await visit(page, `/products/${id}`)
     expect(res?.status()).toBe(200)
     const stage = page.locator(`[data-scene="${id}"]`)
     test.skip(
@@ -40,7 +41,7 @@ for (const id of IDS) {
 
 for (const id of IDS) {
   test(`${id} loops pause off screen and run on screen`, async ({ page }) => {
-    await page.goto('/products')
+    await visit(page, '/products')
     // Start scrolled to the footer so every stage, even rank 1, is off screen.
     await page.locator('footer').scrollIntoViewIfNeeded()
     const stage = page.locator(`[data-scene="${id}"]`)
@@ -75,7 +76,7 @@ for (const id of IDS) {
 
 test('scenes are complete stills under reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/products')
+  await visit(page, '/products')
   for (const id of IDS) {
     const stage = page.locator(`[data-scene="${id}"]`)
     await stage.scrollIntoViewIfNeeded()

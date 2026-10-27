@@ -3,6 +3,7 @@ import { Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import { SITE_URL, STUDIO_IMAGE } from '@/lib/metadata'
 
 // One family for the whole site. next/font downloads it at build time and
 // serves it from our own origin. See DESIGN.md -> Type.
@@ -20,24 +21,15 @@ const mono = JetBrains_Mono({
   display: 'swap',
 })
 
+// Defaults for pages that set none of their own (the not-found page). Every
+// route sets its full metadata through pageMetadata() in lib/metadata.ts.
 export const metadata: Metadata = {
   title: 'Sideband · Independent software studio',
   description:
     'Sideband is an independent software studio. We build the things we wished existed.',
-  metadataBase: new URL('https://sideband.studio'),
-  openGraph: {
-    title: 'Sideband · Independent software studio',
-    description:
-      'Sideband is an independent software studio. We build the things we wished existed.',
-    images: ['/icon.png'],
-  },
-  twitter: {
-    card: 'summary',
-    title: 'Sideband · Independent software studio',
-    description:
-      'Sideband is an independent software studio. We build the things we wished existed.',
-    images: ['/icon.png'],
-  },
+  metadataBase: new URL(SITE_URL),
+  openGraph: { siteName: 'Sideband', images: [STUDIO_IMAGE] },
+  twitter: { card: 'summary', images: [STUDIO_IMAGE.url] },
 }
 
 export const viewport: Viewport = {

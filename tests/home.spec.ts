@@ -6,11 +6,12 @@ import {
   RANKING_WEIGHTS,
 } from '../lib/products'
 import { countWord } from '../lib/home-data'
+import { visit } from './helpers'
 
 const ranked = productsByRank()
 
 test('hero calls to action reach products and engineers', async ({ page }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const hero = page.locator('section[aria-labelledby="hero-title"]')
   await expect(
     hero.getByRole('heading', { level: 1, name: /We build the things/ }),
@@ -19,7 +20,7 @@ test('hero calls to action reach products and engineers', async ({ page }) => {
   await hero.getByRole('link', { name: 'View products' }).click()
   await expect(page).toHaveURL(/\/products$/)
 
-  await page.goto('/')
+  await visit(page, '/')
   await hero.getByRole('link', { name: 'Meet the engineers' }).click()
   await expect(page).toHaveURL(/\/engineers$/)
 })
@@ -27,7 +28,7 @@ test('hero calls to action reach products and engineers', async ({ page }) => {
 test('the hero preview links the selected product to its page', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const tabs = page.getByRole('tablist', { name: 'Products' })
   await tabs.getByRole('tab', { name: 'EternalRichPresence' }).click()
   const panel = page.getByRole('tabpanel', { name: 'EternalRichPresence' })
@@ -38,7 +39,7 @@ test('the hero preview links the selected product to its page', async ({
 test('the products section links every product in ranked order', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const section = page.locator('#products')
   const hrefs = await section
     .locator('ol > li a[href^="/products/"]')
@@ -59,7 +60,7 @@ test('the products section links every product in ranked order', async ({
 test('the products section features three scenes and one strip for the rest', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const section = page.locator('#products')
   await expect(section.locator('[data-scene]')).toHaveCount(3)
   const strip = section.getByRole('list', {
@@ -80,7 +81,7 @@ test('the products section features three scenes and one strip for the rest', as
 test('the products section describes the GitHub ranking with its weights', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const section = page.locator('#products')
   await expect(section.locator('h2')).toContainText('ranked on GitHub')
   await expect(section).toContainText(
@@ -96,7 +97,7 @@ test('the products section describes the GitHub ranking with its weights', async
 
 for (const product of ranked) {
   test(`home link to ${product.id} opens its page`, async ({ page }) => {
-    await page.goto('/')
+    await visit(page, '/')
     const link = page
       .locator(`#products a[href="/products/${product.id}"]`)
       .first()
@@ -110,7 +111,7 @@ for (const product of ranked) {
 
 for (const engineer of engineers) {
   test(`team card links to /engineers/${engineer.id}`, async ({ page }) => {
-    await page.goto('/')
+    await visit(page, '/')
     await page
       .locator('#team')
       .getByRole('link', { name: engineer.name, exact: true })
@@ -122,7 +123,7 @@ for (const engineer of engineers) {
 test('the team section counts and titles every engineer from the data', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const team = page.locator('#team')
   await expect(team.locator('h2')).toHaveText(
     new RegExp(
@@ -144,7 +145,7 @@ test('the team section counts and titles every engineer from the data', async ({
 test('team product chips link to each product the engineer works on', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   for (const engineer of engineers) {
     const list = page.getByRole('list', {
       name: `Products ${engineer.name} works on`,
@@ -167,7 +168,7 @@ test('team product chips link to each product the engineer works on', async ({
 test('open source lists exactly the OSI-licensed product repos', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const open = ranked.filter((p) => productLicense(p).openSource)
   const list = page.getByRole('list', { name: 'Open-source repositories' })
   const hrefs = await list
@@ -184,7 +185,7 @@ test('every internal link on the home page resolves', async ({
   page,
   request,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const hrefs = await page
     .locator('main a[href^="/"]')
     .evaluateAll((links) =>
@@ -200,7 +201,7 @@ test('every internal link on the home page resolves', async ({
 })
 
 test('the closing call to action goes to contact', async ({ page }) => {
-  await page.goto('/')
+  await visit(page, '/')
   const cta = page.locator('section[aria-labelledby="cta-title"]')
   await expect(
     cta.getByRole('link', { name: 'hello@sideband.studio' }),
@@ -216,7 +217,7 @@ test('under reduced motion every section is visible and complete', async ({
   const errors: string[] = []
   page.on('pageerror', (e) => errors.push(e.message))
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()))
-  await page.goto('/')
+  await visit(page, '/')
 
   // Nothing waits on an entrance: every revealed element is fully opaque.
   const hidden = await page.evaluate(() =>
@@ -261,7 +262,7 @@ for (const width of [320, 360, 390, 480, 640, 768, 1024, 1440, 1920]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/')
+    await visit(page, '/')
     await page.evaluate(() => document.fonts.ready)
     expect(await headlineLines(page)).toBeLessThanOrEqual(2)
     const overflow = await page.evaluate(
@@ -273,7 +274,7 @@ for (const width of [320, 360, 390, 480, 640, 768, 1024, 1440, 1920]) {
 
 test('both hero actions share one row at 360px', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 640 })
-  await page.goto('/')
+  await visit(page, '/')
   const hero = page.locator('section[aria-labelledby="hero-title"]')
   const tops = await Promise.all(
     ['View products', 'Meet the engineers'].map(async (name) =>
@@ -293,7 +294,7 @@ for (const [width, height] of [
     page,
   }) => {
     await page.setViewportSize({ width, height })
-    await page.goto('/')
+    await visit(page, '/')
     const shot = page.locator(
       'section[aria-labelledby="hero-title"] [role="tabpanel"]:not([aria-hidden="true"]) img',
     )
@@ -325,7 +326,7 @@ for (const [width, height] of [
 
 test('the pause button stops and restarts the preview', async ({ page }) => {
   test.setTimeout(60000)
-  await page.goto('/')
+  await visit(page, '/')
   const tabs = page.getByRole('tablist', { name: 'Products' })
   const selected = () => tabs.getByRole('tab', { selected: true }).textContent()
   // Bring the whole window on screen, below the navbar.
@@ -357,7 +358,7 @@ test('the pause button stops and restarts the preview', async ({ page }) => {
 
 test('the preview does not page while it is off screen', async ({ page }) => {
   test.setTimeout(30000)
-  await page.goto('/')
+  await visit(page, '/')
   const tabs = page.getByRole('tablist', { name: 'Products' })
   await page.locator('#open-source').scrollIntoViewIfNeeded()
   await page.waitForTimeout(7000)

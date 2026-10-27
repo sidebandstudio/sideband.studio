@@ -8,12 +8,14 @@ import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
 import ContactForm from '@/components/contact/ContactForm'
 import { engineers } from '@/lib/engineers'
 import { githubOrg } from '@/lib/github'
+import { pageMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Contact · Sideband',
   description:
     'Write to Sideband at hello@sideband.studio or through the form, or reach one of its founding engineers directly.',
-}
+  path: '/contact',
+})
 
 export default function ContactPage() {
   return (

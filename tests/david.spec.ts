@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
+import { visit } from './helpers'
 
 test('/engineers/david-czartoryski returns 200 and names David Czartoryski', async ({
   page,
 }) => {
-  const res = await page.goto('/engineers/david-czartoryski')
+  const res = await visit(page, '/engineers/david-czartoryski')
   expect(res?.status()).toBe(200)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('David')
   await expect(page.getByText('David Czartoryski').first()).toBeVisible()
@@ -13,7 +14,7 @@ test('/engineers/david-czartoryski returns 200 and names David Czartoryski', asy
 
 test('/engineers lists all five founding engineers', async ({ page }) => {
   expect(engineers).toHaveLength(5)
-  await page.goto('/engineers')
+  await visit(page, '/engineers')
 
   // Scoped to the page body: the footer links every engineer too.
   const main = page.getByRole('main')

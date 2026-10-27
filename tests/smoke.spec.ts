@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { productLicense, products } from '../lib/products'
+import { visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
 
   await expect(
     page.getByRole('heading', { name: /We build the things/i }),
@@ -18,7 +19,7 @@ test('homepage renders and primary navigation reaches products', async ({
 test('homepage preview tabs switch the visible product screenshot', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
 
   const tabs = page.getByRole('tablist', { name: 'Products' })
   await expect(tabs.getByRole('tab')).toHaveCount(6)
@@ -36,13 +37,13 @@ test('homepage preview tabs switch the visible product screenshot', async ({
 })
 
 test('product detail navigation works', async ({ page }) => {
-  await page.goto('/products')
+  await visit(page, '/products')
 
   await expect(
     page.getByRole('heading', { name: 'EternalRichPresence' }),
   ).toBeVisible()
 
-  await page.goto('/products/exerly')
+  await visit(page, '/products/exerly')
   await expect(
     page.getByRole('heading', { name: 'Exerly Fitness' }).first(),
   ).toBeVisible()
@@ -52,7 +53,7 @@ for (const product of products) {
   test(`product page ${product.id} returns 200 and shows its name`, async ({
     page,
   }) => {
-    const res = await page.goto(`/products/${product.id}`)
+    const res = await visit(page, `/products/${product.id}`)
     expect(res?.status()).toBe(200)
     await expect(
       page.getByRole('heading', { level: 1, name: product.name }),
@@ -66,7 +67,7 @@ test('home Open source section lists only OSI-licensed product repos', async ({
   expect(
     productLicense(products.find((p) => p.id === 'hushtype')!),
   ).toMatchObject({ openSource: false })
-  await page.goto('/')
+  await visit(page, '/')
   const section = page.locator('#open-source')
   for (const product of products) {
     const path = product.links.repo!.replace('https://github.com/', '')
@@ -79,14 +80,12 @@ test('home Open source section lists only OSI-licensed product repos', async ({
 test('engineers index lists all founders and links to a dossier', async ({
   page,
 }) => {
-  await page.goto('/engineers')
+  await visit(page, '/engineers')
 
   // Scoped to the page body: the footer links every engineer too.
   const main = page.getByRole('main')
-  await expect(main.getByRole('link', { name: /Ali Younes/i })).toBeVisible()
-  await expect(main.getByRole('link', { name: /Ali Tleis/i })).toBeVisible()
-  await expect(main.getByRole('link', { name: /Karan Anand/i })).toBeVisible()
-  await expect(main.getByRole('link', { name: /Naman Rusia/i })).toBeVisible()
+  for (const { name } of engineers)
+    await expect(main.getByRole('link', { name }).first()).toBeVisible()
 
   await main.getByRole('link', { name: /Ali Younes/i }).click()
   await expect(page).toHaveURL(/\/engineers\/ali-younes$/)
@@ -95,7 +94,7 @@ test('engineers index lists all founders and links to a dossier', async ({
 test('engineer dossier renders exactly one h1 and the portrait', async ({
   page,
 }) => {
-  await page.goto('/engineers/ali-younes')
+  await visit(page, '/engineers/ali-younes')
 
   await expect(page.locator('h1')).toHaveCount(1)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Ali')
@@ -108,23 +107,16 @@ test('every Sideband role shows the studio mark, not a monogram', async ({
   page,
 }) => {
   for (const { id } of engineers) {
-    await page.goto(`/engineers/${id}`)
+    await visit(page, `/engineers/${id}`)
     await expect(page.getByRole('img', { name: 'Sideband logo' })).toBeVisible()
   }
 })
 
-const ENGINEER_NAMES: Record<string, string> = {
-  'ali-younes': 'Ali Younes',
-  'ali-tleis': 'Ali Tleis',
-  'karan-anand': 'Karan Anand',
-  'naman-rusia': 'Naman Rusia',
-}
-
-for (const [id, name] of Object.entries(ENGINEER_NAMES)) {
+for (const { id, name } of engineers) {
   test(`engineer dossier /engineers/${id} returns 200 and names ${name}`, async ({
     page,
   }) => {
-    const res = await page.goto(`/engineers/${id}`)
+    const res = await visit(page, `/engineers/${id}`)
     expect(res?.status()).toBe(200)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       name.split(' ')[0],
@@ -134,7 +126,7 @@ for (const [id, name] of Object.entries(ENGINEER_NAMES)) {
 }
 
 test('unknown engineer id returns a not-found page', async ({ page }) => {
-  const res = await page.goto('/engineers/nobody')
+  const res = await visit(page, '/engineers/nobody')
   expect(res?.status()).toBe(404)
 })
 
@@ -149,7 +141,7 @@ test('contact form success state is shown on successful submit', async ({
     })
   })
 
-  await page.goto('/contact')
+  await visit(page, '/contact')
 
   await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
   await page.getByRole('textbox', { name: 'Email' }).fill('ali@example.com')
@@ -170,7 +162,7 @@ test('contact form error state is shown on failed submit', async ({ page }) => {
     })
   })
 
-  await page.goto('/contact')
+  await visit(page, '/contact')
 
   await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
   await page.getByRole('textbox', { name: 'Email' }).fill('ali@example.com')
@@ -186,7 +178,7 @@ test('contact form error state is shown on failed submit', async ({ page }) => {
 
 test('mobile menu works from the keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await visit(page, '/')
 
   const menu = page.locator('#mobile-menu')
   await expect(menu).toBeHidden()
@@ -238,7 +230,7 @@ test('mobile menu works from the keyboard', async ({ page }) => {
 })
 
 test('skip link moves focus to the main content', async ({ page }) => {
-  await page.goto('/about')
+  await visit(page, '/about')
   await page.keyboard.press('Tab')
   const skip = page.getByRole('link', { name: 'Skip to content' })
   await expect(skip).toBeFocused()
@@ -247,7 +239,7 @@ test('skip link moves focus to the main content', async ({ page }) => {
 })
 
 test('footer links every product and engineer', async ({ page }) => {
-  await page.goto('/about')
+  await visit(page, '/about')
   const footer = page.getByRole('contentinfo')
   await expect(
     footer.getByRole('navigation', { name: 'Products' }).getByRole('link'),
@@ -263,7 +255,7 @@ test('choosing the current page in the mobile menu returns focus to the toggle',
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/products')
+  await visit(page, '/products')
 
   await page.getByRole('button', { name: 'Open menu' }).click()
   await page
@@ -280,7 +272,7 @@ test('the home link closes the mobile menu on the home page', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await visit(page, '/')
 
   await page.getByRole('button', { name: 'Open menu' }).click()
   await expect(page.locator('#mobile-menu')).toBeVisible()
@@ -301,11 +293,21 @@ test('the home link closes the mobile menu on the home page', async ({
 test('stats skip the count-up when reduced motion is turned on after load', async ({
   page,
 }) => {
-  await page.goto('/')
+  await visit(page, '/')
   // Hydrated with motion allowed: the count-up is armed at zero.
   await expect(page.locator('dd span[aria-hidden]').first()).toHaveText('0')
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.waitForTimeout(100)
+  const finals = await page
+    .locator('dd .sr-only')
+    .evaluateAll((els) => els.map((e) => e.textContent ?? ''))
+  // Turning it on settles every armed figure on its final value.
+  await expect
+    .poll(() =>
+      page
+        .locator('dd span[aria-hidden]')
+        .evaluateAll((els) => els.map((e) => e.textContent ?? '')),
+    )
+    .toEqual(finals)
   await page.evaluate(() => {
     const w = window as unknown as { seen: string[] }
     w.seen = []
@@ -318,11 +320,9 @@ test('stats skip the count-up when reduced motion is turned on after load', asyn
       })
     })
   })
-  const finals = await page
-    .locator('dd .sr-only')
-    .evaluateAll((els) => els.map((e) => e.textContent ?? ''))
 
   await page.locator('dl').scrollIntoViewIfNeeded()
+  // Longer than a full count-up (1200ms), so one that started would be seen.
   await page.waitForTimeout(1500)
 
   const seen = await page.evaluate(

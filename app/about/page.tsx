@@ -10,7 +10,9 @@ import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
+import { pageMetadata } from '@/lib/metadata'
 import { rankedProducts } from '@/lib/products'
+import { rankingMethod } from '@/lib/products-view'
 import { formatCount, syncedLabel } from '@/lib/engineers-github'
 import {
   capitalize,
@@ -34,10 +36,11 @@ const PEOPLE_COLUMNS: Record<number, string> = {
   6: 'sm:grid-cols-2 lg:grid-cols-3',
 }
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'About · Sideband',
   description: `Sideband is an independent software studio in Boston, founded in ${foundedYear} as Eternal Reverse. ${count} founding engineers build and ship its products.`,
-}
+  path: '/about',
+})
 
 export default function AboutPage() {
   const facts = studioFacts()
@@ -267,7 +270,7 @@ export default function AboutPage() {
         <SectionHeading
           id="shipped-title"
           title="What we have shipped"
-          lede={`All ${facts.products} products, ranked by use first (stars, forks and downloads) and then by scope (code, commits, contributors and platforms).`}
+          lede={`All ${facts.products} products, ranked by a score that is ${rankingMethod.popularityPercent} popularity (${rankingMethod.popularityInputs}) and ${rankingMethod.scopePercent} scope (${rankingMethod.scopeInputs}).`}
           actions={<Button href="/products">All products</Button>}
         />
         <ol className="mt-14 grid gap-3 lg:grid-cols-2">

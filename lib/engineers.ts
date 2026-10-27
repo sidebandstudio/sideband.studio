@@ -828,7 +828,7 @@ export const engineers: Engineer[] = [
         summary:
           'One of five founding engineers at an independent software studio. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
         highlights: [
-          'Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion',
+          'Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript and Tailwind CSS',
           'Builds the Python and Lua pipeline behind Eternal2x, and built Eternal Summary and Better Canvas',
           'Built the engineer roster from structured data, with links between products and the people who build them',
           'Added Playwright checks and a shared copy-style check in CI, and moved the live site and product links through the 2026 rebrand from Eternal Reverse to Sideband',

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { visit } from './helpers'
 
 // Every piece of text a product scene draws must render at 12 CSS px or more,
 // in every place a scene appears: cards on the home page and /products, the
@@ -99,7 +100,7 @@ for (const width of WIDTHS) {
       test(`${path} has no scene text under ${MIN_PX}px`, async ({ page }) => {
         // The still frame: every element at its base transform.
         await page.emulateMedia({ reducedMotion: 'reduce' })
-        await page.goto(path)
+        await visit(page, path)
         const readings: Reading[] = await measure(page)
         if (path.startsWith('/products/')) {
           const id = path.split('/').pop()

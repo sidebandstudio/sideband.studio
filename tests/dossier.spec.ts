@@ -1,5 +1,13 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
+import { focusOnScreen, visit } from './helpers'
+
+/**
+ * A smooth scroll across most of a dossier. On a starved machine the page gets
+ * few frames, so it can take longer than the default 5s to land. A scroll that
+ * stops short still fails: it never reaches the section however long it waits.
+ */
+const LANDING = { timeout: 15000 }
 
 const index = (page: import('@playwright/test').Page) =>
   page.getByRole('navigation', { name: 'Sections of this dossier' })
@@ -7,14 +15,14 @@ const index = (page: import('@playwright/test').Page) =>
 test('the section index jumps to a section by keyboard on desktop', async ({
   page,
 }) => {
-  await page.goto('/engineers/ali-younes', { waitUntil: 'networkidle' })
+  await visit(page, '/engineers/ali-younes', { waitUntil: 'networkidle' })
   const link = index(page).getByRole('link', { name: 'Experience' })
-  await link.focus()
+  await focusOnScreen(link)
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#experience$/)
 
   const heading = page.locator('#experience-title')
-  await expect(heading).toBeInViewport()
+  await expect(heading).toBeInViewport(LANDING)
   // The heading lands below the held index bar, not under it.
   await expect
     .poll(async () => {
@@ -30,19 +38,19 @@ test('on a phone the jump control opens and moves to a section by keyboard', asy
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/engineers/david-czartoryski', {
+  await visit(page, '/engineers/david-czartoryski', {
     waitUntil: 'networkidle',
   })
   const summary = index(page).locator('summary')
   await expect(summary).toBeVisible()
-  await summary.focus()
+  await focusOnScreen(summary)
   await page.keyboard.press('Enter')
   const projects = index(page).getByRole('link', { name: 'Projects' })
   await expect(projects).toBeVisible()
-  await projects.focus()
+  await focusOnScreen(projects)
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#projects$/)
-  await expect(page.locator('#projects-title')).toBeInViewport()
+  await expect(page.locator('#projects-title')).toBeInViewport(LANDING)
   await expect(projects).toBeHidden()
 })
 
@@ -50,7 +58,7 @@ test('long sections collapse on a phone and expand by keyboard, with everything 
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/engineers/ali-younes')
+  await visit(page, '/engineers/ali-younes')
   const list = page.locator('#experience-list')
   const groups = list.locator(':scope > li')
   const total = await groups.count()
@@ -90,7 +98,7 @@ test('long sections collapse on a phone and expand by keyboard, with everything 
 test('desktop shows every section in full, with no disclosure buttons', async ({
   page,
 }) => {
-  await page.goto('/engineers/ali-younes')
+  await visit(page, '/engineers/ali-younes')
   await expect(page.getByRole('button', { name: /^Show / })).toHaveCount(0)
   const list = page.locator('#experience-list > li')
   const n = await list.count()
@@ -102,7 +110,7 @@ for (const e of engineers) {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto(`/engineers/${e.id}`)
+    await visit(page, `/engineers/${e.id}`)
     await page.waitForLoadState('networkidle')
     const height = await page.evaluate(
       () => document.documentElement.scrollHeight,
@@ -112,7 +120,7 @@ for (const e of engineers) {
 }
 
 test('each fact appears once on a dossier', async ({ page }) => {
-  await page.goto('/engineers/david-czartoryski')
+  await visit(page, '/engineers/david-czartoryski')
   const main = page.getByRole('main')
   const text = await main.innerText()
   expect(text.match(/English, Polish and Russian/g)?.length).toBe(1)
@@ -126,6 +134,6 @@ test('each fact appears once on a dossier', async ({ page }) => {
   expect(text.match(/22,000\+ riders/g)?.length).toBe(1)
   await expect(main).toContainText('8 projects. 1 is featured on David')
 
-  await page.goto('/engineers/ali-tleis')
+  await visit(page, '/engineers/ali-tleis')
   await expect(page.getByRole('main')).not.toContainText('Security Clearance')
 })
