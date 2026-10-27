@@ -20,7 +20,7 @@ Source-of-truth portfolio: https://alitleis.dev
 
 ## Experience
 
-### MIT Lincoln Laboratory · Web Application Developer (AI Integration) *(Current)*
+### MIT Lincoln Laboratory · Web Application Developer (AI Integration) _(Current)_
 
 **Lexington, MA · Jul – Dec 2026**
 
@@ -28,7 +28,7 @@ Building AI-integrated internal web applications inside MIT’s federally funded
 
 ---
 
-### Sideband · Co-Founder *(Current)*
+### Sideband · Co-Founder _(Current)_
 
 **Boston, MA · 2025 – Present**
 
@@ -55,7 +55,7 @@ Workstation provisioning, automation scripting, and deployment standardization a
 ## Education
 
 **Northeastern University** · B.S. Computer Science
-*2024 – 2028 · Boston, MA · Co-op Program*
+_2024 – 2028 · Boston, MA · Co-op Program_
 
 ---
 
