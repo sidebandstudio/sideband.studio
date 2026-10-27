@@ -46,6 +46,8 @@ interface EngineerCardProps {
   gh: EngineerGithub | null
   weekly: number[]
   products: Product[]
+  /** Stars on the repositories of the Sideband products they build. */
+  productStars: number
   /** Fill a whole row: who they are on the left, their GitHub signal on the right. */
   wide?: boolean
 }
@@ -56,6 +58,7 @@ export default function EngineerCard({
   gh,
   weekly,
   products,
+  productStars,
   wide = false,
 }: EngineerCardProps) {
   const stats = gh
@@ -63,7 +66,7 @@ export default function EngineerCard({
         { label: 'Contributions', value: gh.summary.total },
         { label: 'Followers', value: gh.followers },
         { label: 'Public repos', value: gh.publicRepos },
-        { label: 'Stars', value: gh.stars },
+        { label: 'Stars on own repos', value: gh.stars },
       ]
     : []
 
@@ -119,6 +122,12 @@ export default function EngineerCard({
           <div className="mt-8">
             <h3 className="text-small text-sideband-muted">
               Builds at Sideband
+              <span className="text-sideband-text-secondary">
+                {' · '}
+                {formatCount(productStars)}{' '}
+                {productStars === 1 ? 'star' : 'stars'} on these products&apos;
+                repos
+              </span>
             </h3>
             <ul className="relative z-10 mt-3 flex flex-wrap gap-2">
               {products.map((p) => (

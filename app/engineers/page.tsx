@@ -5,6 +5,7 @@ import Reveal from '@/components/ui/Reveal'
 import EngineerCard from '@/components/engineers/EngineerCard'
 import TeamActivity from '@/components/engineers/TeamActivity'
 import { listEngineers } from '@/lib/engineers'
+import { productRepo } from '@/lib/products'
 import {
   engineerGithub,
   formatCount,
@@ -65,6 +66,10 @@ export default function EngineersPage() {
                   gh={gh}
                   weekly={gh ? weeklyTotals(gh.weeks) : []}
                   products={productsBy(engineer.id)}
+                  productStars={productsBy(engineer.id).reduce(
+                    (sum, p) => sum + productRepo(p).stars,
+                    0,
+                  )}
                 />
               </Reveal>
             )

@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { getGithubUser } from '../lib/github'
+import { productRepo, products } from '../lib/products'
 
 const FORMSPREE = 'https://formspree.io/f/xkoperoj'
 const fmt = (n: number) => n.toLocaleString('en-US')
@@ -185,6 +186,15 @@ test('the engineers index shows each GitHub signal and the team graph', async ({
       fmt(user.contributions.total),
     )
     await expect(stat(card, 'Followers')).toHaveText(fmt(user.followers))
+    await expect(stat(card, 'Stars on own repos')).toHaveText(fmt(user.stars))
+    // Stars on the studio products they build, summed from the snapshot.
+    const built = products.filter((p) => p.engineers.includes(e.id))
+    if (built.length > 0) {
+      const stars = built.reduce((n, p) => n + productRepo(p).stars, 0)
+      await expect(card).toContainText(
+        `Builds at Sideband · ${fmt(stars)} ${stars === 1 ? 'star' : 'stars'} on these products' repos`,
+      )
+    }
   }
   const total = engineers.reduce(
     (n, e) => n + getGithubUser(e.githubLogin)!.contributions.total,
