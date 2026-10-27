@@ -155,7 +155,7 @@ export const products: Product[] = [
       },
       {
         title: 'Encoded on your graphics card',
-        body: 'NVIDIA, AMD or Intel encode H.264 or HEVC at 30, 60, 90 or 120 frames per second.',
+        body: 'NVIDIA, AMD or Intel encode H.264 by default, or HEVC if you prefer it, at 30, 60, 90 or 120 frames per second.',
       },
       {
         title: 'Loss repair',
@@ -302,7 +302,7 @@ export const products: Product[] = [
     overview: [
       'Discord shows Spotify listening on its own but has no Apple Music status. EternalRichPresence fills that gap for Windows users who listen in Apple Music or iTunes, and also covers Spotify through a Spotify developer app.',
       'A Python tray app polls every five seconds. It reads iTunes over COM and the Apple Music app through Windows media controls, or Spotify through its Web API, and asks the providers in order until one is playing. It uploads the cover art to a short-lived image host and sends title, artist, cover, timestamps and a join secret to Discord over local IPC.',
-      'When a friend presses Join, their copy receives the secret through its own Discord pipe and either starts the track on Spotify at your position or opens an Apple Music search for it. Official builds ship as one portable exe with a Discord app already set up.',
+      'When a friend presses Join, their copy receives the secret through its own Discord pipe and either starts the track on Spotify at your position or opens an Apple Music search for it. The current code, version 2.0, builds one portable exe with a Discord app already set up. The newest public download is still the February beta, which predates it.',
     ],
     features: [
       {
@@ -597,7 +597,7 @@ export const products: Product[] = [
     overview: [
       'In a coding interview you think aloud while someone watches your code take shape. TandemCode lets two people practice that together: one room, one editor with live cursors, a chat, and one verdict that both see at the same moment.',
       'The React app edits a Monaco editor over a Yjs document. A FastAPI server relays the editor frames between the two browsers without keeping a copy, records them for replay, and rate-limits every socket. Design rooms add a shared whiteboard in the same document.',
-      'A run becomes a pending submission that a separate runner claims and judges inside a throwaway container with no network, a read-only disk and gVisor in production. Postgres notifies the room when the verdict lands, and an accepted run can be timed on larger inputs to estimate how it scales.',
+      'A run becomes a pending submission that a separate runner claims and judges inside a throwaway container with no network, a read-only disk and gVisor in production. Postgres notifies the room when the verdict lands, and an accepted run can be timed on larger inputs to estimate how it scales. The API, runner and database run on one AWS Lightsail host with Docker Compose and Caddy, and the web app is on Vercel.',
     ],
     features: [
       {
@@ -645,6 +645,9 @@ export const products: Product[] = [
       'Docker',
       'gVisor',
       'Clerk',
+      'Caddy',
+      'AWS Lightsail',
+      'Vercel',
     ],
     status: 'LIVE',
     version: null,
@@ -826,7 +829,7 @@ export const products: Product[] = [
     overview: [
       'Hand-drawn animation often holds each drawing for two or three frames. Eternal2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
       'A Lua panel inside Resolve starts a Python worker in the background. OpenCV scores every frame against the last new drawing with a tile-based difference, so a blink still counts as new, and works out whether the clip is on 1s, 2s or 3s. It refuses live action and clips already on 1s.',
-      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, cuts snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
+      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
     ],
     features: [
       {
@@ -1321,7 +1324,7 @@ export const products: Product[] = [
     overview: [
       'The public side lets home buyers filter the brokerage’s listings by keyword, neighborhood, price and bedrooms and send an inquiry that reaches the listing agent by email. Agents and an admin sign in to manage their own listings and customers.',
       'The React app talks to one Vercel function that routes every API path to its own module, over Supabase Postgres. Sessions are signed tokens in an httpOnly cookie, and every agent query is scoped to that agent’s own records.',
-      'Marking a listing sold opens a buyer form, and one database call closes the listing and links it to the new customer record. Inquiries are rate limited in the database, since serverless instances do not share memory.',
+      'Marking a listing sold opens a buyer form, and one database call closes the listing and links it to the new customer record. Inquiries are rate limited in the database, since serverless instances do not share memory. The live site runs this rewrite from a branch still in review, and the main branch keeps the earlier Express and MongoDB version.',
     ],
     features: [
       {
