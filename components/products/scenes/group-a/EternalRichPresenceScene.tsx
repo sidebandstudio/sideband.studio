@@ -73,13 +73,23 @@ function Cloud({ x, y }: { x: number; y: number }) {
  * the uploaded cover, which flies in from the player (CSS variables set the
  * route). With `join` it adds the Ask to Join button and a friend's pointer.
  */
-function Profile({ art, join }: { art: CSSProperties; join?: boolean }) {
+function Profile({
+  art,
+  join,
+  w = 434,
+}: {
+  art: CSSProperties
+  join?: boolean
+  /** Card width. The content is 390 wide, centred. */
+  w?: number
+}) {
   const h = join ? 546 : 460
+  const pad = (w - 390) / 2
   return (
     <>
-      <rect width={434} height={h} rx={18} className={u.s2} />
+      <rect width={w} height={h} rx={18} className={u.s2} />
       <path
-        d="M 0 80 V 18 a 18 18 0 0 1 18 -18 H 416 a 18 18 0 0 1 18 18 V 80 Z"
+        d={`M 0 80 V 18 a 18 18 0 0 1 18 -18 H ${w - 18} a 18 18 0 0 1 18 18 V 80 Z`}
         className={s.blurple}
       />
       <circle
@@ -98,14 +108,14 @@ function Profile({ art, join }: { art: CSSProperties; join?: boolean }) {
         className={cx(s.online, u.surfaceLine)}
         strokeWidth={6}
       />
-      <text x={22} y={166} fontSize={36} className={cx(u.sans, u.ink)}>
+      <text x={pad} y={166} fontSize={36} className={cx(u.sans, u.ink)}>
         aldobuildstuff
       </text>
-      <line x1={22} y1={192} x2={412} y2={192} className={u.line} />
+      <line x1={pad} y1={192} x2={w - pad} y2={192} className={u.line} />
 
       {/* The activity fills in once the cover art has a URL */}
       <text
-        x={22}
+        x={pad}
         y={240}
         fontSize={36}
         className={cx(u.sans, u.ink2, s.a, s.head)}
@@ -113,36 +123,53 @@ function Profile({ art, join }: { art: CSSProperties; join?: boolean }) {
         Listening to Apple Music
       </text>
       <text
-        x={22}
+        x={pad}
         y={290}
         fontSize={36}
         className={cx(u.sans, u.ink, s.a, s.song)}
       >
         {TITLE}
       </text>
-      <g transform="translate(22 314)">
+      <g transform={`translate(${pad} 314)`}>
         <g className={cx(s.a, s.art)} style={art}>
           <Cover size={120} />
         </g>
       </g>
       <g className={cx(s.a, s.row)}>
-        <text x={160} y={352} fontSize={36} className={cx(u.sans, u.ink2)}>
+        <text
+          x={pad + 138}
+          y={352}
+          fontSize={36}
+          className={cx(u.sans, u.ink2)}
+        >
           {ARTIST}
         </text>
-        <rect x={160} y={372} width={252} height={8} rx={4} className={u.s3} />
         <rect
-          x={160}
+          x={pad + 138}
+          y={372}
+          width={252}
+          height={8}
+          rx={4}
+          className={u.s3}
+        />
+        <rect
+          x={pad + 138}
           y={372}
           width={252}
           height={8}
           rx={4}
           className={cx(u.ink, s.a, s.progress)}
         />
-        <text x={160} y={424} fontSize={36} className={cx(u.mono, u.muted)}>
+        <text
+          x={pad + 138}
+          y={424}
+          fontSize={36}
+          className={cx(u.mono, u.muted)}
+        >
           1:21
         </text>
         <text
-          x={412}
+          x={w - pad}
           y={424}
           textAnchor="end"
           fontSize={36}
@@ -299,29 +326,29 @@ function route(
 }
 
 function Card() {
-  // Player art centre (176, 254), cloud (345, 36), profile slot (434, 444).
+  // Player art centre (184, 254), cloud (345, 36), profile slot (432, 444).
   return (
     <SceneSvg frame="card" duration={DURATION} still={STILL}>
       <path
-        d="M 300 140 Q 300 60 322 46"
+        d="M 308 140 Q 308 60 326 46"
         className={cx(u.none, u.accLineDim)}
         strokeWidth={3}
         strokeDasharray="2 9"
         strokeLinecap="round"
       />
       <path
-        d="M 386 40 Q 430 36 452 70"
+        d="M 386 40 Q 434 36 456 70"
         className={cx(u.none, s.blurpleLine)}
         strokeWidth={3}
         strokeDasharray="2 9"
         strokeLinecap="round"
       />
       <Cloud x={345} y={40} />
-      <g transform="translate(14 140)">
+      <g transform="translate(22 140)">
         <StackPlayer />
       </g>
-      <g transform="translate(352 70)">
-        <Profile art={route([-258, -190, 1.5], [-89, -408, 0.35])} />
+      <g transform="translate(358 70)">
+        <Profile w={418} art={route([-248, -190, 1.5], [-87, -408, 0.35])} />
       </g>
     </SceneSvg>
   )
