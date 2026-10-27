@@ -1,133 +1,166 @@
+import Image from 'next/image'
 import Button from '@/components/ui/Button'
+import Reveal from '@/components/ui/Reveal'
+import Section from '@/components/ui/Section'
+import SectionHeading from '@/components/ui/SectionHeading'
+import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
 import {
-  ArrowUpRightIcon,
-  CheckIcon,
-  GitHubIcon,
-  RepoIcon,
-} from '@/components/ui/Icons'
-import { productLicense, products } from '@/lib/products'
+  countWord,
+  type HomeData,
+  type OpenRepo,
+  type StudioFact,
+} from '@/lib/home-data'
+import { getProductById } from '@/lib/products'
 
-/** Only products whose own repo carries an OSI-approved license. */
-const REPOS = products.flatMap((p) => {
-  const license = productLicense(p)
-  return license.openSource && p.links.repo
-    ? [
-        {
-          id: p.id,
-          href: p.links.repo,
-          path: p.links.repo.replace('https://github.com/', ''),
-          lang: p.stack[0],
-          live: p.status === 'LIVE',
-        },
-      ]
-    : []
-})
+/**
+ * The products whose own repo carries an OSI-approved license, and how the
+ * studio ships: public repos and releases on GitHub. Every figure is derived.
+ */
+export default function OpenSource({
+  repos,
+  facts,
+  org,
+}: {
+  repos: OpenRepo[]
+  facts: StudioFact[]
+  org: HomeData['org']
+}) {
+  const licenses = Array.from(new Set(repos.map((r) => r.license)))
 
-const LIVE = products.filter((p) => p.status === 'LIVE').length
-
-const PITCH = [
-  ['Read the code.', 'The repos are public, issues and all.'],
-  ['File an issue.', 'Bugs and ideas go straight to the people who wrote it.'],
-  ['Follow along.', 'Watch a repo and see each release as it lands.'],
-]
-
-export default function OpenSource() {
   return (
-    <section id="open-source" className="sec">
-      <div className="inner">
-        <div className="section-head mx-auto text-center">
-          <span className="eyebrow">Open source</span>
-          <h2 className="display mx-auto text-balance">
-            Everything we ship ends up on GitHub.
-          </h2>
+    <Section id="open-source" labelledBy="open-source-title">
+      <div className="grid gap-x-16 gap-y-14 lg:grid-cols-12">
+        <div className="flex flex-col gap-10 lg:col-span-5">
+          <SectionHeading
+            id="open-source-title"
+            eyebrow="Open source"
+            title={
+              <>
+                {countWord(repos.length, true)} of our products
+                <br />
+                are open source.
+              </>
+            }
+            lede={`Their repos carry ${listJoin(licenses)} licenses, so you can read the code, build it yourself and change it.`}
+            actions={
+              <Button href={org.url} external variant="secondary">
+                <GitHubIcon size={15} />
+                github.com/{org.login}
+              </Button>
+            }
+          />
         </div>
 
-        <div className="open-grid">
-          <div className="tile">
-            <div className="flex items-center gap-1.5 border-b border-sideband-border bg-white/[0.02] px-3.5 py-2.5">
-              <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
-              <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
-              <i className="block h-2.5 w-2.5 rounded-full bg-white/[0.08]" />
-              <span className="ml-2.5 flex-1 text-center font-mono text-[11px] text-sideband-muted">
-                github.com
-              </span>
-            </div>
-            <ul className="-mt-px">
-              {REPOS.map((r) => (
-                <li key={r.id}>
-                  <a
-                    href={r.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="repo-row group"
-                  >
-                    <RepoIcon className="shrink-0 text-sideband-muted" />
-                    <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-sideband-text">
-                      {r.path}
-                    </span>
-                    <span className="hidden shrink-0 font-mono text-[11px] text-sideband-muted min-[480px]:inline">
-                      {r.lang}
-                    </span>
-                    <span
-                      className={`block h-1.5 w-1.5 shrink-0 rounded-full ${
-                        r.live ? 'bg-sideband-ok' : 'bg-sideband-warn'
-                      }`}
-                      aria-label={r.live ? 'Live' : 'In development'}
-                      role="img"
-                    />
-                    <ArrowUpRightIcon className="product-arrow shrink-0 text-sideband-text-secondary" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="tile open-pitch">
-            <ul className="flex flex-col gap-4">
-              {PITCH.map(([lead, rest]) => (
-                <li
-                  key={lead}
-                  className="flex items-start gap-3 text-[15px] leading-[1.5] text-sideband-text-secondary"
-                >
-                  <span className="pitch-mark" aria-hidden="true">
-                    <CheckIcon size={13} />
-                  </span>
-                  <span>
-                    <strong className="font-semibold text-sideband-text">
-                      {lead}
-                    </strong>{' '}
-                    {rest}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex flex-col gap-[18px]">
-              <div className="flex items-center gap-2 font-mono text-[11px] text-sideband-muted">
-                <span>{REPOS.length} open-source repos</span>
-                <span aria-hidden="true">&middot;</span>
-                <span>{LIVE} live products</span>
-              </div>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button href="https://github.com/sidebandstudio" external>
-                  <GitHubIcon size={14} />
-                  Sideband on GitHub
-                </Button>
-                <a
-                  href="mailto:hello@sideband.studio"
-                  className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-sideband-text-secondary transition-colors duration-[180ms] hover:text-sideband-text"
-                >
-                  hello@sideband.studio
-                  <ArrowUpRightIcon
-                    size={12}
-                    className="opacity-60 transition-[transform,opacity] duration-[180ms] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ul
+          aria-label="Open-source repositories"
+          className="flex flex-col gap-2 lg:col-span-7"
+        >
+          {repos.map((r, i) => (
+            <Reveal as="li" key={r.id} delay={i * 70}>
+              <RepoRow repo={r} />
+            </Reveal>
+          ))}
+        </ul>
       </div>
-    </section>
+
+      <div className="mt-20 md:mt-24">
+        <Reveal>
+          <h3 className="text-lead font-medium text-sideband-text">
+            How we ship
+          </h3>
+        </Reveal>
+        <ul className="mt-8 grid gap-x-6 gap-y-10 md:grid-cols-3">
+          {facts.map((f, i) => (
+            <Reveal as="li" key={f.text} delay={i * 70}>
+              <Fact fact={f} />
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </Section>
+  )
+}
+
+function listJoin(items: string[]) {
+  if (items.length < 2) return items.join('')
+  return `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`
+}
+
+function Fact({ fact }: { fact: StudioFact }) {
+  const body = (
+    <>
+      <span className="text-head tabular-nums text-sideband-text">
+        {fact.value}
+      </span>
+      <span className="max-w-[22rem] text-body text-sideband-text-secondary transition-colors duration-hover ease-standard group-hover:text-sideband-text">
+        {fact.text}
+      </span>
+    </>
+  )
+  const cls = 'flex flex-col gap-3'
+  return fact.href ? (
+    <a
+      href={fact.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group ${cls}`}
+    >
+      {body}
+    </a>
+  ) : (
+    <p className={cls}>{body}</p>
+  )
+}
+
+function RepoRow({ repo }: { repo: OpenRepo }) {
+  const icon = getProductById(repo.id)?.icon
+  return (
+    <a
+      href={repo.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-start gap-4 rounded-panel bg-sideband-surface p-4 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:items-center md:p-5"
+    >
+      {icon && (
+        <Image
+          src={icon.src}
+          alt=""
+          width={96}
+          height={96}
+          className="h-11 w-11 shrink-0 rounded-[22%]"
+        />
+      )}
+      <span className="flex min-w-0 flex-1 flex-col gap-1">
+        <span className="break-words text-body font-medium text-sideband-text">
+          {repo.path}
+        </span>
+        <span className="text-small text-sideband-text-secondary">
+          {repo.tagline}
+        </span>
+        <span className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-small text-sideband-muted md:hidden">
+          <RepoMeta repo={repo} />
+        </span>
+      </span>
+      <span className="hidden shrink-0 items-center gap-4 text-small text-sideband-muted md:flex">
+        <RepoMeta repo={repo} />
+      </span>
+      <ArrowUpRightIcon
+        size={14}
+        className="mt-1 shrink-0 text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:mt-0"
+      />
+    </a>
+  )
+}
+
+function RepoMeta({ repo }: { repo: OpenRepo }) {
+  return (
+    <>
+      <span>{repo.license}</span>
+      {repo.language && <span>{repo.language}</span>}
+      <span className="tabular-nums">
+        {repo.stars.toLocaleString('en-US')}{' '}
+        {repo.stars === 1 ? 'star' : 'stars'}
+      </span>
+    </>
   )
 }

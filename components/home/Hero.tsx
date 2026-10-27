@@ -1,75 +1,88 @@
-'use client'
-
-import { useRef, type CSSProperties } from 'react'
+import Backdrop from '@/components/ui/Backdrop'
 import Button from '@/components/ui/Button'
-import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
-import HeroMarks from '@/components/home/HeroMarks'
-import ProductPreview from '@/components/home/ProductPreview'
-import type { Product } from '@/lib/products'
+import Container from '@/components/ui/Container'
+import Eyebrow from '@/components/ui/Eyebrow'
+import Reveal from '@/components/ui/Reveal'
+import Stat from '@/components/ui/Stat'
+import HeroPreview from '@/components/home/HeroPreview'
+import { countWord, type HomeData } from '@/lib/home-data'
 
-const delay = (ms: number) => ({ '--d': `${ms}ms` }) as CSSProperties
-
-/** `products` arrives in ranked order from the server, so the GitHub snapshot stays out of the client bundle. */
-export default function Hero({ products }: { products: Product[] }) {
-  const heroRef = useRef<HTMLElement>(null)
-
+/**
+ * The first screen: who Sideband is, the two ways in, and the top-ranked
+ * products as real screenshots. The studio's numbers from GitHub close it.
+ */
+export default function Hero({
+  hero,
+  stats,
+  engineerCount,
+  syncedOn,
+}: Pick<HomeData, 'hero' | 'stats' | 'engineerCount' | 'syncedOn'>) {
   return (
     <section
-      ref={heroRef}
-      className="relative overflow-hidden pb-[60px] pt-[136px] max-[820px]:pt-[196px]"
+      aria-labelledby="hero-title"
+      className="relative isolate overflow-hidden pb-section pt-32 md:pt-40"
     >
-      <div className="hero-grid" aria-hidden="true" />
-      <HeroMarks heroRef={heroRef} products={products} />
+      <Backdrop variant="spotlight" />
+      <Container>
+        <Reveal trigger="mount">
+          <Eyebrow className="mb-6">
+            Independent software studio in Boston, MA
+          </Eyebrow>
+        </Reveal>
+        <Reveal trigger="mount" delay={70}>
+          <h1 id="hero-title" className="text-display text-sideband-text">
+            We build the things
+            <br />
+            we wished existed.
+          </h1>
+        </Reveal>
 
-      <div className="inner relative z-[2] text-center">
-        <h1 className="hero-title display mx-auto mb-[22px] mt-0 max-w-[20ch] text-balance text-[clamp(38px,5.6vw,76px)] max-[820px]:text-[clamp(40px,11vw,56px)]">
-          <span data-rise>We build the things</span>
-          <br />
-          <span data-rise style={delay(90)}>
-            we wished existed<span className="text-sideband-accent">.</span>
-          </span>
-        </h1>
-
-        <p
-          data-rise
-          style={delay(300)}
-          className="mx-auto mb-9 max-w-[640px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary"
-        >
-          Four friends building an iPad display for Windows, a music bridge for
-          Discord, a smarter video upscaler, and more in progress.
-        </p>
-
-        <div
-          data-rise
-          style={delay(400)}
-          className="mb-14 flex flex-col items-center gap-4 max-[820px]:mb-16"
-        >
-          <Button href="/products" size="lg">
-            View Products
-          </Button>
-          <a
-            href="https://github.com/sidebandstudio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-[-0.01em] text-sideband-text-secondary transition-colors duration-[180ms] hover:text-sideband-text"
+        <div className="mt-8 flex flex-col gap-9 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+          <Reveal trigger="mount" delay={140}>
+            <p className="max-w-prose text-lead text-sideband-text-secondary">
+              Sideband is {countWord(engineerCount)} engineers who design, build
+              and ship their own software, from an iPad display for Windows to a
+              Discord status for Apple Music.
+            </p>
+          </Reveal>
+          <Reveal
+            trigger="mount"
+            delay={210}
+            className="flex shrink-0 flex-wrap items-center gap-3"
           >
-            <GitHubIcon />
-            <span>Everything we ship is on GitHub</span>
-            <ArrowUpRightIcon className="opacity-60 transition-[transform,opacity] duration-[180ms] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-          </a>
-          <p className="inline-flex items-center gap-1.5 text-[13px] tracking-[-0.005em] text-sideband-muted">
-            Independent software studio
-            <span aria-hidden="true">&middot;</span>
-            Boston, MA
-            <span aria-hidden="true">&middot;</span>
-            est. 2025
-          </p>
+            <Button href="/products" size="lg">
+              View products
+            </Button>
+            <Button href="/engineers" size="lg" variant="secondary">
+              Meet the engineers
+            </Button>
+          </Reveal>
         </div>
 
-        <div data-rise style={delay(520)}>
-          <ProductPreview products={products} />
+        <Reveal trigger="mount" delay={280} className="mt-14 md:mt-16">
+          <HeroPreview items={hero} />
+        </Reveal>
+
+        <div className="mt-20 md:mt-28">
+          <h2 className="text-lead font-medium text-sideband-text">
+            The studio on GitHub
+          </h2>
+          <p className="mt-2 text-small text-sideband-muted">
+            Counted from our product repos and profiles, synced {syncedOn}.
+          </p>
+          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 xl:grid-cols-5">
+            {stats.map((s) => (
+              <Stat
+                key={s.label}
+                value={s.value}
+                label={s.label}
+                countUp
+                className="justify-end"
+              />
+            ))}
+          </dl>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

@@ -2,30 +2,34 @@ import Backdrop from '@/components/ui/Backdrop'
 import Button from '@/components/ui/Button'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { GitHubIcon } from '@/components/ui/Icons'
 
+/** The close: one way to reach the studio, centred once on the page. */
 export default function FinalCta() {
   return (
     <Section labelledBy="cta-title" backdrop={<Backdrop variant="bands" />}>
       <SectionHeading
         id="cta-title"
         align="center"
+        eyebrow="Contact"
         title={
           <>
-            Eleven products
+            Questions, bugs
             <br />
-            and counting.
+            or ideas? Write to us.
           </>
         }
-        lede="Everything we ship ends up on GitHub. The inbox is always open."
+        lede="Ask about a product, report a bug or tell us what you would like to see next. We read every message."
         actions={
           <>
-            <Button href="https://github.com/sidebandstudio" size="lg" external>
-              <GitHubIcon size={15} />
-              GitHub
+            <Button href="/contact" size="lg">
+              Contact us
             </Button>
-            <Button href="/contact" size="lg" variant="secondary">
-              Contact
+            <Button
+              href="mailto:hello@sideband.studio"
+              size="lg"
+              variant="secondary"
+            >
+              hello@sideband.studio
             </Button>
           </>
         }
