@@ -48,6 +48,22 @@ export default function ContactPanel({ contact, name }: ContactPanelProps) {
       external: true,
     })
   }
+  if (contact.x) {
+    rows.push({
+      label: 'X',
+      value: `@${contact.x.replace(/^https?:\/\/(www\.)?x\.com\//, '')}`,
+      href: contact.x,
+      external: true,
+    })
+  }
+  if (contact.tiktok) {
+    rows.push({
+      label: 'TIKTOK',
+      value: contact.tiktok.replace(/^https?:\/\/(www\.)?tiktok\.com\//, ''),
+      href: contact.tiktok,
+      external: true,
+    })
+  }
   if (contact.resume) {
     rows.push({
       label: 'RESUME',

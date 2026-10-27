@@ -9,6 +9,7 @@ import PrevBadge from '@/components/engineers/PrevBadge'
 import ExperienceTimeline from '@/components/engineers/ExperienceTimeline'
 import SkillsCloud from '@/components/engineers/SkillsCloud'
 import FeaturedProjects from '@/components/engineers/FeaturedProjects'
+import ProjectList from '@/components/engineers/ProjectList'
 import LifestyleGallery from '@/components/engineers/LifestyleGallery'
 import ContactPanel from '@/components/engineers/ContactPanel'
 import {
@@ -53,6 +54,9 @@ export default function EngineerDetailPage({
   if (!engineer) notFound()
 
   const other = getOtherEngineer(engineer.id)
+  const projects = engineer.projects ?? []
+  const featuredProjects = projects.filter((p) => p.featured)
+  const otherProjects = projects.filter((p) => !p.featured)
   const portraitSrc = engineer.portrait?.src
   const indexLabel = `${engineerIndexLabel(engineer.id)} / ${engineerCountLabel}`
 
@@ -224,13 +228,24 @@ export default function EngineerDetailPage({
         )}
 
         {/* PROJECTS */}
-        {engineer.projects && engineer.projects.length > 0 && (
+        {featuredProjects.length > 0 && (
           <section className="mt-32">
             <Reveal>
               <Eyebrow>Featured work</Eyebrow>
             </Reveal>
             <div className="mt-10">
-              <FeaturedProjects projects={engineer.projects} />
+              <FeaturedProjects projects={featuredProjects} />
+            </div>
+          </section>
+        )}
+
+        {otherProjects.length > 0 && (
+          <section className="mt-24">
+            <Reveal>
+              <Eyebrow>Other work</Eyebrow>
+            </Reveal>
+            <div className="mt-8">
+              <ProjectList projects={otherProjects} />
             </div>
           </section>
         )}
