@@ -100,8 +100,10 @@ test('the team section counts and titles every engineer from the data', async ({
 }) => {
   await page.goto('/')
   const team = page.locator('#team')
-  await expect(team.locator('h2')).toContainText(
-    `Built by ${countWord(engineers.length)} founding engineers`,
+  await expect(team.locator('h2')).toHaveText(
+    new RegExp(
+      `^Built by ${countWord(engineers.length)}\\s*founding engineers\\.$`,
+    ),
   )
   await expect(team.locator('article')).toHaveCount(engineers.length)
   for (const engineer of engineers) {
