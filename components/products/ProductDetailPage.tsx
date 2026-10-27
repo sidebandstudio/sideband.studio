@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { products, type Product, type ProductGalleryItem } from '@/lib/products'
-import FadeUp from '@/components/animations/FadeUp'
-import Tag from '@/components/ui/Tag'
+import Reveal from '@/components/ui/Reveal'
+import Badge from '@/components/ui/Badge'
 import StatusBadge from '@/components/ui/StatusBadge'
-import SectionLabel from '@/components/ui/SectionLabel'
+import Eyebrow from '@/components/ui/Eyebrow'
 import {
   BrowserFrame,
   IPadFrame,
@@ -353,8 +353,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         }}
       >
         <div className="inner">
-          <FadeUp>
-            <SectionLabel label="GALLERY" withLine />
+          <Reveal>
+            <Eyebrow>Gallery</Eyebrow>
             <p
               style={{
                 fontSize: 13,
@@ -364,7 +364,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             >
               Every view, every screen, every state.
             </p>
-          </FadeUp>
+          </Reveal>
           <div
             className="gallery-grid"
             style={{
@@ -376,9 +376,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             }}
           >
             {detail.gallery.map((item, i) => (
-              <FadeUp key={`${item.label}-${i}`} delay={i * 0.06}>
+              <Reveal key={`${item.label}-${i}`} delay={i * 60}>
                 <GalleryItem item={item} accent={acc} />
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -392,8 +392,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         }}
       >
         <div className="inner">
-          <FadeUp>
-            <SectionLabel label="HOW IT WORKS" withLine />
+          <Reveal>
+            <Eyebrow>How it works</Eyebrow>
             <h2
               className="font-display"
               style={{
@@ -404,7 +404,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             >
               Under the hood<span style={{ color: acc }}>.</span>
             </h2>
-          </FadeUp>
+          </Reveal>
           <div
             style={{
               marginTop: 40,
@@ -414,14 +414,14 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             }}
           >
             {detail.architecture.map((step, i) => (
-              <FadeUp key={step.step} delay={i * 0.07}>
+              <Reveal key={step.step} delay={i * 70}>
                 <ArchitectureRow
                   step={step.step}
                   title={step.title}
                   body={step.body}
                   accent={acc}
                 />
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -436,9 +436,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         }}
       >
         <div className="inner">
-          <FadeUp>
-            <SectionLabel label="HIGHLIGHTS" withLine />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Highlights</Eyebrow>
+          </Reveal>
           <div
             className="highlights-grid"
             style={{
@@ -449,7 +449,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             }}
           >
             {detail.highlights.map((h, i) => (
-              <FadeUp key={h} delay={i * 0.07}>
+              <Reveal key={h} delay={i * 70}>
                 <div
                   style={{
                     padding: '20px 22px',
@@ -479,7 +479,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                     {h}
                   </p>
                 </div>
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -493,9 +493,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
         }}
       >
         <div className="inner">
-          <FadeUp>
-            <SectionLabel label="FULL STACK" withLine />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Full stack</Eyebrow>
+          </Reveal>
           <div
             style={{
               display: 'flex',
@@ -505,7 +505,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             }}
           >
             {product.tags.map((t) => (
-              <Tag key={t} label={t} color={acc} />
+              <Badge key={t}>{t}</Badge>
             ))}
           </div>
         </div>
@@ -514,7 +514,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       {/* CTA footer */}
       <div style={{ padding: '64px 0' }}>
         <div className="inner">
-          <FadeUp>
+          <Reveal>
             <div
               style={{
                 display: 'flex',
@@ -634,7 +634,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                 </Link>
               </div>
             </div>
-          </FadeUp>
+          </Reveal>
         </div>
       </div>
     </div>

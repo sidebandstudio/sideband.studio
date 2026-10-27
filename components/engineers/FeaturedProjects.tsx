@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import FadeUp from '@/components/animations/FadeUp'
+import Reveal from '@/components/ui/Reveal'
 import type { FeaturedProject } from '@/lib/engineers'
 import { getProductById } from '@/lib/products'
 
@@ -102,9 +102,9 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
       {projects.map((p, i) => (
-        <FadeUp key={p.name} delay={i * 0.05}>
+        <Reveal key={p.name} delay={i * 50}>
           <ProjectCard project={p} />
-        </FadeUp>
+        </Reveal>
       ))}
     </div>
   )

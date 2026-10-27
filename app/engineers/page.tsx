@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import FadeUp from '@/components/animations/FadeUp'
-import SectionLabel from '@/components/ui/SectionLabel'
+import Reveal from '@/components/ui/Reveal'
+import Eyebrow from '@/components/ui/Eyebrow'
 import EngineerCard from '@/components/engineers/EngineerCard'
 import { engineerCountLabel, listEngineers } from '@/lib/engineers'
 
@@ -17,7 +17,7 @@ export default function EngineersIndexPage() {
     <div className="min-h-screen bg-sideband-black pt-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Hero */}
-        <FadeUp>
+        <Reveal>
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ ENGINEERS · {engineerCountLabel} ]
           </span>
@@ -29,26 +29,26 @@ export default function EngineersIndexPage() {
               behind the products<span className="text-sideband-accent">.</span>
             </span>
           </h1>
-        </FadeUp>
+        </Reveal>
 
-        <FadeUp delay={0.1}>
+        <Reveal delay={100}>
           <p className="mt-10 max-w-2xl font-mono text-[14px] leading-[1.9] text-sideband-text-secondary">
             Each engineer at Sideband owns their work end to end. Open a dossier
             to see where they&apos;ve been, what they&apos;ve built, and how
             they work.
           </p>
-        </FadeUp>
+        </Reveal>
 
         {/* Engineer grid */}
         <div className="mt-20">
-          <FadeUp>
-            <SectionLabel label="DOSSIERS" withLine />
-          </FadeUp>
+          <Reveal>
+            <Eyebrow>Dossiers</Eyebrow>
+          </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-4xl">
             {all.map((engineer, i) => (
-              <FadeUp key={engineer.id} delay={0.1 + i * 0.08}>
+              <Reveal key={engineer.id} delay={100 + i * 80}>
                 <EngineerCard engineer={engineer} />
-              </FadeUp>
+              </Reveal>
             ))}
           </div>
         </div>

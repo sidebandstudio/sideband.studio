@@ -1,20 +1,22 @@
-import type { Metadata } from 'next'
-import { DM_Sans, JetBrains_Mono } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 
-const dmSans = DM_Sans({
+// One family for the whole site. next/font downloads it at build time and
+// serves it from our own origin. See DESIGN.md -> Type.
+const sans = Hanken_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-dm-sans',
+  variable: '--font-sans',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+// Only for real code and for text inside product interface fragments.
+const mono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-jetbrains-mono',
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -38,16 +40,29 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: '#0b0b0d',
+  colorScheme: 'dark',
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-sideband-black font-sans text-sideband-text antialiased">
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+      <body className="flex min-h-screen flex-col bg-sideband-black font-sans text-body text-sideband-text antialiased">
+        <a
+          href="#main"
+          className="fixed left-4 top-3 z-[200] -translate-y-[200%] rounded-full bg-sideband-text px-4 py-2 text-small font-medium text-sideband-black transition-transform duration-ui ease-out focus-visible:translate-y-0"
+        >
+          Skip to content
+        </a>
         <Navbar />
-        <main>{children}</main>
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

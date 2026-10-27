@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
+import Surface from '@/components/ui/Surface'
 import { ArrowUpRightIcon, CheckIcon } from '@/components/ui/Icons'
 import { listEngineers } from '@/lib/engineers'
 
@@ -13,7 +14,7 @@ export default function StudioSection() {
   return (
     <section id="team" className="sec">
       <div className="inner split">
-        <div className="tile">
+        <Surface padding="none" className="py-2">
           <div className="flex items-center justify-between gap-3 px-4 py-3">
             <span className="eyebrow">Founders</span>
             <span className="font-mono text-[11px] text-sideband-muted">
@@ -50,7 +51,7 @@ export default function StudioSection() {
               </li>
             ))}
           </ul>
-        </div>
+        </Surface>
 
         <div className="section-head !mb-0">
           <span className="eyebrow">The studio</span>
@@ -75,7 +76,7 @@ export default function StudioSection() {
             </li>
           </ul>
           <div className="mt-8">
-            <Button href="/engineers" variant="ghost">
+            <Button href="/engineers" variant="secondary">
               Meet the engineers
             </Button>
           </div>

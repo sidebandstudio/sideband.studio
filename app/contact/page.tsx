@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import FadeUp from '@/components/animations/FadeUp'
-import GlowButton from '@/components/ui/GlowButton'
+import Reveal from '@/components/ui/Reveal'
+import Button from '@/components/ui/Button'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -43,17 +43,17 @@ export default function ContactPage() {
     <div className="flex min-h-screen items-center justify-center bg-sideband-black px-6 pt-32 pb-24">
       <div className="w-full max-w-xl">
         {/* Hero */}
-        <FadeUp>
+        <Reveal>
           <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-sideband-accent">
             [ CONTACT ]
           </span>
           <h1 className="mt-4 font-display text-5xl text-sideband-text md:text-7xl">
             Let&apos;s build<span className="text-sideband-accent">.</span>
           </h1>
-        </FadeUp>
+        </Reveal>
 
         {/* Contact Info */}
-        <FadeUp delay={0.1}>
+        <Reveal delay={100}>
           <div className="mt-10 space-y-3">
             <a
               href="mailto:hello@sideband.studio"
@@ -91,10 +91,10 @@ export default function ContactPage() {
               github.com/sidebandstudio
             </a>
           </div>
-        </FadeUp>
+        </Reveal>
 
         {/* Contact Form */}
-        <FadeUp delay={0.2}>
+        <Reveal delay={200}>
           {status === 'success' ? (
             <div className="mt-12 border border-sideband-accent bg-sideband-surface px-6 py-8 font-mono text-[14px] text-sideband-accent">
               <p className="text-[11px] uppercase tracking-wider">
@@ -182,12 +182,12 @@ export default function ContactPage() {
                 </p>
               )}
 
-              <GlowButton variant="filled" disabled={status === 'submitting'}>
+              <Button type="submit" disabled={status === 'submitting'}>
                 {status === 'submitting' ? 'Sending...' : 'Send Message'}
-              </GlowButton>
+              </Button>
             </form>
           )}
-        </FadeUp>
+        </Reveal>
       </div>
     </div>
   )

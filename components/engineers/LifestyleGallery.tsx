@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import FadeUp from '@/components/animations/FadeUp'
+import Reveal from '@/components/ui/Reveal'
 import type { LifestyleImage } from '@/lib/engineers'
 
 interface LifestyleGalleryProps {
@@ -24,7 +24,7 @@ export default function LifestyleGallery({ images }: LifestyleGalleryProps) {
       {images.map((img, i) => {
         const span = spanPattern[i % spanPattern.length]
         return (
-          <FadeUp key={img.src} delay={(i % 4) * 0.05} className={span}>
+          <Reveal key={img.src} delay={(i % 4) * 50} className={span}>
             <div className="group relative h-full w-full overflow-hidden border border-sideband-border bg-sideband-surface-2">
               <Image
                 src={img.src}
@@ -43,7 +43,7 @@ export default function LifestyleGallery({ images }: LifestyleGalleryProps) {
                 </span>
               )}
             </div>
-          </FadeUp>
+          </Reveal>
         )
       })}
     </div>
