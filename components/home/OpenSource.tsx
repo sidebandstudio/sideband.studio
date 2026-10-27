@@ -1,16 +1,15 @@
-import Image from 'next/image'
 import Button from '@/components/ui/Button'
+import { cx } from '@/components/ui/cx'
 import Reveal from '@/components/ui/Reveal'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
+import { ArrowUpRightIcon, GitHubIcon, RepoIcon } from '@/components/ui/Icons'
 import {
   countWord,
   type HomeData,
   type OpenRepo,
   type StudioFact,
 } from '@/lib/home-data'
-import { getProductById } from '@/lib/products'
 
 /**
  * The products whose own repo carries an OSI-approved license, and how the
@@ -112,57 +111,52 @@ function Fact({ fact }: { fact: StudioFact }) {
   )
 }
 
+function Stars({ stars, className }: { stars: number; className?: string }) {
+  return (
+    <span className={cx('text-small tabular-nums', className)}>
+      {stars.toLocaleString('en-US')} {stars === 1 ? 'star' : 'stars'}
+    </span>
+  )
+}
+
 function RepoRow({ repo }: { repo: OpenRepo }) {
-  const icon = getProductById(repo.id)?.icon
+  const [owner, name] = repo.path.split('/')
   return (
     <a
       href={repo.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-start gap-4 rounded-panel bg-sideband-surface p-4 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:items-center md:p-5"
+      className="group flex items-start gap-4 rounded-panel bg-sideband-surface p-4 transition-colors duration-hover ease-standard hover:bg-sideband-surface-2 md:p-5"
     >
-      {icon && (
-        <Image
-          src={icon.src}
-          alt=""
-          width={96}
-          height={96}
-          className="h-11 w-11 shrink-0 rounded-[22%]"
-        />
-      )}
+      <RepoIcon
+        size={16}
+        className="mt-1 shrink-0 text-sideband-text-secondary"
+      />
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="text-body font-medium text-sideband-text [overflow-wrap:anywhere]">
-          {repo.path}
+          {owner}/<wbr />
+          {name}
         </span>
-        <span className="text-small text-sideband-text-secondary">
-          {repo.tagline}
-        </span>
-        <span className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-small text-sideband-muted md:hidden">
-          <RepoMeta repo={repo} />
+        <span className="flex flex-wrap gap-x-4 gap-y-1 text-small text-sideband-text-secondary">
+          <span>{repo.license} license</span>
+          {repo.language && <span>{repo.language}</span>}
+          <span className="tabular-nums">
+            {repo.commits.toLocaleString('en-US')} commits
+          </span>
+          <span>Last push {repo.pushedOn}</span>
+          {repo.stars > 0 && <Stars stars={repo.stars} className="md:hidden" />}
         </span>
       </span>
-      <span className="hidden shrink-0 items-center gap-4 text-small text-sideband-muted md:flex">
-        <RepoMeta repo={repo} />
-      </span>
+      {repo.stars > 0 && (
+        <Stars
+          stars={repo.stars}
+          className="mt-0.5 hidden shrink-0 text-sideband-muted md:inline"
+        />
+      )}
       <ArrowUpRightIcon
         size={14}
-        className="mt-1 shrink-0 text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:mt-0"
+        className="mt-1 shrink-0 text-sideband-text-secondary transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
       />
     </a>
-  )
-}
-
-function RepoMeta({ repo }: { repo: OpenRepo }) {
-  return (
-    <>
-      <span>{repo.license}</span>
-      {repo.language && <span>{repo.language}</span>}
-      {repo.stars > 0 && (
-        <span className="tabular-nums">
-          {repo.stars.toLocaleString('en-US')}{' '}
-          {repo.stars === 1 ? 'star' : 'stars'}
-        </span>
-      )}
-    </>
   )
 }

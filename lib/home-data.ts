@@ -194,10 +194,11 @@ export interface OpenRepo {
   name: string
   path: string
   href: string
-  tagline: string
   license: string
   language: string | null
   stars: number
+  commits: number
+  pushedOn: string
 }
 
 export interface StudioFact {
@@ -300,10 +301,11 @@ export function getHomeData() {
         name: p.name,
         path: p.links.repo.replace('https://github.com/', ''),
         href: p.links.repo,
-        tagline: p.tagline,
         license: license.spdx ?? license.name,
         language: repo.primaryLanguage,
         stars: repo.stars,
+        commits: repo.commits,
+        pushedOn: formatDate(repo.pushedAt),
       },
     ]
   })
