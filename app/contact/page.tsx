@@ -12,7 +12,7 @@ import { githubOrg } from '@/lib/github'
 export const metadata: Metadata = {
   title: 'Contact · Sideband',
   description:
-    'Write to Sideband at hello@sideband.studio or through the form, or reach an engineer directly.',
+    'Write to Sideband at hello@sideband.studio or through the form, or reach one of its founding engineers directly.',
 }
 
 export default function ContactPage() {
@@ -70,7 +70,7 @@ export default function ContactPage() {
 
           <Reveal trigger="mount" delay={350}>
             <h2 className="mt-14 text-body font-medium text-sideband-text">
-              Or write to an engineer
+              Or write to a founding engineer
             </h2>
             <ul className="mt-5 space-y-4">
               {engineers.map((e) => (
