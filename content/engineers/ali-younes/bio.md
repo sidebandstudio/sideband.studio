@@ -116,7 +116,7 @@ Other work:
 - **[BetterAppleMusic](https://github.com/whoisaldo/BetterAppleMusic)** · Windows Apple Music client on Electron and MusicKit JS.
 - **[Top Choice Realty](/products/top-choice-realty)** · Listings site and agent back office for a New York brokerage. Visitors browse listings and message the listing agent, and agents manage listings, sales and customers.
 - **[CS3520 · C++](https://github.com/whoisaldo/CS3520-Summer-2025)** · Course work: nested containers, Makefiles, GDB and CLI formatting.
-- **[Password Generator](https://github.com/whoisaldo/Password-Generator)** · Configurable password generator across Java and Swift.
+- **[Password Generator](https://github.com/whoisaldo/Password-Generator)** · Configurable password generator with a Swing desktop UI and export.
 - **[Grade Calculator](https://github.com/whoisaldo/Grade-Calculator)** · Weighted grade calculator with a simple desktop UI.
 - **[Lua-Roblox-Commands](https://github.com/whoisaldo/Lua-Roblox-Commands)** · Quick utility commands for Roblox game development.
 
