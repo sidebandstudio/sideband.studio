@@ -157,10 +157,12 @@ function RepoMeta({ repo }: { repo: OpenRepo }) {
     <>
       <span>{repo.license}</span>
       {repo.language && <span>{repo.language}</span>}
-      <span className="tabular-nums">
-        {repo.stars.toLocaleString('en-US')}{' '}
-        {repo.stars === 1 ? 'star' : 'stars'}
-      </span>
+      {repo.stars > 0 && (
+        <span className="tabular-nums">
+          {repo.stars.toLocaleString('en-US')}{' '}
+          {repo.stars === 1 ? 'star' : 'stars'}
+        </span>
+      )}
     </>
   )
 }
