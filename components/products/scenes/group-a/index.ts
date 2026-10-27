@@ -3,6 +3,7 @@ import EternalMonitorScene from './EternalMonitorScene'
 import EternalRichPresenceScene from './EternalRichPresenceScene'
 import Eternal2xScene from './Eternal2xScene'
 import EternalExchangeScene from './EternalExchangeScene'
+import ExerlyScene from './ExerlyScene'
 
 /** Product scenes in group a, keyed by product id. */
 export const scenesA: SceneMap = {
@@ -10,4 +11,5 @@ export const scenesA: SceneMap = {
   'eternal-rich-presence': EternalRichPresenceScene,
   eternal2x: Eternal2xScene,
   'eternal-exchange': EternalExchangeScene,
+  exerly: ExerlyScene,
 }

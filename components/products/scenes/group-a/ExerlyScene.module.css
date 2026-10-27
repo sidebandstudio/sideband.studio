@@ -1,0 +1,656 @@
+/* Exerly, one 12s loop. The still frame is 86%: the week's readings with
+   their trend, intake logged, expenditure measured and the new calorie
+   target set. Dot and bar timings are one block each. */
+
+.a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: var(--dur);
+  animation-delay: var(--at);
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-play-state: var(--play, paused);
+}
+
+.dot0 {
+  animation-name: dot0;
+}
+@keyframes dot0 {
+  0%,
+  2% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  4%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot1 {
+  animation-name: dot1;
+}
+@keyframes dot1 {
+  0%,
+  4% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  6%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot2 {
+  animation-name: dot2;
+}
+@keyframes dot2 {
+  0%,
+  6% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  8%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot3 {
+  animation-name: dot3;
+}
+@keyframes dot3 {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  10%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot4 {
+  animation-name: dot4;
+}
+@keyframes dot4 {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  12%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot5 {
+  animation-name: dot5;
+}
+@keyframes dot5 {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  14%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot6 {
+  animation-name: dot6;
+}
+@keyframes dot6 {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  16%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot7 {
+  animation-name: dot7;
+}
+@keyframes dot7 {
+  0%,
+  16% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  18%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot8 {
+  animation-name: dot8;
+}
+@keyframes dot8 {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  20%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot9 {
+  animation-name: dot9;
+}
+@keyframes dot9 {
+  0%,
+  20% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  22%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot10 {
+  animation-name: dot10;
+}
+@keyframes dot10 {
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  24%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot11 {
+  animation-name: dot11;
+}
+@keyframes dot11 {
+  0%,
+  24% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  26%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot12 {
+  animation-name: dot12;
+}
+@keyframes dot12 {
+  0%,
+  26% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  28%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.dot13 {
+  animation-name: dot13;
+}
+@keyframes dot13 {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  30%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+.bar0 {
+  transform-origin: center bottom;
+  animation-name: bar0;
+}
+@keyframes bar0 {
+  0%,
+  3% {
+    transform: scaleY(0.08);
+  }
+  7%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar1 {
+  transform-origin: center bottom;
+  animation-name: bar1;
+}
+@keyframes bar1 {
+  0%,
+  6% {
+    transform: scaleY(0.08);
+  }
+  10%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar2 {
+  transform-origin: center bottom;
+  animation-name: bar2;
+}
+@keyframes bar2 {
+  0%,
+  9% {
+    transform: scaleY(0.08);
+  }
+  13%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar3 {
+  transform-origin: center bottom;
+  animation-name: bar3;
+}
+@keyframes bar3 {
+  0%,
+  12% {
+    transform: scaleY(0.08);
+  }
+  16%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar4 {
+  transform-origin: center bottom;
+  animation-name: bar4;
+}
+@keyframes bar4 {
+  0%,
+  15% {
+    transform: scaleY(0.08);
+  }
+  19%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar5 {
+  transform-origin: center bottom;
+  animation-name: bar5;
+}
+@keyframes bar5 {
+  0%,
+  18% {
+    transform: scaleY(0.08);
+  }
+  22%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+.bar6 {
+  transform-origin: center bottom;
+  animation-name: bar6;
+}
+@keyframes bar6 {
+  0%,
+  21% {
+    transform: scaleY(0.08);
+  }
+  25%,
+  92% {
+    transform: none;
+  }
+  97%,
+  100% {
+    transform: scaleY(0.08);
+  }
+}
+
+/* The trend is drawn through the readings as they arrive. */
+.trendCover {
+  transform-origin: right center;
+  transform: scaleX(0);
+  animation-name: trendCover;
+}
+@keyframes trendCover {
+  0%,
+  6% {
+    transform: scaleX(1);
+    animation-timing-function: linear;
+  }
+  32%,
+  92% {
+    transform: scaleX(0);
+  }
+  97%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* A scanned food lands in today's intake. */
+.food {
+  opacity: 0;
+  animation-name: food;
+}
+@keyframes food {
+  0%,
+  20% {
+    opacity: 0;
+    transform: none;
+  }
+  22% {
+    opacity: 1;
+    transform: none;
+  }
+  27% {
+    opacity: 1;
+    transform: translate(-56px, 34px) scale(0.7);
+  }
+  29%,
+  100% {
+    opacity: 0;
+    transform: translate(-56px, 34px) scale(0.7);
+  }
+}
+
+/* Trend and intake meet in the energy balance. */
+.flowTrend,
+.flowIntake,
+.flowTarget {
+  opacity: 0;
+}
+.flowTrend {
+  animation-name: flowTrend;
+}
+@keyframes flowTrend {
+  0%,
+  33% {
+    opacity: 0;
+    transform: none;
+  }
+  35% {
+    opacity: 1;
+    transform: none;
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: translate(98px, -88px);
+  }
+}
+.flowIntake {
+  animation-name: flowIntake;
+}
+@keyframes flowIntake {
+  0%,
+  33% {
+    opacity: 0;
+    transform: none;
+  }
+  35% {
+    opacity: 1;
+    transform: none;
+  }
+  40%,
+  100% {
+    opacity: 0;
+    transform: translate(166px, -246px);
+  }
+}
+.measured {
+  animation-name: measured;
+}
+@keyframes measured {
+  0%,
+  39% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  43%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.confidence {
+  animation-name: confidence;
+}
+@keyframes confidence {
+  0%,
+  43% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  46%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* At the weekly check-in the measured number moves the target. */
+.flowTarget {
+  animation-name: flowTarget;
+}
+@keyframes flowTarget {
+  0%,
+  48% {
+    opacity: 0;
+    transform: none;
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+  56%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 238px);
+  }
+}
+.oldTarget {
+  opacity: 0;
+  animation-name: oldTarget;
+}
+@keyframes oldTarget {
+  0%,
+  55% {
+    opacity: 1;
+    transform: none;
+  }
+  57%,
+  95% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  97%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.newTarget {
+  animation-name: newTarget;
+}
+@keyframes newTarget {
+  0%,
+  56% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  58%,
+  93% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+.change {
+  animation-name: change;
+}
+@keyframes change {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  61%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
