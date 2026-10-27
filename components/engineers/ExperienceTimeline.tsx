@@ -3,7 +3,12 @@ import Badge from '@/components/ui/Badge'
 import { ArrowUpRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
 import type { ExperienceEntry } from '@/lib/engineers'
-import { dateRange, duration, type ExperienceGroup } from '@/lib/engineers-view'
+import {
+  dateRange,
+  duration,
+  periods,
+  type ExperienceGroup,
+} from '@/lib/engineers-view'
 import CompanyMark from './CompanyMark'
 
 function RoleStatus({ role }: { role: ExperienceEntry }) {
@@ -22,8 +27,17 @@ function RoleStatus({ role }: { role: ExperienceEntry }) {
   )
 }
 
-function Role({ role, nested }: { role: ExperienceEntry; nested: boolean }) {
-  const length = role.upcoming ? null : duration(role.startDate, role.endDate)
+function Role({
+  role,
+  nested,
+  group,
+}: {
+  role: ExperienceEntry
+  nested: boolean
+  /** The group's name, so a role under another company name says which. */
+  group: string
+}) {
+  const stints = periods(role)
   return (
     <div className={cx(nested && 'relative pl-7')}>
       {nested && (
@@ -43,11 +57,26 @@ function Role({ role, nested }: { role: ExperienceEntry; nested: boolean }) {
         </h4>
         <RoleStatus role={role} />
       </div>
-      <p className="mt-1.5 text-small tabular-nums text-sideband-muted">
-        {[dateRange(role.startDate, role.endDate), length, role.location]
-          .filter(Boolean)
-          .join(' · ')}
-      </p>
+      {role.company !== group && (
+        <p className="mt-1.5 text-small text-sideband-text-secondary">
+          {role.company}
+        </p>
+      )}
+      {/* One line per stint, each measured on its own. */}
+      <ul className="mt-1.5 space-y-0.5 text-small tabular-nums text-sideband-muted">
+        {stints.map((p, i) => (
+          <li key={p.startDate}>
+            {[
+              dateRange(p.startDate, p.endDate),
+              role.upcoming ? null : duration(p.startDate, p.endDate),
+              p.note,
+              i === 0 ? role.location : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </li>
+        ))}
+      </ul>
       <p className="mt-4 max-w-prose text-body text-sideband-text">
         {role.summary}
       </p>
@@ -123,8 +152,7 @@ export default function ExperienceTimeline({
                 </h3>
                 {many && (
                   <p className="mt-1 text-small tabular-nums text-sideband-muted">
-                    {group.roles.length} roles ·{' '}
-                    {dateRange(group.start, group.end)}
+                    {group.roles.length} roles · {group.span}
                   </p>
                 )}
               </div>
@@ -141,6 +169,7 @@ export default function ExperienceTimeline({
                   key={`${role.role}-${role.startDate}`}
                   role={role}
                   nested={many}
+                  group={group.company}
                 />
               ))}
             </div>

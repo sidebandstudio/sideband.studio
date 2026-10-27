@@ -6,8 +6,21 @@
  * from the synced GitHub snapshot, keyed by `githubLogin`.
  */
 
+/** One continuous period in a role. */
+export interface ExperienceStint {
+  startDate: string
+  endDate?: string
+  /** What the period was, when the role changed terms ("Co-op", "Part-time"). */
+  note?: string
+}
+
 export interface ExperienceEntry {
   company: string
+  /**
+   * The organisation the role belongs to when it is published under another
+   * name (Amazon Web Services is part of Amazon). Roles group by it.
+   */
+  org?: string
   /** The company's own site or GitHub org. */
   companyUrl?: string
   /** Optional company mark. Falls back to a monogram when absent. */
@@ -20,6 +33,11 @@ export interface ExperienceEntry {
   startDate: string
   /** Omitted for an incoming role that has only a start date. */
   endDate?: string
+  /**
+   * The separate periods of a role the person left and came back to, newest
+   * first. startDate and endDate then span all of them.
+   */
+  stints?: ExperienceStint[]
   current?: boolean
   upcoming?: boolean
   emphasis?: boolean
@@ -188,6 +206,7 @@ export const engineers: Engineer[] = [
     experience: [
       {
         company: 'Amazon',
+        org: 'Amazon',
         companyUrl: 'https://github.com/aws',
         logo: '/assets/logos/aws.png',
         role: 'Software Development Engineer · Amazon Dedicated Cloud',
@@ -253,6 +272,7 @@ export const engineers: Engineer[] = [
       },
       {
         company: 'Amazon Web Services',
+        org: 'Amazon',
         companyUrl: 'https://github.com/aws',
         logo: '/assets/logos/aws.png',
         role: 'SDE Intern · AWS CloudFormation',
@@ -284,10 +304,14 @@ export const engineers: Engineer[] = [
         location: 'Cambridge, MA',
         startDate: 'Jan 2026',
         endDate: 'Present',
+        stints: [
+          { startDate: 'Aug 2026', endDate: 'Present', note: 'Part-time' },
+          { startDate: 'Jan 2026', endDate: 'Jun 2026', note: 'Co-op' },
+        ],
         current: true,
         emphasis: true,
         summary:
-          'Co-op from Jan to Jun 2026, back part-time in the same role since Aug 2026. Pitched, architected and shipped a zero-touch PXE deployment platform for a ~1,000-machine fleet in Philips’ FDA-regulated Patient Monitoring business, which monitors 600M+ patients a year.',
+          'Pitched, architected and shipped a zero-touch PXE deployment platform for a ~1,000-machine fleet in Philips’ FDA-regulated Patient Monitoring business, which monitors 600M+ patients a year.',
         highlights: [
           'In production since Apr 2026 and used by 50+ engineers to test high-priority builds. Designed and shipped solo, and presented to 50+ engineers and stakeholders',
           'Stood up the FOG/TFTP server on Ubuntu 24.04 (dnsmasq proxyDHCP, tftpd-hpa) and built a PowerShell WinPE orchestrator with a FastAPI service for MAC-keyed host config, secrets and live deployment status',

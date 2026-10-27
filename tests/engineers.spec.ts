@@ -164,6 +164,30 @@ test('the about timeline dates every engineer from their Sideband role', async (
   await expect(history).not.toContainText(/co-?found/i)
 })
 
+test('a role held in two stints is measured per stint, and roles group by organisation', async ({
+  page,
+}) => {
+  await page.goto('/engineers/ali-younes')
+  const exp = page.locator('section[aria-labelledby="experience-title"]')
+  const groups = exp.locator(':scope ol > li')
+  const philips = groups.filter({
+    has: page.getByRole('heading', { name: 'Philips', exact: true }),
+  })
+  await expect(philips).toContainText('Aug 2026 – Present · 3 mos · Part-time')
+  await expect(philips).toContainText('Jan 2026 – Jun 2026 · 6 mos · Co-op')
+  // Never one length across the gap between the co-op and the return.
+  await expect(philips).not.toContainText('Jan 2026 – Present')
+  await expect(philips).not.toContainText('10 mos')
+
+  const amazon = groups.filter({
+    has: page.getByRole('heading', { name: 'Amazon', exact: true }),
+  })
+  await expect(amazon).toHaveCount(1)
+  await expect(amazon).toContainText('2 roles')
+  await expect(amazon).toContainText('Amazon Web Services')
+  await expect(exp).toContainText('8 roles at 7 organizations')
+})
+
 test('a role dated by year alone shows the year without a month or length', async ({
   page,
 }) => {

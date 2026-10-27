@@ -5,6 +5,7 @@ import { githubSyncedAt } from '@/lib/github'
 import {
   type Engineer,
   type ExperienceEntry,
+  type ExperienceStint,
   type FeaturedProject,
 } from '@/lib/engineers'
 import { productsByRank, type Product } from '@/lib/products'
@@ -54,9 +55,10 @@ export function dateRange(start: string, end?: string): string {
 }
 
 /**
- * Length of a role, counting both end months the way resumes do ("4 mos",
- * "1 yr 2 mos"). Ongoing roles run to the snapshot date. Null when a date
- * has no month or the role has not started.
+ * Length of one continuous period, counting both end months the way resumes
+ * do ("4 mos", "1 yr 2 mos"). Ongoing periods run to the snapshot date. Null
+ * when a date has no month or the period has not started. Call it once per
+ * stint: a role someone left and came back to is never measured across the gap.
  */
 export function duration(start: string, end?: string): string | null {
   const from = parseYearMonth(start)
@@ -73,57 +75,71 @@ export function duration(start: string, end?: string): string | null {
   return parts.filter(Boolean).join(' ')
 }
 
+/** The periods a role was held, newest first: its stints, or its one date range. */
+export function periods(role: ExperienceEntry): ExperienceStint[] {
+  return role.stints ?? [{ startDate: role.startDate, endDate: role.endDate }]
+}
+
 export interface ExperienceGroup {
+  /** The organisation: the roles' `org`, or their company name. */
   company: string
   companyUrl?: string
   logo?: string
   logoOnDark?: boolean
   roles: ExperienceEntry[]
-  /** Earliest start and latest end across the roles. */
-  start: string
-  end?: string
+  /** The dated span of the group, without the gaps between roles. */
+  span: string
+}
+
+/** Earliest start to latest end across dated periods, then any incoming start. */
+function groupSpan(roles: ExperienceEntry[]): string {
+  const all = roles.flatMap(periods)
+  const dated = all.filter((p) => p.endDate)
+  const incoming = all.filter((p) => !p.endDate)
+  const starts = dated
+    .map((p) => ({ raw: p.startDate, ym: parseYearMonth(p.startDate) }))
+    .filter((x) => x.ym)
+    .sort((a, b) => ordinal(a.ym!) - ordinal(b.ym!))
+  const ends = dated.map((p) => p.endDate!)
+  const end = ends.includes('Present')
+    ? 'Present'
+    : ends
+        .map((raw) => ({ raw, ym: parseYearMonth(raw) }))
+        .filter((x) => x.ym)
+        .sort((a, b) => ordinal(b.ym!) - ordinal(a.ym!))[0]?.raw
+  const parts: string[] = []
+  if (starts[0] && end) parts.push(dateRange(starts[0].raw, end))
+  for (const p of incoming) parts.push(`incoming ${p.startDate}`)
+  return parts.join(', ')
 }
 
 /**
- * Roles grouped by company in the order the data lists them, so a run of
- * dated roles at one organisation (promotions, a return, parallel roles)
- * reads as one entry. A group takes the position of its newest role.
+ * Roles grouped by organisation in the order the data lists them, so a run
+ * of dated roles at one place (promotions, parallel roles, a later return
+ * under the parent company) reads as one entry. A group takes the position
+ * of its newest role.
  */
 export function groupExperience(entries: ExperienceEntry[]): ExperienceGroup[] {
-  const groups: ExperienceGroup[] = []
+  const groups: (Omit<ExperienceGroup, 'span'> & { span?: string })[] = []
   for (const entry of entries) {
-    const group = groups.find((g) => g.company === entry.company)
+    const name = entry.org ?? entry.company
+    const group = groups.find((g) => g.company === name)
     if (group) group.roles.push(entry)
     else
       groups.push({
-        company: entry.company,
+        company: name,
         companyUrl: entry.companyUrl,
         logo: entry.logo,
         logoOnDark: entry.logoOnDark,
         roles: [entry],
-        start: entry.startDate,
-        end: entry.endDate,
       })
   }
-  for (const g of groups) {
-    const starts = g.roles
-      .map((r) => ({ raw: r.startDate, ym: parseYearMonth(r.startDate) }))
-      .filter((s) => s.ym)
-    starts.sort((a, b) => ordinal(a.ym!) - ordinal(b.ym!))
-    if (starts[0]) g.start = starts[0].raw
-    const ends = g.roles.map((r) => r.endDate)
-    if (ends.includes('Present')) g.end = 'Present'
-    else {
-      const dated = ends
-        .map((raw) => ({ raw, ym: parseYearMonth(raw) }))
-        .filter((e) => e.ym)
-      dated.sort((a, b) => ordinal(b.ym!) - ordinal(a.ym!))
-      g.end = dated[0]?.raw ?? g.roles[0].endDate
-    }
-    g.companyUrl ??= g.roles.find((r) => r.companyUrl)?.companyUrl
-    g.logo ??= g.roles.find((r) => r.logo)?.logo
-  }
-  return groups
+  return groups.map((g) => ({
+    ...g,
+    companyUrl: g.companyUrl ?? g.roles.find((r) => r.companyUrl)?.companyUrl,
+    logo: g.logo ?? g.roles.find((r) => r.logo)?.logo,
+    span: groupSpan(g.roles),
+  }))
 }
 
 export interface PublishedLink {
