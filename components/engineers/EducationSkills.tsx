@@ -3,6 +3,33 @@ import Reveal from '@/components/ui/Reveal'
 import type { EducationEntry, SkillGroup } from '@/lib/engineers'
 import CompanyMark from './CompanyMark'
 
+/** Short items read as tags. Sentence-length ones read as a list, so they wrap. */
+function ItemList({ items }: { items: string[] }) {
+  if (items.every((item) => item.length <= 32))
+    return (
+      <ul className="mt-3 flex flex-wrap gap-2">
+        {items.map((item) => (
+          <li key={item}>
+            <Badge>{item}</Badge>
+          </li>
+        ))}
+      </ul>
+    )
+  return (
+    <ul className="mt-3 space-y-2 text-small text-sideband-text">
+      {items.map((item) => (
+        <li key={item} className="flex gap-3">
+          <span
+            aria-hidden="true"
+            className="mt-[0.6em] block h-1 w-1 shrink-0 rounded-full bg-sideband-muted"
+          />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export function Education({ entries }: { entries: EducationEntry[] }) {
   return (
     <ul className="space-y-12">
@@ -25,13 +52,7 @@ export function Education({ entries }: { entries: EducationEntry[] }) {
               <h4 className="text-small font-medium text-sideband-text-secondary">
                 Coursework
               </h4>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {e.coursework.map((c) => (
-                  <li key={c}>
-                    <Badge>{c}</Badge>
-                  </li>
-                ))}
-              </ul>
+              <ItemList items={e.coursework} />
             </div>
           )}
           {e.activities && e.activities.length > 0 && (
@@ -39,13 +60,7 @@ export function Education({ entries }: { entries: EducationEntry[] }) {
               <h4 className="text-small font-medium text-sideband-text-secondary">
                 Activities
               </h4>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {e.activities.map((a) => (
-                  <li key={a}>
-                    <Badge>{a}</Badge>
-                  </li>
-                ))}
-              </ul>
+              <ItemList items={e.activities} />
             </div>
           )}
         </Reveal>
