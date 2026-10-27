@@ -12,12 +12,17 @@ import {
   teamCalendar,
   weeklyTotals,
 } from '@/lib/engineers-github'
-import { capitalize, countWord, productsBy } from '@/lib/engineers-view'
+import {
+  capitalize,
+  countWord,
+  listJoin,
+  productsBy,
+} from '@/lib/engineers-view'
 
 export const metadata: Metadata = {
   title: 'Engineers · Sideband',
   description:
-    'The engineers behind Sideband: what each of them builds at the studio, their work history and projects, and their activity on GitHub.',
+    'The founding engineers behind Sideband: what each of them builds at the studio, their work history and projects, and their activity on GitHub.',
 }
 
 export default function EngineersPage() {
@@ -27,7 +32,7 @@ export default function EngineersPage() {
     new Set(
       all
         .map((e) => e.contact.location?.replace(/^Greater /, ''))
-        .filter(Boolean),
+        .filter((c): c is string => Boolean(c)),
     ),
   )
 
@@ -38,21 +43,24 @@ export default function EngineersPage() {
           as="h1"
           id="engineers-title"
           trigger="mount"
-          eyebrow={`${capitalize(countWord(all.length))} engineers`}
-          title="The people who build Sideband"
-          lede={`Each of them ships products of their own here, from ${cities.join(' and ')}. Open a dossier for their work history, every project, and a year of GitHub activity.`}
+          title={`${capitalize(countWord(all.length))} founding engineers`}
+          lede={`The people who build Sideband, working from ${listJoin(cities)}. Open a dossier for their work history, every project, what they build here and a year of GitHub activity.`}
         />
         <ul className="mt-14 grid gap-6 lg:grid-cols-2">
           {all.map((engineer, i) => {
             const gh = engineerGithub(engineer)
+            // An odd last card takes the whole row, laid out sideways.
+            const wide = all.length % 2 === 1 && i === all.length - 1
             return (
               <Reveal
                 as="li"
                 key={engineer.id}
                 trigger={i < 2 ? 'mount' : 'scroll'}
                 delay={i < 2 ? 280 + i * 70 : (i % 2) * 70}
+                className={wide ? 'lg:col-span-2' : undefined}
               >
                 <EngineerCard
+                  wide={wide}
                   engineer={engineer}
                   gh={gh}
                   weekly={gh ? weeklyTotals(gh.weeks) : []}
@@ -68,7 +76,7 @@ export default function EngineersPage() {
         <SectionHeading
           id="team-title"
           title="A year on GitHub, together"
-          lede={`${formatCount(team.summary.total)} contributions from the ${countWord(all.length)} of them in the last year, every calendar added day by day. From the snapshot synced ${syncedLabel}.`}
+          lede={`${formatCount(team.summary.total)} contributions from all ${countWord(team.people.length)} founding engineers in the last year, every calendar added day by day. From the snapshot synced ${syncedLabel}.`}
         />
         <div className="mt-14">
           <TeamActivity

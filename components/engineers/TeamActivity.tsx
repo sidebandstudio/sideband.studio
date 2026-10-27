@@ -14,7 +14,7 @@ interface TeamActivityProps {
   people: { id: string; name: string; accent: string; total: number }[]
 }
 
-/** The four calendars added together, with each person's share of the year. */
+/** Every engineer's calendar added together, with each person's share of the year. */
 export default function TeamActivity({
   weeks,
   summary,
