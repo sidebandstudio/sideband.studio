@@ -47,7 +47,7 @@ Seven-month co-op. Owns the Laboratory's internal AI search, used by 4,500+ engi
 
 **Boston, MA · Jan 2026 – Present**
 
-Co-founded an independent software studio with four founders.
+Co-founded an independent software studio with five founding engineers.
 
 - Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion
 - Builds the Python and Lua pipeline behind Eternal2x, a DaVinci Resolve plugin, and contributes to Eternal Summary and EternalMonitor

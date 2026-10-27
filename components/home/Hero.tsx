@@ -35,8 +35,8 @@ export default function Hero({ products }: { products: Product[] }) {
           style={delay(300)}
           className="mx-auto mb-9 max-w-[640px] text-pretty text-[clamp(16px,1.4vw,19px)] leading-[1.55] tracking-[-0.005em] text-sideband-text-secondary"
         >
-          Four friends building an iPad display for Windows, a music bridge for
-          Discord, a smarter video upscaler, and more in progress.
+          Five founding engineers building an iPad display for Windows, a music
+          bridge for Discord, a smarter video upscaler, and more in progress.
         </p>
 
         <div

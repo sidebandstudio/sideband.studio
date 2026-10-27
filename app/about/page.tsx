@@ -22,6 +22,7 @@ const timeline = [
   { year: '2026', event: 'Eternal Summary ships: MV3 Chrome extension' },
   { year: '2026', event: 'Karan Anand joins as Co-Founder' },
   { year: '2026', event: 'Naman Rusia joins as Co-Founder' },
+  { year: '2026', event: 'David Czartoryski joins as Founding Engineer' },
   { year: '2026', event: '→  What comes next' },
 ]
 
@@ -37,7 +38,7 @@ export default function AboutPage() {
             [ ABOUT ]
           </span>
           <h1 className="mt-4 font-display text-5xl text-sideband-text-secondary md:text-7xl">
-            Four founders.
+            Five founding engineers.
           </h1>
           <h1 className="font-display text-5xl font-bold text-sideband-text md:text-7xl">
             One studio<span className="text-sideband-accent">.</span>
@@ -139,5 +140,5 @@ export default function AboutPage() {
 export const metadata: Metadata = {
   title: 'About · Sideband',
   description:
-    'Sideband is a four-founder software studio. We build the things we wished existed.',
+    'Sideband is a software studio of five founding engineers. We build the things we wished existed.',
 }

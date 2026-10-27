@@ -76,7 +76,7 @@ He wrote up the Secure Boot work in [Zero-touch Windows deployment with Secure B
 
 **Boston, MA · 2025 – Present**
 
-Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is four founders now. Wrote the Rust host and SwiftUI client behind EternalMonitor, the SwiftUI iOS app and Node API behind Exerly Fitness, and most of the studio site.
+Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now. Wrote the Rust host and SwiftUI client behind EternalMonitor, the SwiftUI iOS app and Node API behind Exerly Fitness, and most of the studio site.
 
 ### Top Choice Realty · Frontend Developer Intern
 

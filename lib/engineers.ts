@@ -86,6 +86,7 @@ export interface EngineerContact {
   website?: string
   x?: string
   tiktok?: string
+  instagram?: string
   resume?: string
   location?: string
 }
@@ -318,7 +319,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is four founders now, shipping its own products instead of client work.',
+          'Co-founded the studio in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now, shipping its own products instead of client work.',
         highlights: [
           'Wrote the Rust host and SwiftUI iPad client behind EternalMonitor',
           'Built the SwiftUI iOS app and Node API behind Exerly Fitness',
@@ -799,7 +800,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Co-founded an independent software studio with four founders. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
+          'Co-founded an independent software studio with five founding engineers. Builds the studio site and product pages in Next.js and develops products across desktop, browser and web.',
         highlights: [
           'Owns the studio site and product pages, built with the Next.js App Router, strict TypeScript, Tailwind CSS and Framer Motion',
           'Builds the Python and Lua pipeline behind Eternal2x, and built Eternal Summary and Better Canvas',
@@ -1868,6 +1869,433 @@ export const engineers: Engineer[] = [
       website: 'https://www.namanrusia.dev',
       x: 'https://x.com/namanrusia1',
       resume: 'https://www.namanrusia.dev/resume.pdf',
+      location: 'Boston, MA',
+    },
+  },
+  {
+    id: 'david-czartoryski',
+    name: 'David Czartoryski',
+    initials: 'DC',
+    role: 'Founding Engineer',
+    githubLogin: 'DavidCzartoryski',
+    shortBio:
+      'Software engineer, AI infrastructure researcher at Northeastern’s HPC Research Lab, and founder. The work that pulls him in is making things faster, now down to the one slow GPU holding a training job back.',
+    longBio: [
+      'David studies Computer Science and Business Administration at Northeastern, with a concentration in Corporate Innovation, and graduates in December 2027. Home base is split between Boston, San Francisco and Warsaw. He is an AI infrastructure researcher at Northeastern’s HPC Research Lab, where he builds cross-vendor GPU training and runtime diagnosis systems on the Explorer cluster at MGHPCC.',
+      'Most of what he has shipped is a version of the same problem: profiling a system until the bottleneck shows itself, then optimizing the code around it. At Mosaiq Software he replaced a 5-second polling loop with a WebSocket transport that updates in 120 ms. At Summit Partners he cut deployment time 70%. With GPUBridge he made a 1 GB all-reduce across NVIDIA and AMD GPUs 2.7x faster. He is also a software engineer on Pawtograder, Northeastern’s coding and grading platform.',
+      'In 2024 he founded Hercules Holdings, the venture studio behind EternalTap, a wallet-native transit fare platform, and CrediMax, a card-rewards app. In 2026 he won 1st place among 250+ participants at the Microsoft x Northeastern AI Hackathon with HuskyClaw. He won the Massachusetts state wrestling title more than once in high school and still wrestles at Northeastern. He speaks English, Polish and Russian and has been to 23 countries.',
+    ],
+    portrait: {
+      src: '/assets/engineers/david-czartoryski/portrait.webp',
+      width: 240,
+      height: 240,
+    },
+    availability:
+      'Open to new-grad software engineering roles starting after December 2027, private equity and venture roles, and front-office finance',
+    spokenLanguages: ['English', 'Polish', 'Russian'],
+    interests: [
+      'Wrestling',
+      'Travel',
+      'Fashion',
+      'Food',
+      'Photography',
+      'Cars',
+      'Chess',
+      'Fitness',
+    ],
+    accentColor: '#D4A853',
+    prev: [
+      {
+        label: 'NORTHEASTERN HPC RESEARCH LAB',
+        sublabel: 'AI INFRASTRUCTURE RESEARCHER · CURRENT',
+      },
+      { label: 'SUMMIT PARTNERS', sublabel: 'DEVOPS CO-OP · FALL 25' },
+      { label: 'NORTHEASTERN', sublabel: 'CS + BUSINESS · DEC 27' },
+    ],
+    experience: [
+      {
+        company: 'Sideband',
+        companyUrl: 'https://sideband.studio',
+        logo: '/assets/logos/sideband.png',
+        logoOnDark: true,
+        role: 'Founding Engineer',
+        location: 'Boston, MA',
+        startDate: 'Oct 2026',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Joined the studio in October 2026 as its fifth founding engineer.',
+      },
+      {
+        company: 'Northeastern University HPC Research Lab',
+        logo: '/assets/logos/northeastern-university.png',
+        logoOnDark: true,
+        role: 'AI Infrastructure Researcher',
+        location: 'Boston, MA · MGHPCC',
+        startDate: 'Oct 2026',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'Develops GPUBridge and a runtime GPU straggler detector and workload rebalancer on Northeastern’s Explorer cluster at the Massachusetts Green High Performance Computing Center (MGHPCC). The projects began independently and led to this research role.',
+        highlights: [
+          'Owns the work across distributed communication, GPU kernels, statistical diagnosis and native Rust execution',
+          'Evaluates changes with hardware benchmarks, reference-based differential tests and fault injection, preserving numerical behavior and asynchronous resource lifetimes',
+        ],
+        skills: [
+          'PyTorch',
+          'Rust',
+          'CUDA',
+          'ROCm',
+          'NCCL / RCCL',
+          'Triton',
+          'Slurm',
+        ],
+      },
+      {
+        company: 'Pawtograder',
+        companyUrl: 'https://github.com/pawtograder',
+        logo: '/assets/logos/pawtograder.png',
+        logoOnDark: true,
+        role: 'Software Engineer',
+        location: 'Boston, MA',
+        startDate: 'Sep 2026',
+        endDate: 'Present',
+        current: true,
+        summary:
+          'Operates a production coding and grading platform serving 5,000+ weekly active users across ten Northeastern CS courses, as one of 15 engineers on a subteam of four that owns one service end to end. A capstone with Prof. Jon Bell.',
+        highlights: [
+          'Set up telemetry for the Next.js and Supabase platform with OpenTelemetry, exporting metrics to Prometheus and visualizing them in Grafana dashboards',
+          'Raised survey error-text contrast from 3.98:1 to 5.06:1 after finding 2 WCAG 1.4.3 failures the CI accessibility gate excluded, and extended the axe-core sweep to scan pages mid-interaction, now covering 40 routes',
+          'Measured the CI accessibility gate’s recall across 82 axe-core scans with 8 seeded defects. It caught 1 of 8, which made the case for scanning with every rule and in interaction states',
+          'Traced 2 test suites crashing on import to a missing jsdom global, exposing 5 real failures hidden in the LLM-hint rate-limiting tests and a CI config that gated only 2 test files',
+        ],
+        skills: [
+          'Next.js',
+          'TypeScript',
+          'Supabase',
+          'OpenTelemetry',
+          'Prometheus',
+          'Grafana',
+          'Playwright',
+          'axe-core',
+        ],
+      },
+      {
+        company: 'Hercules Holdings',
+        role: 'Founder & CEO',
+        location: 'Boston, MA',
+        startDate: '2024',
+        endDate: 'Present',
+        current: true,
+        emphasis: true,
+        summary:
+          'The venture studio and holding company behind his govtech fare platform, his consumer fintech app and the AI tooling for his commerce brands. It has had employees and interns.',
+        highlights: [
+          'EternalTap: a wallet-native fare platform for universities and transit agencies, built with a cofounder, with a conditional contract covering 22,000+ riders',
+          'CrediMax: aggregates credit cards through Plaid and surfaces the best card at checkout. He negotiated seed terms with venture firms and senior American Express leadership, then walked away from the round',
+          'An autonomous storefront builder that drove $180K in revenue across the brands, and an ad creative pipeline that takes production from days to 6 minutes',
+        ],
+      },
+      {
+        company: 'Mosaiq Software',
+        companyUrl: 'https://github.com/mosaiq-software',
+        logo: '/assets/logos/mosaiq.png',
+        logoOnDark: true,
+        role: 'Full-Stack Software Engineer',
+        location: 'Boston, MA',
+        startDate: 'Jan 2026',
+        endDate: 'May 2026',
+        summary:
+          'Cut update latency to 120 ms by replacing a 5-second polling loop with a WebSocket transport, unblocking live updates and interactive multi-user workflows the product could not support before.',
+        highlights: [
+          'Moved the React frontend and Node/Express backend onto shared TypeScript API contracts in a monorepo package, so a breaking change fails the compiler instead of reaching production as a runtime data-flow bug',
+        ],
+        skills: ['React', 'Node', 'Express', 'TypeScript', 'WebSockets'],
+      },
+      {
+        company: 'Summit Partners',
+        companyUrl: 'https://www.summitpartners.com/',
+        logo: '/assets/logos/summit-partners.png',
+        logoOnDark: true,
+        role: 'DevOps Engineer Co-op',
+        location: 'Menlo Park, CA',
+        startDate: 'Jul 2025',
+        endDate: 'Dec 2025',
+        emphasis: true,
+        summary:
+          'Cut deployment time 70% at a $42B+ AUM growth equity firm by automating infrastructure provisioning in Python, Bash and Azure CLI, reclaiming 12 engineer-hours per week from manual runbooks.',
+        highlights: [
+          'Diagnosed international server connectivity failures through firewall and routing configuration alongside the firm’s lead architect, inside a security-compliant private equity environment',
+          'Provisioned 50+ company-issued devices into the firm’s zero-trust endpoint stack (Zscaler, Proofpoint, ThreatLocker), maintaining hybrid fleet compliance in Jamf Pro and NinjaOne',
+          'Cut 4 hours per deal review by shipping AI extraction and summarization into the deal spreadsheet workflow, owned end to end from pitch to production as the intern project',
+          'Reduced query latency 30% with a Python and SQL service that deduplicated redundant datasets and rewrote the calculation pipelines reading from them',
+        ],
+        skills: ['Python', 'Bash', 'Azure CLI', 'SQL', 'Jamf Pro'],
+      },
+      {
+        company: 'Whalley Computer Associates',
+        companyUrl: 'https://www.wca.com/',
+        logo: '/assets/logos/whalley-computer-associates.png',
+        role: 'Network Engineer Intern',
+        location: 'Southwick, MA',
+        startDate: 'Jun 2023',
+        endDate: 'Aug 2024',
+        summary:
+          'Configured hundreds of Cisco switches per rollout with a Python script parameterized for each site’s requirements, replacing switch-by-switch CLI work across state agency and municipal deployments.',
+        highlights: [
+          'Cut inter-site latency 35% by migrating government sites off 1990s Cat 3 cabling to Cat 8 and replacing the switch hardware behind it',
+          'Set up firewall policy, BGP peering and IP addressing at each site, standardizing configuration that had drifted into a different security posture per location',
+        ],
+        skills: ['Cisco', 'Python', 'BGP', 'Firewalls'],
+      },
+    ],
+    education: [
+      {
+        school: 'Northeastern University',
+        logo: '/assets/logos/northeastern-university.png',
+        logoOnDark: true,
+        degree:
+          'B.S. Computer Science & Business Administration · Concentration in Corporate Innovation',
+        dates: 'Dec 2027 (expected) · Boston, MA',
+        honors:
+          '1st place among 250+ participants, 2026 Microsoft x Northeastern AI Hackathon (AI Builder Blitz)',
+        coursework: [
+          'Financial Management',
+          'CS 4535, the capstone behind the Pawtograder role',
+        ],
+        activities: [
+          'President of the Polish Club (previously VP of the Polish Students Association)',
+          'Wrestling',
+          'NU AI Club',
+        ],
+      },
+    ],
+    skills: [
+      {
+        category: 'Languages',
+        items: [
+          'Python',
+          'TypeScript',
+          'JavaScript',
+          'Java',
+          'C++',
+          'C',
+          'Rust',
+          'Swift',
+          'SQL',
+          'Bash',
+          'Racket',
+          'Liquid',
+          'HTML/CSS',
+        ],
+      },
+      {
+        category: 'Frameworks & AI',
+        items: [
+          'React',
+          'Next.js',
+          'Node.js',
+          'Express',
+          'FastAPI',
+          'Django',
+          'Angular',
+          'SwiftUI',
+          'React Native',
+          'LLM APIs',
+          'Claude tool use',
+          'RAG',
+        ],
+      },
+      {
+        category: 'GPU & distributed',
+        items: [
+          'PyTorch distributed',
+          'NCCL',
+          'RCCL',
+          'Triton',
+          'CUDA streams',
+          'ROCm',
+          'UCX',
+          'RDMA / libibverbs (in development)',
+          'Slurm',
+        ],
+      },
+      {
+        category: 'Infrastructure',
+        items: [
+          'Git',
+          'Linux',
+          'Docker',
+          'PostgreSQL',
+          'Supabase',
+          'MongoDB',
+          'Azure CLI',
+          'GitHub Actions',
+          'OpenTelemetry',
+          'Prometheus',
+          'Grafana',
+        ],
+      },
+      {
+        category: 'Networking',
+        items: [
+          'TCP/IP',
+          'BGP',
+          'VLANs',
+          'Routing & switching',
+          'ACLs',
+          'Firewall policy',
+          'DNS',
+        ],
+      },
+    ],
+    projects: [
+      {
+        name: 'Artemis and GPUBridge',
+        featured: true,
+        blurb:
+          'Two systems for mixed-vendor GPU training. GPUBridge is an open-source PyTorch backend that joins NVIDIA and AMD GPUs in one job, each on its native NCCL or RCCL. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression. Artemis, in development, times the collectives every rank already runs, flags the GPU, link or host that regressed and can rebalance work across the GPUs the job already has.',
+        href: 'https://davidczartoryski.com/Artemis/',
+        repo: 'https://github.com/DavidCzartoryski/gpubridge',
+        role: 'Founder',
+        tech: [
+          'PyTorch',
+          'NCCL',
+          'RCCL',
+          'Triton',
+          'CUDA',
+          'ROCm',
+          'C',
+          'Rust',
+          'libibverbs',
+          'Slurm',
+        ],
+      },
+      {
+        name: 'EternalTap',
+        featured: true,
+        blurb:
+          'A wallet-native fare platform for universities and transit agencies. It verifies rider eligibility against a university roster, prices MBTA fare rules and issues a signed Apple Wallet pass. He wrote the eligibility engine across 9 MBTA reduced and free fare categories, the rider web app and the native SwiftUI app. A conditional contract covers 22,000+ riders.',
+        role: 'Built with a cofounder',
+        tech: [
+          'Next.js',
+          'TypeScript',
+          'Prisma',
+          'Postgres',
+          'Swift',
+          'SwiftUI',
+          'Apple Wallet',
+        ],
+      },
+      {
+        name: 'CrediMax',
+        featured: true,
+        blurb:
+          'Aggregates your credit cards through Plaid and tells you which one to tap at checkout. Built solo end to end: a SwiftUI app with widgets, Live Activities and an Apple Watch complication, a FastAPI and Postgres backend on Plaid’s production environment, and a Claude advisor grounded in card and transfer-partner data.',
+        href: 'https://credimax.app/',
+        role: 'Solo',
+        tech: [
+          'Swift',
+          'SwiftUI',
+          'WidgetKit',
+          'FastAPI',
+          'Postgres',
+          'Plaid',
+          'Claude',
+          'Stripe',
+        ],
+      },
+      {
+        name: 'The creative engine',
+        featured: true,
+        blurb:
+          'The software behind his commerce brands: an autonomous storefront builder that regenerates each shop and tunes it against live sales, and an ad creative pipeline that takes production from days to 6 minutes. $180K in revenue across the brands.',
+        tech: [
+          'Python',
+          'FastAPI',
+          'React',
+          'Pillow',
+          'Claude',
+          'Higgsfield MCP',
+          'Shopify',
+          'Liquid',
+          'Meta CAPI',
+        ],
+      },
+      {
+        name: 'HuskyClaw',
+        blurb:
+          'An agentic assistant for Northeastern students. Text it a task and it plans the work across registration, coursework and recruiting, with every real-world action behind the student’s approval. Won 1st place among 250+ participants at Microsoft’s AI Builder Blitz and is in beta with student testers.',
+        href: 'https://whoisaldo.github.io/huskyclaw-demo/',
+        role: 'Co-founder',
+        tech: ['Claude', 'Agents', 'Human-in-the-loop'],
+      },
+      {
+        name: 'inbox-triage',
+        blurb:
+          'A Python agent that runs a student’s job hunt from the inbox. It flags assessments, interviews and offers, files bulk mail by moving it rather than deleting, puts interviews on the calendar and tailors a one-page résumé on request.',
+        href: 'https://github.com/DavidCzartoryski/inbox-triage',
+        source: true,
+        repo: 'https://github.com/DavidCzartoryski/inbox-triage',
+        tech: [
+          'Python',
+          'Claude',
+          'Claude Code',
+          'AppleScript',
+          'IMAP',
+          'GitHub Actions',
+        ],
+      },
+      {
+        name: 'SixthDegree',
+        blurb:
+          'A local-first Claude agent on macOS that builds a private graph of everyone you know from Contacts, iMessage, LinkedIn exports and dictated notes, finds the shortest chain of people to whoever you need to reach, and drafts the first text. The source is private.',
+        tech: ['Python', 'Claude', 'SQLite', 'FastAPI', 'Pydantic'],
+      },
+      {
+        name: 'CookYourBooks',
+        blurb:
+          'A Java object-oriented programming group project at Northeastern.',
+        tech: ['Java'],
+      },
+    ],
+    portfolio: {
+      url: 'https://davidczartoryski.com',
+      summary:
+        'A travel portfolio set as a passport. A boarding pass asks how you would like to board, then a theme song, an alarm-clock intro and a scroll-driven WebGL night flight carry you past his flight log, ventures, wrestling and photos from 23 countries. A recruiter view puts the résumé on one quiet page under a starfield, and Artemis has a product site of its own.',
+      pages: [
+        {
+          label: 'Boarding pass',
+          url: 'https://davidczartoryski.com/',
+          ...capture('david-czartoryski', 'portfolio'),
+        },
+        {
+          label: 'Passport',
+          url: 'https://davidczartoryski.com/?intro=off',
+          ...capture('david-czartoryski', 'portfolio-passport'),
+        },
+        {
+          label: 'Recruiter view',
+          url: 'https://davidczartoryski.com/recruiter/',
+          ...capture('david-czartoryski', 'portfolio-recruiter'),
+        },
+        {
+          label: 'Artemis',
+          url: 'https://davidczartoryski.com/Artemis/',
+          ...capture('david-czartoryski', 'portfolio-artemis'),
+        },
+      ],
+    },
+    contact: {
+      email: 'czartoryski.d@northeastern.edu',
+      github: 'https://github.com/DavidCzartoryski',
+      linkedin: 'https://www.linkedin.com/in/david-czartoryski/',
+      website: 'https://davidczartoryski.com',
+      instagram: 'https://www.instagram.com/dczar.ski/',
+      tiktok: 'https://www.tiktok.com/@dczar.ski',
+      resume: 'https://davidczartoryski.com/resume/DavidCzartoryski_Resume.pdf',
       location: 'Boston, MA',
     },
   },
