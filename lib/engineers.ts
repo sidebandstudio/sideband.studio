@@ -1920,12 +1920,11 @@ export const engineers: Engineer[] = [
         logoOnDark: true,
         role: 'Founding Engineer',
         location: 'Boston, MA',
-        startDate: 'Oct 2026',
+        startDate: '2026',
         endDate: 'Present',
         current: true,
         emphasis: true,
-        summary:
-          'Joined the studio in October 2026 as its fifth founding engineer.',
+        summary: 'One of the studio’s five founding engineers.',
       },
       {
         company: 'Northeastern University HPC Research Lab',

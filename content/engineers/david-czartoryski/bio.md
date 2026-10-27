@@ -20,7 +20,7 @@ Portfolio: https://davidczartoryski.com · GitHub: [@DavidCzartoryski](https://g
 
 ## Now
 
-- **Founding Engineer at Sideband** since Oct 2026
+- **Founding Engineer at Sideband** since 2026
 - **AI Infrastructure Researcher, Northeastern University HPC Research Lab** since Oct 2026, on the Explorer cluster at MGHPCC
 - **Software Engineer, Pawtograder** since Sep 2026
 - **Founder & CEO, Hercules Holdings**, his own venture studio outside Sideband, since 2024
@@ -34,9 +34,9 @@ Portfolio: https://davidczartoryski.com · GitHub: [@DavidCzartoryski](https://g
 
 ### Sideband · Founding Engineer
 
-**Boston, MA · Oct 2026 – Present**
+**Boston, MA · 2026 – Present**
 
-Joined the studio in October 2026 as its fifth founding engineer.
+One of the studio's five founding engineers.
 
 ### Northeastern University HPC Research Lab · AI Infrastructure Researcher
 
