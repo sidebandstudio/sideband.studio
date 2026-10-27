@@ -48,6 +48,18 @@ test('product detail navigation works', async ({ page }) => {
   ).toBeVisible()
 })
 
+for (const product of products) {
+  test(`product page ${product.id} returns 200 and shows its name`, async ({
+    page,
+  }) => {
+    const res = await page.goto(`/products/${product.id}`)
+    expect(res?.status()).toBe(200)
+    await expect(
+      page.getByRole('heading', { level: 1, name: product.name }),
+    ).toBeVisible()
+  })
+}
+
 test('engineers index lists all founders and links to a dossier', async ({
   page,
 }) => {

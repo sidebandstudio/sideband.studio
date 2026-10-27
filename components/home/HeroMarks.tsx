@@ -2,29 +2,26 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
-import { products } from '@/lib/products'
+import type { Product } from '@/lib/products'
 
-/** Maps each product id to the CSS block that places its mark. */
-const MARK_CLASS: Record<string, string> = {
-  'eternal-monitor': 'hf-em',
-  'eternal-rich-presence': 'hf-rp',
-  exerly: 'hf-ex',
-  eternal2x: 'hf-e2x',
-  'eternal-summary': 'hf-es',
-  'signature-cuts': 'hf-sc',
-}
+/** The six CSS blocks that place a mark, in slot order. */
+const SLOTS = ['hf-em', 'hf-rp', 'hf-ex', 'hf-e2x', 'hf-es', 'hf-sc']
 
 /**
- * Six product icons floating around the headline. CSS owns the entrance and
+ * Product icons floating around the headline, one per slot. CSS owns the entrance and
  * the drift loop. This component only decides when the loop may run (mark on
  * screen, tab visible, motion allowed) and feeds the pointer position in for
  * parallax on fine pointers. The hero section is the pointer surface.
  */
 export default function HeroMarks({
   heroRef,
+  products,
 }: {
   heroRef: React.RefObject<HTMLElement>
+  /** Ranked products. The top ones with an icon take the slots. */
+  products: Product[]
 }) {
+  const marks = products.filter((p) => p.icon).slice(0, SLOTS.length)
   const fieldRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -112,13 +109,10 @@ export default function HeroMarks({
 
   return (
     <div ref={fieldRef} className="hero-float" aria-hidden="true">
-      {products.map((p) => (
-        <span
-          key={p.id}
-          className={`hero-float-mark ${MARK_CLASS[p.id] ?? ''}`}
-        >
+      {marks.map((p, i) => (
+        <span key={p.id} className={`hero-float-mark ${SLOTS[i]}`}>
           <span className="hero-float-card">
-            <Image src={p.icon} alt="" width={96} height={96} />
+            <Image src={p.icon!.src} alt="" width={96} height={96} />
           </span>
         </span>
       ))}

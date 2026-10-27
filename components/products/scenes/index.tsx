@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { ComponentType, CSSProperties } from 'react'
-import { getProductById } from '@/lib/products'
+import { getProductById, type Product } from '@/lib/products'
 import { cx } from '@/components/ui/cx'
 
 /**
@@ -56,18 +56,21 @@ export function ProductScene({ id, variant, className }: ProductSceneProps) {
       {Scene ? (
         <Scene variant={variant} />
       ) : (
-        <SceneFallback icon={product.icon} variant={variant} />
+        <SceneFallback product={product} variant={variant} />
       )}
     </div>
   )
 }
 
-/** The product's icon under its own light, on the scene's dot grid. */
+/**
+ * The product's icon under its own light, on the scene's dot grid. A product
+ * with no icon shows its name instead.
+ */
 function SceneFallback({
-  icon,
+  product,
   variant,
 }: {
-  icon: string
+  product: Product
   variant: SceneVariant
 }) {
   const hero = variant === 'hero'
@@ -76,16 +79,22 @@ function SceneFallback({
       <div className="bd-grid absolute inset-0 -z-10 opacity-70" />
       <div className="scene-light absolute inset-0 -z-10" />
       <div className="absolute inset-0 grid place-items-center">
-        <Image
-          src={icon}
-          alt=""
-          width={256}
-          height={256}
-          className={cx(
-            'rounded-[22%]',
-            hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-16 w-16',
-          )}
-        />
+        {product.icon ? (
+          <Image
+            src={product.icon.src}
+            alt=""
+            width={256}
+            height={256}
+            className={cx(
+              'rounded-[22%]',
+              hero ? 'h-24 w-24 md:h-36 md:w-36' : 'h-16 w-16',
+            )}
+          />
+        ) : (
+          <span className="text-lead font-medium text-sideband-text">
+            {product.name}
+          </span>
+        )}
       </div>
     </>
   )

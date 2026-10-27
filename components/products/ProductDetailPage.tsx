@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { products, type Product, type ProductGalleryItem } from '@/lib/products'
+import type { ProductImage, RankedProduct } from '@/lib/products'
 import Reveal from '@/components/ui/Reveal'
 import Badge from '@/components/ui/Badge'
 import StatusBadge from '@/components/ui/StatusBadge'
@@ -11,20 +11,21 @@ import {
   BrowserFrame,
   IPadFrame,
   IPhoneFrame,
-  TerminalFrame,
 } from '@/components/products/DeviceFrames'
 
 function GalleryItem({
   item,
+  host,
   accent,
 }: {
-  item: ProductGalleryItem
+  item: ProductImage
+  host: string
   accent: string
 }) {
   const [hov, setHov] = useState(false)
 
   const frame = (() => {
-    if (item.device === 'phone') {
+    if (item.device === 'mobile') {
       return (
         <div
           style={{
@@ -34,7 +35,7 @@ function GalleryItem({
             padding: '20px 0',
           }}
         >
-          <IPhoneFrame src={item.src} alt={item.label} width={200} />
+          <IPhoneFrame src={item.src} alt={item.alt} width={200} />
         </div>
       )
     }
@@ -48,19 +49,16 @@ function GalleryItem({
             padding: '20px 0',
           }}
         >
-          <IPadFrame src={item.src} alt={item.label} width={280} />
+          <IPadFrame src={item.src} alt={item.alt} width={280} />
         </div>
       )
-    }
-    if (item.device === 'terminal') {
-      return <TerminalFrame src={item.src} alt={item.label} />
     }
     return (
       <BrowserFrame
         src={item.src}
-        alt={item.label}
-        url={item.sub}
-        objectPosition={item.objectPosition}
+        alt={item.alt}
+        url={host}
+        objectPosition="top center"
       />
     )
   })()
@@ -79,40 +77,27 @@ function GalleryItem({
       }}
     >
       {frame}
-      <div style={{ marginTop: 12, padding: '0 4px' }}>
-        <p
-          style={{
-            fontSize: 12,
-            color: 'var(--sideband-text)',
-            letterSpacing: '0.04em',
-          }}
-        >
-          {item.label}
-        </p>
-        <p
-          style={{
-            fontSize: 10,
-            color: 'var(--sideband-text-secondary)',
-            marginTop: 3,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-          }}
-        >
-          {item.sub}
-        </p>
-      </div>
+      <p
+        style={{
+          marginTop: 12,
+          padding: '0 4px',
+          fontSize: 12,
+          color: 'var(--sideband-text)',
+          letterSpacing: '0.04em',
+        }}
+      >
+        {item.alt}
+      </p>
     </div>
   )
 }
 
 function ArchitectureRow({
   step,
-  title,
   body,
   accent,
 }: {
   step: string
-  title: string
   body: string
   accent: string
 }) {
@@ -145,36 +130,45 @@ function ArchitectureRow({
           {step}
         </span>
       </div>
-      <div>
-        <h3
-          style={{
-            fontSize: 15,
-            color: 'var(--sideband-text)',
-            marginBottom: 8,
-            letterSpacing: '0.02em',
-          }}
-        >
-          {title}
-        </h3>
-        <p
-          style={{
-            fontSize: 13,
-            color: 'var(--sideband-text-secondary)',
-            lineHeight: 1.85,
-          }}
-        >
-          {body}
-        </p>
-      </div>
+      <p
+        style={{
+          fontSize: 13,
+          color: 'var(--sideband-text-secondary)',
+          lineHeight: 1.85,
+        }}
+      >
+        {body}
+      </p>
     </div>
   )
 }
 
-export default function ProductDetailPage({ product }: { product: Product }) {
-  const detail = product.detail
+/** `ranked` comes from the server, so the GitHub snapshot stays out of the client bundle. */
+export default function ProductDetailPage({
+  ranked,
+}: {
+  ranked: RankedProduct
+}) {
+  const { product } = ranked
   const acc = product.accentColor
-  const index = products.findIndex((p) => p.id === product.id)
-  const numLabel = String(index + 1).padStart(2, '0')
+  const numLabel = String(ranked.rank).padStart(2, '0')
+  const host = product.links.site
+    ? new URL(product.links.site).host
+    : product.name
+  const stats = [
+    { label: 'Started', value: String(product.yearStarted) },
+    { label: 'Commits', value: ranked.inputs.commits.toLocaleString('en-US') },
+    { label: 'Stars', value: ranked.inputs.stars.toLocaleString('en-US') },
+    ...(ranked.inputs.downloads > 0
+      ? [
+          {
+            label: 'Downloads',
+            value: ranked.inputs.downloads.toLocaleString('en-US'),
+          },
+        ]
+      : []),
+    { label: 'Platforms', value: String(ranked.inputs.platforms) },
+  ]
 
   return (
     <div style={{ paddingTop: 60, minHeight: '100vh' }}>
@@ -295,8 +289,22 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               animation: 'fadeUp 0.5s 0.1s both',
             }}
           >
-            {detail.tagline}
+            {product.description}
           </p>
+          {product.origin && (
+            <p
+              style={{
+                fontSize: 12,
+                color: 'var(--sideband-muted)',
+                maxWidth: 600,
+                lineHeight: 1.7,
+                marginTop: -28,
+                marginBottom: 40,
+              }}
+            >
+              {product.origin}
+            </p>
+          )}
 
           {/* Stats row */}
           <div
@@ -308,7 +316,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               animation: 'fadeUp 0.5s 0.15s both',
             }}
           >
-            {detail.stats.map((s) => (
+            {stats.map((s) => (
               <div
                 key={s.label}
                 style={{
@@ -362,7 +370,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                 marginTop: 8,
               }}
             >
-              Every view, every screen, every state.
+              Real screenshots of the product and its site.
             </p>
           </Reveal>
           <div
@@ -370,14 +378,14 @@ export default function ProductDetailPage({ product }: { product: Product }) {
             style={{
               display: 'grid',
               gridTemplateColumns:
-                detail.gallery.length <= 2 ? '1fr 1fr' : 'repeat(3, 1fr)',
+                product.images.length <= 2 ? '1fr 1fr' : 'repeat(3, 1fr)',
               gap: 16,
               marginTop: 32,
             }}
           >
-            {detail.gallery.map((item, i) => (
-              <Reveal key={`${item.label}-${i}`} delay={i * 60}>
-                <GalleryItem item={item} accent={acc} />
+            {product.images.map((item, i) => (
+              <Reveal key={item.src} delay={i * 60}>
+                <GalleryItem item={item} host={host} accent={acc} />
               </Reveal>
             ))}
           </div>
@@ -413,12 +421,11 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               gap: 0,
             }}
           >
-            {detail.architecture.map((step, i) => (
-              <Reveal key={step.step} delay={i * 70}>
+            {product.overview.map((body, i) => (
+              <Reveal key={i} delay={i * 70}>
                 <ArchitectureRow
-                  step={step.step}
-                  title={step.title}
-                  body={step.body}
+                  step={String(i + 1).padStart(2, '0')}
+                  body={body}
                   accent={acc}
                 />
               </Reveal>
@@ -437,7 +444,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
       >
         <div className="inner">
           <Reveal>
-            <Eyebrow>Highlights</Eyebrow>
+            <Eyebrow>Features</Eyebrow>
           </Reveal>
           <div
             className="highlights-grid"
@@ -448,8 +455,8 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               marginTop: 32,
             }}
           >
-            {detail.highlights.map((h, i) => (
-              <Reveal key={h} delay={i * 70}>
+            {product.features.map((f, i) => (
+              <Reveal key={f.title} delay={i * 70}>
                 <div
                   style={{
                     padding: '20px 22px',
@@ -469,15 +476,26 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                       marginTop: 6,
                     }}
                   />
-                  <p
-                    style={{
-                      fontSize: 13,
-                      color: 'var(--sideband-text-secondary)',
-                      lineHeight: 1.8,
-                    }}
-                  >
-                    {h}
-                  </p>
+                  <div>
+                    <h3
+                      style={{
+                        fontSize: 14,
+                        color: 'var(--sideband-text)',
+                        marginBottom: 6,
+                      }}
+                    >
+                      {f.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: 13,
+                        color: 'var(--sideband-text-secondary)',
+                        lineHeight: 1.8,
+                      }}
+                    >
+                      {f.body}
+                    </p>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -504,7 +522,7 @@ export default function ProductDetailPage({ product }: { product: Product }) {
               marginTop: 24,
             }}
           >
-            {product.tags.map((t) => (
+            {product.stack.map((t) => (
               <Badge key={t}>{t}</Badge>
             ))}
           </div>
@@ -544,9 +562,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                 </p>
               </div>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                {product.github && (
+                {product.links.repo && (
                   <a
-                    href={product.github}
+                    href={product.links.repo}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -575,9 +593,9 @@ export default function ProductDetailPage({ product }: { product: Product }) {
                     GitHub ↗
                   </a>
                 )}
-                {product.url && (
+                {product.links.site && (
                   <a
-                    href={product.url}
+                    href={product.links.site}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{

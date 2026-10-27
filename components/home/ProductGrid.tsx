@@ -6,20 +6,21 @@ import Reveal from '@/components/ui/Reveal'
 import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ProductScene } from '@/components/products/scenes'
-import { products } from '@/lib/products'
+import type { Product } from '@/lib/products'
 
-const LIVE = products.filter((p) => p.status === 'LIVE').length
-const DEV = products.filter((p) => p.status === 'IN DEVELOPMENT').length
-const OPEN = products.filter((p) => p.github).length
+/** `products` arrive ranked from the server (productsByRank in lib/products.ts). */
+export default function ProductGrid({ products }: { products: Product[] }) {
+  const live = products.filter((p) => p.status === 'LIVE').length
+  const dev = products.filter((p) => p.status === 'IN DEVELOPMENT').length
+  const open = products.filter((p) => p.links.repo).length
 
-export default function ProductGrid() {
   return (
     <Section id="products" labelledBy="products-title">
       <SectionHeading
         id="products-title"
         eyebrow="Products"
         title="What we build"
-        lede="Six products across desktop, browser, mobile, and full-stack. Each one started as something we wanted for ourselves."
+        lede="Eleven products across desktop, browser, mobile, and the web, in order of use and size."
       />
 
       <ul className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,9 +53,9 @@ export default function ProductGrid() {
 
       <div className="mt-16 flex flex-wrap items-end justify-between gap-x-12 gap-y-10">
         <dl className="flex flex-wrap gap-x-14 gap-y-8">
-          <Stat value={String(LIVE)} label="Live" countUp />
-          <Stat value={String(DEV)} label="In active development" countUp />
-          <Stat value={String(OPEN)} label="With public source" countUp />
+          <Stat value={String(live)} label="Live" countUp />
+          <Stat value={String(dev)} label="In active development" countUp />
+          <Stat value={String(open)} label="With public source" countUp />
         </dl>
         <ArrowLink href="/products">All products</ArrowLink>
       </div>
