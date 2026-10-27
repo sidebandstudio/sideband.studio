@@ -182,7 +182,7 @@ function image(
 
 /** The Upflow2x demos use Hero footage. Credit from the Upflow2x README "Credits". */
 const HERO_CREDIT: ProductImageCredit = {
-  text: 'Footage from Hero by the Blender Foundation, edited by Eternal2x',
+  text: 'Footage from Hero by the Blender Foundation, edited',
   href: 'https://studio.blender.org/projects/hero/',
   license: 'CC BY 4.0',
   licenseHref: 'https://creativecommons.org/licenses/by/4.0/',
@@ -922,9 +922,9 @@ export const products: Product[] = [
     description:
       'Upflow2x is a DaVinci Resolve Studio plugin that finds the real drawings in animation held on 2s or 3s and draws the missing in-betweens with the RIFE network. The rebuilt clip keeps its length and timing, gets a 2x upscale and lands on the track above the original.',
     overview: [
-      'Hand-drawn animation often holds each drawing for two or three frames. Upflow2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave.',
+      'Hand-drawn animation often holds each drawing for two or three frames. Upflow2x is for editors working with anime and other drawn footage who want smoother motion without the torn lines that optical-flow retimers leave. It was called Eternal2x up to v0.4.0, and those releases still show that name in Resolve.',
       'A Lua panel inside Resolve starts a Python worker in the background. OpenCV scores every frame against the last new drawing with a tile-based difference, so a blink still counts as new, and works out whether the clip is on 1s, 2s or 3s. It refuses live action and clips already on 1s.',
-      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API with Super Scale applied.',
+      'Practical-RIFE 4.25 runs through ONNX Runtime, on the GPU through DirectML on Windows, and draws each missing frame. Every real drawing stays on its original frame, a quick optical-flow check spots cuts so they snap instead of blending, and the result comes back through the Resolve API, upscaled 2x by Real-ESRGAN’s anime model on the GPU on Windows or by Resolve’s Super Scale without one.',
     ],
     features: [
       {
@@ -946,7 +946,7 @@ export const products: Product[] = [
       },
       {
         title: 'Upscale 2x',
-        body: 'The result comes back with Resolve’s Super Scale applied.',
+        body: 'Real-ESRGAN’s anime model redraws every frame at 2x on the GPU on Windows. Without a GPU, Resolve’s Super Scale does the upscale.',
       },
       {
         title: 'Lands above the original',
@@ -971,6 +971,7 @@ export const products: Product[] = [
       'ONNX Runtime',
       'DirectML',
       'RIFE 4.25',
+      'Real-ESRGAN',
       'DaVinci Resolve API',
     ],
     status: 'LIVE',
