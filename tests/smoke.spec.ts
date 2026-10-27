@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { engineers } from '../lib/engineers'
-import { productLicense, products } from '../lib/products'
+import { productLicense, products, productsByRank } from '../lib/products'
 import { visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
@@ -238,12 +238,14 @@ test('skip link moves focus to the main content', async ({ page }) => {
   await expect(page.locator('#main')).toBeFocused()
 })
 
-test('footer links every product and engineer', async ({ page }) => {
+test('footer links every product, in rank order, and every engineer', async ({
+  page,
+}) => {
   await visit(page, '/about')
   const footer = page.getByRole('contentinfo')
   await expect(
     footer.getByRole('navigation', { name: 'Products' }).getByRole('link'),
-  ).toHaveCount(products.length)
+  ).toHaveText(productsByRank().map((p) => p.name))
   await expect(
     footer.getByRole('navigation', { name: 'Engineers' }).getByRole('link'),
   ).toHaveCount(engineers.length)
