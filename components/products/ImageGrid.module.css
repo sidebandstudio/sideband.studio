@@ -1,0 +1,46 @@
+/* Phones, portrait iPads and square images, side by side at sizes close to
+   the real hardware so a phone never towers over the page. */
+.tall {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 3rem 1.5rem;
+}
+
+.tall > li {
+  flex: 0 1 calc(50% - 0.75rem);
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .tall > li {
+    flex-basis: 15rem;
+  }
+
+  .tall > .tall-ipad,
+  .tall > .tall-none,
+  .tall > .tall-desktop {
+    flex-basis: 22rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .tall > li {
+    flex-basis: 17rem;
+  }
+
+  .tall > .tall-ipad,
+  .tall > .tall-none,
+  .tall > .tall-desktop {
+    flex-basis: 25rem;
+  }
+}
+
+/* An iPad or a square image takes the full row on a phone. */
+@media (max-width: 767px) {
+  .tall > .tall-ipad,
+  .tall > .tall-none,
+  .tall > .tall-desktop {
+    flex-basis: 100%;
+  }
+}
