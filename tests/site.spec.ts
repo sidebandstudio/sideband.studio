@@ -6,7 +6,12 @@ import {
 } from '@playwright/test'
 import { engineers } from '../lib/engineers'
 import { products } from '../lib/products'
-import { ABORTED_PREFETCH, horizontalOverflow, visit } from './helpers'
+import {
+  ABORTED_PREFETCH,
+  horizontalOverflow,
+  nextFrame,
+  visit,
+} from './helpers'
 
 /**
  * Site-wide checks on every route: what the sitemap lists, what the pages
@@ -206,6 +211,29 @@ for (const route of ROUTES) {
       expect(errors).toEqual([])
     })
   }
+}
+
+// The narrowest phones, below the widths above. Long unbreakable text (an
+// address, a handle) is what overflows here, and platforms measure text
+// differently (Linux sets it a few pixels wider than macOS), so one load is
+// resized through the narrow widths.
+for (const route of ROUTES) {
+  test(`${route} from 320 to 375px: no sideways scrolling`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 900 })
+    await visit(page, route)
+    await page.evaluate(() => document.fonts.ready)
+    for (const width of [320, 340, 360, 375]) {
+      await page.setViewportSize({ width, height: 900 })
+      await nextFrame(page)
+      const { overflow, culprits } = await horizontalOverflow(page)
+      expect(
+        overflow,
+        [`horizontal overflow at ${width}`, ...culprits].join('\n'),
+      ).toBeLessThanOrEqual(0)
+    }
+  })
 }
 
 for (const route of ROUTES) {
