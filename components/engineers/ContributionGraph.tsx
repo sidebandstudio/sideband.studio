@@ -23,8 +23,6 @@ interface ContributionGraphProps {
 
 const CELL = 11
 const STEP = 14
-const LEFT = 30
-const TOP = 20
 
 const FILL = {
   NONE: 'var(--sideband-surface-3)',
@@ -57,14 +55,21 @@ function describe(count: number, date: string) {
   return `${count.toLocaleString('en-US')} ${count === 1 ? 'contribution' : 'contributions'} on ${day}`
 }
 
+/** Weeks shown on a phone before the visitor asks for the whole year. */
+const PHONE_WEEKS = 26
+const PHONE = '(max-width: 639px)'
+
 /**
  * A year of GitHub contributions, one square per day, drawn from the weekly
  * calendar in the snapshot. Pointer and keyboard both pick a day: hover a
  * square, or focus the graph and use the arrow keys, Home and End. The day
- * is read out below the graph and announced politely.
+ * is read out below the graph and announced politely. Labels are HTML text
+ * at the small type step, so they stay legible at any width. On a phone the
+ * graph shows the last 26 weeks at full size, with a button for the year,
+ * which then scrolls sideways under a fixed column of day names.
  */
 export default function ContributionGraph({
-  weeks,
+  weeks: allWeeks,
   summaryId,
   idle,
   accent,
@@ -72,27 +77,43 @@ export default function ContributionGraph({
 }: ContributionGraphProps) {
   const scroller = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState<{ w: number; d: number } | null>(null)
+  const [phone, setPhone] = useState(false)
+  const [wholeYear, setWholeYear] = useState(false)
 
-  // Most recent days are on the right. Start there on narrow screens.
   useEffect(() => {
-    const el = scroller.current
-    if (el) el.scrollLeft = el.scrollWidth
+    const mq = window.matchMedia(PHONE)
+    const update = () => setPhone(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
   }, [])
 
-  const width = LEFT + weeks.length * STEP
-  const height = TOP + 7 * STEP
+  const half = phone && !wholeYear
+  const scrolls = phone && wholeYear
+  const weeks = half ? allWeeks.slice(-PHONE_WEEKS) : allWeeks
+
+  // The year scrolls on a phone. Start at the most recent week, on the right.
+  useEffect(() => {
+    const el = scroller.current
+    if (el && scrolls) el.scrollLeft = el.scrollWidth
+  }, [scrolls])
+
+  const width = weeks.length * STEP - (STEP - CELL)
+  const height = 7 * STEP - (STEP - CELL)
   const row = (date: string) => toDate(date).getUTCDay()
 
-  const months: { x: number; label: string }[] = []
+  // A label at the first week that holds the 1st to the 7th of a month.
+  const months: { w: number; label: string }[] = []
   weeks.forEach((week, w) => {
     const first = week.find((d) => toDate(d.date).getUTCDate() <= 7)
-    if (!first || toDate(first.date).getUTCDate() > 7) return
+    if (!first) return
     const label = shortMonth.format(toDate(first.date))
-    const x = LEFT + w * STEP
     const prev = months[months.length - 1]
     if (prev && prev.label === label) return
-    if (prev && x - prev.x < STEP * 3) months.pop()
-    months.push({ x, label })
+    if (prev && w - prev.w < 3) months.pop()
+    // Too close to the end to fit its name.
+    if (weeks.length - w < 3) return
+    months.push({ w, label })
   })
 
   const day = active ? weeks[active.w]?.[active.d] : undefined
@@ -102,9 +123,8 @@ export default function ContributionGraph({
     const di = Math.max(0, Math.min(weeks[wi].length - 1, d))
     setActive({ w: wi, d: di })
     const el = scroller.current
-    if (el) {
-      const scale = el.scrollWidth / width
-      const x = (LEFT + wi * STEP) * scale
+    if (el && scrolls) {
+      const x = (wi / weeks.length) * el.scrollWidth
       if (x < el.scrollLeft + 40) el.scrollLeft = x - 40
       else if (x > el.scrollLeft + el.clientWidth - 40)
         el.scrollLeft = x - el.clientWidth + 40
@@ -131,6 +151,8 @@ export default function ContributionGraph({
   const vars = {
     '--graph-accent': accent ?? 'var(--sideband-accent)',
   } as CSSProperties
+  const pct = (w: number) => `${((w * STEP) / width) * 100}%`
+  const rowPct = (r: number) => `${((r * STEP + CELL / 2) / height) * 100}%`
 
   return (
     <div className={className} style={vars}>
@@ -151,61 +173,102 @@ export default function ContributionGraph({
         onMouseLeave={() => {
           if (document.activeElement !== scroller.current) setActive(null)
         }}
-        className="-mx-1 overflow-x-auto rounded-inner px-1 py-1 outline-none focus-visible:ring-2 focus-visible:ring-sideband-accent"
+        className={cx(
+          'rounded-inner outline-none focus-visible:ring-2 focus-visible:ring-sideband-accent',
+          scrolls ? 'overflow-x-auto' : 'overflow-hidden',
+        )}
       >
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          role="img"
-          aria-labelledby={summaryId}
-          className="block h-auto w-full min-w-[640px]"
-        >
-          {months.map((m) => (
-            <text
-              key={`${m.label}-${m.x}`}
-              x={m.x}
-              y={11}
-              className="fill-sideband-muted text-[9px]"
+        <div data-graph className={cx('flex', scrolls && 'w-[44rem]')}>
+          {/* Day names stay put while the year scrolls. */}
+          <div
+            aria-hidden="true"
+            className="sticky left-0 z-10 flex w-10 shrink-0 flex-col bg-sideband-surface"
+          >
+            <span className="h-7 shrink-0" />
+            <span className="relative flex-1">
+              {[
+                ['Mon', 1],
+                ['Wed', 3],
+                ['Fri', 5],
+              ].map(([label, r]) => (
+                <span
+                  key={label}
+                  data-graph-label
+                  className="absolute left-0 -translate-y-1/2 text-small leading-none text-sideband-muted"
+                  style={{ top: rowPct(r as number) }}
+                >
+                  {label}
+                </span>
+              ))}
+            </span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <div aria-hidden="true" className="relative h-7">
+              {months.map((m) => (
+                <span
+                  key={`${m.label}-${m.w}`}
+                  data-graph-label
+                  className="absolute top-0 text-small leading-none text-sideband-muted"
+                  style={{ left: pct(m.w) }}
+                >
+                  {m.label}
+                </span>
+              ))}
+            </div>
+            <svg
+              viewBox={`0 0 ${width} ${height}`}
+              role="img"
+              aria-labelledby={summaryId}
+              className="block h-auto w-full"
             >
-              {m.label}
-            </text>
-          ))}
-          {[
-            ['Mon', 1],
-            ['Wed', 3],
-            ['Fri', 5],
-          ].map(([label, r]) => (
-            <text
-              key={label}
-              x={0}
-              y={TOP + (r as number) * STEP + CELL - 2}
-              className="fill-sideband-muted text-[9px]"
-            >
-              {label}
-            </text>
-          ))}
-          {weeks.map((week, w) =>
-            week.map((d, di) => {
-              const on = active?.w === w && active?.d === di
-              return (
-                <rect
-                  key={d.date}
-                  x={LEFT + w * STEP}
-                  y={TOP + row(d.date) * STEP}
-                  width={CELL}
-                  height={CELL}
-                  rx={2.5}
-                  style={{
-                    fill: FILL[d.level],
-                    stroke: on ? 'var(--sideband-text)' : 'none',
-                    strokeWidth: on ? 1.5 : 0,
-                  }}
-                  onMouseEnter={() => setActive({ w, d: di })}
-                />
-              )
-            }),
-          )}
-        </svg>
+              {weeks.map((week, w) =>
+                week.map((d, di) => {
+                  const on = active?.w === w && active?.d === di
+                  return (
+                    <rect
+                      key={d.date}
+                      x={w * STEP}
+                      y={row(d.date) * STEP}
+                      width={CELL}
+                      height={CELL}
+                      rx={2.5}
+                      style={{
+                        fill: FILL[d.level],
+                        stroke: on ? 'var(--sideband-text)' : 'none',
+                        strokeWidth: on ? 1.5 : 0,
+                      }}
+                      onMouseEnter={() => setActive({ w, d: di })}
+                    />
+                  )
+                }),
+              )}
+            </svg>
+          </div>
+        </div>
       </div>
+
+      {phone && (
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
+          <span className="text-sideband-muted">
+            {wholeYear
+              ? 'The whole year. Scroll sideways for earlier months.'
+              : `The last ${PHONE_WEEKS} weeks.`}
+          </span>
+          <button
+            type="button"
+            aria-pressed={wholeYear}
+            onClick={() => {
+              setWholeYear((v) => !v)
+              setActive(null)
+            }}
+            className="inline-flex h-9 items-center rounded-full bg-sideband-surface-2 px-3.5 font-medium text-sideband-text transition-colors duration-hover hover:bg-sideband-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sideband-accent"
+          >
+            {wholeYear
+              ? `Show the last ${PHONE_WEEKS} weeks`
+              : 'Show the whole year'}
+          </button>
+        </div>
+      )}
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         <p

@@ -114,6 +114,65 @@ test('the contribution graph has an accessible summary and reads days by keyboar
   )
 })
 
+test('on a phone the contribution graph keeps its labels legible and unclipped', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const user = getGithubUser(engineers[0].githubLogin)!
+  await page.goto(`/engineers/${engineers[0].id}`)
+  const group = page.getByRole('group', { name: /Contribution calendar/ })
+  await group.scrollIntoViewIfNeeded()
+
+  /** Every label's font size, and whether it sits inside the visible graph box. */
+  const labels = () =>
+    group.evaluate((el) => {
+      const box = el.getBoundingClientRect()
+      return Array.from(el.querySelectorAll('[data-graph-label]')).map((l) => {
+        const r = l.getBoundingClientRect()
+        return {
+          text: l.textContent,
+          size: parseFloat(getComputedStyle(l).fontSize),
+          inside: r.left >= box.left - 0.5 && r.right <= box.right + 0.5,
+        }
+      })
+    })
+
+  // The last 26 weeks at full size, day names included.
+  const recent = user.contributions.weeks
+    .slice(-26)
+    .reduce((n, w) => n + w.days.length, 0)
+  await expect(group.locator('rect')).toHaveCount(recent)
+  let shown = await labels()
+  expect(shown.map((l) => l.text)).toEqual(
+    expect.arrayContaining(['Mon', 'Wed', 'Fri']),
+  )
+  for (const l of shown) {
+    expect(l.size, l.text!).toBeGreaterThanOrEqual(12)
+    expect(l.inside, l.text!).toBe(true)
+  }
+
+  // The whole year scrolls sideways, and the day names stay in view.
+  await page.getByRole('button', { name: 'Show the whole year' }).click()
+  const days = user.contributions.weeks.reduce((n, w) => n + w.days.length, 0)
+  await expect(group.locator('rect')).toHaveCount(days)
+  for (const left of [0, 10_000]) {
+    await group.evaluate((el, x) => (el.scrollLeft = x), left)
+    shown = (await labels()).filter((l) =>
+      ['Mon', 'Wed', 'Fri'].includes(l.text!),
+    )
+    for (const l of shown) {
+      expect(l.size).toBeGreaterThanOrEqual(12)
+      expect(l.inside, `${l.text} at scrollLeft ${left}`).toBe(true)
+    }
+  }
+  // The keyboard readout still reads days.
+  await group.focus()
+  await page.keyboard.press('ArrowLeft')
+  await expect(page.locator(`#gh-${user.login}-summary-readout`)).toContainText(
+    /contribution|No contributions/,
+  )
+})
+
 test('the engineers index shows each GitHub signal and the team graph', async ({
   page,
 }) => {
