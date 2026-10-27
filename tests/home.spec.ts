@@ -303,7 +303,9 @@ test('both hero actions share one row at 360px', async ({ page }) => {
       ),
     ),
   )
-  expect(tops[0]).toBe(tops[1])
+  // Same row, with room for the page-load rise still settling by a pixel. A
+  // wrapped action would sit a whole row (over 40px) lower.
+  expect(Math.abs(tops[0] - tops[1])).toBeLessThanOrEqual(4)
 })
 
 for (const [width, height] of [
