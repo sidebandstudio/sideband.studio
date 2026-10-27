@@ -1,0 +1,254 @@
+import { test, expect, type Page } from '@playwright/test'
+import { engineers } from '../lib/engineers'
+import { getGithubUser } from '../lib/github'
+
+const FORMSPREE = 'https://formspree.io/f/xkoperoj'
+const fmt = (n: number) => n.toLocaleString('en-US')
+
+/** The figure shown for a stat label inside a <dl>. */
+function stat(scope: ReturnType<Page['locator']>, label: string) {
+  return scope
+    .locator('dl > div')
+    .filter({ has: scope.page().locator('dt', { hasText: label }) })
+    .locator('dd')
+    .first()
+}
+
+for (const engineer of engineers) {
+  const user = getGithubUser(engineer.githubLogin)!
+
+  test(`dossier ${engineer.id} returns 200 with the snapshot's GitHub numbers`, async ({
+    page,
+  }) => {
+    const res = await page.goto(`/engineers/${engineer.id}`)
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      engineer.name,
+    )
+
+    const gh = page.locator('section[aria-labelledby="github-title"]')
+    await expect(stat(gh, 'Contributions, last year')).toHaveText(
+      fmt(user.contributions.total),
+    )
+    await expect(stat(gh, 'Followers')).toHaveText(fmt(user.followers))
+    await expect(stat(gh, 'Following')).toHaveText(fmt(user.following))
+    await expect(stat(gh, 'Public repos')).toHaveText(fmt(user.publicRepos))
+    await expect(stat(gh, 'Stars on own repos')).toHaveText(fmt(user.stars))
+    for (const repo of user.pinned)
+      await expect(
+        gh.getByRole('link', { name: new RegExp(repo.nameWithOwner) }),
+      ).toHaveAttribute('href', repo.url)
+  })
+
+  test(`dossier ${engineer.id} links every published channel with a valid href`, async ({
+    page,
+    request,
+  }) => {
+    await page.goto(`/engineers/${engineer.id}`)
+    const main = page.getByRole('main')
+    const c = engineer.contact
+    const published = [
+      c.github,
+      c.linkedin,
+      c.website,
+      c.x,
+      c.tiktok,
+      c.resume,
+      `mailto:${c.email}`,
+    ].filter((h): h is string => Boolean(h))
+    for (const href of published)
+      await expect(main.locator(`a[href="${href}"]`).first()).toBeVisible()
+
+    const hrefs = await main
+      .locator('a[href]')
+      .evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''))
+    expect(hrefs.length).toBeGreaterThan(10)
+    const internal = new Set<string>()
+    for (const href of hrefs) {
+      if (href.startsWith('mailto:'))
+        expect(href).toMatch(/^mailto:[^\s@]+@[^\s@]+\.[^\s@]+/)
+      else if (href.startsWith('/')) internal.add(href.split('#')[0])
+      else expect(() => new URL(href)).not.toThrow()
+      if (/^https?:/.test(href)) expect(href).toMatch(/^https:\/\//)
+    }
+    for (const path of Array.from(internal)) {
+      const r = await request.get(path)
+      expect(r.status(), path).toBe(200)
+    }
+  })
+}
+
+test('the contribution graph has an accessible summary and reads days by keyboard', async ({
+  page,
+}) => {
+  const user = getGithubUser(engineers[0].githubLogin)!
+  await page.goto(`/engineers/${engineers[0].id}`)
+  const graph = page.getByRole('img', {
+    name: new RegExp(
+      `${fmt(user.contributions.total)} contributions in the last year`,
+    ),
+  })
+  await expect(graph).toBeVisible()
+  const days = user.contributions.weeks.reduce((n, w) => n + w.days.length, 0)
+  await expect(graph.locator('rect')).toHaveCount(days)
+
+  const group = page.getByRole('group', { name: /Contribution calendar/ })
+  await group.focus()
+  const readout = page.locator(`#gh-${user.login}-summary-readout`)
+  const last = user.contributions.weeks.at(-1)!.days.at(-1)!
+  await expect(readout).toContainText(
+    last.count === 0
+      ? 'No contributions on'
+      : `${fmt(last.count)} contribution`,
+  )
+  await page.keyboard.press('Home')
+  const first = user.contributions.weeks[0].days[0]
+  await expect(readout).toContainText(
+    new Date(`${first.date}T00:00:00Z`).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }),
+  )
+})
+
+test('the engineers index shows each GitHub signal and the team graph', async ({
+  page,
+}) => {
+  await page.goto('/engineers')
+  const main = page.getByRole('main')
+  for (const e of engineers) {
+    const user = getGithubUser(e.githubLogin)!
+    const card = main.locator('article').filter({ hasText: e.name })
+    await expect(stat(card, 'Contributions')).toHaveText(
+      fmt(user.contributions.total),
+    )
+    await expect(stat(card, 'Followers')).toHaveText(fmt(user.followers))
+  }
+  const total = engineers.reduce(
+    (n, e) => n + getGithubUser(e.githubLogin)!.contributions.total,
+    0,
+  )
+  await expect(
+    page.getByRole('img', {
+      name: new RegExp(`${fmt(total)} contributions across the team`),
+    }),
+  ).toBeVisible()
+})
+
+test.describe('contact form', () => {
+  async function fill(page: Page) {
+    await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
+    await page.getByRole('textbox', { name: 'Email' }).fill('ali@example.com')
+    await page
+      .getByRole('textbox', { name: 'Message' })
+      .fill('Looking to talk through a product collaboration.')
+  }
+
+  test('validates before sending anything', async ({ page }) => {
+    let calls = 0
+    await page.route(FORMSPREE, (route) => {
+      calls++
+      return route.abort()
+    })
+    await page.goto('/contact')
+    await page.getByRole('button', { name: /Send message/i }).click()
+    await expect(page.getByText('Enter your name.')).toBeVisible()
+    await expect(page.getByRole('textbox', { name: 'Name' })).toBeFocused()
+    await expect(page.getByRole('textbox', { name: 'Name' })).toHaveAttribute(
+      'aria-invalid',
+      'true',
+    )
+    await page.getByRole('textbox', { name: 'Name' }).fill('Ali')
+    await page.getByRole('textbox', { name: 'Email' }).fill('not-an-email')
+    await page.getByRole('textbox', { name: 'Message' }).fill('Hi')
+    await page.getByRole('button', { name: /Send message/i }).click()
+    await expect(page.getByText(/Enter an email address like/)).toBeVisible()
+    await expect(page.getByText('Write at least 10 characters.')).toBeVisible()
+    expect(calls).toBe(0)
+  })
+
+  test('shows the sent state when Formspree accepts the message', async ({
+    page,
+  }) => {
+    let body: Record<string, string> = {}
+    await page.route(FORMSPREE, async (route) => {
+      body = route.request().postDataJSON()
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true }),
+      })
+    })
+    await page.goto('/contact')
+    await fill(page)
+    await page.getByRole('button', { name: /Send message/i }).click()
+    await expect(
+      page.getByRole('heading', { name: 'Message sent' }),
+    ).toBeFocused()
+    await expect(page.getByRole('status')).toContainText('ali@example.com')
+    expect(body).toMatchObject({
+      name: 'Ali',
+      email: 'ali@example.com',
+      message: 'Looking to talk through a product collaboration.',
+    })
+    await page.getByRole('button', { name: 'Send another message' }).click()
+    await expect(page.getByRole('textbox', { name: 'Name' })).toHaveValue('')
+  })
+
+  test('shows the error state with an email fallback when sending fails', async ({
+    page,
+  }) => {
+    await page.route(FORMSPREE, (route) =>
+      route.fulfill({ status: 500, body: '{}' }),
+    )
+    await page.goto('/contact')
+    await fill(page)
+    await page.getByRole('button', { name: /Send message/i }).click()
+    const alert = page
+      .getByRole('alert')
+      .filter({ hasText: 'Something went wrong' })
+    await expect(alert).toContainText('Something went wrong. Please try again.')
+    const fallback = alert.getByRole('link', {
+      name: /send it by email to hello@sideband.studio/,
+    })
+    await expect(fallback).toHaveAttribute(
+      'href',
+      /^mailto:hello@sideband\.studio\?subject=Message%20from%20Ali&body=Looking/,
+    )
+    // The message is kept so it can be sent again.
+    await expect(page.getByRole('textbox', { name: 'Message' })).toHaveValue(
+      'Looking to talk through a product collaboration.',
+    )
+  })
+})
+
+const PAGES = [
+  '/engineers',
+  ...engineers.map((e) => `/engineers/${e.id}`),
+  '/about',
+  '/contact',
+]
+
+for (const width of [390, 768, 1440, 1920]) {
+  test(`no console errors or sideways scroll at ${width}px`, async ({
+    page,
+  }) => {
+    test.setTimeout(120_000)
+    await page.setViewportSize({ width, height: 900 })
+    const errors: string[] = []
+    page.on('console', (m) => {
+      if (m.type() === 'error') errors.push(`${page.url()}: ${m.text()}`)
+    })
+    page.on('pageerror', (e) => errors.push(`${page.url()}: ${e.message}`))
+    for (const path of PAGES) {
+      await page.goto(path, { waitUntil: 'networkidle' })
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - window.innerWidth,
+      )
+      expect(overflow, path).toBeLessThanOrEqual(0)
+    }
+    expect(errors).toEqual([])
+  })
+}
