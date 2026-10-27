@@ -157,8 +157,9 @@ export interface TeamMember {
 }
 
 /**
- * What each person builds at Sideband, in one line. Each line restates a fact
- * from that person's entry in lib/engineers.ts (longBio or their Sideband role).
+ * What each person builds, in one line. Each line restates a fact from that
+ * person's entry in lib/engineers.ts (longBio or an experience entry). It is
+ * their Sideband work where the data names any, and says so when it is not.
  */
 const BUILDS: Record<string, string> = {
   'ali-younes':
@@ -169,6 +170,8 @@ const BUILDS: Record<string, string> = {
     'Works on systems design: architecture and technical planning for the product lineup.',
   'naman-rusia':
     'Built TandemCode, a pair-programming interview tool with a shared editor and a sandboxed judge.',
+  'david-czartoryski':
+    'Outside Sideband, builds cross-vendor GPU training systems, GPUBridge among them, at Northeastern’s HPC Research Lab.',
 }
 
 // ---- Open source ----

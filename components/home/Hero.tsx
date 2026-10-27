@@ -40,9 +40,9 @@ export default function Hero({
         <div className="mt-8 flex flex-col gap-9 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <Reveal trigger="mount" delay={140}>
             <p className="max-w-prose text-lead text-sideband-text-secondary">
-              Sideband is {countWord(engineerCount)} engineers who design, build
-              and ship their own software, from an iPad display for Windows to a
-              Discord status for Apple Music.
+              Sideband is {countWord(engineerCount)} founding engineers who
+              design, build and ship their own software, from an iPad display
+              for Windows to a Discord status for Apple Music and Spotify.
             </p>
           </Reveal>
           <Reveal
