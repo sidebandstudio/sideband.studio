@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useAmbient, useReducedMotion } from '@/components/ui/motion'
 import { cx } from '@/components/ui/cx'
 import type { ProductVideoCut, ProductVideoCutName } from '@/lib/products'
-import ImageCredit from './ImageCredit'
 
 const FRAME: Record<ProductVideoCutName, string> = {
   card: 'aspect-[4/3]',
@@ -33,8 +32,6 @@ interface ProductVideoProps {
    * label is that name.
    */
   link?: { href: string; label: string }
-  /** Drops the credit's links, for a video inside a link. */
-  plainCredit?: boolean
   className?: string
 }
 
@@ -45,7 +42,7 @@ interface ProductVideoProps {
  * plays only while it is on screen, the tab is visible and the visitor allows
  * motion (useAmbient). Under reduced motion only the poster shows. The frame
  * is decorative, so the page names the product in text next to it. A cut's
- * credit is shown under the frame.
+ * credit is listed in the footer's Credits (lib/credits.ts).
  */
 export default function ProductVideo({
   video,
@@ -54,7 +51,6 @@ export default function ProductVideo({
   sizes,
   lift = false,
   link,
-  plainCredit = false,
   className,
 }: ProductVideoProps) {
   const frameRef = useRef<HTMLDivElement>(null)
@@ -125,13 +121,6 @@ export default function ProductVideo({
         </Link>
       ) : (
         frame
-      )}
-      {video.credit && (
-        <ImageCredit
-          credit={video.credit}
-          plain={plainCredit}
-          className="relative z-10 mt-3"
-        />
       )}
     </div>
   )

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { GitHubIcon } from '@/components/ui/Icons'
+import { siteCredits } from '@/lib/credits'
 import { engineers } from '@/lib/engineers'
 import { productsByRank } from '@/lib/products'
 
@@ -65,6 +66,9 @@ const columns: { title: string; links: FooterLink[] }[] = [
 const LINK =
   'inline-flex items-center gap-2 py-1 text-small text-sideband-text-secondary transition-colors duration-hover ease-standard hover:text-sideband-text'
 
+const CREDIT_LINK =
+  'underline decoration-sideband-muted/60 underline-offset-[3px] transition-colors duration-hover ease-standard hover:text-sideband-text hover:decoration-sideband-text'
+
 export default function Footer() {
   return (
     <footer className="bg-sideband-surface pb-[max(2rem,env(safe-area-inset-bottom))] pt-20 md:pt-24">
@@ -126,7 +130,65 @@ export default function Footer() {
         <p className="mt-16 text-small text-sideband-muted md:mt-20">
           &copy; {new Date().getFullYear()} Sideband
         </p>
+        <Credits />
       </Container>
     </footer>
+  )
+}
+
+/**
+ * The attribution the site's media needs, collapsed at the very bottom of
+ * every page. Built on the server from lib/credits.ts. A native <details>, so
+ * it opens by keyboard and works without script.
+ */
+function Credits() {
+  const credits = siteCredits()
+  if (credits.length === 0) return null
+  return (
+    <details id="credits" className="mt-4 text-small text-sideband-muted">
+      <summary className="w-fit cursor-pointer py-1 transition-colors duration-hover ease-standard hover:text-sideband-text-secondary">
+        Credits
+      </summary>
+      <ul className="mt-3 flex max-w-prose flex-col gap-4">
+        {credits.map(({ credit, uses }) => (
+          <li key={credit.text}>
+            <p className="text-sideband-text-secondary">
+              {credit.href ? (
+                <a
+                  href={credit.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={CREDIT_LINK}
+                >
+                  {credit.text}
+                </a>
+              ) : (
+                credit.text
+              )}
+              {credit.license && (
+                <>
+                  {', '}
+                  {credit.licenseHref ? (
+                    <a
+                      href={credit.licenseHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={CREDIT_LINK}
+                    >
+                      {credit.license}
+                    </a>
+                  ) : (
+                    credit.license
+                  )}
+                </>
+              )}
+            </p>
+            {uses.map((use) => (
+              <p key={use}>{use}</p>
+            ))}
+          </li>
+        ))}
+      </ul>
+    </details>
   )
 }

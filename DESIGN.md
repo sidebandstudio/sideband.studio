@@ -154,7 +154,15 @@ Easings: `ease-out` (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and lifts, `ea
 Shell (`components/layout/`): `Navbar` (fixed, transparent at the top and blurred once scrolled,
 Products / Engineers / About with `aria-current`, white Contact pill, a full-screen mobile menu with
 focus trap, Escape, focus return and scroll lock) and `Footer` (Products and Engineers columns derived
-from `lib/`, Studio pages, Contact, copyright year). `app/layout.tsx` adds the skip link to `#main`.
+from `lib/`, Studio pages, Contact, copyright year, then Credits). `app/layout.tsx` adds the skip link
+to `#main`.
+
+**Credits.** Media credits are never shown inline, under an image, a video or in the viewer. The
+`credit` on product images and video cuts in `lib/products.ts` is the source of truth, and
+`lib/credits.ts` gathers each unique one, with the products and media it applies to, on the server.
+The footer lists them at the very bottom of every page in a native `<details id="credits">`, closed
+by default, its "Credits" summary in the footer's smallest muted style (`text-small
+text-sideband-muted`). Link to it as `#credits`.
 
 Example section:
 
@@ -189,7 +197,7 @@ render them: `media/product-videos/README.md`). `lib/products.ts` records each c
 `product.video.hero` and `product.video.card` (`mp4`, `webm`, `poster`, size, `durationSeconds`, and
 `credit` when the video shows credited material, as Eternal2x's Hero footage does).
 
-`<ProductVideo video cut priority? sizes? lift? link? plainCredit? />` in
+`<ProductVideo video cut priority? sizes? lift? link? />` in
 `components/products/ProductVideo.tsx` is the only way to show one.
 
 - **Where.** The hero cut on the product page's hero, the home showcase's first product and the
@@ -210,8 +218,8 @@ render them: `media/product-videos/README.md`). `lib/products.ts` records each c
 - **Accessibility.** The frame is `aria-hidden` with no controls and nothing focusable. The page
   names the product in text beside it. In a list where the name already links, `link` makes the
   frame a second link out of the tab order.
-- **Credit.** A cut's `credit` renders under the frame with `ImageCredit`, everywhere the video
-  appears. `plainCredit` drops its links inside another link.
+- **Credit.** A cut's `credit` is listed in the footer's Credits (see Shell), never under the
+  frame.
 - **Budgets.** hero MP4 2.5 MB, WebM 1.5 MB. card MP4 1.2 MB, WebM 0.8 MB. 30 fps, no audio stream.
   `npm run sync:videos` checks them. `tests/videos.spec.ts` covers all of the above.
 

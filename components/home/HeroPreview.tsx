@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
-import ImageCredit from '@/components/products/ImageCredit'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
@@ -288,15 +287,9 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
                     </span>{' '}
                     {item.figure.label}
                   </p>
-                  <div className="flex flex-wrap gap-x-2 text-small text-sideband-muted">
-                    <p>{KIND_LABEL[item.shot.kind]}</p>
-                    {item.shot.credit && (
-                      <>
-                        <span aria-hidden="true">&middot;</span>
-                        <ImageCredit credit={item.shot.credit} plain={!shown} />
-                      </>
-                    )}
-                  </div>
+                  <p className="text-small text-sideband-muted">
+                    {KIND_LABEL[item.shot.kind]}
+                  </p>
                 </div>
                 <Link
                   href={`/products/${item.id}`}

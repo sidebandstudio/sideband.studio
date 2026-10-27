@@ -15,7 +15,6 @@ import type { ProductImage, ProductImageKind } from '@/lib/products'
 import { cx } from '@/components/ui/cx'
 import { useIsoLayoutEffect } from '@/components/ui/motion'
 import DeviceFrame from './DeviceFrame'
-import ImageCredit from './ImageCredit'
 import styles from './ImageViewer.module.css'
 
 const KIND_LABEL: Record<ProductImageKind, string> = {
@@ -237,7 +236,6 @@ export function ImageViewerProvider({
             >
               <div className="flex max-w-prose flex-col gap-1">
                 <p className="text-small text-sideband-text">{current.alt}</p>
-                {current.credit && <ImageCredit credit={current.credit} />}
               </div>
               {images.length > 1 && (
                 <div className="flex shrink-0 gap-3">
@@ -326,7 +324,6 @@ export function ViewableImage({
           <span className="text-sideband-text">{KIND_LABEL[image.kind]}.</span>{' '}
           {image.alt}
         </p>
-        {image.credit && <ImageCredit credit={image.credit} />}
       </figcaption>
     </figure>
   )

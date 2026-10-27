@@ -35,7 +35,7 @@ export interface ProductImage {
   kind: ProductImageKind
   /** Where the original came from: a repo path, a URL, or a capture. */
   source: string
-  /** Shown with the image wherever it appears. */
+  /** The attribution its source requires. Listed in the footer's Credits. */
   credit?: ProductImageCredit
 }
 
@@ -52,7 +52,7 @@ export interface ProductVideoCut {
   width: number
   height: number
   durationSeconds: number
-  /** Shown under the video wherever it appears, when it shows credited material. */
+  /** When the video shows credited material. Listed in the footer's Credits. */
   credit?: ProductImageCredit
 }
 

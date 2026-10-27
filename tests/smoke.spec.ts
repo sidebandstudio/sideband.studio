@@ -6,7 +6,7 @@ import {
   products,
   productsByRank,
 } from '../lib/products'
-import { visit } from './helpers'
+import { focusOnScreen, visit } from './helpers'
 
 test('homepage renders and primary navigation reaches products', async ({
   page,
@@ -343,4 +343,31 @@ test('stats skip the count-up when reduced motion is turned on after load', asyn
   )
   expect(finals.length).toBeGreaterThan(0)
   expect(seen.every((v) => finals.includes(v))).toBe(true)
+})
+
+test('the footer credits open by keyboard and list each credit with its license', async ({
+  page,
+}) => {
+  const credit = products.find((p) => p.id === 'eternal2x')!.video.card.credit!
+  await visit(page, '/about')
+  const credits = page.locator('footer details#credits')
+  const summary = credits.locator('summary')
+  await expect(credits.getByText(credit.text)).toBeHidden()
+  await focusOnScreen(summary)
+  await page.keyboard.press('Enter')
+  await expect
+    .poll(() => credits.evaluate((d: HTMLDetailsElement) => d.open))
+    .toBe(true)
+  await expect(
+    credits.getByRole('link', { name: credit.text }),
+  ).toHaveAttribute('href', credit.href!)
+  await expect(
+    credits.getByRole('link', { name: credit.license! }),
+  ).toHaveAttribute('href', credit.licenseHref!)
+  await expect(credits).toContainText('Eternal2x: ')
+  await expect(credits).toContainText('both product videos')
+  await page.keyboard.press('Space')
+  await expect
+    .poll(() => credits.evaluate((d: HTMLDetailsElement) => d.open))
+    .toBe(false)
 })

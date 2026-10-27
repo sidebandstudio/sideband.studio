@@ -174,10 +174,15 @@ for (const path of PAGES) {
           : /^none$/,
       )
 
-      // Eternal2x carries its footage credit wherever its video appears.
-      if (v.sources[0].src.includes('/eternal2x/'))
-        expect(v.text, label).toContain(CREDIT)
+      // Credits are not shown inline: the footer lists them.
+      expect(v.text, label).not.toContain(CREDIT)
     }
+
+    // Wherever Eternal2x's video appears, the footer credits its footage.
+    if (videos.some((v) => v.sources[0].src.includes('/eternal2x/')))
+      await expect(
+        page.locator('footer details#credits').getByText(CREDIT),
+      ).toBeAttached()
   })
 
   test(`${path}: videos play on screen, pause off screen and never shift layout`, async ({

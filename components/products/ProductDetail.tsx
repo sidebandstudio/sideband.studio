@@ -805,7 +805,6 @@ function Neighbours({
                   video={r.product.video.card}
                   cut="card"
                   lift
-                  plainCredit
                   sizes="(min-width: 768px) 46vw, 92vw"
                 />
                 <span className="flex flex-col gap-2">

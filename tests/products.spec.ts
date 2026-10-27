@@ -97,10 +97,6 @@ test('the image viewer works by keyboard', async ({ page }) => {
   await expect(dialog).toBeVisible()
   await expect(dialog.getByRole('img', { name: first.alt })).toBeVisible()
   await expect(dialog).toContainText(`1 of ${product.images.length}`)
-  // The credit travels with the image into the viewer.
-  await expect(
-    dialog.getByRole('link', { name: first.credit!.text }),
-  ).toHaveAttribute('href', first.credit!.href!)
 
   await page.keyboard.press('ArrowRight')
   await expect(dialog.getByRole('img', { name: second.alt })).toBeVisible()
