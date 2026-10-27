@@ -4,11 +4,15 @@ import Link from 'next/link'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/ui/Reveal'
-import { ArrowUpRightIcon, GitHubIcon } from '@/components/ui/Icons'
+import {
+  ArrowUpRightIcon,
+  DiscordIcon,
+  GitHubIcon,
+} from '@/components/ui/Icons'
 import ContactForm from '@/components/contact/ContactForm'
 import { engineers } from '@/lib/engineers'
 import { githubOrg } from '@/lib/github'
-import { pageMetadata } from '@/lib/metadata'
+import { DISCORD_URL, pageMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Contact · Sideband',
@@ -68,6 +72,30 @@ export default function ContactPage() {
                       github.com/
                       <wbr />
                       {githubOrg.login}
+                    </span>
+                    <ArrowUpRightIcon
+                      size={13}
+                      className="ml-auto shrink-0 text-sideband-muted transition-transform duration-hover ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={DISCORD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-wrap items-center gap-x-4 gap-y-1 rounded-inner bg-sideband-surface px-5 py-4 transition-colors duration-hover hover:bg-sideband-surface-2"
+                >
+                  <span className="w-16 shrink-0 text-small text-sideband-muted">
+                    Discord
+                  </span>
+                  <span className="flex flex-auto items-center gap-2 text-body text-sideband-text">
+                    <DiscordIcon size={16} className="text-sideband-muted" />
+                    <span>
+                      discord.gg/
+                      <wbr />
+                      {DISCORD_URL.split('/').pop()}
                     </span>
                     <ArrowUpRightIcon
                       size={13}

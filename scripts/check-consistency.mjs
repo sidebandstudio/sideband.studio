@@ -60,6 +60,10 @@ const engineerCount = (engineersSrc.match(/^ {4}id: '/gm) || []).length
 const productCount = (productsSrc.match(/^ {4}id: '/gm) || []).length
 const liveCount = (productsSrc.match(/status: 'LIVE'/g) || []).length
 const devCount = (productsSrc.match(/status: 'IN DEVELOPMENT'/g) || []).length
+// A client app sets `client:` at the entry's top level (four-space indent).
+// The rest are Sideband's own products.
+const clientCount = (productsSrc.match(/^ {4}client: \{/gm) || []).length
+const ownCount = productCount - clientCount
 
 const preflight = []
 if (engineerCount === 0)
@@ -106,9 +110,20 @@ const FACTS = [
     re: /\b(?!one\b)([a-z]+) of us\b/gi,
   },
   {
+    // "ten products of its own" counts own products, checked below.
     label: 'total product count',
     expected: productCount,
-    re: /\b([a-z]+) products?\b/gi,
+    re: /\b([a-z]+) products?\b(?! of (?:its|our) own)/gi,
+  },
+  {
+    label: 'own product count',
+    expected: ownCount,
+    re: /\b([a-z]+) (?:own products?|products? of (?:its|our) own)\b/gi,
+  },
+  {
+    label: 'client app count',
+    expected: clientCount,
+    re: /\b([a-z]+) (?:client apps?|apps? for clients)\b/gi,
   },
   {
     label: 'live product count',
@@ -189,7 +204,7 @@ for (const file of files) {
     })
 }
 
-const summary = `${engineerCount} founders, ${productCount} products (${liveCount} live, ${devCount} in development)`
+const summary = `${engineerCount} founders, ${productCount} products (${liveCount} live, ${devCount} in development, ${ownCount} own and ${clientCount} client apps)`
 
 if (preflight.length) {
   console.error('✖ Consistency check could not run:')

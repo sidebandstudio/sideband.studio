@@ -59,6 +59,7 @@ Products are listed in `lib/products.ts` and ranked on the site by a score that 
 - **EternalExchange**: equivalent exchange alchemy for Minecraft 1.21.1 on Fabric
 - **Top Choice Realty**: listings site and agent back office for a New York brokerage
 - **Signature Cuts 413**: book a barber by text message, no app needed
+- **Fade Empire**: book a chair online, with an iPhone app for the barbers in testing
 
 Products shipped before the rebrand keep their Eternal-prefixed names. They are separate product brands with their own domains.
 

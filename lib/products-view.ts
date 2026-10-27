@@ -86,7 +86,8 @@ export interface LanguageView {
 export interface ProductFacts {
   /** `owner/name` of the repo the numbers come from. */
   repoKey: string
-  repoUrl: string
+  /** Null when the repo is private (`repoPrivate`): the site never links to it. */
+  repoUrl: string | null
   /** True when the numbers come from the upstream repo the product is built in. */
   readsUpstream: boolean
   stars: number
@@ -124,7 +125,7 @@ export function productFacts(product: Product): ProductFacts {
   const repoKey = product.upstreamRepo ?? product.repo
   return {
     repoKey,
-    repoUrl: repo.url,
+    repoUrl: product.repoPrivate ? null : repo.url,
     readsUpstream: Boolean(product.upstreamRepo),
     stars: repo.stars,
     forks: repo.forks,

@@ -21,7 +21,8 @@ export interface GithubRelease {
 
 export interface GithubRepo {
   name: string
-  url: string
+  /** Null for a private repo: its page is not public, so the snapshot keeps no link. */
+  url: string | null
   homepage: string | null
   description: string
   isFork: boolean

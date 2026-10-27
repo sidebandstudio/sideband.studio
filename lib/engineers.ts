@@ -345,7 +345,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Founding engineer of the studio, which began in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now, shipping its own products instead of client work.',
+          'Founding engineer of the studio, which began in Boston in 2025 as Eternal Reverse. It started as two people and is five founding engineers now, shipping its own products and building apps for clients too.',
         highlights: [
           'Wrote the Rust host and SwiftUI iPad client behind EternalMonitor',
           'Built the SwiftUI iOS app and Node API behind Exerly Fitness',
@@ -571,6 +571,15 @@ export const engineers: Engineer[] = [
         productId: 'signature-cuts',
         repo: 'https://github.com/whoisaldo/SignatureCuts',
         tech: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+      },
+      {
+        name: 'Fade Empire',
+        blurb:
+          'Booking site for a two-chair barbershop in Chicopee, MA, where Postgres functions reserve each slot and refuse double bookings. Its iPhone app for the barbers is in testing on TestFlight.',
+        href: '/products/fade-empire',
+        internal: true,
+        productId: 'fade-empire',
+        tech: ['JavaScript', 'Supabase', 'PostgreSQL', 'Deno', 'SwiftUI'],
       },
       {
         name: 'EternalExchange',

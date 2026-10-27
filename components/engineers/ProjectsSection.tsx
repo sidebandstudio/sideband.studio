@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import Reveal from '@/components/ui/Reveal'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import ArrowLink from '@/components/ui/ArrowLink'
 import { ArrowRightIcon } from '@/components/ui/Icons'
@@ -111,6 +112,7 @@ export default function ProjectsSection({
                     </Link>
                   </h4>
                   <StatusBadge status={product.status} />
+                  <ClientBadge client={product.client} />
                 </div>
                 <p className="mt-1.5 text-small text-sideband-muted">
                   {[project.role, product.category].filter(Boolean).join(' · ')}
@@ -134,6 +136,14 @@ export default function ProjectsSection({
                       Source
                       <span className="sr-only"> for {project.name}</span>
                     </ArrowLink>
+                  )}
+                  {product.repoPrivate && (
+                    <span
+                      data-private-source=""
+                      className="text-sideband-muted"
+                    >
+                      Source is private
+                    </span>
                   )}
                 </div>
               </Reveal>

@@ -79,6 +79,12 @@ export interface ProductLinks {
   docs?: string
 }
 
+export interface ProductClient {
+  name: string
+  location?: string
+  url?: string
+}
+
 export interface Product {
   id: string
   name: string
@@ -100,6 +106,11 @@ export interface Product {
   origin: string | null
   links: ProductLinks
   /**
+   * The business a client app was built for, from that business's own site.
+   * Absent for Sideband's own products.
+   */
+  client?: ProductClient
+  /**
    * What the repo's LICENSE file says, read by hand, for a license GitHub
    * cannot identify (snapshot license NOASSERTION). productLicense() uses it.
    */
@@ -108,6 +119,13 @@ export interface Product {
   repo: string
   /** The repo the product is developed in, when `repo` is Sideband's fork of it. Ranking reads this one. */
   upstreamRepo?: string
+  /**
+   * The repo is private. Its snapshot numbers still count for the ranking,
+   * but the site never links to it and says the source is private where the
+   * link would be. Keep `links.repo` unset. Must match the snapshot's
+   * `isPrivate` (tests/products.spec.ts).
+   */
+  repoPrivate?: boolean
   accentColor: string
   /**
    * The icon shown for the product: its own icon or logo, or one Sideband
@@ -1590,6 +1608,13 @@ export const products: Product[] = [
       site: 'https://signaturecutschicopee.com/',
       repo: 'https://github.com/whoisaldo/SignatureCuts',
     },
+    // The shop's own name and town, from its site's title and schema.org
+    // BarberShop data (1889 Memorial Dr, Chicopee).
+    client: {
+      name: 'Signature Cuts 413',
+      location: 'Chicopee, Massachusetts',
+      url: 'https://signaturecutschicopee.com/',
+    },
     repo: 'whoisaldo/SignatureCuts',
     accentColor: '#D4C5B0',
     icon: image(
@@ -1646,6 +1671,188 @@ export const products: Product[] = [
         'photo',
         'The Signature Barber Shop storefront in Chicopee',
         'repo public/images/Store-images/StoreFront.jpg',
+      ),
+    ],
+  },
+  // Read from the sidebandstudio/FadeEmpire repo at 5cd5710 (2026-10-21), which
+  // its owner has since made private, so the site does not link to it:
+  // README, index.html, scripts/, supabase/ (migrations 0001-0022, three Edge
+  // Functions), ios/ (project.yml, README) and docs/barber-app/CONTRACT.md, and
+  // from the live site. Its GitHub description ("Static only website") predates
+  // the Supabase backend. What is live comes from the README's "Status on
+  // October 27, 2026" table (42d3e78): the site and database are live, the
+  // barber app is on TestFlight, push notifications are off (no APNs key) and
+  // reminder texts are off (send-reminders not deployed, no Twilio account).
+  {
+    id: 'fade-empire',
+    name: 'Fade Empire',
+    category: 'Barbershop booking',
+    tagline:
+      'Book a chair online. An iPhone app for the barbers is in testing.',
+    description:
+      'The website and booking system of Fade Empire, a two-chair barbershop in Chicopee, Massachusetts. Customers pick a barber, a day and a 45-minute slot and get it on the spot. An iPhone app for the barbers to manage their chairs is in testing on TestFlight.',
+    overview: [
+      'The site is for the shop’s customers, mostly on phones. A customer books, cancels or moves an appointment without calling. The barber app, for the barbers and the manager, is in testing on TestFlight.',
+      'The site is plain HTML, CSS and JavaScript modules on GitHub Pages, installable as an app. Bookings go through functions in Supabase Postgres that check the shop’s hours, the barber’s schedule and days off and set the price on the server, and the database refuses a second booking for a slot that is already taken. If the database cannot be reached, the time is not reserved, but the customer can still send the request to the barber by WhatsApp, or by text on a phone, from a prefilled message.',
+      'The SwiftUI barber app shows each barber their own schedule and lets them book walk-ins, mark no-shows and set days off. The manager adds and edits barbers there, and the site follows without a deploy. It is on TestFlight, not the App Store. Two parts are built but not live yet. Push notifications for bookings, cancellations and moves wait on an Apple push key. Reminder texts wait on their Edge Function being deployed with a Twilio account, though the booking form already asks for consent.',
+    ],
+    features: [
+      {
+        title: 'Book a slot on the spot',
+        body: 'Pick a barber, a day and a 45-minute slot, and the slot is yours as soon as you reserve it.',
+        image: '/assets/products/fade-empire/booking-desktop.webp',
+      },
+      {
+        title: 'No double bookings',
+        body: 'The database itself lets only one booking take a slot, even when two people reserve it at the same moment.',
+      },
+      {
+        title: 'Bring friends or kids',
+        body: 'Book up to six people in back-to-back slots with the same barber, all at once or not at all.',
+      },
+      {
+        title: 'Cancel or move it yourself',
+        body: 'Enter the phone you booked with to see your upcoming bookings, then cancel one or move it to a new time.',
+      },
+      {
+        title: 'The price list books',
+        body: 'Every service on the price list is a button that picks it in the booking form.',
+        image: '/assets/products/fade-empire/site-menu-desktop.webp',
+      },
+      {
+        title: 'Open now and next free slot',
+        body: 'The page shows whether the shop is open and the earliest free slot with any barber.',
+        image: '/assets/products/fade-empire/site-home-desktop.webp',
+      },
+      {
+        title: 'Barber app for iPhone',
+        body: 'Each barber sees their own schedule, books walk-ins, marks no-shows and sets days off. In testing on TestFlight.',
+        image: '/assets/products/fade-empire/barber-app-schedule.webp',
+      },
+      {
+        title: 'Booking links',
+        body: 'Each barber shares a link that opens the form with them picked, and a service too if they choose one.',
+        image: '/assets/products/fade-empire/barber-app-links.webp',
+      },
+    ],
+    platforms: [
+      'Web, installable on phones',
+      'iOS 17 or later (barber app, on TestFlight)',
+    ],
+    stack: [
+      'HTML',
+      'CSS',
+      'JavaScript',
+      'Supabase',
+      'PostgreSQL',
+      'Deno',
+      'TypeScript',
+      'Swift',
+      'SwiftUI',
+      'GitHub Pages',
+    ],
+    status: 'LIVE',
+    version: null,
+    yearStarted: 2025,
+    engineers: ['ali-younes'],
+    origin: null,
+    links: {
+      site: 'https://chicopeefadeempire.com/',
+    },
+    // The shop's own name and town, from its site's title and schema.org
+    // BarberShop data (1193 Memorial Dr, Chicopee).
+    client: {
+      name: 'Fade Empire',
+      location: 'Chicopee, Massachusetts',
+      url: 'https://chicopeefadeempire.com/',
+    },
+    repo: 'sidebandstudio/FadeEmpire',
+    repoPrivate: true,
+    accentColor: '#C8A24A',
+    icon: image(
+      'fade-empire',
+      'icon.webp',
+      512,
+      512,
+      'none',
+      'artwork',
+      'Fade Empire knight helmet logo',
+      'repo assets/brand/icon-512.png, the site’s web app icon',
+    ),
+    video: {
+      hero: videoCut('fade-empire', 'hero', 12),
+      card: videoCut('fade-empire', 'card', 7),
+    },
+    images: [
+      image(
+        'fade-empire',
+        'site-home-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The Fade Empire home page with the shop’s hours status and the next open slot',
+        'Playwright capture of https://chicopeefadeempire.com/ at 1440x900, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'site-home-mobile.webp',
+        780,
+        1688,
+        'mobile',
+        'screenshot',
+        'The Fade Empire home page on a phone',
+        'Playwright capture of https://chicopeefadeempire.com/ at 390x844, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'booking-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The booking form with a barber, a day and an 11:30 AM slot picked',
+        'Playwright capture of the #book section on https://chicopeefadeempire.com/ after picking a barber, day, time and service, nothing submitted, 1440x900, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'booking-mobile.webp',
+        780,
+        1688,
+        'mobile',
+        'screenshot',
+        'The day’s 45-minute slots and the selected time on a phone',
+        'Playwright capture of the #book section on https://chicopeefadeempire.com/ after picking a day, time and service, nothing submitted, 390x844, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'barber-app-schedule.webp',
+        1178,
+        2556,
+        'mobile',
+        'screenshot',
+        'The barber app showing Hassan’s schedule for a Saturday, with sample bookings by time, customer and service',
+        'iOS Simulator capture from the repo’s ios/scripts/local-stack-screenshots.sh against the local Supabase stack’s sample data (tools/local-stack-seed.sql), so every name is made up and no real customer appears',
+      ),
+      image(
+        'fade-empire',
+        'barber-app-links.webp',
+        1178,
+        2556,
+        'mobile',
+        'screenshot',
+        'The barber app’s Links tab with Hassan’s booking page link and a custom VIP link, each with Copy, Share and QR',
+        'iOS Simulator capture from the repo’s ios/scripts/local-stack-screenshots.sh against the local Supabase stack’s sample data (tools/local-stack-seed.sql), so every name is made up and no real customer appears',
+      ),
+      image(
+        'fade-empire',
+        'site-menu-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The Fade Empire price list with the VIP service',
+        'Playwright capture of the #menu section on https://chicopeefadeempire.com/ at 1440x900, 2x, 2026-10-27',
       ),
     ],
   },
@@ -1724,7 +1931,7 @@ export function productLicense(product: Product): ProductLicense {
       `${product.repo} is missing from lib/data/github.json. Run npm run sync:github.`,
     )
   }
-  const url = repo.licenseFile?.url ?? null
+  const url = product.repoPrivate ? null : (repo.licenseFile?.url ?? null)
   if (!repo.licenseFile) {
     return {
       spdx: null,

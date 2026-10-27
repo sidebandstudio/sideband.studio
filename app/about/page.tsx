@@ -7,6 +7,7 @@ import Reveal from '@/components/ui/Reveal'
 import Backdrop from '@/components/ui/Backdrop'
 import Button from '@/components/ui/Button'
 import Stat from '@/components/ui/Stat'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { engineers, getEngineerById } from '@/lib/engineers'
@@ -109,7 +110,7 @@ export default function AboutPage() {
             id="about-title"
             trigger="mount"
             title={`${count} founding engineers`}
-            lede={`One studio. Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.products} products so far, ${facts.live} of them live and ${facts.inDevelopment} in development.`}
+            lede={`One studio. Sideband is an independent software studio in Boston, founded in ${founded} as Eternal Reverse. It makes its own software: ${facts.own.count} products so far, ${statusLine(facts.own)}.${facts.clientApps.count > 0 ? ` It has also built ${facts.clientApps.count} ${facts.clientApps.count === 1 ? 'app' : 'apps'} for clients, ${statusLine(facts.clientApps)}.` : ''}`}
             actions={
               <>
                 <Button href="/products" size="lg">
@@ -310,7 +311,8 @@ export default function AboutPage() {
                       .join(', ')}
                   </span>
                 </span>
-                <span className="hidden shrink-0 sm:block">
+                <span className="hidden shrink-0 flex-wrap justify-end gap-2 sm:flex">
+                  <ClientBadge client={product.client} />
                   <StatusBadge status={product.status} />
                 </span>
                 <ArrowRightIcon
@@ -341,6 +343,22 @@ export default function AboutPage() {
 }
 
 /** An event sentence with the person's name linked to their dossier. */
+/** "7 of them live and 3 in development", or "both live" when every one is. */
+function statusLine({
+  count,
+  live,
+  inDevelopment,
+}: {
+  count: number
+  live: number
+  inDevelopment: number
+}) {
+  const every = count === 1 ? '' : count === 2 ? 'both ' : 'all '
+  if (live === count) return `${every}live`
+  if (inDevelopment === count) return `${every}in development`
+  return `${live} of them live and ${inDevelopment} in development`
+}
+
 function EventWithPerson({ text, id }: { text: string; id: string }) {
   const e = getEngineerById(id)
   if (!e || !text.startsWith(e.name)) return <>{text}</>

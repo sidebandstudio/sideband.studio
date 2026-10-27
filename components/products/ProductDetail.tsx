@@ -10,6 +10,7 @@ import Reveal from '@/components/ui/Reveal'
 import Section from '@/components/ui/Section'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Stat from '@/components/ui/Stat'
+import ClientBadge from '@/components/ui/ClientBadge'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
 import { productAccentStyle } from '@/components/products/accent'
@@ -149,10 +150,36 @@ function Hero({
           <p className="max-w-prose text-lead text-sideband-text-secondary">
             {product.tagline}
           </p>
+          {product.client && (
+            <p
+              data-product-client=""
+              className="-mt-4 max-w-prose text-body text-sideband-text"
+            >
+              Built for{' '}
+              {product.client.url ? (
+                <a
+                  href={product.client.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-sideband-muted underline-offset-4 transition-colors duration-hover hover:decoration-current"
+                >
+                  {product.client.name}
+                </a>
+              ) : (
+                product.client.name
+              )}
+              {product.client.location && ` in ${product.client.location}`}.
+            </p>
+          )}
           <ul className="flex flex-wrap gap-2">
             <li>
               <StatusBadge status={product.status} />
             </li>
+            {product.client && (
+              <li>
+                <ClientBadge client={product.client} />
+              </li>
+            )}
             {product.version && (
               <li>
                 <Badge>{product.version}</Badge>
@@ -193,13 +220,21 @@ function Hero({
                 </Button>
               ))}
             </div>
-            {links.length > 0 && (
+            {(links.length > 0 || product.repoPrivate) && (
               <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                 {links.map((a) => (
                   <ArrowLink key={a.href} href={a.href} external>
                     {a.label}
                   </ArrowLink>
                 ))}
+                {product.repoPrivate && (
+                  <p
+                    data-private-source=""
+                    className="text-body text-sideband-text-secondary"
+                  >
+                    Source is private
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -594,7 +629,9 @@ function Numbers({
   const { product } = ranked
   const source = facts.readsUpstream
     ? `Read from ${facts.repoKey}, where ${product.name} is built. Synced from GitHub on ${syncedLabel}.`
-    : `From ${facts.repoKey} on GitHub, synced ${syncedLabel}.`
+    : facts.repoUrl
+      ? `From ${facts.repoKey} on GitHub, synced ${syncedLabel}.`
+      : `From ${product.name}’s private repo on GitHub, synced ${syncedLabel}. The source is private, so only these figures are shown.`
 
   return (
     <Section labelledBy="numbers-title" tone="surface">
@@ -745,14 +782,23 @@ function Numbers({
             </Row>
             <Row label="Synced">{syncedLabel}</Row>
           </dl>
-          <ArrowLink
-            href={facts.repoUrl}
-            external
-            tone="muted"
-            className="mt-6 text-small"
-          >
-            {facts.repoKey}
-          </ArrowLink>
+          {facts.repoUrl ? (
+            <ArrowLink
+              href={facts.repoUrl}
+              external
+              tone="muted"
+              className="mt-6 text-small"
+            >
+              {facts.repoKey}
+            </ArrowLink>
+          ) : (
+            <p
+              data-private-source=""
+              className="mt-6 text-small text-sideband-muted"
+            >
+              Source is private
+            </p>
+          )}
         </Reveal>
       </div>
     </Section>

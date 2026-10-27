@@ -214,7 +214,8 @@ async function syncRepos(keys) {
       releases: r.releases.totalCount,
       stars: r.stargazerCount,
       topics: r.repositoryTopics.nodes.map((n) => n.topic.name).sort(),
-      url: r.url,
+      // A private repo's page is not public, so its link is not kept.
+      url: r.isPrivate ? null : r.url,
       watchers: r.watchers.totalCount,
     }
   }
