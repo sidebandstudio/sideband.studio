@@ -227,3 +227,25 @@ test('choosing the current page in the mobile menu returns focus to the toggle',
   await expect(page).toHaveURL(/\/products$/)
   await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
 })
+
+test('the home link closes the mobile menu on the home page', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  await expect(page.locator('#mobile-menu')).toBeVisible()
+  await page
+    .getByRole('banner')
+    .getByRole('link', { name: 'Sideband home' })
+    .click()
+
+  await expect(page.locator('#mobile-menu')).toBeHidden()
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).overflow,
+    ),
+  ).not.toBe('hidden')
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeFocused()
+})

@@ -40,8 +40,9 @@ export default function Navbar() {
     if (returnFocus) toggleRef.current?.focus()
   }, [])
 
-  // Any link in the menu closes it and hands focus back to the toggle, also
-  // when the link is the current page and no route change follows.
+  // Any nav link (menu links and the home link) closes the menu and hands
+  // focus back to the toggle, also when the link is the current page and no
+  // route change follows.
   const closeFromLink = () => close(true)
 
   useEffect(() => {
@@ -138,6 +139,8 @@ export default function Navbar() {
           href="/"
           data-nav-mobile
           aria-label="Sideband home"
+          // On / there is no route change to close the menu, so close it here.
+          onClick={() => open && closeFromLink()}
           className="-ml-1 flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 text-sideband-text"
         >
           <Image
