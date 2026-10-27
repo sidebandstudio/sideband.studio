@@ -46,7 +46,7 @@ const config: Config = {
       colors: {
         sideband,
         // Per-product accent. Set --product-accent on a wrapper with
-        // productAccentStyle() from components/products/scenes.
+        // productAccentStyle() from components/products/accent.
         product: {
           DEFAULT: 'var(--product-accent)',
           dim: 'color-mix(in srgb, var(--product-accent) 16%, transparent)',

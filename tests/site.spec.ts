@@ -307,7 +307,7 @@ for (const route of ROUTES) {
           const el = n.parentElement
           if (!text || !el || el.closest('script, style, noscript')) continue
           // Hidden from everyone by design: an unselected tab's panel, and the
-          // pictures (scene stages), whose stills tests/scenes-*.spec.ts check.
+          // product videos, which tests/videos.spec.ts checks.
           if (el.closest('[aria-hidden="true"]')) continue
           if (el.getClientRects().length === 0) continue
           if (getComputedStyle(el).visibility !== 'visible') {

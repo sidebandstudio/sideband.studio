@@ -1600,7 +1600,7 @@ export const products: Product[] = [
       'none',
       'artwork',
       'Signature Cuts 413 SC monogram',
-      'drawn by Sideband in the site colours (the shop ships no icon), components/products/scenes/group-b/signature-cuts/mark.svg rasterized at 512px',
+      'drawn by Sideband in the site colours (the shop ships no icon), public/assets/products/signature-cuts/mark.svg rasterized at 512px',
     ),
     video: {
       hero: videoCut('signature-cuts', 'hero', 12),

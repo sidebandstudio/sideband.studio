@@ -133,6 +133,7 @@ export interface ShowcaseProduct {
   facts: string[]
   figure: Figure
   site: { href: string; label: string } | null
+  video: Product['video']
 }
 
 /** A product after the featured three: enough for a chip that links to it. */
@@ -142,7 +143,7 @@ export interface MoreProduct {
   icon: string | null
 }
 
-/** How many ranked products the home page features with their scenes. */
+/** How many ranked products the home page features with their videos. */
 const FEATURED = 3
 
 // ---- Team ----
@@ -262,6 +263,7 @@ export function getHomeData() {
     site: p.links.site
       ? { href: p.links.site, label: siteLabel(p.links.site) }
       : null,
+    video: p.video,
   }))
 
   const team: TeamMember[] = engineers.map((e) => {

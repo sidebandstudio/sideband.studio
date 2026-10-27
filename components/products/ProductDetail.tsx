@@ -12,7 +12,7 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import Stat from '@/components/ui/Stat'
 import StatusBadge from '@/components/ui/StatusBadge'
 import { cx } from '@/components/ui/cx'
-import { ProductScene, productAccentStyle } from '@/components/products/scenes'
+import { productAccentStyle } from '@/components/products/accent'
 import type { Product, ProductFeature, RankedProduct } from '@/lib/products'
 import {
   formatBytes,
@@ -34,6 +34,7 @@ import { formatDate } from '@/lib/format'
 import ImageGrid from './ImageGrid'
 import { ImageViewerProvider, ViewableImage } from './ImageViewer'
 import ProductName from './ProductName'
+import ProductVideo from './ProductVideo'
 
 interface ProductDetailProps {
   ranked: RankedProduct
@@ -204,7 +205,7 @@ function Hero({
           </div>
         </Reveal>
         <Reveal trigger="mount" delay={280} className="lg:col-span-7">
-          <ProductScene id={product.id} variant="hero" />
+          <ProductVideo video={product.video.hero} cut="hero" priority />
         </Reveal>
       </div>
 
@@ -800,10 +801,12 @@ function Neighbours({
                   single && 'md:grid-cols-2 md:items-center md:gap-10',
                 )}
               >
-                <ProductScene
-                  id={r.product.id}
-                  variant="card"
-                  className="transition-transform duration-ui ease-out group-hover:-translate-y-1"
+                <ProductVideo
+                  video={r.product.video.card}
+                  cut="card"
+                  lift
+                  plainCredit
+                  sizes="(min-width: 768px) 46vw, 92vw"
                 />
                 <span className="flex flex-col gap-2">
                   <span className="text-small text-sideband-muted">

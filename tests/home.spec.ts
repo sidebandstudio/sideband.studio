@@ -58,12 +58,12 @@ test('the products section links every product in ranked order', async ({
   ).toHaveAttribute('href', '/products')
 })
 
-test('the products section features three scenes and one strip for the rest', async ({
+test('the products section features three videos and one strip for the rest', async ({
   page,
 }) => {
   await visit(page, '/')
   const section = page.locator('#products')
-  await expect(section.locator('[data-scene]')).toHaveCount(3)
+  await expect(section.locator('[data-product-video]')).toHaveCount(3)
   const strip = section.getByRole('list', {
     name: `Products ranked 4 to ${ranked.length}`,
   })
