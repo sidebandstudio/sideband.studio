@@ -635,11 +635,12 @@ export const engineers: Engineer[] = [
       },
       {
         name: 'Password Generator',
-        blurb: 'Configurable password generator in Java, with export.',
+        blurb:
+          'Configurable password generator with a Swing desktop UI and export.',
         href: 'https://github.com/whoisaldo/Password-Generator',
         source: true,
         repo: 'https://github.com/whoisaldo/Password-Generator',
-        tech: ['Java'],
+        tech: ['Java', 'Swing'],
       },
       {
         name: 'Grade Calculator',
@@ -953,13 +954,21 @@ export const engineers: Engineer[] = [
         name: 'Eternal2x',
         featured: true,
         blurb:
-          'DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then rebuilds the motion between them with optical flow.',
+          'DaVinci Resolve Studio plugin for hand-drawn animation. It finds the real drawings behind duplicated frames, then draws the missing in-betweens with the RIFE network on ONNX Runtime.',
         href: '/products/eternal2x',
         internal: true,
         productId: 'eternal2x',
         repo: 'https://github.com/sidebandstudio/Eternal2x.com',
         role: 'Creator',
-        tech: ['Python', 'Lua', 'OpenCV', 'NumPy', 'DaVinci Resolve', 'pytest'],
+        tech: [
+          'Python',
+          'Lua',
+          'OpenCV',
+          'NumPy',
+          'ONNX Runtime',
+          'RIFE',
+          'DaVinci Resolve',
+        ],
       },
       {
         name: 'Eternal Summary',
@@ -1639,7 +1648,15 @@ export const engineers: Engineer[] = [
         href: 'https://github.com/naman0r/Peel',
         source: true,
         repo: 'https://github.com/naman0r/Peel',
-        tech: ['Swift 6', 'Vision', 'Foundation Models', 'EventKit'],
+        tech: [
+          'Swift 6',
+          'AppKit',
+          'SwiftUI',
+          'ScreenCaptureKit',
+          'Vision',
+          'Foundation Models',
+          'EventKit',
+        ],
       },
       {
         name: 'Open Brain',
@@ -1799,7 +1816,14 @@ export const engineers: Engineer[] = [
           'Recommends which car to buy based on your needs, with a price range so you do not overpay.',
         href: 'https://car2drvr-finhacks.firebaseapp.com/',
         repo: 'https://github.com/somshrivastava/Car2Drvr',
-        tech: ['React', 'Vite', 'PrimeReact', 'Express', 'Firebase Functions'],
+        tech: [
+          'React',
+          'Vite',
+          'PrimeReact',
+          'Express',
+          'Firebase Functions',
+          'OpenAI API',
+        ],
       },
       {
         name: 'Personal Website v1',
