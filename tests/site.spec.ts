@@ -296,3 +296,61 @@ for (const route of ROUTES) {
     })
   }
 }
+
+for (const route of [
+  '/',
+  '/products',
+  `/products/${products[0].id}`,
+  `/engineers/${engineers[0].id}`,
+]) {
+  test(`${route} on a phone: no layout shift, light images, no GitHub snapshot in scripts`, async ({
+    page,
+  }) => {
+    test.setTimeout(120000)
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.addInitScript(() => {
+      const w = window as unknown as { shift: number }
+      w.shift = 0
+      new PerformanceObserver((list) => {
+        for (const e of list.getEntries() as unknown as {
+          value: number
+          hadRecentInput: boolean
+        }[])
+          if (!e.hadRecentInput) w.shift += e.value
+      }).observe({ type: 'layout-shift', buffered: true })
+    })
+    const images: { url: string; bytes: number }[] = []
+    const scripts: Promise<string>[] = []
+    page.on('response', (r) => {
+      const type = r.headers()['content-type'] ?? ''
+      if (type.startsWith('image/'))
+        r.body()
+          .then((b) => images.push({ url: r.url(), bytes: b.length }))
+          .catch(() => {})
+      if (type.includes('javascript')) scripts.push(r.text().catch(() => ''))
+    })
+    await visit(page, route)
+
+    // Scroll the whole page so every lazy image and entrance has its turn.
+    const height = await page.evaluate(() => document.body.scrollHeight)
+    for (let y = 0; y < height; y += 600) {
+      await page.evaluate((top) => window.scrollTo(0, top), y)
+      await page.evaluate(
+        () => new Promise((r) => requestAnimationFrame(() => r(null))),
+      )
+    }
+    await page.waitForLoadState('networkidle')
+
+    const shift = await page.evaluate(
+      () => (window as unknown as { shift: number }).shift,
+    )
+    expect(shift, 'cumulative layout shift').toBeLessThanOrEqual(0.1)
+    expect(images.length).toBeGreaterThan(0)
+    for (const img of images)
+      expect(img.bytes, img.url).toBeLessThanOrEqual(500 * 1024)
+    // lib/data/github.json stays on the server. Bundled JSON keeps its quoted
+    // keys, so its calendar field would show up in a client script.
+    for (const js of await Promise.all(scripts))
+      expect(js).not.toContain('"firstDay"')
+  })
+}
