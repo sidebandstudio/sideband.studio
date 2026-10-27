@@ -29,6 +29,14 @@ export function sidebandRole(engineer: Engineer) {
   return engineer.experience?.find((x) => x.company === 'Sideband')
 }
 
+/**
+ * Sort key for a date. A bare year has no month, so it sorts after the dated
+ * events of that year and before the year's product summary.
+ */
+function order(ym: { year: number; month: number | null }) {
+  return ym.year * 12 + (ym.month ?? 11.5)
+}
+
 export interface TimelineEvent {
   /** "Jan 2026", or a bare year. */
   date: string
@@ -53,12 +61,7 @@ export function studioTimeline(): TimelineYear[] {
     .map((e) => ({ engineer: e, role: sidebandRole(e) }))
     .filter((r) => r.role)
     .map((r) => ({ ...r, ym: parseYearMonth(r.role!.startDate)! }))
-    .sort(
-      (a, b) =>
-        a.ym.year * 12 +
-        (a.ym.month ?? -1) -
-        (b.ym.year * 12 + (b.ym.month ?? -1)),
-    )
+    .sort((a, b) => order(a.ym) - order(b.ym))
   const [founder, ...joined] = roles
 
   const events: (TimelineEvent & { order: number; year: number })[] = []
@@ -66,15 +69,15 @@ export function studioTimeline(): TimelineYear[] {
     events.push({
       date: founder.role!.startDate,
       year: founder.ym.year,
-      order: founder.ym.year * 12 + (founder.ym.month ?? -1),
-      text: `${founder.engineer.name} co-founds the studio in Boston as Eternal Reverse.`,
+      order: order(founder.ym),
+      text: `${founder.engineer.name} starts the studio in Boston as Eternal Reverse.`,
       engineer: founder.engineer.id,
     })
   for (const r of joined)
     events.push({
       date: r.role!.startDate,
       year: r.ym.year,
-      order: r.ym.year * 12 + (r.ym.month ?? -1),
+      order: order(r.ym),
       text: `${r.engineer.name} joins as ${r.role!.role}.`,
       engineer: r.engineer.id,
     })
