@@ -10,6 +10,7 @@ import {
   type Product,
   type ProductImage,
   type ProductImageCredit,
+  type ProductImageKind,
   type ProductStatus,
 } from '@/lib/products'
 import { rankingMethod } from '@/lib/products-view'
@@ -116,6 +117,7 @@ export interface HeroItem {
     alt: string
     width: number
     height: number
+    kind: ProductImageKind
     credit?: ProductImageCredit
   }
   figure: Figure
@@ -237,6 +239,7 @@ export function getHomeData() {
           alt: shot.alt,
           width: shot.width,
           height: shot.height,
+          kind: shot.kind,
           ...(shot.credit ? { credit: shot.credit } : {}),
         },
         figure: keyFigure(p),

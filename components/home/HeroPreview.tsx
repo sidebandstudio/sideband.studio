@@ -8,9 +8,17 @@ import StatusBadge from '@/components/ui/StatusBadge'
 import { ArrowRightIcon } from '@/components/ui/Icons'
 import { cx } from '@/components/ui/cx'
 import type { HeroItem } from '@/lib/home-data'
+import type { ProductImageKind } from '@/lib/products'
 import styles from './HeroPreview.module.css'
 
 const PAGE_MS = 6000
+
+/** What each picture is, said under it, as on the product pages. */
+const KIND_LABEL: Record<ProductImageKind, string> = {
+  screenshot: 'Screenshot',
+  artwork: 'Artwork',
+  photo: 'Photo',
+}
 
 /** DESIGN.md: a product window floating over a backdrop is the one thing at rest that casts a shadow. */
 const WINDOW_SHADOW = 'shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]' // taste-skill-ignore
@@ -223,9 +231,15 @@ export default function HeroPreview({ items }: { items: HeroItem[] }) {
                     </span>{' '}
                     {item.figure.label}
                   </p>
-                  {item.shot.credit && (
-                    <ImageCredit credit={item.shot.credit} plain={!shown} />
-                  )}
+                  <div className="flex flex-wrap gap-x-2 text-small text-sideband-muted">
+                    <p>{KIND_LABEL[item.shot.kind]}</p>
+                    {item.shot.credit && (
+                      <>
+                        <span aria-hidden="true">&middot;</span>
+                        <ImageCredit credit={item.shot.credit} plain={!shown} />
+                      </>
+                    )}
+                  </div>
                 </div>
                 <Link
                   href={`/products/${item.id}`}
