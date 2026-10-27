@@ -10,8 +10,9 @@
  * the copy that mentions the count to be updated too.
  *
  * It also catches stale head-count phrasings generically: with three founders,
- * any "two-person studio" / "two founders" left behind is flagged, because the
- * number word no longer matches the source of truth.
+ * any "two-person studio" / "two founders" / "two founding engineers" left
+ * behind is flagged, because the number word no longer matches the source of
+ * truth. "Co-founder" is not a count ("co" is not a number word) and is skipped.
  *
  * Extend it by adding a fact to FACTS below. See AGENT_NOTES.md → Single Source
  * of Truth.
@@ -84,7 +85,7 @@ const FACTS = [
   {
     label: 'founder count',
     expected: engineerCount,
-    re: /\b([a-z]+)[- ](?:founders?|person|people|friends?)\b/gi,
+    re: /\b([a-z]+)[- ](?:founders?|founding engineers?|person|people|friends?)\b/gi,
   },
   {
     label: 'total product count',
@@ -104,10 +105,15 @@ const FACTS = [
 ]
 
 // Historical references ("started from two founders", "began as a two-person
-// team") describe the past, not the current count, and are exempt.
-const HISTORICAL = /\b(?:started|began|grew|founded)\b[^.!?]{0,40}$/i
-const isHistorical = (text, index) =>
-  HISTORICAL.test(text.slice(Math.max(0, index - 60), index))
+// team") describe the past, not the current count, and are exempt. Two cases
+// stay claims about today: a count followed by "now" ("started as two people
+// and is four founders now"), and "co-founded ... with four founders", where
+// "co-founded" names the person's role rather than the studio's origin.
+const HISTORICAL = /\b(?:started|began|grew|(?<!co-)founded)\b[^.!?]{0,40}$/i
+const CURRENT = /^\s+now\b/i
+const isHistorical = (text, index, length) =>
+  HISTORICAL.test(text.slice(Math.max(0, index - 60), index)) &&
+  !CURRENT.test(text.slice(index + length))
 
 // --- Files to scan: everything user-facing, never the source-of-truth data. ---
 const SCAN_DIRS = ['app', 'components', 'content']
@@ -138,7 +144,7 @@ for (const file of files) {
         while ((m = fact.re.exec(line))) {
           const word = m[1].toLowerCase()
           if (!wordToNum.has(word)) continue // "the founders", "our products" → not a claim
-          if (isHistorical(line, m.index)) continue // past-tense origin copy, not a current count
+          if (isHistorical(line, m.index, m[0].length)) continue // past-tense origin copy, not a current count
           if (wordToNum.get(word) !== fact.expected) {
             errors.push({
               file,
