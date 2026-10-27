@@ -3,8 +3,6 @@ import { DM_Sans, JetBrains_Mono } from 'next/font/google'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import CustomCursor from '@/components/layout/CustomCursor'
-import NoiseOverlay from '@/components/ui/NoiseOverlay'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -48,8 +46,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen bg-sideband-black font-sans text-sideband-text antialiased">
-        <NoiseOverlay />
-        <CustomCursor />
         <Navbar />
         <main>{children}</main>
         <Footer />

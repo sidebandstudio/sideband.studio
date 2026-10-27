@@ -24,7 +24,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ```
 app/              → Pages (App Router)
 components/       → Reusable components
-  layout/         → Navbar, Footer, CustomCursor
+  layout/         → Navbar, Footer
   home/           → Homepage sections
   products/       → Product-related components
   ui/             → Design system primitives
