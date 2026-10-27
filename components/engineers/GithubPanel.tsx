@@ -10,6 +10,7 @@ import {
   type EngineerGithub,
   type LanguageShare,
 } from '@/lib/engineers-github'
+import { cx } from '@/components/ui/cx'
 import ContributionGraph from './ContributionGraph'
 
 /** Language shares from the accent down to grey, largest first. */
@@ -22,7 +23,14 @@ function shade(i: number) {
 }
 
 /** Top languages by bytes. Anything past the sixth folds into "Other". */
-function LanguageBar({ languages }: { languages: LanguageShare[] }) {
+function LanguageBar({
+  languages,
+  wide,
+}: {
+  languages: LanguageShare[]
+  /** Spread the legend wider when the bar has the full row. */
+  wide: boolean
+}) {
   const top = languages.slice(0, 6)
   const rest = languages.slice(6)
   const rows = rest.length
@@ -53,7 +61,12 @@ function LanguageBar({ languages }: { languages: LanguageShare[] }) {
           />
         ))}
       </div>
-      <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+      <ul
+        className={cx(
+          'mt-5 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3',
+          wide && 'lg:grid-cols-4 xl:grid-cols-7',
+        )}
+      >
         {rows.map((l, i) => (
           <li key={l.name} className="flex items-center gap-2.5 text-small">
             <span
@@ -83,6 +96,8 @@ interface GithubPanelProps {
 export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
   const s = gh.summary
   const summaryId = `gh-${gh.login}-summary`
+  const hasPinned = gh.pinned.length > 0
+  const hasSide = gh.languages.length > 0 || gh.organizations.length > 0
   const stats = [
     { label: 'Contributions, last year', value: formatCount(s.total) },
     { label: 'Followers', value: formatCount(gh.followers) },
@@ -173,53 +188,60 @@ export default function GithubPanel({ gh, accent, first }: GithubPanelProps) {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_1.4fr]">
-        <div className="flex flex-col gap-10 rounded-panel bg-sideband-surface p-6 md:p-10">
-          {gh.languages.length > 0 && (
-            <div>
-              <h3 className="text-body font-medium text-sideband-text">
-                Top languages
-              </h3>
-              <p className="mt-1.5 text-small text-sideband-muted">
-                By code size across {first}&apos;s own public repositories.
-              </p>
-              <div className="mt-6">
-                <LanguageBar languages={gh.languages} />
+      <div
+        className={cx(
+          'grid gap-6',
+          hasPinned && hasSide && 'lg:grid-cols-[1fr_1.4fr]',
+        )}
+      >
+        {hasSide && (
+          <div className="flex flex-col gap-10 rounded-panel bg-sideband-surface p-6 md:p-10">
+            {gh.languages.length > 0 && (
+              <div>
+                <h3 className="text-body font-medium text-sideband-text">
+                  Top languages
+                </h3>
+                <p className="mt-1.5 text-small text-sideband-muted">
+                  By code size across {first}&apos;s own public repositories.
+                </p>
+                <div className="mt-6">
+                  <LanguageBar languages={gh.languages} wide={!hasPinned} />
+                </div>
               </div>
-            </div>
-          )}
-          {gh.organizations.length > 0 && (
-            <div>
-              <h3 className="text-body font-medium text-sideband-text">
-                Organizations
-              </h3>
-              <ul className="mt-4 flex flex-wrap gap-3">
-                {gh.organizations.map((org) => (
-                  <li key={org.login}>
-                    <a
-                      href={org.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-11 items-center gap-2.5 rounded-full bg-sideband-surface-2 pl-1.5 pr-4 text-small text-sideband-text transition-colors duration-hover hover:bg-sideband-surface-3"
-                    >
-                      <Image
-                        src={`${org.avatarUrl}${org.avatarUrl.includes('?') ? '&' : '?'}s=64`}
-                        alt=""
-                        width={32}
-                        height={32}
-                        unoptimized
-                        className="h-8 w-8 rounded-full"
-                      />
-                      {org.name ?? org.login}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+            )}
+            {gh.organizations.length > 0 && (
+              <div>
+                <h3 className="text-body font-medium text-sideband-text">
+                  Organizations
+                </h3>
+                <ul className="mt-4 flex flex-wrap gap-3">
+                  {gh.organizations.map((org) => (
+                    <li key={org.login}>
+                      <a
+                        href={org.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-11 items-center gap-2.5 rounded-full bg-sideband-surface-2 pl-1.5 pr-4 text-small text-sideband-text transition-colors duration-hover hover:bg-sideband-surface-3"
+                      >
+                        <Image
+                          src={`${org.avatarUrl}${org.avatarUrl.includes('?') ? '&' : '?'}s=64`}
+                          alt=""
+                          width={32}
+                          height={32}
+                          unoptimized
+                          className="h-8 w-8 rounded-full"
+                        />
+                        {org.name ?? org.login}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
 
-        {gh.pinned.length > 0 && (
+        {hasPinned && (
           <div className="rounded-panel bg-sideband-surface p-6 md:p-10">
             <h3 className="text-body font-medium text-sideband-text">
               Pinned repositories
