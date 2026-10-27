@@ -6,7 +6,7 @@ This file tracks project-specific decisions that future agents should preserve.
 
 - The studio is **Sideband** (sideband.studio, hello@sideband.studio), rebranded from Eternal Reverse in 2026.
 - Product names were deliberately not renamed. EternalMonitor, EternalRichPresence, Eternal2x, and Eternal Summary are separate product brands with their own domains and repos. Do not "fix" them to Sideband.
-- The design token namespace is `sideband-*` (Tailwind color scale and CSS variables in `styles/globals.css`).
+- The design token namespace is `sideband-*`: a Tailwind colour scale defined once in `tailwind.config.ts`, which also emits it as `--sideband-*` CSS variables. See `DESIGN.md`.
 - The navbar and footer wordmark is plain text, not an image. The old logo assets under `public/assets/EternalReverse/` and `assets/EternalReverse/`, the old `public/favicon.png`, and the pre-rebrand design mockups in `references/` were removed. `app/icon.png` is the favicon and social preview image.
 
 ## Current Deployment State
@@ -50,16 +50,16 @@ If a future change breaks the build, fix that before pushing.
 - All app image sources should resolve from `public/`
 - Existing project assets live under `public/assets/...`
 
-## Landing Page
+## Design System
 
-The landing page borrows its structure and motion rules from the T3 Code marketing site (`apps/marketing` in github.com/pingdotgg/t3code). Preserve these when editing it:
+`DESIGN.md` at the repo root is the design contract: tokens, type, colour, layout, motion, the
+components in `components/ui/`, and the product scene contract in `components/products/scenes/`.
+Read it before building or changing any page. These rules from earlier work still hold:
 
-- One page-load sequence in the hero: `[data-rise]` elements with staggered `--d` delays. Sections below the hero do not fade in on scroll.
-- Six floating product marks (`components/home/HeroMarks.tsx`): CSS owns the `mark-in` entrance and the `mark-drift` loop, JS only toggles `--home-motion-state` (on screen and tab visible) and feeds `--px`/`--py` for pointer parallax on fine pointers. Per-mark placement lives in the `.hf-*` blocks in `styles/globals.css`, including the phone layout.
-- The preview (`components/home/ProductPreview.tsx`) is a browser window with one tab per product and a real screenshot behind each. It pages itself only while on screen and yields to the visitor: hover or focus pauses it, a click or arrow key stops it for good.
-- Every animation is off under `prefers-reduced-motion`, and content must stay visible without it.
-- Each product's `icon` and `preview` come from `lib/products.ts`. The landing shows real screenshots only, never generated art or the old 3D `cardHero` renders.
-- No custom cursor, no hero terminal, no live SVG noise filter. Grain is a tiled `body::after` texture.
+- Every animation is off under `prefers-reduced-motion`, and content stays visible and complete without it (and without script).
+- No custom cursor. No live SVG noise filter: grain is one tiled `body::after` texture.
+- Product visuals are real screenshots plus hand-built SVG scenes, never AI raster art posing as product UI.
+- Each product's `icon` and `preview` come from `lib/products.ts`.
 
 ## Tailwind
 
@@ -120,4 +120,3 @@ Check these first:
 3. image paths under `public/`
 4. missing `'use client'` on hook/browser/Framer Motion components
 5. `npm run build`
-
