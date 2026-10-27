@@ -7,6 +7,7 @@ import FadeUp from '@/components/animations/FadeUp'
 import Tag from '@/components/ui/Tag'
 import StatusBadge from '@/components/ui/StatusBadge'
 import SectionLabel from '@/components/ui/SectionLabel'
+import ImageCredit from '@/components/products/ImageCredit'
 import {
   BrowserFrame,
   IPadFrame,
@@ -88,6 +89,9 @@ function GalleryItem({
       >
         {item.alt}
       </p>
+      {item.credit && (
+        <ImageCredit credit={item.credit} className="mt-1 px-1" />
+      )}
     </div>
   )
 }

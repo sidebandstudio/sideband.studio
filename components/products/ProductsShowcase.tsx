@@ -10,6 +10,7 @@ import {
   IPadFrame,
   IPhoneFrame,
 } from '@/components/products/DeviceFrames'
+import ImageCredit from '@/components/products/ImageCredit'
 
 function useReveal(threshold = 0.15) {
   const ref = useRef<HTMLElement | null>(null)
@@ -341,6 +342,9 @@ function ProductSection({ product, rank }: { product: Product; rank: number }) {
             objectPosition="top center"
           />
         </div>
+      )}
+      {shot.credit && (
+        <ImageCredit credit={shot.credit} className="mt-3 text-center" />
       )}
     </div>
   )

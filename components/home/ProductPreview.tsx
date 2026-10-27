@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import type { Product } from '@/lib/products'
+import ImageCredit from '@/components/products/ImageCredit'
 
 const PAGE_MS = 6000
 
@@ -178,6 +179,13 @@ export default function ProductPreview({
                 priority={i === 0}
                 quality={90}
               />
+              {p.preview.credit && (
+                <ImageCredit
+                  credit={p.preview.credit}
+                  plain
+                  className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5"
+                />
+              )}
             </div>
           ))}
         </div>

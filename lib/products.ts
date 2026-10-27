@@ -9,6 +9,14 @@ export type ProductStatus = 'LIVE' | 'IN DEVELOPMENT'
 
 export type ProductDevice = 'desktop' | 'mobile' | 'ipad' | 'none'
 
+/** Attribution that an image's source requires or names. */
+export interface ProductImageCredit {
+  text: string
+  href?: string
+  license?: string
+  licenseHref?: string
+}
+
 export interface ProductImage {
   src: string
   alt: string
@@ -19,6 +27,8 @@ export interface ProductImage {
   device: ProductDevice
   /** Where the original came from: a repo path, a URL, or a capture. */
   source: string
+  /** Shown with the image wherever it appears. */
+  credit?: ProductImageCredit
 }
 
 export interface ProductFeature {
@@ -77,8 +87,10 @@ function image(
   device: ProductDevice,
   alt: string,
   source: string,
+  extra: Pick<ProductImage, 'credit'> = {},
 ): ProductImage {
   return {
+    ...extra,
     src: `${ASSETS}/${product}/${file}`,
     alt,
     width,
@@ -86,6 +98,14 @@ function image(
     device,
     source,
   }
+}
+
+/** The Eternal2x demos use Hero footage. Credit from the Eternal2x README "Credits". */
+const HERO_CREDIT: ProductImageCredit = {
+  text: 'Footage from Hero by the Blender Foundation, edited by Eternal2x',
+  href: 'https://studio.blender.org/projects/hero/',
+  license: 'CC BY 4.0',
+  licenseHref: 'https://creativecommons.org/licenses/by/4.0/',
 }
 
 export const products: Product[] = [
@@ -818,6 +838,7 @@ export const products: Product[] = [
         'desktop',
         'DaVinci Resolve Studio with the Eternal2x panel after a render, the smoothed clip on the track above the original',
         'repo docs/assets/demo/resolve.jpg',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -826,7 +847,8 @@ export const products: Product[] = [
         760,
         'none',
         'Six frames of a walk as drawn on 2s compared with Eternal2x and its new in-betweens',
-        'repo docs/assets/demo/frames.jpg (footage from Hero by the Blender Foundation, CC BY 4.0)',
+        'repo docs/assets/demo/frames.jpg',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -836,6 +858,7 @@ export const products: Product[] = [
         'desktop',
         'The eternal2x.com home page with the before and after comparison',
         'Playwright capture of https://eternal2x.com/ at 1440x900, 2x, 2026-10-26',
+        { credit: HERO_CREDIT },
       ),
       image(
         'eternal2x',
@@ -845,6 +868,7 @@ export const products: Product[] = [
         'mobile',
         'The eternal2x.com home page on a phone',
         'Playwright capture of https://eternal2x.com/ at 390x844, 2x, 2026-10-26',
+        { credit: HERO_CREDIT },
       ),
     ],
   },
