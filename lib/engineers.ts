@@ -592,6 +592,24 @@ export const engineers: Engineer[] = [
         ],
       },
       {
+        name: 'hushtype',
+        blurb:
+          'Menu bar dictation app for the Mac, built on the open-source Handy. Hold Option-Space, speak and release, and the text is pasted at the cursor in whatever app is in front. Speech recognition runs on the Mac.',
+        href: '/products/hushtype',
+        internal: true,
+        productId: 'hushtype',
+        repo: 'https://github.com/sidebandstudio/hushtype',
+        tech: [
+          'Rust',
+          'Tauri 2',
+          'React 19',
+          'TypeScript',
+          'ONNX Runtime',
+          'Parakeet V3',
+          'Ollama',
+        ],
+      },
+      {
         name: 'Moops Bookstore',
         featured: true,
         blurb:
@@ -1034,13 +1052,13 @@ export const engineers: Engineer[] = [
         tech: ['Rust', 'FFmpeg', 'AMF', 'H.264', 'HEVC'],
       },
       {
+        // Listed on his portfolio. The product credits Ali Younes alone, so
+        // this card claims no part in it and does not link the product page.
         name: 'Exerly Fitness',
         featured: true,
         blurb:
-          'Fitness app built at Sideband. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.',
-        href: '/products/exerly',
-        internal: true,
-        productId: 'exerly',
+          'A fitness app from the studio. Tracks nutrition, workouts and sleep across native iOS and the web, with adaptive calorie targets and an AI coach.',
+        href: 'https://exerlyfitness.com',
         repo: 'https://github.com/sidebandstudio/Exerly-Fitness',
         tech: [
           'SwiftUI',
