@@ -165,45 +165,9 @@
   }
 }
 
-.zero {
-  animation-name: zero;
-}
-@keyframes zero {
-  0%,
-  64% {
-    opacity: 1;
-  }
-  66%,
-  91% {
-    opacity: 0;
-  }
-  97%,
-  100% {
-    opacity: 1;
-  }
-}
-
-.one {
-  animation-name: one;
-}
-@keyframes one {
-  0%,
-  64% {
-    opacity: 0;
-  }
-  66%,
-  91% {
-    opacity: 1;
-  }
-  97%,
-  100% {
-    opacity: 0;
-  }
-}
-
 /* Hero: the task card is dragged from To do onto Done. */
 .drag {
-  transform: translateX(244px);
+  transform: translateX(204px);
   animation-name: drag;
 }
 @keyframes drag {
@@ -215,11 +179,11 @@
     transform: translate(40px, -12px) scale(1.04);
   }
   65% {
-    transform: translate(244px, -12px) scale(1.04);
+    transform: translate(204px, -12px) scale(1.04);
   }
   67%,
   91% {
-    transform: translateX(244px);
+    transform: translateX(204px);
   }
   97%,
   100% {
@@ -237,26 +201,6 @@
     transform: scale(0.5);
   }
   69%,
-  91% {
-    opacity: 1;
-    transform: none;
-  }
-  97%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.saved {
-  animation-name: saved;
-}
-@keyframes saved {
-  0%,
-  69% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  72%,
   91% {
     opacity: 1;
     transform: none;
