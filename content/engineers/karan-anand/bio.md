@@ -81,4 +81,4 @@ _2022 – 2029 (expected) · Winnipeg, MB_
 
 ## Off duty
 
-Valorant, Monster Hunter and basketball. His portfolio has a Valorant knife you can pull down to open his projects and a basketball you can send rolling across the page.
+His portfolio has a Valorant knife you can pull down to open his projects and a basketball you can send rolling across the page.

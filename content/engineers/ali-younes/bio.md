@@ -154,4 +154,4 @@ Other work:
 
 ## Off duty
 
-"I have a 2013 Audi S4 that makes around 540 whp. It's on a Jackal Stage 2+ tune and I love to work on it myself." He also has a 2013 Audi S6 with the 4.0 twin-turbo V8 on a Stage 1 Integrated Engineering tune, running Virtual Link, and a 2013 BMW 328xi that got a CarPlay retrofit, a cold air intake and a custom tune. "Cars, phones, breadboards. If it has screws in it I have probably had it open." He placed third in Massachusetts in high school wrestling, and his sumo robot won first place in a computer engineering course.
+The S6 runs its 4.0 twin-turbo V8 on a Stage 1 Integrated Engineering tune, and the 328xi also got a cold air intake. "Cars, phones, breadboards. If it has screws in it I have probably had it open." He placed third in Massachusetts in high school wrestling, and his sumo robot won first place in a computer engineering course.
