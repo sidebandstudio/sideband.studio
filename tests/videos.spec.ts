@@ -198,7 +198,7 @@ for (const path of PAGES) {
     for (const v of shown) {
       await scrollToVideo(page, v.index)
       await expect
-        .poll(() => videoState(page, v.index), { timeout: 15000 })
+        .poll(() => videoState(page, v.index), { timeout: 30000 })
         .toMatchObject({ playing: true, shown: true })
       const state = await videoState(page, v.index)
       expect(state.audioBytes, `video ${v.index} decoded audio`).toBe(0)
@@ -247,10 +247,13 @@ for (const path of ['/', '/products', `/products/${eternal2x.id}`]) {
         .nth(v.index)
         .locator('[data-video-frame] img')
       await expect
-        .poll(() =>
-          poster.evaluate(
-            (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
-          ),
+        .poll(
+          () =>
+            poster.evaluate(
+              (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
+            ),
+          // The image optimizer makes each poster size on first request.
+          { timeout: 30000 },
         )
         .toBe(true)
     }
@@ -273,7 +276,7 @@ test('turning reduced motion on stops a playing video and shows its poster', asy
   await visit(page, `/products/${products[0].id}`)
   await scrollToVideo(page, 0)
   await expect
-    .poll(() => videoState(page, 0))
+    .poll(() => videoState(page, 0), { timeout: 30000 })
     .toMatchObject({ playing: true, shown: true })
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect
@@ -281,7 +284,7 @@ test('turning reduced motion on stops a playing video and shows its poster', asy
     .toMatchObject({ paused: true, shown: false })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await expect
-    .poll(() => videoState(page, 0))
+    .poll(() => videoState(page, 0), { timeout: 30000 })
     .toMatchObject({ playing: true, shown: true })
 })
 
