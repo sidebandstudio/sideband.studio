@@ -258,7 +258,10 @@ test('footer links every product, in rank order, and every engineer', async ({
   await expect(
     footer.getByRole('navigation', { name: 'Engineers' }).getByRole('link'),
   ).toHaveCount(engineers.length)
-  await footer.getByRole('link', { name: products[0].name }).click()
+  // Activate by keyboard once the link is on screen: a pointer click can land
+  // while smooth scrolling is still moving the footer and miss the link.
+  await focusOnScreen(footer.getByRole('link', { name: products[0].name }))
+  await page.keyboard.press('Enter')
   await expect(page).toHaveURL(new RegExp(`/products/${products[0].id}$`))
 })
 
