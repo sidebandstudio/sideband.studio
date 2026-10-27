@@ -1727,10 +1727,12 @@ export const products: Product[] = [
       {
         title: 'Barber app for iPhone',
         body: 'Each barber sees their own schedule, books walk-ins, marks no-shows and sets days off. In testing on TestFlight.',
+        image: '/assets/products/fade-empire/barber-app-schedule.webp',
       },
       {
         title: 'Booking links',
         body: 'Each barber shares a link that opens the form with them picked, and a service too if they choose one.',
+        image: '/assets/products/fade-empire/barber-app-links.webp',
       },
     ],
     platforms: [
@@ -1821,6 +1823,26 @@ export const products: Product[] = [
         'screenshot',
         'The day’s 45-minute slots and the selected time on a phone',
         'Playwright capture of the #book section on https://chicopeefadeempire.com/ after picking a day, time and service, nothing submitted, 390x844, 2x, 2026-10-27',
+      ),
+      image(
+        'fade-empire',
+        'barber-app-schedule.webp',
+        1178,
+        2556,
+        'mobile',
+        'screenshot',
+        'The barber app showing Hassan’s schedule for a Saturday, with sample bookings by time, customer and service',
+        'iOS Simulator capture from the repo’s ios/scripts/local-stack-screenshots.sh against the local Supabase stack’s sample data (tools/local-stack-seed.sql), so every name is made up and no real customer appears',
+      ),
+      image(
+        'fade-empire',
+        'barber-app-links.webp',
+        1178,
+        2556,
+        'mobile',
+        'screenshot',
+        'The barber app’s Links tab with Hassan’s booking page link and a custom VIP link, each with Copy, Share and QR',
+        'iOS Simulator capture from the repo’s ios/scripts/local-stack-screenshots.sh against the local Supabase stack’s sample data (tools/local-stack-seed.sql), so every name is made up and no real customer appears',
       ),
       image(
         'fade-empire',
