@@ -1914,10 +1914,12 @@ export const products: Product[] = [
         image: '/assets/products/gpubridge/dp-loss.webp',
       },
       {
-        // docs/BENCHMARKS.md, "The verbs bridge on one node", sample 4c13375:
-        // 2.07x at 1 MiB to 2.72x at 16 MiB, and 0.80x (slower) at 1 KiB.
+        // docs/BENCHMARKS.md, "The verbs bridge on one node", samples 4c13375
+        // and c92684b: 1.74x to 3.07x from 1 MiB to 256 MiB, slower than Gloo
+        // up to 64 KiB in both, and "descriptive, not a significant or general
+        // speedup".
         title: 'Swappable bridges',
-        body: 'Gloo is the default. Opt-in UCX, multi-stream TCP and raw InfiniBand verbs bridges plug into the same contract. On one node of four V100s, in loopback, verbs ran 2.07 to 2.72 times as fast as Gloo from 1 to 256 MiB.',
+        body: 'Gloo is the default. Opt-in UCX, multi-stream TCP and raw InfiniBand verbs bridges plug into the same contract. On one node of four V100s, in loopback, verbs ran 1.7 to 3.1 times as fast as Gloo from 1 to 256 MiB in two runs, and slower up to 64 KiB.',
       },
       {
         title: 'Simulation on a CPU',
