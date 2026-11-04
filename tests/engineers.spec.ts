@@ -272,7 +272,7 @@ test('a role held in two stints is measured per stint, and roles group by organi
   const philips = groups.filter({
     has: page.getByRole('heading', { name: 'Philips', exact: true }),
   })
-  await expect(philips).toContainText('Aug 2026 – Present · 3 mos · Part-time')
+  await expect(philips).toContainText('Aug 2026 – Present · 4 mos · Part-time')
   await expect(philips).toContainText('Jan 2026 – Jun 2026 · 6 mos · Co-op')
   // Never one length across the gap between the co-op and the return.
   await expect(philips).not.toContainText('Jan 2026 – Present')
