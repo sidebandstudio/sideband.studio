@@ -1961,6 +1961,7 @@ export const products: Product[] = [
     origin: null,
     links: {
       repo: 'https://github.com/sidebandstudio/gpubridge',
+      docs: 'https://github.com/sidebandstudio/gpubridge/tree/main/docs',
     },
     repo: 'sidebandstudio/gpubridge',
     // The bridge's blue in the repo's own diagrams (docs/img/*-dark.svg).
