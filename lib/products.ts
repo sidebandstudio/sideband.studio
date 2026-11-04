@@ -1004,6 +1004,8 @@ export const products: Product[] = [
       download: 'https://upflow2x.com/download.html',
       docs: 'https://upflow2x.com/help.html',
     },
+    // LICENSE.md: PolyForm Shield 1.0.0, copyright Ali Tleis, since 78db053 (2026-10-28).
+    licenseNote: 'PolyForm Shield 1.0.0, source available',
     repo: 'sidebandstudio/Upflow2x',
     accentColor: '#F2A93B',
     icon: image(

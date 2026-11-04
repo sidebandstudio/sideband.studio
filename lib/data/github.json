@@ -15,7 +15,7 @@
       }
     ],
     "name": "Sideband Studio",
-    "publicRepos": 13,
+    "publicRepos": 15,
     "url": "https://github.com/sidebandstudio"
   },
   "repos": {
@@ -81,7 +81,7 @@
       "openIssues": 2,
       "parent": null,
       "primaryLanguage": "Python",
-      "pushedAt": "2026-10-13T03:42:18Z",
+      "pushedAt": "2026-11-01T09:13:40Z",
       "releases": 0,
       "stars": 0,
       "topics": [],
@@ -131,7 +131,7 @@
       "openIssues": 0,
       "parent": null,
       "primaryLanguage": "JavaScript",
-      "pushedAt": "2026-10-26T21:05:52Z",
+      "pushedAt": "2026-10-28T22:56:56Z",
       "releases": 0,
       "stars": 0,
       "topics": [
@@ -157,8 +157,8 @@
       "createdAt": "2026-02-22T23:27:25Z",
       "defaultBranch": "main",
       "description": "Discord Rich Presence bridge for Apple Music and Spotify with live cover art and a cross-platform \"Listen Along\" sync feature.",
-      "downloads": 314,
-      "forks": 0,
+      "downloads": 357,
+      "forks": 1,
       "homepage": "https://eternalrichpresence.dev",
       "isFork": false,
       "isPrivate": false,
@@ -184,7 +184,7 @@
       },
       "licenseName": "GNU General Public License v3.0",
       "name": "Eternal-Rich-Presence",
-      "openIssues": 0,
+      "openIssues": 1,
       "parent": null,
       "primaryLanguage": "Python",
       "pushedAt": "2026-10-27T00:35:08Z",
@@ -267,7 +267,7 @@
       "createdAt": "2026-07-08T20:28:03Z",
       "defaultBranch": "main",
       "description": "Equivalent-exchange alchemy for Fabric (MC 1.21.1): EMC values for everything, transmutation, condensers, collectors, matter tools & gem armor. An EternalReverse.dev project.",
-      "downloads": 34,
+      "downloads": 43,
       "forks": 0,
       "homepage": "https://eternalexchangemod.com",
       "isFork": false,
@@ -309,51 +309,63 @@
       "watchers": 0
     },
     "sidebandstudio/EternalMonitor": {
-      "commits": 470,
+      "commits": 1072,
       "contributors": [
         {
           "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?v=4",
-          "contributions": 445,
+          "contributions": 1036,
           "login": "whoisaldo"
         },
         {
           "avatarUrl": "https://avatars.githubusercontent.com/u/194432566?v=4",
-          "contributions": 25,
+          "contributions": 36,
           "login": "Alitleis123"
         }
       ],
       "createdAt": "2026-04-02T23:43:30Z",
       "defaultBranch": "main",
       "description": "Use your iPad as a second screen for Windows. Mirror or extend over Wi-Fi or USB, with touch, keyboard, Apple Pencil and PC audio.",
-      "downloads": 1718,
+      "downloads": 2445,
       "forks": 10,
       "homepage": "https://eternalmonitor.dev/",
       "isFork": false,
       "isPrivate": false,
       "languages": [
         {
-          "bytes": 2139655,
+          "bytes": 3828885,
           "name": "Rust"
         },
         {
-          "bytes": 862511,
+          "bytes": 1237525,
           "name": "Swift"
         },
         {
-          "bytes": 210218,
+          "bytes": 505311,
           "name": "Python"
         },
         {
-          "bytes": 132062,
+          "bytes": 164260,
           "name": "PowerShell"
         },
         {
-          "bytes": 58313,
+          "bytes": 71987,
           "name": "Shell"
         },
         {
-          "bytes": 12221,
+          "bytes": 68860,
+          "name": "HTML"
+        },
+        {
+          "bytes": 42193,
           "name": "Inno Setup"
+        },
+        {
+          "bytes": 40944,
+          "name": "JavaScript"
+        },
+        {
+          "bytes": 14222,
+          "name": "CSS"
         },
         {
           "bytes": 3719,
@@ -369,9 +381,9 @@
         }
       ],
       "latestRelease": {
-        "date": "2026-10-27T14:43:03Z",
-        "tag": "v0.3.3",
-        "url": "https://github.com/sidebandstudio/EternalMonitor/releases/tag/v0.3.3"
+        "date": "2026-11-03T21:51:41Z",
+        "tag": "v0.3.4",
+        "url": "https://github.com/sidebandstudio/EternalMonitor/releases/tag/v0.3.4"
       },
       "license": "MIT",
       "licenseFile": {
@@ -383,9 +395,9 @@
       "openIssues": 0,
       "parent": null,
       "primaryLanguage": "Rust",
-      "pushedAt": "2026-10-27T18:01:55Z",
-      "releases": 8,
-      "stars": 182,
+      "pushedAt": "2026-11-03T23:16:37Z",
+      "releases": 19,
+      "stars": 191,
       "topics": [
         "apple-pencil",
         "extended-display",
@@ -416,7 +428,7 @@
       ],
       "createdAt": "2025-06-05T08:33:13Z",
       "defaultBranch": "main",
-      "description": "gym app with reactjs nodejs",
+      "description": "Fitness app for iOS and web: SwiftUI client, Node.js API and a Gemini coach.",
       "downloads": 0,
       "forks": 0,
       "homepage": "https://exerlyfitness.com",
@@ -468,7 +480,7 @@
       "openIssues": 5,
       "parent": null,
       "primaryLanguage": "Swift",
-      "pushedAt": "2026-10-27T04:47:01Z",
+      "pushedAt": "2026-10-28T07:46:12Z",
       "releases": 0,
       "stars": 0,
       "topics": [],
@@ -480,7 +492,7 @@
       "contributors": [
         {
           "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?v=4",
-          "contributions": 237,
+          "contributions": 240,
           "login": "whoisaldo"
         }
       ],
@@ -616,60 +628,162 @@
       "watchers": 0
     },
     "sidebandstudio/Upflow2x": {
-      "commits": 296,
+      "commits": 411,
       "contributors": [
         {
           "avatarUrl": "https://avatars.githubusercontent.com/u/194432566?v=4",
-          "contributions": 286,
+          "contributions": 400,
           "login": "Alitleis123"
         }
       ],
       "createdAt": "2026-02-03T00:04:09Z",
       "defaultBranch": "main",
       "description": "DaVinci Resolve Studio plugin that upscales anime 2x and draws the frames between the drawings.",
-      "downloads": 129,
+      "downloads": 212,
       "forks": 0,
       "homepage": "https://upflow2x.com",
       "isFork": false,
       "isPrivate": false,
       "languages": [
         {
-          "bytes": 816961,
+          "bytes": 895812,
           "name": "Python"
         },
         {
-          "bytes": 276302,
+          "bytes": 300604,
           "name": "Lua"
         },
         {
-          "bytes": 774,
+          "bytes": 20844,
+          "name": "HTML"
+        },
+        {
+          "bytes": 773,
           "name": "Shell"
         }
       ],
       "latestRelease": {
-        "date": "2026-10-26T18:05:03Z",
-        "tag": "v0.4.0",
-        "url": "https://github.com/sidebandstudio/Upflow2x/releases/tag/v0.4.0"
+        "date": "2026-10-31T08:04:37Z",
+        "tag": "v0.5.0",
+        "url": "https://github.com/sidebandstudio/Upflow2x/releases/tag/v0.5.0"
       },
-      "license": null,
-      "licenseFile": null,
-      "licenseName": null,
+      "license": "NOASSERTION",
+      "licenseFile": {
+        "path": "LICENSE.md",
+        "url": "https://github.com/sidebandstudio/Upflow2x/blob/main/LICENSE.md"
+      },
+      "licenseName": "Other",
       "name": "Upflow2x",
       "openIssues": 0,
       "parent": null,
       "primaryLanguage": "Python",
-      "pushedAt": "2026-10-27T14:58:27Z",
-      "releases": 6,
-      "stars": 0,
+      "pushedAt": "2026-10-31T18:49:33Z",
+      "releases": 7,
+      "stars": 15,
       "topics": [
+        "amv",
         "animation",
+        "anime",
+        "anime-upscaling",
         "davinci-resolve",
+        "davinci-resolve-plugin",
+        "frame-interpolation",
         "lua",
         "optical-flow",
         "python",
-        "video-processing"
+        "real-esrgan",
+        "rife",
+        "super-resolution",
+        "upscaling",
+        "video-interpolation",
+        "video-processing",
+        "video-upscaling"
       ],
       "url": "https://github.com/sidebandstudio/Upflow2x",
+      "watchers": 0
+    },
+    "sidebandstudio/gpubridge": {
+      "commits": 490,
+      "contributors": [
+        {
+          "avatarUrl": "https://avatars.githubusercontent.com/u/143339550?v=4",
+          "contributions": 392,
+          "login": "DavidCzartoryski"
+        },
+        {
+          "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?v=4",
+          "contributions": 98,
+          "login": "whoisaldo"
+        }
+      ],
+      "createdAt": "2026-10-06T15:09:46Z",
+      "defaultBranch": "main",
+      "description": "Run one PyTorch training job across NVIDIA and AMD GPUs at once: native NCCL/RCCL per vendor, joined by a CPU bridge.",
+      "downloads": 0,
+      "forks": 1,
+      "homepage": null,
+      "isFork": false,
+      "isPrivate": false,
+      "languages": [
+        {
+          "bytes": 1869583,
+          "name": "Python"
+        },
+        {
+          "bytes": 655030,
+          "name": "Rust"
+        },
+        {
+          "bytes": 169838,
+          "name": "Shell"
+        },
+        {
+          "bytes": 47778,
+          "name": "C"
+        },
+        {
+          "bytes": 36114,
+          "name": "Jupyter Notebook"
+        },
+        {
+          "bytes": 15687,
+          "name": "C++"
+        },
+        {
+          "bytes": 3908,
+          "name": "Dockerfile"
+        }
+      ],
+      "latestRelease": {
+        "date": "2026-10-13T19:55:15Z",
+        "tag": "v0.4.0-alpha",
+        "url": "https://github.com/sidebandstudio/gpubridge/releases/tag/v0.4.0-alpha"
+      },
+      "license": "MIT",
+      "licenseFile": {
+        "path": "LICENSE",
+        "url": "https://github.com/sidebandstudio/gpubridge/blob/main/LICENSE"
+      },
+      "licenseName": "MIT License",
+      "name": "gpubridge",
+      "openIssues": 0,
+      "parent": null,
+      "primaryLanguage": "Python",
+      "pushedAt": "2026-10-21T15:34:14Z",
+      "releases": 4,
+      "stars": 0,
+      "topics": [
+        "cuda",
+        "distributed-training",
+        "gpu",
+        "hpc",
+        "multi-vendor",
+        "nccl",
+        "pytorch",
+        "rccl",
+        "rocm"
+      ],
+      "url": "https://github.com/sidebandstudio/gpubridge",
       "watchers": 0
     },
     "sidebandstudio/hushtype": {
@@ -853,7 +967,7 @@
       "watchers": 0
     }
   },
-  "syncedAt": "2026-10-27T19:03:12.105Z",
+  "syncedAt": "2026-11-04T00:57:15.841Z",
   "users": {
     "Alitleis123": {
       "avatarUrl": "https://avatars.githubusercontent.com/u/194432566?u=3567178a714548ed93442b0d0b00026cdf07887d&v=4",
@@ -861,48 +975,8 @@
       "blog": "alitleis.dev",
       "company": null,
       "contributions": {
-        "total": 1250,
+        "total": 1479,
         "weeks": [
-          {
-            "days": [
-              {
-                "count": 0,
-                "date": "2025-10-26",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-27",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-28",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-29",
-                "level": "NONE"
-              },
-              {
-                "count": 1,
-                "date": "2025-10-30",
-                "level": "FIRST_QUARTILE"
-              },
-              {
-                "count": 1,
-                "date": "2025-10-31",
-                "level": "FIRST_QUARTILE"
-              },
-              {
-                "count": 0,
-                "date": "2025-11-01",
-                "level": "NONE"
-              }
-            ],
-            "firstDay": "2025-10-26"
-          },
           {
             "days": [
               {
@@ -2718,12 +2792,12 @@
               {
                 "count": 30,
                 "date": "2026-09-15",
-                "level": "SECOND_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 53,
                 "date": "2026-09-16",
-                "level": "THIRD_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 18,
@@ -2933,10 +3007,10 @@
               {
                 "count": 90,
                 "date": "2026-10-23",
-                "level": "FOURTH_QUARTILE"
+                "level": "THIRD_QUARTILE"
               },
               {
-                "count": 45,
+                "count": 46,
                 "date": "2026-10-24",
                 "level": "SECOND_QUARTILE"
               }
@@ -2948,7 +3022,7 @@
               {
                 "count": 27,
                 "date": "2026-10-25",
-                "level": "SECOND_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 105,
@@ -2956,12 +3030,52 @@
                 "level": "FOURTH_QUARTILE"
               },
               {
-                "count": 80,
+                "count": 122,
                 "date": "2026-10-27",
                 "level": "FOURTH_QUARTILE"
+              },
+              {
+                "count": 128,
+                "date": "2026-10-28",
+                "level": "FOURTH_QUARTILE"
+              },
+              {
+                "count": 5,
+                "date": "2026-10-29",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 3,
+                "date": "2026-10-30",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 33,
+                "date": "2026-10-31",
+                "level": "SECOND_QUARTILE"
               }
             ],
             "firstDay": "2026-10-25"
+          },
+          {
+            "days": [
+              {
+                "count": 7,
+                "date": "2026-11-01",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 1,
+                "date": "2026-11-02",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 11,
+                "date": "2026-11-03",
+                "level": "FIRST_QUARTILE"
+              }
+            ],
+            "firstDay": "2026-11-01"
           }
         ]
       },
@@ -2970,15 +3084,15 @@
       "following": 4,
       "languages": [
         {
-          "bytes": 476287,
+          "bytes": 474896,
           "name": "TypeScript"
         },
         {
-          "bytes": 161975,
+          "bytes": 162180,
           "name": "JavaScript"
         },
         {
-          "bytes": 123397,
+          "bytes": 121603,
           "name": "Python"
         },
         {
@@ -2986,7 +3100,7 @@
           "name": "C++"
         },
         {
-          "bytes": 60407,
+          "bytes": 59861,
           "name": "CSS"
         },
         {
@@ -2994,7 +3108,7 @@
           "name": "Makefile"
         },
         {
-          "bytes": 2299,
+          "bytes": 3082,
           "name": "HTML"
         }
       ],
@@ -3016,24 +3130,24 @@
           "language": "Rust",
           "name": "EternalMonitor",
           "nameWithOwner": "sidebandstudio/EternalMonitor",
-          "stars": 182,
+          "stars": 191,
           "url": "https://github.com/sidebandstudio/EternalMonitor"
-        },
-        {
-          "description": "Studio site for Sideband, live at sideband.studio",
-          "language": "TypeScript",
-          "name": "sideband.studio",
-          "nameWithOwner": "sidebandstudio/sideband.studio",
-          "stars": 0,
-          "url": "https://github.com/sidebandstudio/sideband.studio"
         },
         {
           "description": "DaVinci Resolve Studio plugin that upscales anime 2x and draws the frames between the drawings.",
           "language": "Python",
           "name": "Upflow2x",
           "nameWithOwner": "sidebandstudio/Upflow2x",
-          "stars": 0,
+          "stars": 15,
           "url": "https://github.com/sidebandstudio/Upflow2x"
+        },
+        {
+          "description": "Canvas LMS extension with themes, a kanban planner and grade tools for Chrome and Firefox.",
+          "language": "JavaScript",
+          "name": "Better-Canvas",
+          "nameWithOwner": "sidebandstudio/Better-Canvas",
+          "stars": 0,
+          "url": "https://github.com/sidebandstudio/Better-Canvas"
         },
         {
           "description": "Chrome extension for page summaries, highlighted passages and follow-up answers with source citations.",
@@ -3044,12 +3158,12 @@
           "url": "https://github.com/sidebandstudio/Eternal-Summary"
         },
         {
-          "description": "Canvas LMS extension with themes, a kanban planner and grade tools for Chrome and Firefox.",
-          "language": "JavaScript",
-          "name": "Better-Canvas",
-          "nameWithOwner": "sidebandstudio/Better-Canvas",
+          "description": "Studio site for Sideband, live at sideband.studio",
+          "language": "TypeScript",
+          "name": "sideband.studio",
+          "nameWithOwner": "sidebandstudio/sideband.studio",
           "stars": 0,
-          "url": "https://github.com/sidebandstudio/Better-Canvas"
+          "url": "https://github.com/sidebandstudio/sideband.studio"
         }
       ],
       "publicRepos": 7,
@@ -3063,48 +3177,8 @@
       "blog": null,
       "company": null,
       "contributions": {
-        "total": 1798,
+        "total": 2491,
         "weeks": [
-          {
-            "days": [
-              {
-                "count": 0,
-                "date": "2025-10-26",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-27",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-28",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-29",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-30",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-31",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-11-01",
-                "level": "NONE"
-              }
-            ],
-            "firstDay": "2025-10-26"
-          },
           {
             "days": [
               {
@@ -5038,7 +5112,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 27,
+                "count": 26,
                 "date": "2026-10-06",
                 "level": "FIRST_QUARTILE"
               },
@@ -5060,7 +5134,7 @@
               {
                 "count": 74,
                 "date": "2026-10-10",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               }
             ],
             "firstDay": "2026-10-04"
@@ -5070,27 +5144,27 @@
               {
                 "count": 76,
                 "date": "2026-10-11",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 87,
                 "date": "2026-10-12",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 172,
                 "date": "2026-10-13",
-                "level": "FOURTH_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 117,
                 "date": "2026-10-14",
-                "level": "FOURTH_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 111,
                 "date": "2026-10-15",
-                "level": "FOURTH_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 36,
@@ -5100,7 +5174,7 @@
               {
                 "count": 62,
                 "date": "2026-10-17",
-                "level": "SECOND_QUARTILE"
+                "level": "FIRST_QUARTILE"
               }
             ],
             "firstDay": "2026-10-11"
@@ -5110,27 +5184,27 @@
               {
                 "count": 91,
                 "date": "2026-10-18",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 87,
                 "date": "2026-10-19",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 92,
                 "date": "2026-10-20",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 145,
                 "date": "2026-10-21",
-                "level": "FOURTH_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 73,
                 "date": "2026-10-22",
-                "level": "THIRD_QUARTILE"
+                "level": "FIRST_QUARTILE"
               },
               {
                 "count": 17,
@@ -5158,66 +5232,86 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 30,
+                "count": 37,
                 "date": "2026-10-27",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 59,
+                "date": "2026-10-28",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 98,
+                "date": "2026-10-29",
+                "level": "SECOND_QUARTILE"
+              },
+              {
+                "count": 381,
+                "date": "2026-10-30",
+                "level": "FOURTH_QUARTILE"
+              },
+              {
+                "count": 55,
+                "date": "2026-10-31",
                 "level": "FIRST_QUARTILE"
               }
             ],
             "firstDay": "2026-10-25"
+          },
+          {
+            "days": [
+              {
+                "count": 88,
+                "date": "2026-11-01",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 6,
+                "date": "2026-11-02",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 0,
+                "date": "2026-11-03",
+                "level": "NONE"
+              }
+            ],
+            "firstDay": "2026-11-01"
           }
         ]
       },
       "createdAt": "2023-08-27T15:14:48Z",
-      "followers": 2,
+      "followers": 3,
       "following": 2,
       "languages": [
-        {
-          "bytes": 2199796,
-          "name": "Python"
-        },
-        {
-          "bytes": 655030,
-          "name": "Rust"
-        },
         {
           "bytes": 476566,
           "name": "TypeScript"
         },
         {
-          "bytes": 170329,
-          "name": "Shell"
+          "bytes": 330213,
+          "name": "Python"
         },
         {
-          "bytes": 47778,
-          "name": "C"
+          "bytes": 262310,
+          "name": "JavaScript"
+        },
+        {
+          "bytes": 67287,
+          "name": "CSS"
         },
         {
           "bytes": 44597,
           "name": "Java"
         },
         {
-          "bytes": 36114,
-          "name": "Jupyter Notebook"
-        },
-        {
-          "bytes": 20636,
-          "name": "JavaScript"
-        },
-        {
-          "bytes": 17533,
+          "bytes": 21240,
           "name": "HTML"
         },
         {
-          "bytes": 16994,
-          "name": "CSS"
-        },
-        {
-          "bytes": 15687,
-          "name": "C++"
-        },
-        {
-          "bytes": 3908,
-          "name": "Dockerfile"
+          "bytes": 491,
+          "name": "Shell"
         }
       ],
       "location": "Boston MA",
@@ -5225,7 +5319,7 @@
       "name": "David Czartoryski",
       "organizations": [],
       "pinned": [],
-      "publicRepos": 6,
+      "publicRepos": 5,
       "stars": 0,
       "twitter": null,
       "url": "https://github.com/DavidCzartoryski"
@@ -5238,46 +5332,6 @@
       "contributions": {
         "total": 124,
         "weeks": [
-          {
-            "days": [
-              {
-                "count": 0,
-                "date": "2025-10-26",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-27",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-28",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-29",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-30",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-31",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-11-01",
-                "level": "NONE"
-              }
-            ],
-            "firstDay": "2025-10-26"
-          },
           {
             "days": [
               {
@@ -7334,9 +7388,49 @@
                 "count": 0,
                 "date": "2026-10-27",
                 "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-28",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-29",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-30",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-31",
+                "level": "NONE"
               }
             ],
             "firstDay": "2026-10-25"
+          },
+          {
+            "days": [
+              {
+                "count": 0,
+                "date": "2026-11-01",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-11-02",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-11-03",
+                "level": "NONE"
+              }
+            ],
+            "firstDay": "2026-11-01"
           }
         ]
       },
@@ -7394,48 +7488,8 @@
       "blog": "www.namanrusia.dev",
       "company": null,
       "contributions": {
-        "total": 1031,
+        "total": 1042,
         "weeks": [
-          {
-            "days": [
-              {
-                "count": 5,
-                "date": "2025-10-26",
-                "level": "FIRST_QUARTILE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-27",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-28",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-29",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-30",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-31",
-                "level": "NONE"
-              },
-              {
-                "count": 1,
-                "date": "2025-11-01",
-                "level": "FIRST_QUARTILE"
-              }
-            ],
-            "firstDay": "2025-10-26"
-          },
           {
             "days": [
               {
@@ -9374,7 +9428,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 4,
+                "count": 3,
                 "date": "2026-10-07",
                 "level": "FIRST_QUARTILE"
               },
@@ -9449,7 +9503,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 63,
+                "count": 62,
                 "date": "2026-10-20",
                 "level": "FOURTH_QUARTILE"
               },
@@ -9492,9 +9546,49 @@
                 "count": 1,
                 "date": "2026-10-27",
                 "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 7,
+                "date": "2026-10-28",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-29",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-30",
+                "level": "NONE"
+              },
+              {
+                "count": 0,
+                "date": "2026-10-31",
+                "level": "NONE"
               }
             ],
             "firstDay": "2026-10-25"
+          },
+          {
+            "days": [
+              {
+                "count": 8,
+                "date": "2026-11-01",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 1,
+                "date": "2026-11-02",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 3,
+                "date": "2026-11-03",
+                "level": "FIRST_QUARTILE"
+              }
+            ],
+            "firstDay": "2026-11-01"
           }
         ]
       },
@@ -9652,7 +9746,7 @@
           "url": "https://github.com/naman0r/dockmaster"
         }
       ],
-      "publicRepos": 50,
+      "publicRepos": 51,
       "stars": 9,
       "twitter": "namanrusia1",
       "url": "https://github.com/naman0r"
@@ -9660,51 +9754,11 @@
     "whoisaldo": {
       "avatarUrl": "https://avatars.githubusercontent.com/u/159104116?u=44ce5717cbf047d5e152bfec7377e845adbabbf4&v=4",
       "bio": "Northeastern '27 | incoming AWS SDE \r\nCoding, Fitness, Cars, and more!!",
-      "blog": "https://Aliyounes.dev",
-      "company": "@aws ",
+      "blog": "https://aliyounes.dev",
+      "company": "@aws",
       "contributions": {
-        "total": 3989,
+        "total": 5033,
         "weeks": [
-          {
-            "days": [
-              {
-                "count": 0,
-                "date": "2025-10-26",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-27",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-28",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-29",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-30",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-10-31",
-                "level": "NONE"
-              },
-              {
-                "count": 0,
-                "date": "2025-11-01",
-                "level": "NONE"
-              }
-            ],
-            "firstDay": "2025-10-26"
-          },
           {
             "days": [
               {
@@ -11458,7 +11512,7 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 3,
+                "count": 8,
                 "date": "2026-09-05",
                 "level": "FIRST_QUARTILE"
               }
@@ -11640,7 +11694,7 @@
               {
                 "count": 198,
                 "date": "2026-10-06",
-                "level": "FOURTH_QUARTILE"
+                "level": "THIRD_QUARTILE"
               },
               {
                 "count": 89,
@@ -11670,7 +11724,7 @@
               {
                 "count": 142,
                 "date": "2026-10-11",
-                "level": "THIRD_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 401,
@@ -11680,7 +11734,7 @@
               {
                 "count": 210,
                 "date": "2026-10-13",
-                "level": "FOURTH_QUARTILE"
+                "level": "THIRD_QUARTILE"
               },
               {
                 "count": 91,
@@ -11695,12 +11749,12 @@
               {
                 "count": 133,
                 "date": "2026-10-16",
-                "level": "THIRD_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 145,
                 "date": "2026-10-17",
-                "level": "THIRD_QUARTILE"
+                "level": "SECOND_QUARTILE"
               }
             ],
             "firstDay": "2026-10-11"
@@ -11725,12 +11779,12 @@
               {
                 "count": 220,
                 "date": "2026-10-21",
-                "level": "FOURTH_QUARTILE"
+                "level": "THIRD_QUARTILE"
               },
               {
-                "count": 64,
+                "count": 96,
                 "date": "2026-10-22",
-                "level": "FIRST_QUARTILE"
+                "level": "SECOND_QUARTILE"
               },
               {
                 "count": 101,
@@ -11753,17 +11807,57 @@
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 45,
+                "count": 133,
                 "date": "2026-10-26",
+                "level": "SECOND_QUARTILE"
+              },
+              {
+                "count": 205,
+                "date": "2026-10-27",
+                "level": "THIRD_QUARTILE"
+              },
+              {
+                "count": 59,
+                "date": "2026-10-28",
                 "level": "FIRST_QUARTILE"
               },
               {
-                "count": 29,
-                "date": "2026-10-27",
-                "level": "FIRST_QUARTILE"
+                "count": 294,
+                "date": "2026-10-29",
+                "level": "FOURTH_QUARTILE"
+              },
+              {
+                "count": 162,
+                "date": "2026-10-30",
+                "level": "THIRD_QUARTILE"
+              },
+              {
+                "count": 109,
+                "date": "2026-10-31",
+                "level": "SECOND_QUARTILE"
               }
             ],
             "firstDay": "2026-10-25"
+          },
+          {
+            "days": [
+              {
+                "count": 36,
+                "date": "2026-11-01",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 47,
+                "date": "2026-11-02",
+                "level": "FIRST_QUARTILE"
+              },
+              {
+                "count": 36,
+                "date": "2026-11-03",
+                "level": "FIRST_QUARTILE"
+              }
+            ],
+            "firstDay": "2026-11-01"
           }
         ]
       },
@@ -11772,15 +11866,15 @@
       "following": 15,
       "languages": [
         {
-          "bytes": 4079821,
-          "name": "Python"
-        },
-        {
-          "bytes": 4059138,
+          "bytes": 4443685,
           "name": "JavaScript"
         },
         {
-          "bytes": 1494220,
+          "bytes": 4078062,
+          "name": "Python"
+        },
+        {
+          "bytes": 2607828,
           "name": "HTML"
         },
         {
@@ -11792,7 +11886,7 @@
           "name": "C++"
         },
         {
-          "bytes": 186266,
+          "bytes": 221536,
           "name": "CSS"
         },
         {
@@ -11841,19 +11935,11 @@
       ],
       "pinned": [
         {
-          "description": "gym app with reactjs nodejs",
-          "language": "Swift",
-          "name": "Exerly-Fitness",
-          "nameWithOwner": "sidebandstudio/Exerly-Fitness",
-          "stars": 0,
-          "url": "https://github.com/sidebandstudio/Exerly-Fitness"
-        },
-        {
           "description": "Use your iPad as a second screen for Windows. Mirror or extend over Wi-Fi or USB, with touch, keyboard, Apple Pencil and PC audio.",
           "language": "Rust",
           "name": "EternalMonitor",
           "nameWithOwner": "sidebandstudio/EternalMonitor",
-          "stars": 182,
+          "stars": 191,
           "url": "https://github.com/sidebandstudio/EternalMonitor"
         },
         {
@@ -11865,23 +11951,39 @@
           "url": "https://github.com/sidebandstudio/Eternal-Rich-Presence"
         },
         {
-          "description": "Windows Only, project ive been working on lately along side eternalrichpresence (learning more about apples music development proccess)",
-          "language": "TypeScript",
-          "name": "BetterAppleMusic",
-          "nameWithOwner": "whoisaldo/BetterAppleMusic",
+          "description": "Run one PyTorch training job across NVIDIA and AMD GPUs at once: native NCCL/RCCL per vendor, joined by a CPU bridge.",
+          "language": "Python",
+          "name": "gpubridge",
+          "nameWithOwner": "sidebandstudio/gpubridge",
           "stars": 0,
-          "url": "https://github.com/whoisaldo/BetterAppleMusic"
+          "url": "https://github.com/sidebandstudio/gpubridge"
         },
         {
-          "description": "My portfolio with everything :)",
-          "language": "JavaScript",
-          "name": "Portfolio",
-          "nameWithOwner": "whoisaldo/Portfolio",
-          "stars": 1,
-          "url": "https://github.com/whoisaldo/Portfolio"
+          "description": null,
+          "language": "TypeScript",
+          "name": "t3code",
+          "nameWithOwner": "pingdotgg/t3code",
+          "stars": 44401,
+          "url": "https://github.com/pingdotgg/t3code"
+        },
+        {
+          "description": "Fitness app for iOS and web: SwiftUI client, Node.js API and a Gemini coach.",
+          "language": "Swift",
+          "name": "Exerly-Fitness",
+          "nameWithOwner": "sidebandstudio/Exerly-Fitness",
+          "stars": 0,
+          "url": "https://github.com/sidebandstudio/Exerly-Fitness"
+        },
+        {
+          "description": "A configurable fleet of machines and AI coding accounts that works like a small dev team: a coordinator agent hands builds and reviews across Claude and Codex, fails over when usage runs out, pages the owner only when blocked, and syncs skills and secrets.",
+          "language": "Python",
+          "name": "aldos-agentic-workflow",
+          "nameWithOwner": "whoisaldo/aldos-agentic-workflow",
+          "stars": 0,
+          "url": "https://github.com/whoisaldo/aldos-agentic-workflow"
         }
       ],
-      "publicRepos": 28,
+      "publicRepos": 31,
       "stars": 3,
       "twitter": null,
       "url": "https://github.com/whoisaldo"
