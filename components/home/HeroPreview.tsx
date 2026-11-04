@@ -18,6 +18,7 @@ const KIND_LABEL: Record<ProductImageKind, string> = {
   screenshot: 'Screenshot',
   artwork: 'Artwork',
   photo: 'Photo',
+  diagram: 'Diagram',
 }
 
 /** DESIGN.md: a product window floating over a backdrop is the one thing at rest that casts a shadow. */

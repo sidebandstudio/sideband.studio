@@ -215,15 +215,22 @@ const KIND_SINGULAR: Record<ProductImageKind, string> = {
   screenshot: 'screenshot',
   artwork: 'piece of artwork',
   photo: 'photo',
+  diagram: 'diagram',
 }
 
 const KIND_PLURAL: Record<ProductImageKind, string> = {
   screenshot: 'screenshots',
   artwork: 'pieces of artwork',
   photo: 'photos',
+  diagram: 'diagrams',
 }
 
-const KIND_ORDER: ProductImageKind[] = ['screenshot', 'artwork', 'photo']
+const KIND_ORDER: ProductImageKind[] = [
+  'screenshot',
+  'artwork',
+  'photo',
+  'diagram',
+]
 
 /**
  * A heading for a set of images that names what is in it: "Screenshots" only
@@ -234,6 +241,7 @@ export function imageSetTitle(images: ProductImage[]) {
   const names = kinds.map((k) => {
     if (k === 'screenshot') return 'screenshots'
     if (k === 'artwork') return 'artwork'
+    if (k === 'diagram') return 'diagrams'
     return images.filter((i) => i.kind === 'photo').length === 1
       ? 'a photo'
       : 'photos'

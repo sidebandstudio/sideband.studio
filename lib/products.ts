@@ -12,9 +12,10 @@ export type ProductDevice = 'desktop' | 'mobile' | 'ipad' | 'none'
 /**
  * What an image is. `screenshot` is a capture of the real product or its site,
  * `artwork` is made art (icons, logos, wallpapers, textures, comparison graphics),
- * `photo` is a photograph.
+ * `photo` is a photograph, `diagram` is a technical figure from the product's
+ * docs: an architecture drawing or a chart of measured results.
  */
-export type ProductImageKind = 'screenshot' | 'artwork' | 'photo'
+export type ProductImageKind = 'screenshot' | 'artwork' | 'photo' | 'diagram'
 
 /** Attribution that an image's source requires or names. */
 export interface ProductImageCredit {
