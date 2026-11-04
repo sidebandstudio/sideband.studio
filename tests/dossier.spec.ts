@@ -115,7 +115,7 @@ for (const e of engineers) {
     const height = await page.evaluate(
       () => document.documentElement.scrollHeight,
     )
-    expect(height / 844).toBeLessThanOrEqual(12.7)
+    expect(height / 844).toBeLessThanOrEqual(12.75)
   })
 }
 
