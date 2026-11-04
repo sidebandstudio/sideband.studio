@@ -347,10 +347,12 @@ test("David's ventures are listed as his own, outside Sideband", async ({
     await expect(ventures.filter({ hasText: name }).first()).toContainText(
       'Own venture',
     )
-  // None of them is presented as a Sideband product.
-  await expect(
-    projects.getByRole('heading', { name: 'At Sideband' }),
-  ).toHaveCount(0)
+  // None of them is presented as a Sideband product: At Sideband lists gpubridge alone.
+  const studio = projects.locator('#projects-studio-list > li')
+  await expect(studio).toHaveCount(1)
+  await expect(studio).toContainText('gpubridge')
+  for (const name of ['EternalTap', 'CrediMax', 'The creative engine'])
+    await expect(studio).not.toContainText(name)
 })
 
 test.describe('contact form', () => {
