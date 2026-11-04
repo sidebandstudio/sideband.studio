@@ -621,11 +621,12 @@ export const engineers: Engineer[] = [
       {
         name: 'gpubridge',
         blurb:
-          'A PyTorch backend that runs one training job across NVIDIA and AMD GPUs, started by David Czartoryski. His commits include the Megatron-Core pipeline run across a V100 and an MI50 and a one-node A/B harness for the verbs bridge’s staged all_reduce.',
+          'A PyTorch backend that runs one training job across NVIDIA and AMD GPUs, started by David Czartoryski. Ali’s commits include the Megatron-Core pipeline run across a V100 and an MI50 and a one-node A/B harness for the verbs bridge’s staged all_reduce.',
         href: '/products/gpubridge',
         internal: true,
         productId: 'gpubridge',
         repo: 'https://github.com/sidebandstudio/gpubridge',
+        role: 'Contributor',
         tech: ['Python', 'PyTorch', 'Megatron-Core', 'Rust'],
       },
       {
