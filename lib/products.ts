@@ -1932,8 +1932,8 @@ export const products: Product[] = [
       },
     ],
     platforms: [
-      'Linux with NVIDIA GPUs, on a CUDA build of PyTorch 2.8 or later',
-      'Linux with AMD GPUs, on a ROCm build of PyTorch 2.8 or later',
+      'NVIDIA GPUs on Linux with CUDA PyTorch 2.8 or later',
+      'AMD GPUs on Linux with ROCm PyTorch 2.8 or later',
     ],
     stack: [
       'Python',
