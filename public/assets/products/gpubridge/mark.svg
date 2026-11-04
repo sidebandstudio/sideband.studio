@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>gpubridge</title>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <g fill="none" stroke-width="44" stroke-linecap="round">
+    <circle cx="150" cy="236" r="56" stroke="#8FD14F"/>
+    <path stroke="#8FD14F" d="M206 180 V320 A56 56 0 0 1 150 376 H132"/>
+    <path stroke="#FF7B81" d="M306 96 V292"/>
+    <circle cx="362" cy="236" r="56" stroke="#FF7B81"/>
+  </g>
+  <rect x="228" y="224" width="56" height="24" fill="#4493F8"/>
+</svg>

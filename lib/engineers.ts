@@ -619,6 +619,16 @@ export const engineers: Engineer[] = [
         ],
       },
       {
+        name: 'gpubridge',
+        blurb:
+          'A PyTorch backend that runs one training job across NVIDIA and AMD GPUs, started by David Czartoryski. His commits include the Megatron-Core pipeline run across a V100 and an MI50 and a one-node A/B harness for the verbs bridge’s staged all_reduce.',
+        href: '/products/gpubridge',
+        internal: true,
+        productId: 'gpubridge',
+        repo: 'https://github.com/sidebandstudio/gpubridge',
+        tech: ['Python', 'PyTorch', 'Megatron-Core', 'Rust'],
+      },
+      {
         name: 'Moops Bookstore',
         featured: true,
         blurb:
@@ -2207,12 +2217,14 @@ export const engineers: Engineer[] = [
     ],
     projects: [
       {
-        name: 'Artemis and GPUBridge',
+        name: 'gpubridge',
         featured: true,
         blurb:
-          'Two systems for mixed-vendor GPU training. GPUBridge is an open-source PyTorch backend that joins NVIDIA and AMD GPUs in one job, each on its native NCCL or RCCL. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression. Artemis, in development, times the collectives every rank already runs, flags the GPU, link or host that regressed and can rebalance work across the GPUs the job already has.',
-        href: 'https://davidczartoryski.com/Artemis/',
-        repo: 'https://github.com/DavidCzartoryski/gpubridge',
+          'An open-source PyTorch backend that joins NVIDIA and AMD GPUs in one training job, each on its native NCCL or RCCL. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression.',
+        href: '/products/gpubridge',
+        internal: true,
+        productId: 'gpubridge',
+        repo: 'https://github.com/sidebandstudio/gpubridge',
         role: 'Founder',
         tech: [
           'PyTorch',
@@ -2226,6 +2238,14 @@ export const engineers: Engineer[] = [
           'libibverbs',
           'Slurm',
         ],
+      },
+      {
+        name: 'Artemis',
+        featured: true,
+        blurb:
+          'A system for mixed-vendor GPU training, built alongside gpubridge. Artemis, in development, times the collectives every rank already runs, flags the GPU, link or host that regressed and can rebalance work across the GPUs the job already has.',
+        href: 'https://davidczartoryski.com/Artemis/',
+        role: 'Founder',
       },
       {
         name: 'EternalTap',

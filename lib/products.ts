@@ -1859,6 +1859,207 @@ export const products: Product[] = [
       ),
     ],
   },
+  // Read from sidebandstudio/gpubridge at 82eca8e (2026-10-21): README,
+  // CHANGELOG.md, HARDWARE_VALIDATION.md, pyproject.toml, docs/BENCHMARKS.md,
+  // docs/PIPELINE.md, docs/MEGATRON.md, docs/COMPRESSION.md and the four
+  // releases. The README spells the name in lower case throughout, so the site
+  // does too. Every GPU figure is from Northeastern's Explorer cluster.
+  {
+    id: 'gpubridge',
+    name: 'gpubridge',
+    category: 'Distributed training',
+    tagline: 'One PyTorch training job across NVIDIA and AMD GPUs.',
+    description:
+      'gpubridge runs one PyTorch training job across NVIDIA and AMD GPUs at once. Each vendor’s GPUs talk over their own NCCL or RCCL, and a CPU bridge joins the two groups. Scripts use its own API or switch an existing DDP or FSDP2 script to the gpubridge backend.',
+    overview: [
+      'A PyTorch install is either a CUDA build or a ROCm build, and an NCCL communicator cannot exchange data with an RCCL one. gpubridge is for clusters that have both kinds of GPU and want one job to use them together, on stock PyTorch builds over any network. It writes no CUDA or HIP code and composes collectives PyTorch already provides.',
+      'Each process detects its vendor from its PyTorch build. Ranks of one vendor form an island on the native library, led by its lowest rank. An all_reduce reduces within each island onto the leader, the leaders all_reduce over the bridge, Gloo over TCP through host memory by default, and each leader broadcasts the result back to its island. With one vendor there is no bridge and every call goes straight to NCCL or RCCL.',
+      'It is an alpha, installed from a GitHub release tag and not on PyPI. It has run alone on NVIDIA V100, T4, L40S, A100 and H200 GPUs and an AMD MI50, in mixed jobs of one V100 and one MI50 over TCP, and as two islands on one node of four V100s. Verbs between machines, GPU memory sent straight to the network card and jobs of more than four GPUs have not run yet.',
+    ],
+    features: [
+      {
+        title: 'Two vendors in one job',
+        body: 'Each vendor’s ranks stay on NCCL or RCCL, and only the island leaders cross the bridge.',
+        image: '/assets/products/gpubridge/architecture.webp',
+      },
+      {
+        title: 'A torch.distributed backend',
+        body: 'Change the backend name to gpubridge and import it, and DDP and FSDP2 scripts run across vendors. Both trained on a V100 and an MI50.',
+      },
+      {
+        title: 'HSDP inside each vendor',
+        body: 'With the shard groups set to the vendor islands, all-gathers and reduce-scatters stay native, and one all_reduce a step crosses the bridge.',
+        image: '/assets/products/gpubridge/hsdp.webp',
+      },
+      {
+        // docs/PIPELINE.md, Explorer job 11109376: llama-125m, 1,000 steps,
+        // 1F1B ended at 1.801, the four one-V100 runs at 1.800 to 1.809.
+        title: 'Pipelines across vendors',
+        body: 'PyTorch’s own pipelining trains a LLaMA-style model with stage 0 on a V100 and stage 1 on an MI50. After 1,000 steps the 1F1B run’s loss was 1.801, against 1.800 to 1.809 on one V100.',
+        image: '/assets/products/gpubridge/pipeline-loss.webp',
+      },
+      {
+        // docs/MEGATRON.md, Explorer job 11117506: Megatron-Core 0.14.0, 200
+        // steps, at most 1.3e-4 apart, 17,057 against 14,990 tokens/s.
+        title: 'Megatron-Core without a patch',
+        body: 'Megatron-Core’s own 1F1B schedule ran with one stage on a V100 and one on an MI50. Its loss stayed within 1.3e-4 of the V100 alone over 200 steps, at 17,057 tokens/s against 14,990.',
+        image: '/assets/products/gpubridge/megatron-loss.webp',
+      },
+      {
+        // docs/BENCHMARKS.md, "Data-parallel training on a LLaMA-style model",
+        // Explorer job 11111481: V100 + MI50 DDP, 4,549 uncompressed and 9,523
+        // tokens/s with fp8, 1,000 steps each.
+        title: 'Bridge compression',
+        body: 'Opt-in fp8 or bf16 sends fewer bytes over the bridge. On a V100 and an MI50, fp8 raised DDP training from 4,549 to 9,523 tokens/s. It changes results, so it is off by default.',
+        image: '/assets/products/gpubridge/dp-loss.webp',
+      },
+      {
+        // docs/BENCHMARKS.md, "The verbs bridge on one node", sample 4c13375:
+        // 2.07x at 1 MiB to 2.72x at 16 MiB, and 0.80x (slower) at 1 KiB.
+        title: 'Swappable bridges',
+        body: 'Gloo is the default. Opt-in UCX, multi-stream TCP and raw InfiniBand verbs bridges plug into the same contract. On one node of four V100s, in loopback, verbs ran 2.07 to 2.72 times as fast as Gloo from 1 to 256 MiB.',
+      },
+      {
+        title: 'Simulation on a CPU',
+        body: 'Set GPUBRIDGE_VENDOR on each process and the whole code path runs on one CPU, with Gloo standing in for NCCL and RCCL.',
+        image: '/assets/products/gpubridge/simulate-two-islands.webp',
+      },
+      {
+        title: 'One error on every rank',
+        body: 'If any rank has no GPU, no NCCL or a bad device index, init() raises the same error on every rank instead of leaving the rest waiting.',
+      },
+    ],
+    platforms: [
+      'Linux with NVIDIA GPUs, on a CUDA build of PyTorch 2.8 or later',
+      'Linux with AMD GPUs, on a ROCm build of PyTorch 2.8 or later',
+    ],
+    stack: [
+      'Python',
+      'PyTorch',
+      'NCCL',
+      'RCCL',
+      'Gloo',
+      'Triton',
+      'Rust',
+      'C',
+      'C++',
+      'UCX',
+      'libibverbs',
+      'Slurm',
+    ],
+    // In development: every release is a GitHub pre-release tagged -alpha
+    // (v0.1.0-alpha to v0.4.0-alpha), pyproject.toml says "Development Status
+    // :: 3 - Alpha", it is not on PyPI, and the README's status is "alpha",
+    // with GPU evidence limited to one V100 + MI50 pair and one 4-V100 node
+    // and no representative model shown to train as on native NCCL.
+    status: 'IN DEVELOPMENT',
+    version: 'v0.4.0-alpha',
+    yearStarted: 2026,
+    engineers: ['david-czartoryski', 'ali-younes'],
+    origin: null,
+    links: {
+      repo: 'https://github.com/sidebandstudio/gpubridge',
+    },
+    repo: 'sidebandstudio/gpubridge',
+    // The bridge's blue in the repo's own diagrams (docs/img/*-dark.svg).
+    accentColor: '#4493F8',
+    icon: image(
+      'gpubridge',
+      'icon.webp',
+      512,
+      512,
+      'none',
+      'artwork',
+      'gpubridge gb monogram, a green g and a red b joined by a blue bar',
+      'drawn by Sideband in the colours of the repo’s diagrams (the repo ships no icon), public/assets/products/gpubridge/mark.svg rasterized at 512px',
+    ),
+    video: {
+      hero: videoCut('gpubridge', 'hero', 12),
+      card: videoCut('gpubridge', 'card', 7),
+    },
+    images: [
+      image(
+        'gpubridge',
+        'repo-home-desktop.webp',
+        2880,
+        1800,
+        'desktop',
+        'screenshot',
+        'The sidebandstudio/gpubridge repository on GitHub, with its files and About panel',
+        'Playwright capture of https://github.com/sidebandstudio/gpubridge at 1440x900, 2x, dark theme, 2026-11-03',
+      ),
+      image(
+        'gpubridge',
+        'repo-home-mobile.webp',
+        780,
+        1688,
+        'mobile',
+        'screenshot',
+        'The gpubridge repository on GitHub on a phone',
+        'Playwright capture of https://github.com/sidebandstudio/gpubridge at 390x844, 2x, dark theme, 2026-11-03',
+      ),
+      image(
+        'gpubridge',
+        'architecture.webp',
+        1760,
+        1120,
+        'none',
+        'diagram',
+        'An NVIDIA island on NCCL and an AMD island on RCCL, each led by its lowest rank, with the three steps of an all_reduce across the bridge',
+        'repo docs/img/architecture-dark.svg, rasterized at 2x on GitHub’s dark page colour, #0d1117',
+      ),
+      image(
+        'gpubridge',
+        'hsdp.webp',
+        1760,
+        1200,
+        'none',
+        'diagram',
+        'A 2 by 4 device mesh whose shard groups are the NVIDIA and AMD islands, with one replicate all_reduce a step across the bridge',
+        'repo docs/img/hsdp-dark.svg, rasterized at 2x on GitHub’s dark page colour, #0d1117',
+      ),
+      image(
+        'gpubridge',
+        'pipeline-loss.webp',
+        1440,
+        800,
+        'none',
+        'diagram',
+        'Loss over 1,000 steps for GPipe and 1F1B across a V100 and an MI50, against four runs on one V100',
+        'repo docs/img/pipeline-loss-v100-mi50.svg (docs/PIPELINE.md, Explorer job 11109376), rasterized at 2x',
+      ),
+      image(
+        'gpubridge',
+        'megatron-loss.webp',
+        1440,
+        800,
+        'none',
+        'diagram',
+        'Loss over 200 steps for Megatron-Core in one stage on a V100 (pp1) and in two stages on a V100 and an MI50 (pp2), the two curves on top of each other',
+        'repo docs/img/megatron-loss-v100-mi50.svg (docs/MEGATRON.md, Explorer job 11117506), rasterized at 2x',
+      ),
+      image(
+        'gpubridge',
+        'dp-loss.webp',
+        1440,
+        800,
+        'none',
+        'diagram',
+        'Loss over 1,000 steps for DDP on a V100 and an MI50, uncompressed and with bf16 and fp8 on the bridge, against four runs on one V100',
+        'repo docs/img/dp-loss-v100-mi50.svg (docs/COMPRESSION.md, Explorer job 11111481), rasterized at 2x',
+      ),
+      image(
+        'gpubridge',
+        'simulate-two-islands.webp',
+        1232,
+        636,
+        'desktop',
+        'screenshot',
+        'The simulate_two_islands example in a terminal: two NVIDIA and two AMD ranks on one CPU, every rank ending with 10.0',
+        'Real run of `python examples/simulate_two_islands.py` (repo 82eca8e, torch 2.15.0 CPU, Python 3.12, macOS 15.7 on Apple silicon, GLOO_SOCKET_IFNAME=lo0) recorded through a pty with script(1), the bytes replayed into xterm.js 5 after a typed prompt line and captured with Playwright at 2x, 2026-11-03',
+      ),
+    ],
+  },
 ]
 
 export function getProductById(id: string) {

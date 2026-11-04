@@ -132,7 +132,9 @@ test('each fact appears once on a dossier', async ({ page }) => {
   ).toBe(1)
   // His ventures' figures are told on their cards, not again in his work history.
   expect(text.match(/22,000\+ riders/g)?.length).toBe(1)
-  await expect(main).toContainText('8 projects. 1 is featured on David')
+  await expect(main).toContainText(
+    '9 projects. 1 is a Sideband product, 1 is featured on David',
+  )
 
   await visit(page, '/engineers/ali-tleis')
   await expect(page.getByRole('main')).not.toContainText('Security Clearance')
