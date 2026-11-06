@@ -17,6 +17,7 @@ const KIND: Record<ProductImageKind, [string, string]> = {
   screenshot: ['screenshot', 'screenshots'],
   artwork: ['artwork image', 'artwork images'],
   photo: ['photo', 'photos'],
+  diagram: ['diagram', 'diagrams'],
 }
 
 function list(parts: string[]) {

@@ -619,6 +619,17 @@ export const engineers: Engineer[] = [
         ],
       },
       {
+        name: 'gpubridge',
+        blurb:
+          'A PyTorch backend that runs one training job across NVIDIA and AMD GPUs, started by David Czartoryski. Ali’s commits include the Megatron-Core pipeline run across a V100 and an MI50 and a one-node A/B harness for the verbs bridge’s staged all_reduce.',
+        href: '/products/gpubridge',
+        internal: true,
+        productId: 'gpubridge',
+        repo: 'https://github.com/sidebandstudio/gpubridge',
+        role: 'Contributor',
+        tech: ['Python', 'PyTorch', 'Megatron-Core', 'Rust'],
+      },
+      {
         name: 'Moops Bookstore',
         featured: true,
         blurb:
@@ -1938,7 +1949,7 @@ export const engineers: Engineer[] = [
       'Software engineer, AI infrastructure researcher at Northeastern’s HPC Research Lab, and founder. The work that pulls him in is making things faster, now down to the one slow GPU holding a training job back.',
     longBio: [
       'David studies Computer Science and Business Administration at Northeastern, with a concentration in Corporate Innovation, and graduates in December 2027. Home base is split between Boston, San Francisco and Warsaw. He is an AI infrastructure researcher at Northeastern’s HPC Research Lab, where he builds cross-vendor GPU training and runtime diagnosis systems on the Explorer cluster at MGHPCC.',
-      'Most of what he has shipped is a version of the same problem: profiling a system until the bottleneck shows itself, then optimizing the code around it. At Mosaiq Software he replaced a 5-second polling loop with a WebSocket transport that updates in 120 ms. At Summit Partners he cut deployment time 70%. With GPUBridge he made a 1 GB all-reduce across NVIDIA and AMD GPUs 2.7x faster. He is also a software engineer on Pawtograder, Northeastern’s coding and grading platform.',
+      'Most of what he has shipped is a version of the same problem: profiling a system until the bottleneck shows itself, then optimizing the code around it. At Mosaiq Software he replaced a 5-second polling loop with a WebSocket transport that updates in 120 ms. At Summit Partners he cut deployment time 70%. With gpubridge, now a Sideband product, he made a 1 GB all-reduce across NVIDIA and AMD GPUs 2.7x faster. He is also a software engineer on Pawtograder, Northeastern’s coding and grading platform.',
       'Outside Sideband, in 2024 he founded Hercules Holdings, his own venture studio behind EternalTap, a wallet-native transit fare platform, and CrediMax, a card-rewards app. In 2026 he won 1st place among 250+ participants at the Microsoft x Northeastern AI Hackathon with HuskyClaw. He won the Massachusetts state wrestling title more than once in high school and still wrestles at Northeastern. He speaks English, Polish and Russian and has been to 23 countries.',
     ],
     portrait: {
@@ -1993,7 +2004,7 @@ export const engineers: Engineer[] = [
         current: true,
         emphasis: true,
         summary:
-          'Develops GPUBridge and a runtime GPU straggler detector and workload rebalancer on Northeastern’s Explorer cluster at the Massachusetts Green High Performance Computing Center (MGHPCC). The projects began independently and led to this research role.',
+          'Develops gpubridge, now a Sideband product, and a runtime GPU straggler detector and workload rebalancer on Northeastern’s Explorer cluster at the Massachusetts Green High Performance Computing Center (MGHPCC). The projects began independently and led to this research role.',
         highlights: [
           'Owns the work across distributed communication, GPU kernels, statistical diagnosis and native Rust execution',
           'Evaluates changes with hardware benchmarks, reference-based differential tests and fault injection, preserving numerical behavior and asynchronous resource lifetimes',
@@ -2207,12 +2218,14 @@ export const engineers: Engineer[] = [
     ],
     projects: [
       {
-        name: 'Artemis and GPUBridge',
+        name: 'gpubridge',
         featured: true,
         blurb:
-          'Two systems for mixed-vendor GPU training. GPUBridge is an open-source PyTorch backend that joins NVIDIA and AMD GPUs in one job, each on its native NCCL or RCCL. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression. Artemis, in development, times the collectives every rank already runs, flags the GPU, link or host that regressed and can rebalance work across the GPUs the job already has.',
-        href: 'https://davidczartoryski.com/Artemis/',
-        repo: 'https://github.com/DavidCzartoryski/gpubridge',
+          'An open-source PyTorch backend that joins NVIDIA and AMD GPUs in one training job, each on its native NCCL or RCCL. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression.',
+        href: '/products/gpubridge',
+        internal: true,
+        productId: 'gpubridge',
+        repo: 'https://github.com/sidebandstudio/gpubridge',
         role: 'Founder',
         tech: [
           'PyTorch',
@@ -2226,6 +2239,14 @@ export const engineers: Engineer[] = [
           'libibverbs',
           'Slurm',
         ],
+      },
+      {
+        name: 'Artemis',
+        featured: true,
+        blurb:
+          'A system for mixed-vendor GPU training, built alongside gpubridge. Artemis, in development, times the collectives every rank already runs, flags the GPU, link or host that regressed and can rebalance work across the GPUs the job already has.',
+        href: 'https://davidczartoryski.com/Artemis/',
+        role: 'Founder',
       },
       {
         name: 'EternalTap',

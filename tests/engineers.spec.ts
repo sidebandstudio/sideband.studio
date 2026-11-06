@@ -272,7 +272,7 @@ test('a role held in two stints is measured per stint, and roles group by organi
   const philips = groups.filter({
     has: page.getByRole('heading', { name: 'Philips', exact: true }),
   })
-  await expect(philips).toContainText('Aug 2026 – Present · 3 mos · Part-time')
+  await expect(philips).toContainText('Aug 2026 – Present · 4 mos · Part-time')
   await expect(philips).toContainText('Jan 2026 – Jun 2026 · 6 mos · Co-op')
   // Never one length across the gap between the co-op and the return.
   await expect(philips).not.toContainText('Jan 2026 – Present')
@@ -347,10 +347,12 @@ test("David's ventures are listed as his own, outside Sideband", async ({
     await expect(ventures.filter({ hasText: name }).first()).toContainText(
       'Own venture',
     )
-  // None of them is presented as a Sideband product.
-  await expect(
-    projects.getByRole('heading', { name: 'At Sideband' }),
-  ).toHaveCount(0)
+  // None of them is presented as a Sideband product: At Sideband lists gpubridge alone.
+  const studio = projects.locator('#projects-studio-list > li')
+  await expect(studio).toHaveCount(1)
+  await expect(studio).toContainText('gpubridge')
+  for (const name of ['EternalTap', 'CrediMax', 'The creative engine'])
+    await expect(studio).not.toContainText(name)
 })
 
 test.describe('contact form', () => {

@@ -177,7 +177,7 @@ const BUILDS: Record<string, string> = {
   'naman-rusia':
     'Built TandemCode, a pair-programming interview tool with a shared editor and a sandboxed judge.',
   'david-czartoryski':
-    'Outside Sideband, builds cross-vendor GPU training systems, GPUBridge among them, at Northeastern’s HPC Research Lab.',
+    'Built gpubridge, which runs one PyTorch training job across NVIDIA and AMD GPUs, and researches cross-vendor GPU training at Northeastern’s HPC Research Lab.',
 }
 
 // ---- Open source ----

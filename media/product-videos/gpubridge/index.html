@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1200" />
+    <title>gpubridge product loop</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400 500; src: url("assets/fonts/HankenGrotesk-latin-var.woff2") format("woff2"); }
+      :root { --ground: #0b0b0d; --ink: #f3f2ef; --accent: #4493f8; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1200px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--ground); font-family: "Hanken Grotesk", sans-serif; }
+
+      #light {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(60% 55% at 50% 38%, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0) 70%),
+          radial-gradient(40% 18% at 50% 96%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 100%);
+      }
+      /* Each panel has its own camera, so one can hold its framing while the next slides over it. */
+      .cam { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+      /* Each picture sits on a panel the size of its shown crop, so it fills it with no stretch. */
+      .panel {
+        position: absolute; overflow: hidden; border-radius: 16px;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 50px 90px -30px rgba(0, 0, 0, 0.9);
+      }
+      .panel img { position: absolute; left: 0; top: 0; display: block; }
+      .ring { position: absolute; border-radius: 12px; box-shadow: inset 0 0 0 3px var(--accent); }
+
+      /* The repo's architecture diagram (docs/img/architecture-dark.svg at 2x, 1760x1120) at 0.78125. */
+      #arch { left: 272.5px; top: 265px; width: 1375px; height: 875px; background: #0d1117; }
+      #arch img { width: 1375px; height: 875px; }
+      /* The NVIDIA and AMD islands (image x 18 to 801 and 958 to 1741, y 138 to 881), and the
+         two leaders with the all_reduce between them (x 236 to 1523, y 40 to 340), each 8px out. */
+      #ring-nv { left: 6px; top: 100px; width: 628px; height: 596px; border-radius: 30px; }
+      #ring-amd { left: 740px; top: 100px; width: 628px; height: 596px; border-radius: 30px; }
+      #ring-lead { left: 172px; top: 20px; width: 1030px; height: 258px; border-radius: 18px; }
+
+      /* The pipeline loss chart (docs/img/pipeline-loss-v100-mi50.svg at 2x, 1440x800) at 1.08,
+         cropped at image x 1330, past its legend. */
+      #chart { left: 241.8px; top: 278px; width: 1436.4px; height: 864px; background: #fff; }
+      #chart img { width: 1555.2px; height: 864px; }
+      /* A white cover over the plot (image x 160 to 1102, y 24 to 727) that slides off to the
+         right, so the real curves appear step by step. The axes and labels stay in view. */
+      #cover { position: absolute; left: 172.8px; top: 25.9px; width: 1017.4px; height: 759.3px; background: #fff; transform-origin: 100% 50%; }
+      /* The legend's two runs across a V100 and an MI50, 1f1b and gpipe (image x 1120 to 1222, y 154 to 202),
+         6px out. Ringed at 3.2x, so its line and corner are a third of the others. */
+      #ring-legend { left: 1202px; top: 160px; width: 125px; height: 64px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--accent); }
+
+      /* The real run of examples/simulate_two_islands.py (1232x636 at 2x) at 1.4, cropped at image x 990, y 593. */
+      #term { left: 267px; top: 285px; width: 1386px; height: 830.2px; background: #0d1117; }
+      #term img { width: 1724.8px; height: 890.4px; }
+      /* The four rank rows ending in 10.0 (image x 61 to 933, y 281 to 444) and the closing line
+         "expected 10.0 on every rank: all ranks match" (x 57 to 848, y 506 to 536), each 14px out. */
+      #ring-ranks { left: 66px; top: 374px; width: 1260px; height: 267px; }
+      #ring-final { left: 60px; top: 689px; width: 1147px; height: 81px; }
+
+      #caps { position: absolute; left: 0; right: 0; top: 112px; height: 100px; }
+      .cap {
+        position: absolute; left: 0; right: 0; top: 0; text-align: center; color: var(--ink);
+        font-size: 80px; line-height: 1; font-weight: 500; letter-spacing: -0.035em; opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1920" data-height="1200">
+      <div id="light"></div>
+
+      <div id="cam-arch" class="cam">
+        <div id="arch" class="panel" data-layout-allow-overflow>
+          <img src="assets/img/architecture.webp" alt="" />
+          <div id="ring-nv" class="ring"></div>
+          <div id="ring-amd" class="ring"></div>
+          <div id="ring-lead" class="ring"></div>
+        </div>
+      </div>
+      <div id="cam-chart" class="cam">
+        <div id="chart" class="panel" data-layout-allow-overflow>
+          <img src="assets/img/pipeline-loss.webp" alt="" />
+          <div id="cover"></div>
+          <div id="ring-legend" class="ring"></div>
+        </div>
+      </div>
+      <div id="cam-term" class="cam">
+        <div id="term" class="panel" data-layout-allow-overflow>
+          <img src="assets/img/simulate-two-islands.webp" alt="" />
+          <div id="ring-ranks" class="ring"></div>
+          <div id="ring-final" class="ring"></div>
+        </div>
+      </div>
+
+      <div id="caps">
+        <div id="cap-1" class="cap">Two vendors in one job</div>
+        <div id="cap-2" class="cap">Joined by a CPU bridge</div>
+        <div id="cap-3" class="cap">Pipelines across vendors</div>
+        <div id="cap-4" class="cap">Simulation on a CPU</div>
+      </div>
+    </div>
+
+    <script>
+      // Authored constants only, no layout reads at tween time.
+      // A camera pose that puts layout point (cx, cy) at the frame centre at scale s.
+      const pose = (cx, cy, s) => ({ scale: s, x: -s * (cx - 960), y: -s * (cy - 600) });
+      const A = pose(960, 600, 1); // everything at rest
+      const LEAD = pose(960, 600, 1.16); // closer on the diagram, both islands still inside the centre 4:3
+      // The chart legend at 3.2x, its labels about 12px tall in a 360px wide centre 4:3, the panel's right
+      // edge on the 4:3's right edge and its top above the frame.
+      const LEG = pose(1428, 470, 3.2);
+      const OFF = { opacity: 0, y: 960 }; // a panel waiting below the frame
+      const SLIDE = 0.8;
+
+      // Rest state at t=0: the architecture diagram alone. Every channel is back here by t=12.
+      gsap.set(".cam", A);
+      gsap.set("#cam-arch", { zIndex: 1 });
+      gsap.set("#cam-chart", { zIndex: 2 });
+      gsap.set("#cam-term", { zIndex: 3 });
+      gsap.set("#arch", { opacity: 1, y: 0 });
+      gsap.set(["#chart", "#term"], OFF);
+      gsap.set(".ring", { opacity: 0, scale: 1 });
+      gsap.set("#cover", { scaleX: 1 });
+
+      const tl = gsap.timeline({ paused: true });
+      const capIn = (id, at) => tl.fromTo(id, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "expo.out" }, at);
+      const capOut = (id, at) => tl.to(id, { y: -12, opacity: 0, duration: 0.32, ease: "power2.in" }, at);
+      const cam = (id, v, at, duration, ease) => tl.to(`#cam-${id}`, { ...v, duration, ease }, at);
+      const ringIn = (id, at) => tl.fromTo(id, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, at);
+      const ringOut = (id, at) => tl.to(id, { opacity: 0, duration: 0.25, ease: "power1.in" }, at);
+      // The next panel, opaque and at rest, slides up from below the frame over the last one, which holds
+      // its framing until it is covered, then fades out from around it. No frame is empty or a blend.
+      const swap = (from, to, at, z) =>
+        tl.set(`#cam-${to}`, { zIndex: z }, at)
+          .fromTo(`#${to}`, { opacity: 1, y: 960 }, { y: 0, duration: SLIDE, ease: "power3.out", immediateRender: false }, at)
+          .to(`#${from}`, { opacity: 0, duration: 0.25, ease: "power1.in" }, at + 0.45)
+          .set(`#cam-${from}`, A, at + 0.75)
+          .set(`#${from}`, OFF, at + 0.75);
+
+      // Beat 1 (0 to 2.75s): the NVIDIA island on NCCL and the AMD island on RCCL.
+      capIn("#cap-1", 0.45);
+      cam("arch", pose(960, 615, 1.03), 0.4, 2.3, "sine.inOut");
+      ringIn("#ring-nv", 0.9);
+      ringIn("#ring-amd", 1.3);
+      ringOut(["#ring-nv", "#ring-amd"], 2.5);
+      capOut("#cap-1", 2.65);
+
+      // Beat 2 (2.75 to 5.55s): close on the two leaders and the all_reduce between them over the bridge.
+      cam("arch", LEAD, 2.75, 1.1, "power3.inOut");
+      capIn("#cap-2", 3.15);
+      ringIn("#ring-lead", 3.75);
+      cam("arch", pose(960, 600, 1.18), 3.85, 1.7, "sine.inOut");
+      ringOut("#ring-lead", 5.3);
+      capOut("#cap-2", 5.4);
+
+      // Beat 3 (5.55 to 8.95s): the loss of a model split across a V100 and an MI50 lands with the runs on
+      // one V100, then close on the legend's 1f1b and gpipe, the two runs across both GPUs.
+      swap("arch", "chart", 5.55, 2);
+      capIn("#cap-3", 6.2);
+      tl.to("#cover", { scaleX: 0, duration: 1.25, ease: "power1.inOut" }, 6.15);
+      cam("chart", pose(990, 630, 1.04), 6.4, 1.2, "sine.inOut");
+      capOut("#cap-3", 7.45); // the chart fills the frame behind the caption at this size
+      cam("chart", LEG, 7.6, 0.75, "power3.inOut");
+      ringIn("#ring-legend", 8.2);
+
+      // Beat 4 (8.95 to 12s): the real CPU run, every rank ending with 10.0, then back to the diagram.
+      swap("chart", "term", 8.95, 3);
+      ringOut("#ring-legend", 9.55);
+      tl.set("#cover", { scaleX: 1 }, 9.8);
+      capIn("#cap-4", 9.7);
+      cam("term", pose(960, 620, 1.03), 9.75, 1.3, "sine.inOut");
+      ringIn("#ring-ranks", 9.8);
+      ringOut("#ring-ranks", 10.4);
+      ringIn("#ring-final", 10.45);
+      ringOut("#ring-final", 11.0);
+      capOut("#cap-4", 11.6); // held as the diagram slides back over the run
+      swap("term", "arch", 11.1, 4);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

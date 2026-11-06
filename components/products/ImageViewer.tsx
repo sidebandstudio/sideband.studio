@@ -21,6 +21,7 @@ const KIND_LABEL: Record<ProductImageKind, string> = {
   screenshot: 'Screenshot',
   artwork: 'Artwork',
   photo: 'Photo',
+  diagram: 'Diagram',
 }
 
 interface ViewerContext {

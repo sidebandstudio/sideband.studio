@@ -42,7 +42,7 @@ One of the studio's five founding engineers.
 
 **Boston, MA · MGHPCC · Oct 2026 – Present**
 
-- Develops GPUBridge and a runtime GPU straggler detector and workload rebalancer on Northeastern's Explorer cluster at the Massachusetts Green High Performance Computing Center (MGHPCC). The projects began independently and led to this research role.
+- Develops gpubridge, now a Sideband product, and a runtime GPU straggler detector and workload rebalancer on Northeastern's Explorer cluster at the Massachusetts Green High Performance Computing Center (MGHPCC). The projects began independently and led to this research role.
 - Owns the work across distributed communication, GPU kernels, statistical diagnosis and native Rust execution
 - Evaluates changes with hardware benchmarks, reference-based differential tests and fault injection, preserving numerical behavior and asynchronous resource lifetimes
 
@@ -106,7 +106,8 @@ His own venture studio and holding company, separate from Sideband. It is behind
 
 ## Projects
 
-- **Artemis and GPUBridge** · [GPUBridge](https://github.com/DavidCzartoryski/gpubridge) is an open-source PyTorch backend that joins NVIDIA and AMD GPUs in one training job. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression. [Artemis](https://davidczartoryski.com/Artemis/), in development, finds the GPU, link or host that slowed a running job and can rebalance work.
+- **[gpubridge](/products/gpubridge)** · A Sideband product ([repo](https://github.com/sidebandstudio/gpubridge)). An open-source PyTorch backend that joins NVIDIA and AMD GPUs in one training job. It cut a 1 GB cross-vendor all-reduce 2.7x with fp8 compression.
+- **Artemis** · [Artemis](https://davidczartoryski.com/Artemis/), in development, finds the GPU, link or host that slowed a running job and can rebalance work.
 - **EternalTap** · his own Hercules Holdings venture, not a Sideband product. Wallet-native transit fare platform, built with a cofounder. Sold to universities and agencies, so there is no public site.
 - **CrediMax** · his own Hercules Holdings venture. [credimax.app](https://credimax.app/). Tells you which card to tap at checkout. Built solo.
 - **The creative engine** · his own Hercules Holdings venture: storefront builder and ad creative pipeline for his commerce brands

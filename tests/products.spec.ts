@@ -77,6 +77,7 @@ for (const product of products) {
       screenshot: 'Screenshot.',
       artwork: 'Artwork.',
       photo: 'Photo.',
+      diagram: 'Diagram.',
     }
     expect([...captions].sort()).toEqual(
       product.images.map((i) => label[i.kind]).sort(),
