@@ -22,10 +22,10 @@ backdrops exist (grid, spotlight, bands), each used at most once per page.
 
 ## Type
 
-One family: **Hanken Grotesk** (`next/font/google`, self-hosted at build, `--font-sans`). Weights:
+One family: **Hanken Grotesk** (bundled with Fontsource, `--font-sans`). Weights:
 400 for text, 500 for headings and figures, 600 only for the wordmark. Never bold headlines.
-**JetBrains Mono** (`--font-mono`, `font-mono`) only inside real code or inside a product UI
-fragment. No mono eyebrows, labels or captions.
+**JetBrains Mono** (bundled with Fontsource, `--font-mono`, `font-mono`) only inside real code
+or inside a product UI fragment. No mono eyebrows, labels or captions.
 
 Five sizes. Nothing else on new pages.
 

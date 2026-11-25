@@ -1,9 +1,7 @@
+import pagesConfig from './next.pages.config.mjs'
+
 /** @type {import('next').NextConfig} */
-const nextConfig = process.env.SIDEBAND_STATIC_EXPORT === '1' ? {
-  output: 'export',
-  trailingSlash: true,
-  images: { unoptimized: true },
-} : {
+const nextConfig = {
   async redirects() {
     return [
       // Eternal2x was renamed Upflow2x by its makers in October 2026.
@@ -16,4 +14,6 @@ const nextConfig = process.env.SIDEBAND_STATIC_EXPORT === '1' ? {
   },
 }
 
-export default nextConfig
+export default process.env.SIDEBAND_STATIC_EXPORT === '1'
+  ? pagesConfig
+  : nextConfig

@@ -29,6 +29,10 @@ Specifically, `next.config.mjs` must NOT include:
 
 Those settings were added temporarily for GitHub Pages and broke the Vercel deployment path.
 
+For Cloudflare Pages, use `npm run build:pages`. Its static export options live in
+`next.pages.config.mjs`. The static host serves the product rename redirect from
+`public/_redirects`.
+
 ## Build Expectations
 
 The project should pass:
