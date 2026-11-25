@@ -1,25 +1,10 @@
 import type { Metadata, Viewport } from 'next'
-import { Hanken_Grotesk, JetBrains_Mono } from 'next/font/google'
+import '@fontsource-variable/hanken-grotesk'
+import '@fontsource-variable/jetbrains-mono'
 import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { SITE_URL, STUDIO_IMAGE } from '@/lib/metadata'
-
-// One family for the whole site. next/font downloads it at build time and
-// serves it from our own origin. See DESIGN.md -> Type.
-const sans = Hanken_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-})
-
-// Only for real code and for text inside product interface fragments.
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-mono',
-  display: 'swap',
-})
 
 // Defaults for pages that set none of their own (the not-found page). Every
 // route sets its full metadata through pageMetadata() in lib/metadata.ts.
@@ -43,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en">
       <body className="flex min-h-screen flex-col bg-sideband-black font-sans text-body text-sideband-text antialiased">
         <a
           href="#main"
