@@ -313,8 +313,10 @@ for (const path of ['/', '/products', `/products/${upflow2x.id}`]) {
             poster.evaluate(
               (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
             ),
-          // The image optimizer makes each poster size on first request.
-          { timeout: 30000 },
+          {
+            message: `Expected video ${v.index} to load its poster (${v.poster})`,
+            timeout: 30000,
+          },
         )
         .toBe(true)
     }
