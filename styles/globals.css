@@ -7,6 +7,7 @@
    few patterns Tailwind cannot express. See DESIGN.md. */
 
 :root {
+  --font-mono: 'JetBrains Mono Variable';
   --dur-press: 120ms;
   --dur-hover: 180ms;
   --dur-ui: 320ms;

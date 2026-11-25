@@ -9,7 +9,7 @@ export default defineConfig({
   fullyParallel: true,
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
-    trace: 'on-first-retry',
+    trace: process.env.CI ? 'retain-on-failure' : 'on-first-retry',
   },
   // CI has already run `next build`, so test the production server there. The
   // dev server compiles routes on demand and can do a Fast Refresh full reload

@@ -1,3 +1,5 @@
+import pagesConfig from './next.pages.config.mjs'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
@@ -12,4 +14,6 @@ const nextConfig = {
   },
 }
 
-export default nextConfig
+export default process.env.SIDEBAND_STATIC_EXPORT === '1'
+  ? pagesConfig
+  : nextConfig
